@@ -14,7 +14,7 @@ Suggests:
     rmarkdown,
     testthat
 Description: toSignac is an, open-source, simple R framework and toolkit for the analysis of single-cell genomic. It provides a framework to efficiently carry out the downstream quantative analysis of single cell data by managing concurrent phenotypic and metadata about all the samples and cells. Furthermore, it automatically expands the bin/segment data to genes seamlesly and to facilitate the biological interpretation of results.
-License: BSD-3
+License: BSD_3_clause
 URL: https://github.com/SingerLab/toSignac/
 BugReports: https://github.com/SingerLab/toSignac/
 VignetteBuilder: knitr
