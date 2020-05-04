@@ -42,7 +42,7 @@ See it in action: Poster #92 at The Biology of Genomes 2020 #CSHL #BoG20
 
 ![Figure 1.](figures/ComplexHeatmap.png)
 
-**Figure 1** The heatmap above is showing the results of five different sacromas.  From left to right we observe an increasing gradient of genomic complexity culminating in a tetraploid tumor where the diploid cells are significantly deteriorated, forcing a tetraploid phenotpye to maintain the tumor mass.  This figure showing only the tumor cells. The complete data set for these five tumors approximates >9000 cells, which also contains the tumor ecosystem e.g. stroma and tumor infiltrate.
+**Figure 1** The heatmap above is showing the results of five different sacromas.  From left to right we observe an increasing gradient of genomic complexity culminating in a tetraploid tumor where the diploid cells are significantly deteriorated, forcing a tetraploid phenotpye to maintain the tumor mass.  This figure showing only the tumor cells. The complete data set for these five tumors approximates 10,000 cells, providing some insights into tumor ecosystem e.g. stroma and tumor infiltrate.
 
 # Simple
 
