@@ -4,7 +4,7 @@ toSignac: The open-source simple integrative genetic analysis of cells/copynumbe
 
 # toSignac is currently in ALPHA- pre-release
 
-I am working to integrate a core set of extensions that can deliver a formal end-to-end analysis by implementin proven quantitative genetics, statistics, and evolutionary models on the backend of the functions.  Henderson's Animal Model \$\boldsymbol{y} = X \boldsymbol{\beta} + Z \boldsymbol{u} + \boldsymbol{\epsilon}$ of quantitative genetics is well suited to apply a linear mixed models framework for the analysis of same-cell DNA + RNA sequencing technologies such as G+T ([Macaulay, et al.2015](https://dx.doi.org/10.1038/nmeth.3370)), and multiplexed immunohistochemistry.  If you would like to contribute to this endevor, please feel free to reach out.  We have real world data that we are willing to share. My hope is that others will find this package helpful for their DNA copy number needs as well.
+I am working to integrate a core set of extensions that can deliver a formal end-to-end analysis by implementin proven quantitative genetics, statistics, and evolutionary models on the backend of the functions.  Henderson's Animal Model **_y_** = _**X**ß_ + _**Z**µ_ + _e_ quantitative genetics is well suited to apply a linear mixed models framework for the analysis of same-cell DNA + RNA sequencing technologies such as G+T ([Macaulay, et al.2015](https://dx.doi.org/10.1038/nmeth.3370)), and multiplexed immunohistochemistry.  If you would like to contribute to this endevor, please feel free to reach out.  We have real world data that we are willing to share. My hope is that others will find this package helpful for their DNA copy number needs as well.
 
 Please report any bugs you may encounter. Help me me, help you.
 
@@ -67,7 +67,7 @@ toSignac is integrative in many ways for example:
   
   + Likewise to add or replace data `cnr$Y$fga <- FACETS_fga`
 
-  + Genetic effects, and polygenic scores can be estimated using Henderson's animal model \$y = X\beta+Zu+e\$, and your p-values can be added to the `cnr$chromInfo` for plotting (coming very soon)
+  + Genetic effects, and polygenic scores can be estimated using Henderson's animal model **_y_** = _**X**ß_ + _**Z**µ_ + _e_, and your p-values can be added to the `cnr$chromInfo` for plotting (coming very soon)
   
   + If you would like to contribute an extension to toSignac, please feel free to reach out. My hope is that others find this helpful for their copy number needs too.
 
