@@ -1,0 +1,17 @@
+#' Quality control annotation
+#'
+#' A dataset containing the the quality control of single-cell data
+#' 
+#'
+#' @format A data frame n.cell rows x qc.metrics columns
+#' \describe{
+#'   \item{cellID}{single-cell ID}
+#'   \item{ReadsKept}{Number of reads kept after alignment}
+#'   \item{MedianBinCount}{Median number of reads per bin}
+#'   \item{dna.ng.ul}{DNA concentration of the cell post amplification}
+#'   \item{sort.gate}{2N, 3N, or 4N gate sorted in FACS. Sets expected value of ploidy. Not required but highly recomended }
+#'   \item{qc.filter}{binary or multinomial PASS/FAIL/WARNING call for each cell; it's based on your criteria, though some recomendations are provided in the use vignette}
+#'   ...
+#' }
+#' @source \url{https://github.com/SingerLab/toSignac}
+"qc"
