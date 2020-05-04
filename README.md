@@ -4,11 +4,11 @@ toSignac: The open-source simple integrative genetic analysis of cells/copynumbe
 
 ### beta- release
 
-I am working to integrate a core set of extensions that can deliver a formal end-to-end analysis by implementin proven quantitative genetics, statistics, and evolutionary models on the backend of the functions.  Henderson's Animal Model **_y_** = _**X**ß_ + _**Z**µ_ + _e_ quantitative genetics is well suited to apply a linear mixed models framework for the analysis of same-cell DNA + RNA sequencing technologies such as G+T ([Macaulay, et al.2015](https://dx.doi.org/10.1038/nmeth.3370)), and multiplexed immunohistochemistry.  If you would like to contribute to this endevor, please feel free to reach out.  We have real world data that we are willing to share. My hope is that others will find this package helpful for their DNA copy number needs as well.
+I aim to integrate a core set of extensions that can deliver a formal end-to-end analysis by implementing proven quantitative genetics, statistics, and evolutionary models on the backend of the functions.  Henderson's Animal Model **_y_** = _**X**ß_ + _**Z**µ_ + _e_ quantitative genetics is well suited to apply a linear mixed models framework for the analysis of same-cell DNA + RNA sequencing technologies such as G+T ([Macaulay, et al.2015](https://dx.doi.org/10.1038/nmeth.3370)), and multiplexed immunohistochemistry.  If you would like to contribute to this endevor, please feel free to reach out.  We have real world data that we are willing to share. My hope is that others will find this package helpful for their DNA copy number needs as well.
 
-Please report any bugs you may encounter. Help me me, help you.
+Please report any bugs you may encounter.
 
-toSignac is an, open-source, simple, lightweight, R framework for quantitative analysis of single-cell genomic data.  Inspired, but unlike Seurat and Scanpy --which implement methods for transcriptomic analysis, toSignac is designed to work single-cell genomic data (DNA).  It does this by adapting the logic of espressioSet/AnnData into relational matrices in native R.  This keeps the toolkit easy to learn, hard to master;  and will facilitate integration of new algorithms for the downstream analysis of single-cell DNA data wich is so desperately needed.  The framework is abstract enought that can be used with other types of rectangular Phenotype ~ Gentoype realtionships e.g. it could be used with a numeric representation of the genotype matrix.  For now toSignac facilitates the downstream analyses of segmented data with common segments by concurrently managing the X, Y across all cells or samples e.g. the output of [Varbin/Ginkgo](https://github.com/robertaboukhalil/ginkgo), [FACETS](https://github.com/mskcc/facets), [MUMdex](http://mumdex.com), [HMMcopy](https://bioconductor.org/packages/release/bioc/html/HMMcopy.html), or [SCOPE](https://github.com/rujinwang/SCOPE).  The bin read counts is _not a correct_ input.  toSignac uses integrated [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/), an ultra-powerful tool for heatmaps to help visualize the data.
+toSignac is an open-source, simple, lightweight, framework for quantitative analysis of single-cell genomic data.  Inspired, but unlike Seurat and Scanpy --which implement methods for transcriptomic analysis, toSignac is designed to work single-cell genomic data (DNA).  It does this by adapting the logic of espressionSet/AnnData into relational matrices in native R.  This keeps the toolkit **easy to learn**, hard to master;  and will facilitate integration of new algorithms for the downstream analyses of single-cell DNA data which are so desperately needed.  The framework is abstract enough that can be used with other types of rectangular Phenotype ~ Gentoype realtionships e.g. it could be used with a numeric representation of the genotype matrix.  For now toSignac facilitates the downstream analyses of segmented data with common segments by concurrently managing the X, Y, Ye, and QC matrices across all cells or samples e.g. the output of [Varbin/Ginkgo](https://github.com/robertaboukhalil/ginkgo), [FACETS](https://github.com/mskcc/facets), [MUMdex](http://mumdex.com), [HMMcopy](https://bioconductor.org/packages/release/bioc/html/HMMcopy.html), or [SCOPE](https://github.com/rujinwang/SCOPE).  The bin read counts is _not a correct_ input.  toSignac uses integrated [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/), an ultra-powerful tool for heatmaps to help visualize the data.
 
 
 # Dependencies:
@@ -34,7 +34,8 @@ toSignac is an, open-source, simple, lightweight, R framework for quantitative a
 
 # Description
 
-toSignac simplifys the analysis DNA information by keeping multiple sources of information to genomic / positional coordinates syncronized.  To get started you need an X matrix of copy number data (bins[i] x cells[j]), phenotypic data, the bin end-coordinates, and a gene index. Some form of metadata is also required, e.g. QC metrics are required to help interpret results in
+toSignac simplifies the analysis DNA information by keeping the multiple sources single-cell genomic results to positional coordinates syncronized.  To get started you need an X matrix of copy number data (bins[i] x cells[j]), phenotypic data, the bin end-coordinates, and a gene index. Some form of metadata is also required, e.g. QC metrics are required to help interpret results into biological insights e.g. inter- and intra- tumor heterogeneity in soft-tissue sarcomas!
+
 
 # toSignac joins the fight against cancer.  Illustrating the complex hetereogeneity of soft-tissue sarcomas in 3799 tumor cell genomes!
 
@@ -58,7 +59,7 @@ Import your data using classic well known R functions such as `read.table`, `rea
 toSignac is integrative in many ways for example:
 
 * Integration of gentoype-phenotype
-  + The CNR bundle simplifies the management of multiple data structures.
+  + The CNR bundle simplifies the management of multiple data sources.
   
 * Integration to the R/Language and Enviroment
   + Preserving native R classes in the objects facilitates inter- operability with numerous readily available packages in an intuitive way. For example, creating heatmaps with HeatmapCNR uses the ultra powerful ComplexHeatmap package by providing only a wraper for the CNR with minimal defalut settings.
