@@ -6,26 +6,41 @@
 \title{cnr: copy number, rounded}
 \format{
 An object class list containg a rounded CNR
-\describe{
-  \item{X}{An integer matrix of bins x n.cells containing copy number estimations for each bin[i] and cell[j] Where bins represent a common genomic segment across all cells (either a fixed with, variable binning, or .seg data).  This data can be constructed using a variable length bin and CBS (Varbin algorithm) (Baslan et al 2012.), and implemented on Ginkgo, or from hmmCopy.  These are upstream analyses to the package.
 
-For mutations in single-cells, the cnq can be a binary incidence (0,1) matrix representing presence or absence of specific mutations, or a ternary (0,1,2) representing genotypes as the number of alternate allele copies
+\itemize{
 
-Unlike a standard rounding, we noticed that estimates for deletions and losses don't follow standard numeric rounding. We set a the thresholds of < 0.2 (average quantal estimate of the Y chromosome in females) for deletions (i.e. 0 copies); between 0.2 and 1.2 for losses (i.e. 1 copy); between 1.2 and 2.5 for 2 copies, and everything else standard numeric rounding.
-}
+  \item X, An integer matrix of bins x n.cells containing copy number
+estimations for each bin[i] and cell[j] Where bins represent a common genomic
+segment across all cells (either a fixed with, variable binning, or .seg data).  This data can be constructed using a variable length bin and CBS (Varbin
+algorithm) (Baslan et al 2012.), and implemented on Ginkgo, or from hmmCopy.
+These are upstream analyses to the package.
 
-  \item{genes}{gene copy number interpolation from bins.
+For mutations in single-cells, the cnq can be a binary incidence (0,1) matrix
+representing presence or absence of specific mutations, or a ternary (0,1,2)
+representing genotypes as the number of alternate allele copies
 
-The genes matrix is an interpolated, transposed, expansion of bins. The expansion si constructed internally using the expand2genes function.
-}
+Unlike a standard rounding, we noticed that estimates for deletions and losses
+don't follow standard numeric rounding. We set a the thresholds of < 0.2
+(average quantal estimate of the Y chromosome in females) for deletions
+(i.e. 0 copies); between 0.2 and 1.2 for losses (i.e. 1 copy); between
+1.2 and 2.5 for 2 copies, and everything else standard numeric rounding.
 
-  \item{Y}{phenotypic data of single-cells, contains cells as rows, and phentypes in columns. Phenotypes can be information about individual samples, or if same-cell methods were used, the RNA expression from the same cell}
+  \item genes, gene copy number interpolation from bins.  The genes matrix
+is an interpolated, transposed, expansion of bins. The expansion is
+constructed internally using the expand2genes function.
+
+
+  \item Y, phenotypic data of single-cells, contains cells as rows, and
+phentypes in columns. Phenotypes can be information about individual samples,
+or if same-cell methods were used, the RNA expression from the same cell.
 #' 
-  \item{qc}{quality control metrics. This matrix contains additional metadata that is technical, e.g. number of reads, MAPD estimates, and the PASS/FAIL qc.status for individual cells.  contains cells as rows and metadata as columns}
+  \item qc, quality control metrics. This matrix contains additional metadata
+that is technical, e.g. number of reads, MAPD estimates, and the PASS/FAIL
+qc.status for individual cells.  contains cells as rows and metadata as columns
 
- \item{chromInfo}{ordered chromosome information for the bins}
+ \item chromInfo, ordered chromosome information for the bins
 
- \item{gene.index}{table to map bins to genes}
+ \item gene.index, table to map bins to genes
 #'   ...
 }
 }
@@ -33,9 +48,12 @@ The genes matrix is an interpolated, transposed, expansion of bins. The expansio
 \url{https://github.com/SingerLab/toSignac"}
 }
 \usage{
-cnr
+data(cnr)
 }
 \description{
-The cnr object is a list of four relational matrices. The bins, genes, annotation, qc, chromInfo, and gene.index.  The structure is inspired by Scanpy's AnnData to which cleverly integrates complex data into a simple architecture.
+The cnr object is a list of four relational matrices. The bins, genes,
+annotation, qc, chromInfo, and gene.index.  The structure is inspired by
+Scanpy's AnnData to which cleverly integrates complex data into a simple
+architecture.
 }
 \keyword{datasets}

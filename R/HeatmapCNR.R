@@ -33,15 +33,30 @@
 #' @param show_row_dend weather to show the row dendrogram, default is FALSE,
 #' 
 #' @param ... additional parameters from Heatmap
+#' 
+#'
+#' 
+#'
+#' @return
+#' Returns a simple ComplexHeatmap plot clustered using Bray-Disimilarity with vegan::vegdist, and sorted by chromosome location.  Several color scales are provided in the package, see segCol, lowCol, ampCol, fgaCol, and ploidyCol.  These are useful for setting additional rowAnnotation and HeatmapAnnotations. A default chromosome color palette was left out as different organisms have different chromosome numbers and naming conventions.
+#'
 #' For custumizing your heatmap, please visit the ComplexHeatmap documentation:
 #'
 #' https://jokergoo.github.io/ComplexHeatmap-reference/book/
+#' 
+#' @examples
 #'
+#' ## load example
+#' data(cnr)
 #'
+#' ## load color pallete
+#' data(segCol)
 #'
+#' 
 #' HeatmapCNR(cnr, col = segCol)
 #'
-#' HeatmapCNR(dna, col = lowCol)
+#' HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"))
+#'
 #' 
 #' @export
 HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
@@ -64,7 +79,7 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
     
     if(what == "X") {
 
-        chrAnno <- rowAnnotation(chr = factor(cnr$chromInfo$chrom))
+        chrAnno <- rowAnnotation(chr = factor(cnr$chromInfo$chr))
         
         Hmap <- Heatmap(use, name = "X", clustering_distance_columns = function(X) vegan::vegdist(X, method = "bray"),
                         col = col,

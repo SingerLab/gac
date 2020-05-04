@@ -15,3 +15,9 @@ The parctan transformation scales the data for visualization.  It zooms into low
 \details{
 See http://mumdex.com
 }
+\examples{
+data(cnr)
+
+pX <- parctan(cnr$X)
+
+}

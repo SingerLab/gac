@@ -6,6 +6,10 @@
 #'
 #' @param x copy number data
 #'
+#' @examples
+#' data(cnr)
+#' 
+#' pX <- parctan(cnr$X)
 #' 
 #' @export
 parctan <- function(x) {

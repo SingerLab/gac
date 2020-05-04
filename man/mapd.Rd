@@ -15,3 +15,10 @@ Returns the median deviance, median deviance sd, and median deviance cv
 \description{
 Median absolute pairwise deviance (MAPD)
 }
+\examples{
+data(cnr)
+
+mapd(cnr$X[,1])
+
+
+}

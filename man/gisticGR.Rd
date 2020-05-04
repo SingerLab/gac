@@ -13,4 +13,5 @@ gisticGR(cnr, grTR)
 }
 \description{
 **Still in development**
+** requires GenommicRanges
 }

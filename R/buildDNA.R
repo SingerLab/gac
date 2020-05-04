@@ -9,7 +9,7 @@
 #'
 #'
 #' @param X bin or common segment copy number data.  Can be in `numeric` or integer
-#' form.  In buildDNA the X matrix is `log2` transformed.
+#' form.  In buildDNA the X matrix is `log2(x+1)` transformed.
 #'
 #' @param Y phenotype and additional cell-level annotation data nrow(Y) needs to
 #' equal ncol(X).  There is no check for this yet. requires a `cellID` column
@@ -27,15 +27,14 @@
 #' 
 #' 
 #' @examples
-#'
-#'
 #' 
 #' data(copynumbers)
 #' data(pheno)
 #' data(qc)
 #' data(chromInfo)
 #' data(gene.index)
-#'
+#' 
+#' 
 #' dna <- buildDNA(X = copynumbers, Y = pheno, qc = qc, exprs = NULL,
 #' chromInfo = chromInfo, gene.index = gene.index)
 #'
@@ -44,9 +43,11 @@
 #'
 #' head(dna$X[, 1:5])
 #'
-#' head(cnr$genes[, 1:5])
+#' head(dna$genes[, 1:5])
 #'
-#' HeatmapCNR(dna)
+#' data(lowCol)
+#'
+#' HeatmapCNR(dna, col = lowCol)
 #' 
 #' 
 #' saveRDS(dna, file = "dna.rds")
@@ -55,7 +56,7 @@
 #' @export
 buildDNA <- function(X, Y, qc, exprs = NULL, chromInfo, gene.index) {
     
-    muffin <- log2(X)
+    muffin <- log2(X+1)
     puffin <- data.frame(expand2genes(muffin, gene.index))
     rownames(puffin) <- colnames(puffin$cellID)
     rownames(Y) <- Y$cellID
@@ -63,13 +64,13 @@ buildDNA <- function(X, Y, qc, exprs = NULL, chromInfo, gene.index) {
 
     if(is.null(exprs)) {
         Ye <- matrix(NA, nrow = nrow(Y), ncol = nrow(gene.index),
-                     dimnames = list(y$cellID, gene.index$hgnc.symbol))
+                     dimnames = list(Y$cellID, gene.index$hgnc.symbol))
     } else {
         Ye <- exprs
     }
     
 
-    cnr <-     list(muffin, puffin,      Y,   qc,   Ye, chromInfo,  gene.index)
+    cnr <-     list(muffin, puffin, Y, Ye, qc, chromInfo,  gene.index)
     names(cnr) <- c("X", "genes", "Y", "qc", "exprs", "chromInfo", "gene.index")
     
     return(cnr)

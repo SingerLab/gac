@@ -1,13 +1,21 @@
 library(testthat)
 library(toSignac)
 
-## import CNR
+## import example cnr
 data(cnr)
+
 ## import colors
 data(segCol)
+
+## check number of rows and columns throughout cnr object
 sapply(cnr, dim)
 
+## visualize genome-wide
 HeatmapCNR(cnr)
+
+
+## visualize genes of interest
+HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"))
 
 ## ADD cells
 

@@ -38,7 +38,7 @@ to generate a ComplexHetamap.   The functions keepCells, excludeCells, addCells,
 
 
 data(copynumbers)
-data(Y)
+data(pheno)
 data(qc)
 data(chromInfo)
 data(gene.index)
@@ -52,6 +52,8 @@ class(cnr)
 head(cnr$bins[, 1:5])
 
 head(cnr$genes[, 1:5])
+
+data(segCol)
 
 HeatmapCNR(cnr)
 

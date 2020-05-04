@@ -38,16 +38,14 @@ will plot chromosomes in order}
 
 \item{show_row_dend}{weather to show the row dendrogram, default is FALSE,}
 
-\item{...}{additional parameters from Heatmap
+\item{...}{additional parameters from Heatmap}
+}
+\value{
+Returns a simple ComplexHeatmap plot clustered using Bray-Disimilarity with vegan::vegdist, and sorted by chromosome location.  Several color scales are provided in the package, see segCol, lowCol, ampCol, fgaCol, and ploidyCol.  These are useful for setting additional rowAnnotation and HeatmapAnnotations. A default chromosome color palette was left out as different organisms have different chromosome numbers and naming conventions.
+
 For custumizing your heatmap, please visit the ComplexHeatmap documentation:
 
 https://jokergoo.github.io/ComplexHeatmap-reference/book/
-
-
-
-HeatmapCNR(cnr, col = segCol)
-
-HeatmapCNR(dna, col = lowCol)}
 }
 \description{
 Wrapper function to the ultra-powerful ComplexHeatmap.  It implements Bray-Curtis
@@ -57,4 +55,19 @@ is extensively used in Ecology for clustering comunities.
 }
 \details{
 If you prefer to use a different method, you can use the native Heatmap function
+}
+\examples{
+
+## load example
+data(cnr)
+
+## load color pallete
+data(segCol)
+
+
+HeatmapCNR(cnr, col = segCol)
+
+HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"))
+
+
 }

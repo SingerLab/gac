@@ -17,6 +17,10 @@ gisticRegions(gisticDir, conf = 80)
 **Still in development**
 }
 \examples{
+\dontrun{
+
 grTR <- gisticRegions("path/to/gistic/", conf = 80)
+
+}
 
 }

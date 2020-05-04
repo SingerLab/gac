@@ -7,9 +7,9 @@
 mark.genes(cnr, gene.list)
 }
 \arguments{
-\item{cnr}{the cnr bundle.  Only gene index will be used}
+\item{cnr}{the cnr bundle}
 
-\item{gene.list}{a gene list}
+\item{gene.list}{the list of genes you wish to mark}
 }
 \value{
 returns a vector of named gene.list (gg) w/their rownames/bin.id
@@ -21,7 +21,7 @@ Produces a named list with gene name and bin.id to use in ComplexHeatmap::anno_m
 
 data(cnr)
 
-aa <- mark.genes(cnr$gene.index, gene.list = c("CDK4", "MDM2"))
+aa <- mark.genes(cnr, gene.list = c("CDK4", "MDM2"))
 
 geneAnno <- rowAnnotation(genes = anno_mark(at = aa, labels = names(aa)))
 

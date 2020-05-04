@@ -17,13 +17,15 @@
 #'
 #' data(cnr)
 #'
+#' ## for binary data
 #' Z <- binary.cnr(cnr$genes[, c("CDK4", "MDM2", "HMGA2")])
 #'
-#' aggrMat <- gene.aggregate(Z = Z)
+#' aggrMat.Z <- gene.aggregate(Z = Z)
 #'
-#' G <- ternary <- cnr(cnr$genes[, c("CDK4", "MDM2", "HMGA2")])
+#' ## for ternary data
+#' G <- ternary.cnr(cnr$genes[, c("CDK4", "MDM2", "HMGA2")])
 #'
-#' aggrMat <- gene.aggregate(Z = G)
+#' aggrMat.G <- gene.aggregate(Z = G)
 #' 
 #' @export
 gene.aggregate <- function(Z) {

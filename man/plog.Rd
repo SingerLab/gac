@@ -16,6 +16,7 @@ Returns plog transformed data
 calculates a plog for parctan()
 }
 \examples{
+data(cnr)
 
 plog(cnr$X[,1])
 

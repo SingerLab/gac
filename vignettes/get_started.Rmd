@@ -1,0 +1,192 @@
+---
+title: "Get started with single-cell DNA copy number analyses"
+author: Rodrigo Gularte Merida <gularter@mskcc.org>
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{get_started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(toSignac)
+```
+
+# Getting Started
+
+toSignac comes bundle with example data.  This data is composed of 12 fake cell copy number profiles with deletions, losses, gains and amplifications along 5000 bins.  Additionaly for the 12 cells, are examples of binary, categorical, and quantitative phenotypes, and some QC data. 
+
+The primary container to handle the complexity of single-cell DNA data is a CNR bundle.
+
+The cnr bundle is composed of an *X*, *Y*, *Ye* or _expression_ matrix, a *qc* metadata matrix, the *chromInfo* with chromosome-end coordinates, and a gene index.
+
+These are all user provided tables.  See documentation for `buildCNR` to learn how to build a CNR bundle with your data.
+
+The CNR is modeled after the expressionSet and AnnData objects from R/Bioconductor and Python.  This is a lightweight and versitile framework to operate and manipulate single-cell data.  For statistical analysis, the framework facilitates the use of linear mixed models to estimate the genetic effects of copy numbers.
+
+As a new user it's important to familiarize youself with the CNR.  At the heart of the CNR bundle is the *X* matrix wich hold copy number as ploidy corrected `numeric` estimations or `integer` states, with bins as rows, and cells as columns.  Bins can be the direct output from Ginkgo/Varbin algorithm, or the a set of common segments from a .seg file in `matrix` form.
+
+The bin information is located on the `chromInfo` table, and the gene-to-bin mappings on the `gene.index`, which helps link the output of the segmentation to a biological context.
+
+Cell/sample phenotypes are housed in the *Y* matrix, these are sample specific and biological in nature. These are the phenotypes we wish to gain biological insights.
+
+In a not so distant future, the posibility to acquire single-cell DNA and RNA from the same cell will become feasable at scale.  To this end, a *Ye* or _exprs_ matrix is included in the bundle, as for purposes of genetic analysis _gene expression_ is a phenotype.  If you have data of this type, it's best to have the last/most-accurate, curated, and complete data possible for the analyses to make sense.  Eg. scaled, log2-transformed, MAGIC Imputed, without duplets.
+
+Lastly, a *qc* matrix containg metadata about each cell is also required.
+
+
+
+![Figure1](../figures/CNR.png)
+
+Figure 1. Schematic representation of the CNR bundle and how the different components are related.
+
+```{r data}
+data(cnr)
+
+head(cnr$X)
+
+head(cnr$Y)
+
+head(cnr$exprs)
+
+head(cnr$qc)
+
+head(cnr$chromInfo)
+
+head(cnr$geneIndex)
+
+```
+
+```{r work.with.cnr}
+## check number of rows and columns throughout cnr object
+sapply(cnr, dim)
+
+```
+
+I made use of [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/) for this package.  ComplexHeatmap is one of the most powerful visualization tools available for R.  To use the richness of ComplexHeatmap, the `HeatmapCNR` function attempts to minimize the total number of presets.  Please visit the ComplexHeatmap documentation to take advantage of its potential.
+
+The `HeatmapCNR` function will create a viable plot if you are in a time constraint.
+
+
+```{r visualize}
+## a color scale to visualize the integer copy number is provided
+## visualize genome-wide
+data(segCol)
+
+HeatmapCNR(cnr, col = segCol)
+
+## visualize genes of interest
+HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"))
+
+```
+
+## Working with a CNR
+
+toSignac is equiped with a couple of management functions that are prefixed with `add*`, `exclude*` and `keep*`.  
+
+
+On a more frequent basis you will want to remove cells that have noisy profiles.  
+
+For example to exclude cells that you have been deemed as "FAIL" b/c of low read counts you can do:
+
+```{r remove.cells}
+## remove cells
+( excl.cells <- rownames(cnr$qc)[cnr$qc$qc.status == "FAIL"] )
+cnr <- excludeCells(cnr, excl = excl.cells)
+sapply(cnr, dim)
+HeatmapCNR(cnr)
+```
+
+Conversly, if you have multiple samples or have multiple conditions and wish to use only part of the data, you can use `keepCells`
+
+e.g.
+```{r keep.cells}
+## keep cells
+( keep.cells <- colnames(cnr$X)[-c(11:12)] )
+cnr <- keepCells(cnr, keep = keep.cells)
+sapply(cnr, dim)
+
+HeatmapCNR(cnr)
+
+```
+
+Lastly, if you perform a new experiment, and need to add additional cells  use the `addCells`
+
+```{r add.cells}
+## make new cells
+newX <- data.frame(cbind(rep(c(5,2), c(3000, 1999)),
+                         rep(c(2,4),  c(3000, 1999))))
+names(newX) <- paste0("cell", 13:14)
+newX
+
+## creating new phenotypes
+newY <- head(cnr$Y, n = 2)
+newY$cellID <- paste0("cell", 13:14)
+rownames(newY) <- newY$cellID
+
+newY[, c(6:9)] <- newY[,c(6,9)]+3
+newY
+
+## creating new QC
+newQC <- head(cnr$qc, 2)
+newQC$cellID <- paste0("cell", 13:14)
+rownames(newQC) <- newQC$cellID
+
+newQC[,2:4] <- newQC[,2:4] + 2
+newQC
+
+## add cells
+cnr <- addCells(cnr, newX = newX, newY = newY, newqc = newQC)
+sapply(cnr, dim)
+HeatmapCNR(cnr)
+```
+
+For developers, if you run an algorithm to estimate genomic complexity or another parameter, you can add these to the Y matrix using `addPheno`
+
+```{r add.phenotypes}
+## addPheno
+rand3 <- data.frame(cellID = cnr$Y$cellID, rand3 = rnorm(nrow(cnr$Y), mean = 2, sd = 1))
+
+cnr <- addPheno(cnr, df = rand3)
+sapply(cnr, dim)
+```
+
+Similarly, if you run a qc metric such as Median Absolute Pairwise Deviance.   which is used to estimate how noisy the profiles are.  This example uses the X matrix, however, for this you may want to use the non-segmented bin estimates (this is not the right input for toSignac as it requires you provided it segmented results. See documentation for [Ginkgo/Varbin](https://github.com/robertaboukhalil/ginkgo), MUMdex(http://mumdex.com), HMMcopy(https://bioconductor.org/packages/release/bioc/html/HMMcopy.html), or SCOPE(https://github.com/rujinwang/SCOPE) for details on how to perform the upstream analysis.
+
+To add QC metrix use the `addQC`
+
+```{r add.qc}
+## add QC
+mapd <- data.frame(t(apply(cnr$X, 2, mapd)))
+mapd <- data.frame(cellID = rownames(mapd), mapd)
+
+cnr <- addQC(cnr, df = mapd)
+```
+
+Lastly, the goal of this tool is to facilitate the genetic, and statistical analysis of single-cell copy number data.  Most analysis will be carried out at the bin level.  Even if you aim to work with a single gene, the bin is the smallest independent unit for segmented data.  To add, for example, p-values to see which bins are linked to your phenotype the helper function is `addInfo`.
+
+
+```{r addInfo}
+## addInfo
+
+fakePval <- data.frame(runif(4999))
+
+cnr <- addInfo(cnr, df = fakePval)
+```
+
+
+## Closing remarks
+
+Thank you for downloading and taking the time to learn this package.  This work is only begining, but I hope you begin to see how easy, flexible, and powerful this structure can be.
+
+Stay safe, stay healthy during these tough times.
+
+
+#NewYorkTOUGH!

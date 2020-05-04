@@ -8,7 +8,8 @@
 #' Returns plog transformed data
 #'
 #' @examples
-#'
+#' data(cnr)
+#' 
 #' plog(cnr$X[,1])
 #' 
 #' @export

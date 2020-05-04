@@ -20,7 +20,16 @@
 #'
 #' Returns a cnr object with only the desired bins.  This function also subsets the gene index and chromInfo as well
 #'
+#' @examples
+#' data(cnr)
+#' data(segCol)
 #' 
+#' chr19 <- which(cnr$chromInfo$chr == "19")
+#' cnr_chr19 <- subsetCNR(cnr, based.on = "X", keep = chr19)
+#'
+#' sapply(cnr_chr19, dim)
+#'
+#' HeatmapCNR(cnr_chr19, col = segCol)
 #' 
 #' @export
 subsetCNR <- function(cnr, based.on = "X", keep, ...) {

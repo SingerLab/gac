@@ -32,7 +32,7 @@
 #'
 #' 
 #' data(copynumbers)
-#' data(Y)
+#' data(pheno)
 #' data(qc)
 #' data(chromInfo)
 #' data(gene.index)
@@ -47,6 +47,8 @@
 #'
 #' head(cnr$genes[, 1:5])
 #'
+#' data(segCol)
+#' 
 #' HeatmapCNR(cnr)
 #' 
 #' 

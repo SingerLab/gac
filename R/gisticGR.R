@@ -1,24 +1,25 @@
 #' Gistic Genomic Ranges, get genes in gene.index that overlap with significant genomic ranges in GISTIC2 output
 #'
 #' **Still in development**
-#'
+#' ** requires GenommicRanges
 #' 
 #' @param cnr a cnr bundle
 #'
 #' @param grTR gistic regions table, output from gisticRegions
+#'
+#'
+#' @import GenomicRanges
 #' 
 #' @export
 gisticGR <- function(cnr, grTR) {
-    require(GenomicRanges)
     ## set up vector of amplified regions
     amp <- grCN[grep("Amp", grCN$Unique.Name), c("chr", "start", "end")]
     ## set up vector of deleted regions
     del <- grCN[grep("Del", grCN$Unique.Name), c("chr", "start", "end")]
     
-    gr <- GRanges(
-        seqnames = c(amp$chr, del$chr),
-        ranges = IRanges(start = as.numeric(c(amp$start, del$start)), end = as.numeric(c(amp$end, del$end))),
-        alteration.type = c(rep("Amplification", nrow(amp)), rep("Deletion", nrow(del))))
+    gr <- GRanges(seqnames = c(amp$chr, del$chr),
+                  ranges = IRanges(start = as.numeric(c(amp$start, del$start)), end = as.numeric(c(amp$end, del$end))),
+                  alteration.type = c(rep("Amplification", nrow(amp)), rep("Deletion", nrow(del))))
     
     geneIndex <- GRanges(seqnames = cnr$gene.index$seqnames,
                          ranges = IRanges(start = cnr$gene.index$start,
@@ -34,9 +35,11 @@ gisticGR <- function(cnr, grTR) {
     gistic.genes <- data.frame(gr[overlaps@to,], geneIndex[overlaps@from,])
     
     names(gistic.genes) <- c("seqnames", "chrom", "start", "end", "strand",
-                             "alteration.type",
+                             "alteration.type", 
                              "chr", "gene.start", "gene.end", "width", "gene.strand",
                              "ensembl_gene_id", "hgnc.symbol", "gene.type", "bin.id")
-    gistic.genes
+    
+    return(gistic.genes)
+    
 }
 

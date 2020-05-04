@@ -1,12 +1,14 @@
 #' annotate essential genes w/DepMap
 #'
 #' Takes a vector of depmap genes, and annotates the genes as esseintail
-#' or not essential given a cutoff
+#' or not essential given a cutoff.  For details and downloads please visit
+#' https://depmap.org/portal/ 
 #'
 #'
-#' @param gene.index gene index to annotate
-#'
-#' @param demMeans an object with the dependency score means for the cells
+#' 
+#' @param cnr a cnr bundle
+#' 
+#' @param depMeans an object with the dependency score means for the cells
 #' of interest
 #'
 #' @param cutoff cutoff of D2 score to consider essential gene or
@@ -17,10 +19,12 @@
 #' function returns the gene.index with depmap annotation colums;
 #' both depMeans, and essential (essentian/non-essential)
 #'
+#'
+#' 
 #' @examples
 #'
 #' \dontrun{
-#' d2_map <- read.csv("inst/extdata/D2_combined_gene_dep_scores.csv", header = TRUE, row.names = 1)
+#' d2_map <- read.csv("inst/extdata/D2_combined_gene_dep_scores.csv.gz", header = TRUE, row.names = 1)
 #'
 #' ## select cells to use
 #' keep <- grep("BONE", names(depmap))

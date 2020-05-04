@@ -1,14 +1,20 @@
 #' Bin chromosome-basepair coordinates
-#'
-#' A dataset containing the end chromsome coordiantes for all the bins of the single-cell copy number matrix `cnq`
 #' 
+#' @description
+#' A dataset containing the chromsome and end coordiantes for all the bins of the single-cell copy number matrix `copynumbers`
+#' This table is cross referenced to create the `genes` table, an interpolated table to link the bins to genes
 #'
 #' @format A data frame with chromosome and position information
-#' \describe{
-#'   \item{chr}{chromosome}
-#'   \item{pos}{base pair coordinate}
+#' \itemize{
+#'
+#'  \item chr, chromosome
 #' 
-#'   ...
+#'  \item end, base pair coordinate
+#' 
 #' }
+#' @docType data
+#' @keywords datasets
+#' @usage data(chromInfo)
 #' @source \url{https://github.com/SingerLab/toSignac}
 "chromInfo"
+

@@ -22,9 +22,9 @@ for deletions, losses, and neutral (2 copies)
 }
 \examples{
 
-data(cnq)
+data(copynumbers)
 
-cni <- roundCNR(cnq)
+cni <- roundCNR(copynumbers)
 
 Heatmap(cni)
 

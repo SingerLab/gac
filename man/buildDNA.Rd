@@ -8,7 +8,7 @@ buildDNA(X, Y, qc, exprs = NULL, chromInfo, gene.index)
 }
 \arguments{
 \item{X}{bin or common segment copy number data.  Can be in `numeric` or integer
-form.  In buildDNA the X matrix is `log2` transformed.}
+form.  In buildDNA the X matrix is `log2(x+1)` transformed.}
 
 \item{Y}{phenotype and additional cell-level annotation data nrow(Y) needs to
 equal ncol(X).  There is no check for this yet. requires a `cellID` column}
@@ -33,13 +33,12 @@ manipulate, as the name implies, the QC, Y (phenotype), and chromInfo tables.
 }
 \examples{
 
-
-
 data(copynumbers)
 data(pheno)
 data(qc)
 data(chromInfo)
 data(gene.index)
+
 
 dna <- buildDNA(X = copynumbers, Y = pheno, qc = qc, exprs = NULL,
 chromInfo = chromInfo, gene.index = gene.index)
@@ -49,9 +48,11 @@ class(dna)
 
 head(dna$X[, 1:5])
 
-head(cnr$genes[, 1:5])
+head(dna$genes[, 1:5])
 
-HeatmapCNR(dna)
+data(lowCol)
+
+HeatmapCNR(dna, col = lowCol)
 
 
 saveRDS(dna, file = "dna.rds")

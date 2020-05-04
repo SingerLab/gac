@@ -13,9 +13,9 @@
 #' 
 #' @examples
 #'
-#' data(cnq)
+#' data(copynumbers)
 #'
-#' cni <- roundCNR(cnq)
+#' cni <- roundCNR(copynumbers)
 #' 
 #' Heatmap(cni)
 #' 

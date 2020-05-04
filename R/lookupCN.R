@@ -1,22 +1,26 @@
 #' Lookup copy number data from bins
 #'
-#' This function pulls the set of copy number data for a specific set of coordinates from a table, e.g. the CNR$chromInfo, 
+#' This function pulls the X copy number data based on coordinate information from the cnr$chromInfo
 #'
-#' @param df `data.frame` containing chrom, and chrompos
+#' @param cnr a cnr bundle
 #'
 #' @param coord a `list` with elements named chr start end
 #'
-#' @examples
+#' @return
 #'
+#' Returns the X data for a set of chromosome coordinates
+#'
+#' 
+#' @examples
 #'
 #' data(cnr)
 #' coords <- list(chr = 2, start = 550000, end = 600000)
 #'
-#' lookupCN(df = cnr$chromInfo, coord = coords)
+#' lookupCN(cnr, coord = coords)
 #' 
 #' @export
-lookupCN <- function(df, coord) {
+lookupCN <- function(cnr, coord) {
     ## coord is a list object with elements $chr $start $end
-    t(df[df$chrom == coord$chr & df$chrompos > coord$start & df$chrompos < coord$end, 4:ncol(df)])
+    t(cnr$X[cnr$chromInfo$chr == coord$chr & cnr$chromInfo$end > coord$start & cnr$chromInfo$end < coord$end, ])
 } ## lookupCN
 

@@ -2,9 +2,9 @@
 #'
 #' Produces a named list with gene name and bin.id to use in ComplexHeatmap::anno_mark
 #'
-#' @param cnr  the cnr bundle.  Only gene index will be used
+#' @param cnr  the cnr bundle
 #'
-#' @param gene.list a gene list
+#' @param gene.list the list of genes you wish to mark
 #'
 #'
 #' @return
@@ -14,7 +14,7 @@
 #'
 #' data(cnr)
 #'
-#' aa <- mark.genes(cnr$gene.index, gene.list = c("CDK4", "MDM2"))
+#' aa <- mark.genes(cnr, gene.list = c("CDK4", "MDM2"))
 #'
 #' geneAnno <- rowAnnotation(genes = anno_mark(at = aa, labels = names(aa)))
 #'
@@ -26,4 +26,5 @@ mark.genes <- function(cnr, gene.list) {
     gg <- cnr$gene.index[gene.list, "bin.id"]
     names(gg) <- gene.list
     return(gg)
+    
 } ## mark.genes

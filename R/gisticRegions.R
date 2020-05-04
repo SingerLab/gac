@@ -4,13 +4,18 @@
 #'
 #' **Still in development**
 #'
-#'
 #' @param gisticDir path to directory of gistic output
 #'
 #' @param conf confidence used in gistic, default is 75, for single-cells 80 or highrer works a little better.  Also, requires increasing amp/del calling thresholds to log2(1/2) for deletions, and log2(3/2) for gains and amplifications
+#'
+#' @import GenomicRanges
 #' 
 #' @examples
+#' \dontrun{
+#'
 #' grTR <- gisticRegions("path/to/gistic/", conf = 80)
+#'
+#' }
 #' 
 #' @export
 gisticRegions <- function(gisticDir, conf = 80) {

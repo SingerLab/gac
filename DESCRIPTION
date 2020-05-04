@@ -4,17 +4,17 @@ Date: 2020-04-28
 Title: Simple integrative genetic analysis of cells
 Authors@R: person("Rodrigo Gularte Merida", "Developer", role = c("aut", "cre"),
                      email = "gularter@mskcc.org")
-Author: Rodrigo Gularte Merida [aut, cre],
+Author: Rodrigo Gularte Merida [aut, cre]
 Maintainer: Rodrigo Gularte Merida <gularter@mskcc.org> 
-Depends: R (>= 3.1.0), ComplexHeatmap, colourvalues, circlize, vegan, tidyverse, devtools
-Suggests: 
+Depends: R (>= 3.1.0), ComplexHeatmap, colourvalues, circlize, vegan, GenomicRanges
+Suggests:
     biomaRt,
-    GenomicRanges,
+    tidyverse,
     knitr,
     rmarkdown,
     testthat
 Description: toSignac is an, open-source, simple R framework and toolkit for the analysis of single-cell genomic. It provides a framework to efficiently carry out the downstream quantative analysis of single cell data by managing concurrent phenotypic and metadata about all the samples and cells. Furthermore, it automatically expands the bin/segment data to genes seamlesly and to facilitate the biological interpretation of results.
-License: BSD_3_clause
+License: BSD_3_clause + file LICENSE
 URL: https://github.com/SingerLab/toSignac/
 BugReports: https://github.com/SingerLab/toSignac/
 VignetteBuilder: knitr

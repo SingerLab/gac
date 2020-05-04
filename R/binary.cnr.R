@@ -7,19 +7,19 @@
 #' By default, anything not diploid is 1.
 #'
 #'
-#' @param cnr a cnr matrix either the bins or genes
+#' @param X a copy number matrix to convert to an incidence matrix
 #'
 #' 
 #' @examples
 #'
 #' data(cnr)
 #'
-#' bimat <- binary.cnr(cnr$genes[, c("CDK4", "MDM2")])
+#' Z <- binary.cnr(cnr$genes[, c("CDK4", "MDM2")])
 #' 
 #' 
 #' @export
-binary.cnr <- function(cnr) {
-    Z <- cnr$X
+binary.cnr <- function(X) {
+    Z <- X
     Z[Z == 2] <- 0
     Z[Z != 0] <- 1
     Z
