@@ -16,12 +16,12 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(toSignac)
+library(GAC)
 ```
 
 # Getting Started
 
-toSignac comes bundle with example data.  This data is composed of 12 fake cell copy number profiles with deletions, losses, gains and amplifications along 5000 bins.  Additionaly for the 12 cells, are examples of binary, categorical, and quantitative phenotypes, and some QC data. 
+GAC comes bundle with example data.  This data is composed of 12 fake cell copy number profiles with deletions, losses, gains and amplifications along 5000 bins.  Additionaly for the 12 cells, are examples of binary, categorical, and quantitative phenotypes, and some QC data. 
 
 The primary container to handle the complexity of single-cell DNA data is a CNR bundle.
 
@@ -89,7 +89,7 @@ HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"))
 
 ## Working with a CNR
 
-toSignac is equiped with a couple of management functions that are prefixed with `add*`, `exclude*` and `keep*`.  
+GAC is equiped with a couple of management functions that are prefixed with `add*`, `exclude*` and `keep*`.  
 
 
 On a more frequent basis you will want to remove cells that have noisy profiles.  
@@ -158,7 +158,7 @@ cnr <- addPheno(cnr, df = rand3)
 sapply(cnr, dim)
 ```
 
-Similarly, if you run a qc metric such as Median Absolute Pairwise Deviance.   which is used to estimate how noisy the profiles are.  This example uses the X matrix, however, for this you may want to use the non-segmented bin estimates (this is not the right input for toSignac as it requires you provided it segmented results. See documentation for [Ginkgo/Varbin](https://github.com/robertaboukhalil/ginkgo), MUMdex(http://mumdex.com), HMMcopy(https://bioconductor.org/packages/release/bioc/html/HMMcopy.html), or SCOPE(https://github.com/rujinwang/SCOPE) for details on how to perform the upstream analysis.
+Similarly, if you run a qc metric such as Median Absolute Pairwise Deviance (MAPD) which is used to estimate how noisy the profiles are.  This estimate should be computed on the non-segmented bin estimates (this is not the right input for GAC as it requires you provided it segmented results). See documentation for [Ginkgo/Varbin](https://github.com/robertaboukhalil/ginkgo), MUMdex(http://mumdex.com), HMMcopy(https://bioconductor.org/packages/release/bioc/html/HMMcopy.html), or SCOPE(https://github.com/rujinwang/SCOPE) for details on how to perform the upstream analysis.
 
 To add QC metrix use the `addQC`
 

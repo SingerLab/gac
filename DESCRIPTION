@@ -1,7 +1,7 @@
-Package: toSignac
+Package: GAC
 Version: 0.0.9000
 Date: 2020-04-28
-Title: Simple integrative genetic analysis of cells
+Title: Genetic Analysis of Cells
 Authors@R: person("Rodrigo Gularte Merida", "Developer", role = c("aut", "cre"),
                      email = "gularter@mskcc.org")
 Author: Rodrigo Gularte Merida [aut, cre]
@@ -13,10 +13,10 @@ Suggests:
     knitr,
     rmarkdown,
     testthat
-Description: toSignac is an, open-source, simple R framework and toolkit for the analysis of single-cell genomic. It provides a framework to efficiently carry out the downstream quantative analysis of single cell data by managing concurrent phenotypic and metadata about all the samples and cells. Furthermore, it automatically expands the bin/segment data to genes seamlesly and to facilitate the biological interpretation of results.
+Description: GAC is a framework and toolkit for the analysis of single-cell genomic data. It provides a framework to efficiently carry out the downstream quantative analysis of single cell data by managing concurrent phenotypic and metadata about all the cells and the samples they came from. It applies the state-of-the art methods for identifying recurrent altered regions, and makes use of mixed models used in quantitative genetics to identify causal genes. An additional, convenient feature is that it automatically expands the bin/segment data to genes seamlesly and to facilitate the biological interpretation of results.
 License: BSD_3_clause + file LICENSE
-URL: https://github.com/SingerLab/toSignac/
-BugReports: https://github.com/SingerLab/toSignac/
+URL: https://github.com/SingerLab/GAC/
+BugReports: https://github.com/SingerLab/GAC/
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0
 Encoding: UTF-8

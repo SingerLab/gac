@@ -1,14 +1,14 @@
-toSignac: The open-source simple integrative genetic analysis of cells/copynumber
+GAC: Tenetic Analysis of Cells
 ---
 ***
 
-### apha- pre-release
+# GAC is currently in ALPHA- pre-release
 
-I aim to integrate a core set of extensions that can deliver a formal end-to-end analysis by implementing proven quantitative genetics, statistics, and evolutionary models on the backend of the functions.  Henderson's Animal Model **_y_** = _**X**ß_ + _**Z**µ_ + _e_ quantitative genetics is well suited to apply a linear mixed models framework for the analysis of same-cell DNA + RNA sequencing technologies such as G+T ([Macaulay, et al.2015](https://dx.doi.org/10.1038/nmeth.3370)), and multiplexed immunohistochemistry.  If you would like to contribute to this endevor, please feel free to reach out.  We have real world data that we are willing to share. My hope is that others will find this package helpful for their DNA copy number needs as well.
+I am working to integrate a core set of extensions that can deliver a formal end-to-end analysis by implementin proven quantitative genetics, statistics, and evolutionary models on the backend of the functions.  Henderson's Animal Model \$\boldsymbol{y} = X \boldsymbol{\beta} + Z \boldsymbol{u} + \boldsymbol{\epsilon}$ of quantitative genetics is well suited to apply a linear mixed models framework for the analysis of same-cell DNA + RNA sequencing technologies such as G+T ([Macaulay, et al.2015](https://dx.doi.org/10.1038/nmeth.3370)), and multiplexed immunohistochemistry.  If you would like to contribute to this endevor, please feel free to reach out.  We have real world data that we are willing to share. My hope is that others will find this package helpful for their DNA copy number needs as well.
 
-Please report any bugs you may encounter.
+Please report any bugs you may encounter. Help me me, help you.
 
-toSignac is an open-source, simple, lightweight, framework for quantitative analysis of single-cell genomic data.  Inspired, but unlike Seurat and Scanpy --which implement methods for transcriptomic analysis, toSignac is designed to work single-cell DNA copy number data.  It does this by adapting the logic of espressionSet/AnnData into relational matrices in native R.  This keeps the toolkit **easy to learn**, hard to master;  and will facilitate integration of new algorithms for the downstream analyses of single-cell DNA data which are so desperately needed.  The framework is abstract enough that can be used with other types of rectangular Phenotype ~ Gentoype realtionships e.g. it could be used with a numeric representation of the genotype matrix.  For now toSignac facilitates the downstream analyses of segmented data with common segments by concurrently managing the X, Y, Ye, and QC matrices across all cells or samples e.g. the output of [Varbin/Ginkgo](https://github.com/robertaboukhalil/ginkgo), [FACETS](https://github.com/mskcc/facets), [MUMdex](http://mumdex.com), [HMMcopy](https://bioconductor.org/packages/release/bioc/html/HMMcopy.html), or [SCOPE](https://github.com/rujinwang/SCOPE).  The bin read counts is _not a correct_ input.  toSignac uses [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/), an ultra-powerful tool for heatmaps to help visualize the data.
+GAC is an, open-source, simple, lightweight, R framework for quantitative analysis of single-cell genomic data.  Inspired, but unlike Seurat and Scanpy --which implement methods for transcriptomic analysis, GAC is designed to work single-cell genomic data (DNA).  It does this by adapting the logic of espressioSet/AnnData into relational matrices in native R.  This keeps the toolkit easy to learn, hard to master;  and will facilitate integration of new algorithms for the downstream analysis of single-cell DNA data wich is so desperately needed.  The framework is abstract enought that can be used with other types of rectangular Phenotype ~ Gentoype realtionships e.g. it could be used with a numeric representation of the genotype matrix.  For now GAC facilitates the downstream analyses of segmented data with common segments by concurrently managing the X, Y across all cells or samples e.g. the output of [Varbin/Ginkgo](https://github.com/robertaboukhalil/ginkgo), [FACETS](https://github.com/mskcc/facets), [MUMdex](http://mumdex.com), [HMMcopy](https://bioconductor.org/packages/release/bioc/html/HMMcopy.html), or [SCOPE](https://github.com/rujinwang/SCOPE).  The bin read counts is _not a correct_ input.  GAC uses integrated [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/), an ultra-powerful tool for heatmaps to help visualize the data.
 
 
 # Dependencies:
@@ -21,7 +21,7 @@ toSignac is an open-source, simple, lightweight, framework for quantitative anal
 # Installation
  
     install.packages("devtools")
-    devtools::github_install("https://github.com/SingerLab/toSignac/")
+    devtools::github_install("https://github.com/SingerLab/GAC/")
     
 
 # Simple run:
@@ -34,32 +34,31 @@ toSignac is an open-source, simple, lightweight, framework for quantitative anal
 
 # Description
 
-toSignac simplifies the analysis DNA information by keeping the multiple sources single-cell genomic results to positional coordinates syncronized.  To get started you need an X matrix of copy number data (bins[i] x cells[j]), phenotypic data, the bin end-coordinates, and a gene index. Some form of metadata is also required, e.g. QC metrics are required to help interpret results into biological insights e.g. inter- and intra- tumor heterogeneity in soft-tissue sarcomas!
+GAC simplifys the analysis DNA information by keeping multiple sources of information to genomic / positional coordinates syncronized.  To get started you need an X matrix of copy number data (bins[i] x cells[j]), phenotypic data, the bin end-coordinates, and a gene index. Some form of metadata is also required, e.g. QC metrics are required to help interpret results in
 
-
-# toSignac joins the fight against cancer.  Illustrating the complex hetereogeneity of soft-tissue sarcomas in 3799 tumor cell genomes!
+# GAC joins the fight against cancer.  Illustrating the complex hetereogeneity of soft-tissue sarcomas in 3799 tumor cell genomes!
 
 See it in action: Poster #92 at The Biology of Genomes 2020 #CSHL #BoG20
 
 ![Figure 1.](figures/ComplexHeatmap.png)
 
-**Figure 1** The heatmap above is showing the results of five different sacromas.  From left to right we observe an increasing gradient of genomic complexity culminating in a tetraploid tumor where the diploid cells are significantly deteriorated, forcing a tetraploid phenotpye to maintain the tumor mass.  This figure showing only the tumor cells. The complete data set for these five tumors approximates 10,000 cells, providing some insights into tumor ecosystem e.g. stroma and tumor infiltrate.
+**Figure 1** The heatmap above is showing the results of five different sacromas.  From left to right we observe an increasing gradient of genomic complexity culminating in a tetraploid tumor where the diploid cells are significantly deteriorated, forcing a tetraploid phenotpye to maintain the tumor mass.  This figure showing only the tumor cells. The complete data set for these five tumors approximates >9000 cells, which also contains the tumor ecosystem e.g. stroma and tumor infiltrate.
 
 # Simple
 
-toSignac is a simple framework to handle interelated genomic data with minimal software dependencies.  toSignac works by providing 5, easy to format tables as `data.frame` objects.  It preserves the native `data.frame` class, and preserves the `list` class, though we refer to it as a `CNR` bundle, **Copy Number, Rounded**.
+GAC is a simple framework to handle interelated genomic data with minimal software dependencies.  GAC works by providing 5, easy to format tables as `data.frame` objects.  It preserves the native `data.frame` class, and preserves the `list` class, though we refer to it as a `CNR` bundle, **Copy Number, Rounded**.
 
-Import your data using classic well known R functions such as `read.table`, `readRDS`, etc. toSignac's build functions `buildCNR`, and `buildDNA` will get you started after that.
+Import your data using classic well known R functions such as `read.table`, `readRDS`, etc. GAC's build functions `buildCNR`, and `buildDNA` will get you started after that.
 
 
 ![Figure 2.](figures/CNR.png)
 
 # Integrative
 
-toSignac is integrative in many ways for example:
+GAC is integrative in many ways for example:
 
 * Integration of gentoype-phenotype
-  + The CNR bundle simplifies the management of multiple data sources.
+  + The CNR bundle simplifies the management of multiple data structures.
   
 * Integration to the R/Language and Enviroment
   + Preserving native R classes in the objects facilitates inter- operability with numerous readily available packages in an intuitive way. For example, creating heatmaps with HeatmapCNR uses the ultra powerful ComplexHeatmap package by providing only a wraper for the CNR with minimal defalut settings.
@@ -68,9 +67,9 @@ toSignac is integrative in many ways for example:
   
   + Likewise to add or replace data `cnr$Y$fga <- FACETS_fga`
 
-  + Genetic effects, and polygenic scores can be estimated using Henderson's animal model **_y_** = _**X**ß_ + _**Z**µ_ + _e_, and your p-values can be added to the `cnr$chromInfo` for plotting (coming very soon)
+  + Genetic effects, and polygenic scores can be estimated using Henderson's animal model \$y = X\beta+Zu+e\$, and your p-values can be added to the `cnr$chromInfo` for plotting (coming very soon)
   
-  + If you would like to contribute an extension to toSignac, please feel free to reach out. My hope is that others find this helpful for their copy number needs too.
+  + If you would like to contribute an extension to GAC, please feel free to reach out. My hope is that others find this helpful for their copy number needs too.
 
 
   + If you would like to contribute modules to this framework, we are willing to share data as a collaboration.  Please feel free to reach out if you are interested in working with us.
@@ -78,7 +77,7 @@ toSignac is integrative in many ways for example:
 
 # Genetic analysis
 
-* toSignac  brings in _your_ genomic data
+* GAC  brings in _your_ genomic data
 
   + R/Bioconductor is an extremely rich suite of analysis tools.  However, it is complex, and it feels like using a wrecking ball to hammer a nail, and most packages work only with human or mouse.  So if your research is in the noble field of animal genomics, plant sciences, or a brand new strain of coronaviruses, no need to spend your quarintine figuring out how to build a new genome resource.  Simply construct two simple tables 
   
@@ -124,7 +123,7 @@ We hope you enjoy !
 
 
 # Licence
-toSignac framework and code is distributed under a BSD-3 License
+GAC framework and code is distributed under a BSD-3 License
 
 
 # History
