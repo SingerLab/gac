@@ -8,7 +8,6 @@ HeatmapCNR(
   cnr,
   what = "X",
   which.genes = NULL,
-  col = segCol,
   cluster_rows = FALSE,
   show_row_dend = FALSE,
   ...
@@ -20,18 +19,6 @@ HeatmapCNR(
 \item{what}{wether you want to plot bins or genes}
 
 \item{which.genes}{IF you chose genes, you need to specify which ones}
-
-\item{col}{color function; in this package you have several color palettes,
-  segCol for segmentation colors: loss and deletions in blue and yellow,
-  respectively, 2 in white, gains and amplifications in red to gray scale
-
-  lowcol for log2 ratio colors: blue-to-red scale from -2 to +2
-
-  ampCol for amplification : yellow to red scale from 0 to Inf.
-
-  fgaCol for Fraction of genome altered: from 0 e.g.. light yellow to 100 % in blue
-
-  ploidyCol for ploidy : gradient of purples starting at 1.5}
 
 \item{cluster_rows}{logical to cluster or not rows (chromosome positions), default FALSE
 will plot chromosomes in order}
@@ -55,19 +42,33 @@ is extensively used in Ecology for clustering comunities.
 }
 \details{
 If you prefer to use a different method, you can use the native Heatmap function
+
+For convenience, GAC comes with several color palettes as part of the data. To use
+ any of these run `data(segCol)` for example.  There are the different pallents and
+ suggested use
+
+  * segCol for segmentation colors: loss and deletions in blue and yellow,
+  respectively, 2 in white, gains and amplifications in red to gray scale
+
+  * lowcol for log2 ratio colors: blue-to-red scale from -2 to +2
+
+  * ampCol for amplification : yellow to red scale from 0 to Inf.
+
+  * fgaCol for Fraction of genome altered: from 0 e.g.. light yellow to 100 % in blue
+
+  * ploidyCol for ploidy : gradient of purples starting at 1.5
 }
 \examples{
 
 ## load example
 data(cnr)
 
-## load color pallete
+## load color map for segment colors
 data(segCol)
 
 
 HeatmapCNR(cnr, col = segCol)
 
-HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"))
-
+HeatmapCNR(cnr, col = segCol, what = "genes", which.genes = c("CDK4", "MDM2"))
 
 }

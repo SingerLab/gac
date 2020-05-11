@@ -78,12 +78,13 @@ The `HeatmapCNR` function will create a viable plot if you are in a time constra
 ```{r visualize}
 ## a color scale to visualize the integer copy number is provided
 ## visualize genome-wide
+data(cnr)
 data(segCol)
 
 HeatmapCNR(cnr, col = segCol)
 
 ## visualize genes of interest
-HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"))
+HeatmapCNR(cnr, col = segCol, what = "genes", which.genes = c("CDK4", "MDM2"))
 
 ```
 
@@ -101,7 +102,7 @@ For example to exclude cells that you have been deemed as "FAIL" b/c of low read
 ( excl.cells <- rownames(cnr$qc)[cnr$qc$qc.status == "FAIL"] )
 cnr <- excludeCells(cnr, excl = excl.cells)
 sapply(cnr, dim)
-HeatmapCNR(cnr)
+HeatmapCNR(cnr, col = segCol)
 ```
 
 Conversly, if you have multiple samples or have multiple conditions and wish to use only part of the data, you can use `keepCells`
@@ -113,7 +114,7 @@ e.g.
 cnr <- keepCells(cnr, keep = keep.cells)
 sapply(cnr, dim)
 
-HeatmapCNR(cnr)
+HeatmapCNR(cnr, col = segCol)
 
 ```
 
@@ -145,7 +146,7 @@ newQC
 ## add cells
 cnr <- addCells(cnr, newX = newX, newY = newY, newqc = newQC)
 sapply(cnr, dim)
-HeatmapCNR(cnr)
+HeatmapCNR(cnr, col = segCol)
 ```
 
 For developers, if you run an algorithm to estimate genomic complexity or another parameter, you can add these to the Y matrix using `addPheno`

@@ -28,7 +28,7 @@ if you have a column called `cellID` it will be re-written.
 }
 }
 \source{
-\url{https://github.com/SingerLab/toSignac/}
+\url{https://github.com/SingerLab/GAC/}
 }
 \usage{
 data(pheno)

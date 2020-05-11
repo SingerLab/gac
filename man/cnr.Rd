@@ -45,7 +45,7 @@ qc.status for individual cells.  contains cells as rows and metadata as columns
 }
 }
 \source{
-\url{https://github.com/SingerLab/toSignac"}
+\url{https://github.com/SingerLab/GAC"}
 }
 \usage{
 data(cnr)

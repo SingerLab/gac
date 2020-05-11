@@ -26,7 +26,7 @@ use vignette
 }
 }
 \source{
-\url{https://github.com/SingerLab/toSignac}
+\url{https://github.com/SingerLab/GAC}
 }
 \usage{
 data(qc)

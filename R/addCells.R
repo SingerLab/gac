@@ -20,7 +20,7 @@
 #'
 #' @examples
 #'
-#' library(toSignac)
+#' library(GAC)
 #' data(cnr)
 #' sapply(cnr, dim)
 #'

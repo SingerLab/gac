@@ -15,7 +15,7 @@ A data frame with chromosome and position information
 }
 }
 \source{
-\url{https://github.com/SingerLab/toSignac}
+\url{https://github.com/SingerLab/GAC}
 }
 \usage{
 data(chromInfo)

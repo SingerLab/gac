@@ -13,7 +13,7 @@ A matrix containg the bin x n.cell copy number estimations
 }
 }
 \source{
-\url{https://github.com/SingerLab/toSignac}
+\url{https://github.com/SingerLab/GAC}
 }
 \usage{
 data(copynumbers)

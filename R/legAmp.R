@@ -10,5 +10,5 @@
 #' @docType data
 #' @keywords datasets
 #' @usage data(legAmp)
-#' @source \url{https://github.com/SingerLab/toSignac"}
+#' @source \url{https://github.com/SingerLab/GAC"}
 "legAmp"

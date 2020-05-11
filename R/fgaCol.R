@@ -8,5 +8,5 @@
 #' @docType data
 #' @keywords datasets
 #' @usage data(chromInfo)
-#' @source \url{https://github.com/SingerLab/toSignac"}
+#' @source \url{https://github.com/SingerLab/GAC"}
 "fgaCol"

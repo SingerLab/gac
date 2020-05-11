@@ -1,5 +1,5 @@
 library(testthat)
-library(toSignac)
+library(GAC)
 
 ## import example cnr
 data(cnr)

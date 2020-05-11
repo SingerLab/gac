@@ -49,5 +49,5 @@
 #' @docType data
 #' @keywords datasets
 #' @usage data(cnr)
-#' @source \url{https://github.com/SingerLab/toSignac"}
+#' @source \url{https://github.com/SingerLab/GAC"}
 "cnr"

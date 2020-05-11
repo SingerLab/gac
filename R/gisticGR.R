@@ -13,9 +13,9 @@
 #' @export
 gisticGR <- function(cnr, grTR) {
     ## set up vector of amplified regions
-    amp <- grCN[grep("Amp", grCN$Unique.Name), c("chr", "start", "end")]
+    amp <- grTR[grep("Amp", grTR$Unique.Name), c("chr", "start", "end")]
     ## set up vector of deleted regions
-    del <- grCN[grep("Del", grCN$Unique.Name), c("chr", "start", "end")]
+    del <- grTR[grep("Del", grTR$Unique.Name), c("chr", "start", "end")]
     
     gr <- GRanges(seqnames = c(amp$chr, del$chr),
                   ranges = IRanges(start = as.numeric(c(amp$start, del$start)), end = as.numeric(c(amp$end, del$end))),

@@ -9,5 +9,5 @@
 #' @docType data
 #' @usage data(ampCol)
 #' @references \url{https://jokergoo.github.io/ComplexHeatmap-reference/book/}
-#' @source \url{https://github.com/SingerLab/toSignac"}
+#' @source \url{https://github.com/SingerLab/GAC"}
 "ampCol"

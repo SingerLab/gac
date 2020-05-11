@@ -28,7 +28,7 @@ Your data needs to `exact` to the existing cnr for it to be compatible.
 }
 \examples{
 
-library(toSignac)
+library(GAC)
 data(cnr)
 sapply(cnr, dim)
 
