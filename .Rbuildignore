@@ -1,0 +1,16 @@
+^\.git$
+^\.gitignore$
+^TODO\.md$
+^README\.md$
+^inst/extdata/D2_combined_gene_dep_scores\.csv\.gz$
+^figures$
+^.*\.Rproj$         # Automatically added by RStudio,
+^\.Rproj\.user$     # used for temporary files. 
+^README\.Rmd$       # An Rmarkdown file used to generate README.md
+^cran-comments\.md$ # Comments for CRAN submission
+^NEWS\.md$          # A news file written in Markdown
+^\.travis\.yml$     # Used for continuous integration testing with travis
+^\.DS_Store$
+^data-raw$
+^\.travis\.yml$
+^.*\.rds$
