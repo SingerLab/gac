@@ -4,14 +4,7 @@
 \alias{HeatmapCNR}
 \title{HeatmapCNR}
 \usage{
-HeatmapCNR(
-  cnr,
-  what = "X",
-  which.genes = NULL,
-  cluster_rows = FALSE,
-  show_row_dend = FALSE,
-  ...
-)
+HeatmapCNR(cnr, what = "X", which.genes = NULL, show_row_dend = FALSE, ...)
 }
 \arguments{
 \item{cnr}{the CNR bundle}
@@ -19,9 +12,6 @@ HeatmapCNR(
 \item{what}{wether you want to plot bins or genes}
 
 \item{which.genes}{IF you chose genes, you need to specify which ones}
-
-\item{cluster_rows}{logical to cluster or not rows (chromosome positions), default FALSE
-will plot chromosomes in order}
 
 \item{show_row_dend}{weather to show the row dendrogram, default is FALSE,}
 
@@ -41,7 +31,7 @@ dissimilarity as the distance metric for clustering cells, and 'ward.D2' from
 is extensively used in Ecology for clustering comunities.
 }
 \details{
-If you prefer to use a different method, you can use the native Heatmap function
+If you prefer to use a different method, you can use the native Heatmap function. E.g. if you prefer genomic bins to cluster, and show a dendrogram when plotting X.  By default bins are kept in chromosome order, however, when plotting genes, rows are cells, and these are clustered.
 
 For convenience, GAC comes with several color palettes as part of the data. To use
  any of these run `data(segCol)` for example.  There are the different pallents and

@@ -6,7 +6,7 @@
 #' `hclust`.  Bray-Curtis disimilarity
 #' is extensively used in Ecology for clustering comunities.
 #'
-#' If you prefer to use a different method, you can use the native Heatmap function
+#' If you prefer to use a different method, you can use the native Heatmap function. E.g. if you prefer genomic bins to cluster, and show a dendrogram when plotting X.  By default bins are kept in chromosome order, however, when plotting genes, rows are cells, and these are clustered.
 #'
 #' For convenience, GAC comes with several color palettes as part of the data. To use
 #'  any of these run `data(segCol)` for example.  There are the different pallents and
@@ -28,9 +28,6 @@
 #' @param what wether you want to plot bins or genes
 #'
 #' @param which.genes  IF you chose genes, you need to specify which ones
-#'
-#' @param cluster_rows logical to cluster or not rows (chromosome positions), default FALSE
-#' will plot chromosomes in order
 #'
 #' @param show_row_dend weather to show the row dendrogram, default is FALSE,
 #' 
@@ -63,7 +60,6 @@
 #' 
 #' @export
 HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
-                       cluster_rows = FALSE,
                        show_row_dend = FALSE, ...) {
 
     if(what == "X") {
@@ -85,7 +81,7 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
         chrAnno <- rowAnnotation(chr = factor(cnr$chromInfo$chr))
         
         Hmap <- Heatmap(use, name = "X", clustering_distance_columns = function(X) vegan::vegdist(X, method = "bray"),
-                        cluster_rows = cluster_rows,
+                        cluster_rows = FALSE,
                         left_annotation = chrAnno,
                         clustering_method_columns = "ward.D2",
                         ...)
@@ -94,7 +90,6 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
         if(what == "genes" & all(which.genes %in% colnames(cnr$genes))) {
 
             Hmap <- Heatmap(use, name = "genes", clustering_distance_rows = function(X) vegan::vegdist(X, method = "bray"),
-                            cluster_rows = cluster_rows,
                             clustering_method_rows = "ward.D2",
                             ...)
 
