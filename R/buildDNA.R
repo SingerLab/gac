@@ -58,7 +58,7 @@ buildDNA <- function(X, Y, qc, exprs = NULL, chromInfo, gene.index) {
     
     muffin <- log2(X+1)
     puffin <- data.frame(expand2genes(muffin, gene.index))
-    rownames(puffin) <- colnames(puffin$cellID)
+    rownames(puffin) <- colnames(muffin)
     rownames(Y) <- Y$cellID
     rownames(qc) <- qc$cellID
 

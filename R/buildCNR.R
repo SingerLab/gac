@@ -61,7 +61,7 @@ buildCNR <- function(X, Y, qc, chromInfo, exprs = NULL, gene.index, ...) {
     
     muffin <- roundCNR(X)
     puffin <- data.frame(expand2genes(muffin, gene.index))
-    rownames(puffin) <- colnames(puffin$cellID)
+    rownames(puffin) <- colnames(muffin)
     rownames(Y) <- Y$cellID
     rownames(qc) <- qc$cellID
 
