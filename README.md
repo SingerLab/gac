@@ -55,7 +55,7 @@ You can install the development version from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("SingerLab/toSignac")
+devtools::install_github("SingerLab/gac")
 ```
 
 ## Examples
