@@ -57,7 +57,7 @@ You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("SingerLab/toSignac")
+devtools::install_github("SingerLab/gac")
 ```
 
 
@@ -71,7 +71,7 @@ library(gac)
 data(cnr)
 data(segCol)
 
-HeatmapCNR(cnr, col = segCol)
+HeatmapCNR(cnr, what = 'X', col = segCol)
 
 HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"), col = segCol)
 
