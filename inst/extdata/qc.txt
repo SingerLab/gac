@@ -1,0 +1,13 @@
+cellID	ReadsKept	MedianBinCount	dna.ng.ul	sort.gate	qc.status
+cell1	cell1	2232577	44	223.3	p6	PASS
+cell2	cell2	1513818	30	151.4	p6	PASS
+cell3	cell3	2294633	42	229.5	p6	PASS
+cell4	cell4	1545391	31	154.5	p6	PASS
+cell5	cell5	665479	13	66.5	p7	FAIL
+cell6	cell6	2527750	50	252.8	p7	PASS
+cell7	cell7	2240265	44	224	p7	PASS
+cell8	cell8	2115942	42	211.6	p7	PASS
+cell9	cell9	1435813	28	143.6	p7	PASS
+cell10	cell10	1783270	36	178.3	p7	PASS
+cell11	cell11	2682699	54	268.3	p7	PASS
+cell12	cell12	412347	8	41.2	p7	FAIL
