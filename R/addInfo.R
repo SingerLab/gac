@@ -17,9 +17,7 @@
 #' @export
 addInfo <- function(cnr, df) {
     if(nrow(cnr$chromInfo) == nrow(df)) {
-        
         Info <- cbind(cnr$chromInfo, df)
-        
     }
 
     cnr <- list(cnr$X, cnr$Y, cnr$exprs, cnr$qc, Info, cnr$gene.index)

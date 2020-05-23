@@ -1,5 +1,5 @@
 library(testthat)
-library(GAC)
+library(gac)
 
 ## import example cnr
 data(cnr)
@@ -19,8 +19,8 @@ HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"))
 
 ## ADD cells
 
-newX <- data.frame(cbind(rep(c(5,2), c(3000, 1999)),
-                         rep(c(2,4),  c(3000, 1999))))
+newX <- data.frame(cbind(rep(c(5,2), c(3000, 2000)),
+                         rep(c(2,4),  c(3000, 2000))))
 names(newX) <- paste0("cell", 13:14)
 newX
 
@@ -73,7 +73,7 @@ cnr <- addQC(cnr, df = mapd)
 
 ## addInfo
 
-fakePval <- data.frame(runif(4999))
+fakePval <- data.frame(runif(5000))
 
 cnr <- addInfo(cnr, df = fakePval)
 

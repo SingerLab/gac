@@ -28,5 +28,5 @@
 #' @docType data
 #' @keywords datasets
 #' @usage data(pheno)
-#' @source \url{https://github.com/SingerLab/GAC/}
+#' @source \url{https://github.com/SingerLab/gac/}
 "pheno"

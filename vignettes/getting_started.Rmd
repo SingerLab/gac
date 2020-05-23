@@ -54,13 +54,14 @@ head(cnr$X)
 
 head(cnr$Y)
 
+## currently a null object
 head(cnr$exprs)
 
 head(cnr$qc)
 
 head(cnr$chromInfo)
 
-head(cnr$geneIndex)
+head(cnr$gene.index)
 
 ```
 
@@ -122,8 +123,8 @@ Lastly, if you perform a new experiment, and need to add additional cells  use t
 
 ```{r add.cells}
 ## make new cells
-newX <- data.frame(cbind(rep(c(5,2), c(3000, 1999)),
-                         rep(c(2,4),  c(3000, 1999))))
+newX <- data.frame(cbind(rep(c(5,2), c(3000, 2000)),
+                         rep(c(2,4),  c(3000, 2000))))
 names(newX) <- paste0("cell", 13:14)
 newX
 
@@ -177,7 +178,7 @@ Lastly, the goal of this tool is to facilitate the genetic, and statistical anal
 ```{r addInfo}
 ## addInfo
 
-fakePval <- data.frame(runif(4999))
+fakePval <- data.frame(runif(5000))
 
 cnr <- addInfo(cnr, df = fakePval)
 ```
@@ -185,9 +186,4 @@ cnr <- addInfo(cnr, df = fakePval)
 
 ## Closing remarks
 
-Thank you for downloading and taking the time to learn this package.  This work is only begining, but I hope you begin to see how easy, flexible, and powerful this structure can be.
-
-Stay safe, stay healthy during these tough times.
-
-
-#NewYorkTOUGH!
+Thank you for downloading and taking the time to learn this package.

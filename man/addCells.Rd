@@ -28,7 +28,7 @@ Your data needs to `exact` to the existing cnr for it to be compatible.
 }
 \examples{
 
-library(GAC)
+library(gac)
 data(cnr)
 sapply(cnr, dim)
 
@@ -36,10 +36,11 @@ data(pheno)
 data(qc)
 
 ## new X w simulated data
-newX <- data.frame(cbind(rep(c(5,2), c(3000, 1999)),
-                        rep(c(2,4),  c(3000, 1999))))
+newX <- data.frame(cbind(rep(c(5,2), c(3000, 2000)),
+                        rep(c(2,4),  c(3000, 2000))))
 names(newX) <- paste0("cell", 13:14)
-newX
+head(newX)
+tail(newX)
 
 ## creating new phenotypes
 newY <- head(pheno, n = 2)
