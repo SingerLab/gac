@@ -23,7 +23,7 @@ was not changed
 #' @docType data
 }
 \source{
-\url{https://github.com/SingerLab/GAC}
+\url{https://github.com/SingerLab/gac}
 }
 \usage{
 data(gene.index)

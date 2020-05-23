@@ -21,6 +21,6 @@
 #' @export
 lookupCN <- function(cnr, coord) {
     ## coord is a list object with elements $chr $start $end
-    t(cnr$X[cnr$chromInfo$chr == coord$chr & cnr$chromInfo$end > coord$start & cnr$chromInfo$end < coord$end, ])
+    t(cnr$X[as.character(cnr$chromInfo$bin.chrom) == coord$chr & cnr$chromInfo$bin.start > coord$start & cnr$chromInfo$bin.end < coord$end, ])
 } ## lookupCN
 

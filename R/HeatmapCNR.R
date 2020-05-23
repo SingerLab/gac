@@ -77,8 +77,13 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
     }
     
     if(what == "X") {
-
-        chrAnno <- rowAnnotation(chr = factor(cnr$chromInfo$chr))
+        grs <-  c("#404040", "#bababa")
+        rp <- ceiling(length(unique(cnr$chromInfo$bin.chrom))/2)
+        chl <- rep(grs, rp)
+        chl <- chl[1:length(unique(cnr$chromInfo$bin.chrom))]
+        names(chl) <- unique(cnr$chromInfo$bin.chrom)
+        
+        chrAnno <- rowAnnotation(chr = cnr$chromInfo$bin.chrom, col = chl)
         
         Hmap <- Heatmap(use, name = "X", clustering_distance_columns = function(X) vegan::vegdist(X, method = "bray"),
                         cluster_rows = FALSE,

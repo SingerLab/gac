@@ -25,5 +25,5 @@
 #' #' @docType data
 #' @keywords datasets
 #' @usage data(gene.index)
-#' @source \url{https://github.com/SingerLab/GAC}
+#' @source \url{https://github.com/SingerLab/gac}
 "gene.index"

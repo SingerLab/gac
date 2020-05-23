@@ -49,5 +49,5 @@
 #' @docType data
 #' @keywords datasets
 #' @usage data(cnr)
-#' @source \url{https://github.com/SingerLab/GAC"}
+#' @source \url{https://github.com/SingerLab/gac"}
 "cnr"
