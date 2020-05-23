@@ -50,12 +50,12 @@ To implement GAC we require five easy to generate inputs:
 
 ```{r cran, eval = FALSE, include = FALSE, echo = FALSE}
 ## You can install the released version of GAC from [CRAN](https://CRAN.R-project.org) with:
-# install.packages("GAC")
+# install.packages("gac")
 ```
 
 You can install the development version from [GitHub](https://github.com/) with:
 
-``` r
+```{r install}
 # install.packages("devtools")
 devtools::install_github("SingerLab/gac")
 ```
