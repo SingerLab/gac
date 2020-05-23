@@ -94,7 +94,7 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
         
         if(what == "genes" & all(which.genes %in% colnames(cnr$genes))) {
 
-            Hmap <- Heatmap(use, name = "genes", clustering_distance_rows = function(X) vegan::vegdist(X, method = "bray", na.rm = TRUE),
+            Hmap <- Heatmap(use, name = "genes", clustering_distance_rows = function(X) vegan::vegdist(X, method = "bray"),
                             clustering_method_rows = "ward.D2",
                             ...)
 

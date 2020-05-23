@@ -23,6 +23,7 @@ expand2genes <- function(X, gene.index, bin.id = "bin.id", gene.id = "hgnc.symbo
     geneCN  <- t(X[giu[, bin.id], ])
     colnames(geneCN) <- giu[, gene.id]
     geneCN <- data.frame(geneCN)
+    rownames(geneCN) <- colnames(X)
     
     return(geneCN)
     

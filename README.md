@@ -57,7 +57,20 @@ You can install the development version from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("SingerLab/toSignac")
+devtools::install_github("SingerLab/gac")
+#> Downloading GitHub repo SingerLab/gac@master
+#> Skipping 3 packages not available: ComplexHeatmap, GenomicRanges, IRanges
+#>      checking for file ‘/private/var/folders/f7/v_vt_5bn07z9tljnh56n9crnrzdbg9/T/RtmpYRxQmG/remotesc7c45fe039c/SingerLab-gac-a862115/DESCRIPTION’ ...  ✔  checking for file ‘/private/var/folders/f7/v_vt_5bn07z9tljnh56n9crnrzdbg9/T/RtmpYRxQmG/remotesc7c45fe039c/SingerLab-gac-a862115/DESCRIPTION’
+#>   ─  preparing ‘gac’:
+#>      checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
+#>   ─  checking for LF line-endings in source and make files and shell scripts
+#>   ─  checking for empty or unneeded directories
+#>   ─  looking to see if a ‘data/datalist’ file should be added
+#>   ─  building ‘gac_0.0.9001.tar.gz’ (932ms)
+#>      Warning: invalid uid value replaced by that for user 'nobody'
+#>    Warning: invalid gid value replaced by that for user 'nobody'
+#>      
+#> 
 ```
 
 ## Examples
@@ -66,17 +79,17 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(gac)
-## basic example code
 
+## basic example code
 data(cnr)
 data(segCol)
 
-HeatmapCNR(cnr, col = segCol)
-#> Warning: The input is a data frame, convert it to the matrix.
-#> `use_raster` is automatically set to TRUE for a matrix with more than
-#> 2000 rows. You can control `use_raster` arugment by explicitly setting
-#> TRUE/FALSE to it. Set `ht_opt$message = FALSE` to turn off this
-#> message.
+( excl.cells <- rownames(cnr$qc)[cnr$qc$qc.status == "FAIL"] )
+#> [1] "cell5"  "cell12"
+
+cnr <- excludeCells(cnr, excl = excl.cells)
+
+HeatmapCNR(cnr, what = 'X', col = segCol)
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
