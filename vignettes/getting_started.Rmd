@@ -103,6 +103,7 @@ For example to exclude cells that you have been deemed as "FAIL" b/c of low read
 ( excl.cells <- rownames(cnr$qc)[cnr$qc$qc.status == "FAIL"] )
 cnr <- excludeCells(cnr, excl = excl.cells)
 sapply(cnr, dim)
+
 HeatmapCNR(cnr, col = segCol)
 ```
 

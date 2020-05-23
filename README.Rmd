@@ -66,10 +66,13 @@ This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
 library(gac)
-## basic example code
 
+## basic example code
 data(cnr)
 data(segCol)
+
+( excl.cells <- rownames(cnr$qc)[cnr$qc$qc.status == "FAIL"] )
+cnr <- excludeCells(cnr, excl = excl.cells)
 
 HeatmapCNR(cnr, what = 'X', col = segCol)
 

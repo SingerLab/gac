@@ -4,8 +4,7 @@
 * win-builder (devel)
 
 ## R CMD check results
-
-0 errors | 0 warnings | 2 note
+Duration: 3m 15.3s
 
 ❯ checking installed package size ... NOTE
     installed size is  8.9Mb
@@ -18,6 +17,7 @@
   Found the following files/directories:
     ‘cnr.rds’ ‘dna.rds’
 
+0 errors ✔ | 0 warnings ✔ | 2 notes ✖
 
 
 * This work is still on alpha-release.
