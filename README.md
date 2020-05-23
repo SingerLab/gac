@@ -9,6 +9,8 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.com/SingerLab/gac.svg?branch=master)](https://travis-ci.com/SingerLab/gac)
 <!-- badges: end -->
 
 The goal of GAC is to deliver a formal end-to-end analysis by
@@ -55,7 +57,7 @@ You can install the development version from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("SingerLab/gac")
+devtools::install_github("SingerLab/toSignac")
 ```
 
 ## Examples
@@ -63,7 +65,7 @@ devtools::install_github("SingerLab/gac")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
-library(GAC)
+library(gac)
 ## basic example code
 
 data(cnr)
