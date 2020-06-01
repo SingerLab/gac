@@ -5,13 +5,22 @@
 
 -----
 
-# GAC is currently in ALPHA- pre-release
-
 <!-- badges: start -->
 
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![R build
+status](https://github.com/r-lib/usethis/workflows/R-CMD-check/badge.svg)](https://github.com/r-lib/usethis/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/usethis?branch=master)
 [![Travis build
 status](https://travis-ci.com/SingerLab/gac.svg?branch=master)](https://travis-ci.com/SingerLab/gac)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/gac)](https://CRAN.R-project.org/package=gac)
+
 <!-- badges: end -->
+
+# GAC is currently in ALPHA-release
 
 The goal of GAC is to deliver a formal end-to-end analysis by
 integrating proven methods of quantitative genetics, statistics, and
@@ -48,7 +57,6 @@ al.2015](https://dx.doi.org/10.1038/nmeth.3370))
 ### Dependencies:
 
   - [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/)
-  - [tidyverse](https://www.tidyverse.org)
   - [vegan](https://github.com/vegandevs/vegan)
   - [colorvalues](https://symbolixau.github.io/colourvalues/)
 
@@ -58,19 +66,8 @@ You can install the development version from
 ``` r
 # install.packages("devtools")
 devtools::install_github("SingerLab/gac")
-#> Downloading GitHub repo SingerLab/gac@master
-#> Skipping 3 packages not available: ComplexHeatmap, GenomicRanges, IRanges
-#>      checking for file ‘/private/var/folders/f7/v_vt_5bn07z9tljnh56n9crnrzdbg9/T/RtmpYRxQmG/remotesc7c45fe039c/SingerLab-gac-a862115/DESCRIPTION’ ...  ✔  checking for file ‘/private/var/folders/f7/v_vt_5bn07z9tljnh56n9crnrzdbg9/T/RtmpYRxQmG/remotesc7c45fe039c/SingerLab-gac-a862115/DESCRIPTION’
-#>   ─  preparing ‘gac’:
-#>      checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
-#>   ─  checking for LF line-endings in source and make files and shell scripts
-#>   ─  checking for empty or unneeded directories
-#>   ─  looking to see if a ‘data/datalist’ file should be added
-#>   ─  building ‘gac_0.0.9001.tar.gz’ (932ms)
-#>      Warning: invalid uid value replaced by that for user 'nobody'
-#>    Warning: invalid gid value replaced by that for user 'nobody'
-#>      
-#> 
+#> Skipping install of 'gac' from a github remote, the SHA1 (b0baec4d) has not changed since last install.
+#>   Use `force = TRUE` to force installation
 ```
 
 ## Examples
@@ -79,6 +76,40 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(gac)
+#> Loading required package: ComplexHeatmap
+#> Loading required package: grid
+#> ========================================
+#> ComplexHeatmap version 2.5.1
+#> Bioconductor page: http://bioconductor.org/packages/ComplexHeatmap/
+#> Github page: https://github.com/jokergoo/ComplexHeatmap
+#> Documentation: http://jokergoo.github.io/ComplexHeatmap-reference
+#> 
+#> If you use it in published research, please cite:
+#> Gu, Z. Complex heatmaps reveal patterns and correlations in multidimensional 
+#>   genomic data. Bioinformatics 2016.
+#> 
+#> This message can be suppressed by:
+#>   suppressPackageStartupMessages(library(ComplexHeatmap))
+#> ========================================
+#> Loading required package: colourvalues
+#> Loading required package: circlize
+#> ========================================
+#> circlize version 0.4.9
+#> CRAN page: https://cran.r-project.org/package=circlize
+#> Github page: https://github.com/jokergoo/circlize
+#> Documentation: https://jokergoo.github.io/circlize_book/book/
+#> 
+#> If you use it in published research, please cite:
+#> Gu, Z. circlize implements and enhances circular visualization
+#>   in R. Bioinformatics 2014.
+#> 
+#> This message can be suppressed by:
+#>   suppressPackageStartupMessages(library(circlize))
+#> ========================================
+#> Loading required package: vegan
+#> Loading required package: permute
+#> Loading required package: lattice
+#> This is vegan 2.5-6
 
 ## basic example code
 data(cnr)
