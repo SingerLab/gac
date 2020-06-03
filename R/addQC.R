@@ -38,8 +38,7 @@ addQC <- function(cnr, df, by = "cellID", sort = FALSE, ...) {
         rownames(QC) <- QC$cellID
     }
     
-    cnr <- list(cnr$X, cnr$Y, cnr$exprs, QC, cnr$chromInfo, cnr$gene.index)    
-    names(cnr) <- c("X", "Y", "exprs", "qc", "chromInfo", "gene.index")
+    cnr[["qc"]] <- QC
     
     return(cnr)
 }

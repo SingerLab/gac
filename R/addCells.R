@@ -15,6 +15,8 @@
 #'
 #' @param newYe exprssion data for new cells
 #'
+#' @param do.clean weather to remove additional data stored in the cnr, default is TRUE
+#' 
 #' @param ... additional parameters if needed
 #'
 #'
@@ -59,7 +61,7 @@
 #'
 #' 
 #' @export
-addCells <- function(cnr, newX, newY, newqc, newYe = NULL, ...) {
+addCells <- function(cnr, newX, newY, newqc, newYe = NULL, do.clean = TRUE, ...) {
 
     muffin <- cbind(cnr$X, newX)
 
@@ -82,9 +84,18 @@ addCells <- function(cnr, newX, newY, newqc, newYe = NULL, ...) {
     
     exprs <- rbind(cnr$exprs, Ye)
     rownames(exprs) <- Y$cellID
-    
-    cnr <- list(muffin, puffin, Y, exprs, qc, cnr$chromInfo, cnr$gene.index)
-    names(cnr) <- c("X", "genes", "Y", "exprs", "qc",  "chromInfo", "gene.index")
 
+
+    if(do.clean) {
+        cnr <- list(muffin, puffin, Y, exprs, qc, cnr$chromInfo, cnr$gene.index)
+        names(cnr) <- c("X", "genes", "Y", "exprs", "qc",  "chromInfo", "gene.index")
+    } else {
+        cnr[["X"]] <- muffin
+        cnr[["genes"]] <- puffin
+        cnr[["Y"]] <- Y
+        cnr[["Ye"]] <- Ye
+        cnr[["qc"]] <- qc
+    }
+    
     return(cnr)
 }

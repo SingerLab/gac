@@ -13,15 +13,13 @@
 #' @param df a data.frame with the data to incorporate.  Particularly useful for adding p-values, genetic effects, etc
 #' 
 #' 
-#' 
 #' @export
 addInfo <- function(cnr, df) {
     if(nrow(cnr$chromInfo) == nrow(df)) {
         Info <- cbind(cnr$chromInfo, df)
     }
-
-    cnr <- list(cnr$X, cnr$Y, cnr$exprs, cnr$qc, Info, cnr$gene.index)
-    names(cnr) <- c("X", "Y", "exprs", "qc", "chromInfo", "gene.index")
+    
+    cnr[["chromInfo"]] <- Info
     
     return(cnr)
 }

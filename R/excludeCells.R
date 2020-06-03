@@ -46,9 +46,12 @@ excludeCells <- function(cnr, excl) {
 
     }
 
-    cnr <- list(X, genes, Y, qc, Ye, cnr$chromInfo, cnr$gene.index)
-    names(cnr) <- c("X", "genes", "Y", "qc", "exprs", "chromInfo", "gene.index")
-
+    cnr[["X"]] <- X
+    cnr[["genes"]] <- genes
+    cnr[["Y"]] <- Y
+    cnr[["Ye"]] <- Ye
+    cnr[["qc"]] <- qc
+    
     return(cnr)
     
 }

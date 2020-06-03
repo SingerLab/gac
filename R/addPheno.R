@@ -7,6 +7,8 @@
 #'
 #' @param df a data frame with new Y traits
 #'
+#' @param by specify a common colum for merging
+#' 
 #' @param ... additional arguments by merge
 #'
 #' 
@@ -19,16 +21,16 @@
 #' cnr <- addPheno(cnr, df = rand3)
 #' 
 #' @export
-addPheno <- function(cnr, df, ...) {
+addPheno <- function(cnr, df, by = "cellID", ...) {
 
     if(all(df$cellID %in% colnames(cnr$X))) {
 
-        ny <- merge(cnr$Y, df, by = "cellID", ...)
+        ny <- merge(cnr$Y, df, ...)
         rownames(ny) <- cnr$Y$cellID
     }
     
-    cnr <- list(cnr$X, ny, cnr$exprs, cnr$qc, cnr$chromInfo, cnr$gene.index)
-    names(cnr) <- c("X", "Y", "exprs", "qc", "chromInfo", "gene.index")
+    cnr[["Y"]] <- ny
+
     return(cnr)
     
 }

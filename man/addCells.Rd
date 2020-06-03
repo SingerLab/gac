@@ -4,7 +4,7 @@
 \alias{addCells}
 \title{Add cells to an existing cnr}
 \usage{
-addCells(cnr, newX, newY, newqc, newYe = NULL, ...)
+addCells(cnr, newX, newY, newqc, newYe = NULL, do.clean = TRUE, ...)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
@@ -16,6 +16,8 @@ addCells(cnr, newX, newY, newqc, newYe = NULL, ...)
 \item{newqc}{qc metadata for the new cells}
 
 \item{newYe}{exprssion data for new cells}
+
+\item{do.clean}{weather to remove additional data stored in the cnr, default is TRUE}
 
 \item{...}{additional parameters if needed}
 }
