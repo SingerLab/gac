@@ -17,7 +17,8 @@ equal ncol(X).  There is no check for this yet. requires a `cellID` column}
 qc.status, or any other data that is technical about the cells. requires a
 `cellID` column}
 
-\item{exprs}{slot for expression same-cell (same-sample) gene expression matrix}
+\item{exprs}{slot for expression same-cell (same-sample) gene expression matrix.
+default is NULL}
 
 \item{chromInfo}{bin chromosome and end position in base pairs. Needs to match X}
 
@@ -39,10 +40,8 @@ data(qc)
 data(chromInfo)
 data(gene.index)
 
-
 dna <- buildDNA(X = copynumbers, Y = pheno, qc = qc, exprs = NULL,
 chromInfo = chromInfo, gene.index = gene.index)
-
 
 class(dna)
 
@@ -53,7 +52,6 @@ head(dna$genes[, 1:5])
 data(lowCol)
 
 HeatmapCNR(dna, col = lowCol)
-
 
 saveRDS(dna, file = "dna.rds")
 

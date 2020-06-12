@@ -42,13 +42,12 @@
 #' @export
 depmap_annotate <- function(cnr, depMeans, cutoff = -0.5) {
 ## set boundaries at -0.8 for essential genes
-    gene.index <- cnr$gene.index
-    gene.index$depMeans <- depMeans[gene.index$hgnc.symbol]
-    gene.index$essential <- "non-essential"
-    gene.index$essential[gene.index$depMeans < cutoff] <- "essential"
+    ngi <- cnr$gene.index
+    ngi$depMeans <- depMeans[gene.index$hgnc.symbol]
+    ngi$essential <- "non-essential"
+    ngi$essential[gene.index$depMeans < cutoff] <- "essential"
     
-    cnr <- list(cnr$X, cnr$genes, cnr$Y, cnr$exprs, cnr$qc, cnr$chromInfo, gene.index)
-    names(cnr) <- c("X", "genes", "Y", "exprs", "qc", "chromInfo", "gene.index")
+    cnr[["gene.index"]] <- ngi
     
     return(cnr)
     

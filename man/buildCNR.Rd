@@ -22,20 +22,19 @@ cells. requires a `cellID` column}
 Needs to match X}
 
 \item{exprs}{slot for expression same-cell (same-sample) gene
-expression matrix}
+expression matrix. default is NULL}
 
 \item{gene.index}{a GRanges generated matrix to link bins to genes}
-
-\item{...}{additional parameters}
 }
 \description{
 A CNR bundle is a `list` composed of six matrices of class data.frame (mostly). The
 objective of the CNR is to keep the six matrices syncronized to optimize data
 management.  It is kept simple in order to easily pull the necesary information
-to generate a ComplexHetamap.   The functions keepCells, excludeCells, addCells, subsetCNR, manipulate the complete bundle.  Whereas addQC, addPheno, and addInfo manipulate, as the name implies, the QC, Y (phenotype), and chromInfo tables.
+to generate a ComplexHetamap.   The functions keepCells, excludeCells, addCells,
+subsetCNR, manipulate the complete bundle.  Whereas addQC, addPheno, and addInfo
+manipulate, as the name implies, the QC, Y (phenotype), and chromInfo tables.
 }
 \examples{
-
 
 data(copynumbers)
 data(pheno)
@@ -45,7 +44,6 @@ data(gene.index)
 
 cnr <- buildCNR(X = copynumbers, Y = pheno, qc = qc, exprs = NULL,
 chromInfo = chromInfo, gene.index = gene.index)
-
 
 class(cnr)
 
@@ -57,9 +55,7 @@ data(segCol)
 
 HeatmapCNR(cnr)
 
-
 saveRDS(cnr, file = "cnr.rds")
-
 
 
 }

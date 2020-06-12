@@ -85,15 +85,14 @@ addCells <- function(cnr, newX, newY, newqc, newYe = NULL, do.clean = TRUE, ...)
     exprs <- rbind(cnr$exprs, Ye)
     rownames(exprs) <- Y$cellID
 
-
     if(do.clean) {
-        cnr <- list(muffin, puffin, Y, exprs, qc, cnr$chromInfo, cnr$gene.index)
+        cnr <- list(muffin, puffin,    Y, exprs, qc, cnr$chromInfo, cnr$gene.index)
         names(cnr) <- c("X", "genes", "Y", "exprs", "qc",  "chromInfo", "gene.index")
     } else {
         cnr[["X"]] <- muffin
         cnr[["genes"]] <- puffin
         cnr[["Y"]] <- Y
-        cnr[["Ye"]] <- Ye
+        cnr[["exprs"]] <- exprs
         cnr[["qc"]] <- qc
     }
     

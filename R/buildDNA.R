@@ -14,18 +14,19 @@
 #' @param Y phenotype and additional cell-level annotation data nrow(Y) needs to
 #' equal ncol(X).  There is no check for this yet. requires a `cellID` column
 #' 
+#'
 #' @param qc cell-level quality control metadata e.g. readcount, median bins, mapd,
 #' qc.status, or any other data that is technical about the cells. requires a
 #' `cellID` column
 #'
-#' @param exprs slot for expression same-cell (same-sample) gene expression matrix
+#' @param exprs slot for expression same-cell (same-sample) gene expression matrix.
+#' default is NULL
 #' 
 #' @param chromInfo bin chromosome and end position in base pairs. Needs to match X
 #'
+#'
 #' @param gene.index a GRanges generated matrix to link bins to genes 
 #'
-#' 
-#' 
 #' @examples
 #' 
 #' data(copynumbers)
@@ -34,10 +35,8 @@
 #' data(chromInfo)
 #' data(gene.index)
 #' 
-#' 
 #' dna <- buildDNA(X = copynumbers, Y = pheno, qc = qc, exprs = NULL,
 #' chromInfo = chromInfo, gene.index = gene.index)
-#'
 #'
 #' class(dna)
 #'
@@ -48,7 +47,6 @@
 #' data(lowCol)
 #'
 #' HeatmapCNR(dna, col = lowCol)
-#' 
 #' 
 #' saveRDS(dna, file = "dna.rds")
 #'
@@ -61,17 +59,20 @@ buildDNA <- function(X, Y, qc, exprs = NULL, chromInfo, gene.index) {
     rownames(puffin) <- colnames(muffin)
     rownames(Y) <- Y$cellID
     rownames(qc) <- qc$cellID
-
+    
     if(is.null(exprs)) {
-        Ye <- matrix(NA, nrow = nrow(Y), ncol = nrow(gene.index),
-                     dimnames = list(Y$cellID, gene.index$hgnc.symbol))
+        
+        cnr <-   list(muffin, puffin,  Y,   qc,   chromInfo,   gene.index)
+        names(cnr) <- c("X", "genes", "Y", "qc", "chromInfo", "gene.index")
+        
+        cnr[["exprs"]] <- NULL
+
     } else {
         Ye <- exprs
+        
+        cnr <-  list(muffin,  puffin,  Y,   Ye,      qc,   chromInfo,   gene.index)
+        names(cnr) <- c("X", "genes", "Y", "exprs", "qc", "chromInfo", "gene.index")
     }
-    
-
-    cnr <-     list(muffin, puffin, Y, Ye, qc, chromInfo,  gene.index)
-    names(cnr) <- c("X", "genes", "Y", "qc", "exprs", "chromInfo", "gene.index")
     
     return(cnr)
     

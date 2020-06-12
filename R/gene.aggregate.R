@@ -31,12 +31,13 @@
 gene.aggregate <- function(Z) {
 
     fq <- rowSums(binary.cnr(Z))/ncol(binary.cnr(Z))
-    dups <- fq[duplicated(Z) | duplicated(Z,fromLast = TRUE)]
+    dups <- fq[duplicated(Z) | duplicated(Z, fromLast = TRUE)]
     
     dgroups <- sapply(dups, function(i) names(fq)[fq == i])
     duse <- sapply(dgroups, `[`, 1)
     dnew <- as.character(sapply(dgroups, function(i) paste(dput(i), collapse = "_")))
     dd <- data.frame(duse = as.character(duse), dnew = as.character(dnew))
     dd
+
 } 
 

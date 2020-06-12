@@ -42,15 +42,15 @@ excludeCells <- function(cnr, excl) {
         Y <- cnr$Y[keep, ]
         genes <- cnr$genes[keep, ]
         qc <- cnr$qc[keep, ]
-        Ye<- cnr$exprs[keep, ]
+        Ye <- cnr$exprs[keep, ]
 
     }
 
     cnr[["X"]] <- X
     cnr[["genes"]] <- genes
     cnr[["Y"]] <- Y
-    cnr[["Ye"]] <- Ye
     cnr[["qc"]] <- qc
+    cnr[["exprs"]] <- Ye
     
     return(cnr)
     
