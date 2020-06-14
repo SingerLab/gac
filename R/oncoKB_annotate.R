@@ -33,9 +33,8 @@ oncoKB_annotate <- function(cnr, oncokb) {
     gene.index$oncokb[cnr$gene.index$hgnc.symbol %in% oncokb$Hugo.Symbol[oncokb$Is.Oncogene]] <- "oncogene"
     gene.index$oncokb[cnr$gene.index$hgnc.symbol %in% oncokb$Hugo.Symbol[oncokb$Is.Tumor.Supressor.Gene]] <- "tsg"
 
-    cnr <-     list(cnr$X, cnr$genes, cnr$Y,  cnr$exprs, cnr$qc, cnr$chromInfo,  gene.index)
-    names(cnr) <- c("X", "genes", "Y", "exprs", "qc", "chromInfo", "gene.index")
-
+    cnr[["gene.index"]] <- gene.index
+    
     return(cnr)
     
 }

@@ -37,22 +37,23 @@ subsetCNR <- function(cnr, based.on = "X", keep, ...) {
 
     message("work in progress, ping me if you really need this")
 
+    kgb <- cnr$gene.index$hgnc.symbol[cnr$gene.index$bin.id %in% keep]
+    
     if(based.on == "X") {
         muffin <- cnr$X[keep, ]
-        kgb <- cnr$gene.index$hgnc.symbol[cnr$gene.index$bin.id %in% keep]
         puffin <- cnr$genes[, kgb]
-        Y <- cnr$Y
-        Ye <- cnr$exprs
-        qc <- cnr$qc
-
+        Ye <- cnr$exprs[, kgb]
         gene.index <- cnr$gene.index[cnr$gene.index$bin.id %in% keep, ]
-
         chromInfo <- cnr$chromInfo[keep, ]
     }
 
-    cnr <- list(muffin, puffin, Y, Ye, qc, chromInfo, gene.index)
-    names(cnr) <- list("X", "genes", "Y", "epxrs", "qc", "chromInfo", "gene.index")
+    cnr[["X"]] <- muffin
+    cnr[["Y"]] <- Y
+    cnr[["genes"]] <- puffin
+    cnr[["exprs"]] <- Ye
+    cnr[["gene.index"]] <- gene.index
+    cnr[["chromInfo"]] <- chromInfo
 
     return(cnr)
-    
+
 }
