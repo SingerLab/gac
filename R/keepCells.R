@@ -36,8 +36,8 @@ keepCells <- function(cnr, keep) {
     cnr[["X"]] <- X
     cnr[["genes"]] <- genes
     cnr[["Y"]] <- Y
-    cnr[["Ye"]] <- Ye
     cnr[["qc"]] <- qc
+    cnr[["exprs"]] <- Ye
 
     return(cnr)
 }
