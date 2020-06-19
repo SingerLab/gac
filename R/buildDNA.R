@@ -54,7 +54,7 @@
 #' @export
 buildDNA <- function(X, Y, qc, exprs = NULL, chromInfo, gene.index) {
     
-    muffin <- log2(X+1)
+    muffin <- log2(X)
     puffin <- data.frame(expand2genes(muffin, gene.index))
     rownames(puffin) <- colnames(muffin)
     rownames(Y) <- Y$cellID
