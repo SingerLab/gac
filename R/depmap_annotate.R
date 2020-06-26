@@ -4,8 +4,6 @@
 #' or not essential given a cutoff.  For details and downloads please visit
 #' https://depmap.org/portal/ 
 #'
-#'
-#' 
 #' @param cnr a cnr bundle
 #' 
 #' @param depMeans an object with the dependency score means for the cells
@@ -19,8 +17,6 @@
 #' function returns the gene.index with depmap annotation colums;
 #' both depMeans, and essential (essentian/non-essential)
 #'
-#'
-#' 
 #' @examples
 #'
 #' \dontrun{
@@ -30,22 +26,20 @@
 #' keep <- grep("BONE", names(depmap))
 #' 
 #' d2_bone <- DepScores(depmap = d2_map, keep = keep)
-#'
 #' 
 #' depMeans <- rowMeans(d2_bone[,keep])
 #' 
 #' depmap_annotate(cnr, depMeans = depMeans)
-#' 
 #'
 #' }
 #' 
 #' @export
 depmap_annotate <- function(cnr, depMeans, cutoff = -0.5) {
 ## set boundaries at -0.8 for essential genes
-    ngi <- cnr$gene.index
-    ngi$depMeans <- depMeans[gene.index$hgnc.symbol]
+    ngi <- cnr[["gene.index"]]
+    ngi$depMeans <- depMeans[ngi$hgnc.symbol]
     ngi$essential <- "non-essential"
-    ngi$essential[gene.index$depMeans < cutoff] <- "essential"
+    ngi$essential[ngi$depMeans < cutoff] <- "essential"
     
     cnr[["gene.index"]] <- ngi
     

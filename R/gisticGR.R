@@ -7,11 +7,10 @@
 #'
 #' @param grTR gistic regions table, output from gisticRegions
 #'
-#'
 #' @import GenomicRanges
 #' 
 #' @export
-gisticGR <- function(cnr, grTR) {
+gisticGR <- function(cnr, grTR, oncokb, depmeans, cutoff = -0.5) {
     ## set up vector of amplified regions
     amp <- grTR[grep("Amp", grTR$Unique.Name), c("chr", "start", "end")]
     ## set up vector of deleted regions
@@ -36,8 +35,19 @@ gisticGR <- function(cnr, grTR) {
     
     names(gistic.genes) <- c("seqnames", "chrom", "start", "end", "strand",
                              "alteration.type", 
-                             "chr", "gene.start", "gene.end", "width", "gene.strand",
-                             "ensembl_gene_id", "hgnc.symbol", "gene.type", "bin.id")
+                             "chr", "gene.start", "gene.end", "width",
+                             "gene.strand", "ensembl_gene_id",
+                             "hgnc.symbol", "gene.type", "bin.id")
+
+    gistic.genes$oncokb <- "not.oncokb"
+
+    gistic.genes$oncokb[gistic.genes$hgnc.symbol %in% oncokb$Hugo.Symbol] <- "cancer.gene"
+    gistic.genes$oncokb[gistic.genes$hgnc.symbol %in% oncokb$Hugo.Symbol[oncokb$Is.Oncogene]] <- "oncogene"
+    gistic.genes$oncokb[gistic.genes$hgnc.symbol %in% oncokb$Hugo.Symbol[oncokb$Is.Tumor.Supressor.Gene]] <- "tsg"
+    
+    gistic.genes$depMeans <- depMeans[gistic.genes$hgnc.symbol]
+    gistic.genes$essential <- "non-essential"
+    gistic.genes$essential[gistic.genes$depMeans < cutoff] <- "essential"
     
     return(gistic.genes)
     
