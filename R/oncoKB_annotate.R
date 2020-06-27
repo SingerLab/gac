@@ -23,9 +23,9 @@ oncoKB_annotate <- function(cnr, oncokb) {
 
     ngi <- cnr$gene.index
     ngi$oncokb <- "not.oncokb"
-    ngi$oncokb[cnr$gene.index$hgnc.symbol %in% oncokb$Hugo.Symbol] <- "cancer.gene"
-    ngi$oncokb[cnr$gene.index$hgnc.symbol %in% oncokb$Hugo.Symbol[oncokb$Is.Oncogene]] <- "oncogene"
-    ngi$oncokb[cnr$gene.index$hgnc.symbol %in% oncokb$Hugo.Symbol[oncokb$Is.Tumor.Supressor.Gene]] <- "tsg"
+    ngi$oncokb[ngi$hgnc.symbol %in% oncokb$Hugo.Symbol] <- "cancer.gene"
+    ngi$oncokb[ngi$hgnc.symbol %in% oncokb$Hugo.Symbol[oncokb$Is.Oncogene]] <- "oncogene"
+    ngi$oncokb[ngi$hgnc.symbol %in% oncokb$Hugo.Symbol[oncokb$Is.Tumor.Supressor.Gene]] <- "tsg"
     
     cnr[["gene.index"]] <- ngi
     
