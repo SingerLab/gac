@@ -14,7 +14,6 @@
 #' @param Y phenotype and additional cell-level annotation data nrow(Y) needs to
 #' equal ncol(X).  There is no check for this yet. requires a `cellID` column
 #' 
-#'
 #' @param qc cell-level quality control metadata e.g. readcount, median bins, mapd,
 #' qc.status, or any other data that is technical about the cells. requires a
 #' `cellID` column
@@ -24,9 +23,10 @@
 #' 
 #' @param chromInfo bin chromosome and end position in base pairs. Needs to match X
 #'
-#'
 #' @param gene.index a GRanges generated matrix to link bins to genes 
 #'
+#' @param cells a list of cells/samples in the object
+#' 
 #' @examples
 #' 
 #' data(copynumbers)
@@ -73,6 +73,8 @@ buildDNA <- function(X, Y, qc, exprs = NULL, chromInfo, gene.index) {
         cnr <-  list(muffin,  puffin,  Y,   Ye,      qc,   chromInfo,   gene.index)
         names(cnr) <- c("X", "genes", "Y", "exprs", "qc", "chromInfo", "gene.index")
     }
+    
+    cnr[["cells"]] <- colnames(cnr[["X"]])
     
     return(cnr)
     

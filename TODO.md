@@ -8,7 +8,7 @@
  [ ] Integrate CORE
  [ ] Integrate scclust
  [ ] make a function for calling amplification and deletions on buildDNA -- Bastien
- [ ] 
+ [ ] make all cnr data.frame as tibble
  [ ] 
  [ ] 
  [ ] 

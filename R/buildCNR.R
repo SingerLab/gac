@@ -25,7 +25,9 @@
 #' @param chromInfo bin chromosome and end position in base pairs.
 #' Needs to match X
 #'
-#' @param gene.index a GRanges generated matrix to link bins to genes 
+#' @param gene.index a GRanges generated matrix to link bins to genes
+#'
+#' @param cells a list of cells/samples in the object
 #'
 #' @examples
 #'
@@ -72,8 +74,11 @@ buildCNR <- function(X, Y, qc, chromInfo, exprs = NULL, gene.index, ...) {
         
         cnr <-  list(muffin, puffin,   Y,     Ye,   qc,   chromInfo,   gene.index)
         names(cnr) <- c("X", "genes", "Y", "exprs", "qc", "chromInfo", "gene.index")
+
     }
-    
+
+    cnr[["cells"]] <- colnames(cnr[["X"]])
+
     return(cnr)
     
 }

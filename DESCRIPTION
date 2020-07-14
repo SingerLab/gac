@@ -10,7 +10,8 @@ Depends: R (>= 3.1.0), ComplexHeatmap, colourvalues, circlize, vegan
 Imports: 
     stats,
     GenomicRanges,
-    IRanges
+    IRanges,
+    dplyr
 Suggests:
     biomaRt,
     tidyverse,
@@ -24,4 +25,3 @@ BugReports: https://github.com/SingerLab/GAC/
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0
 Encoding: UTF-8
-    
