@@ -72,7 +72,7 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
 
             use <- cnr[["genes"]][, which.genes]
 
-        } 
+        }
 
     }
     
@@ -107,17 +107,17 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
         if(what == "genes" & all(which.genes %in% colnames(cnr$genes))) {
             
             if(cnr[["bulk"]]) {
-                Hmap <- Heatmap(use, name = "genes", clustering_distance_rows = function(X) vegan::vegdist(2^X, method = "bray"),
+                Hmap <- Heatmap(use, name = "genes", clustering_distance_rows = function(genes) vegan::vegdist(2^genes, method = "bray"),
                                 clustering_method_rows = "ward.D2",
                                 ...)
                 
             } else {
                 
-                Hmap <- Heatmap(use, name = "genes", clustering_distance_rows = function(X) vegan::vegdist(X, method = "bray"),
+                Hmap <- Heatmap(use, name = "genes", clustering_distance_rows = function(genes) vegan::vegdist(genes, method = "bray"),
                                 clustering_method_rows = "ward.D2",
                                 ...)
             }
-            
+          
         }
         
     }
