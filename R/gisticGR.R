@@ -7,6 +7,13 @@
 #'
 #' @param grTR gistic regions table, output from gisticRegions
 #'
+#' @param oncokb OncoKB annotation (downloaded from OncoKB)
+#'
+#' @param depmeans dependency score means for cells of interest
+#'    e.g. DepMap achilles scores
+#'
+#' @param cutoff threshold to consider a gene as essential or non-essential
+#'
 #' @import GenomicRanges
 #' 
 #' @export
@@ -45,7 +52,7 @@ gisticGR <- function(cnr, grTR, oncokb, depmeans, cutoff = -0.5) {
     gistic.genes$oncokb[gistic.genes$hgnc.symbol %in% oncokb$Hugo.Symbol[oncokb$Is.Oncogene]] <- "oncogene"
     gistic.genes$oncokb[gistic.genes$hgnc.symbol %in% oncokb$Hugo.Symbol[oncokb$Is.Tumor.Supressor.Gene]] <- "tsg"
     
-    gistic.genes$depMeans <- depMeans[gistic.genes$hgnc.symbol]
+    gistic.genes$depMeans <- depmeans[gistic.genes$hgnc.symbol]
     gistic.genes$essential <- "non-essential"
     gistic.genes$essential[gistic.genes$depMeans < cutoff] <- "essential"
     

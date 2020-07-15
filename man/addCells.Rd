@@ -48,8 +48,8 @@ tail(newX)
 newY <- head(pheno, n = 2)
 newY$cellID <- paste0("cell", 13:14)
 rownames(newY) <- newY$cellID
-
 newY[, c(6:9)] <- newY[,c(6,9)]+3
+
 newY
 
 ## creating new QC
@@ -63,9 +63,6 @@ newQC
 ## add cells
 cnr <- addCells(cnr, newX = newX, newY = newY, newqc = newQC)
 sapply(cnr, dim)
-
-
-saveRDS(cnr, file = "cnr.rds")
 
 
 }

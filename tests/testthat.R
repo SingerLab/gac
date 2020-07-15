@@ -26,6 +26,15 @@ ci <- read.delim(ci.file, as.is = TRUE)
 
 cnr <- buildCNR(X = X, Y = Y, qc = qc, chromInfo = ci, gene.index = gx)
 
+expect_true("X" %in% names(cnr))
+expect_true("genes" %in% names(cnr))
+expect_true("Y" %in% names(cnr))
+expect_true("qc" %in% names(cnr))
+expect_true("chromInfo" %in% names(cnr))
+expect_true("gene.index" %in% names(cnr))
+expect_true("cells" %in% names(cnr))
+expect_true("bulk" %in% names(cnr))
+
 ## import colors
 data(segCol)
 
@@ -107,11 +116,11 @@ sapply(cnr, dim)
 
 HeatmapCNR(cnr)
 
-
 ## addPheno
-rand3 <- data.frame(cellID = cnr$Y$cellID, rand3 = rnorm(nrow(cnr$Y), mean = 2, sd = 1))
+rand3 <- data.frame(cellID = cnr$Y$cellID,
+                    rand3 = rnorm(nrow(cnr$Y), mean = 2, sd = 1))
 
-cnr <- addPheno(cnr, df = rand3)
+cnr <- addPheno(cnr, df = rand3, by = "cellID", sort = FALSE)
 expect_true(ncol(cnr$Y) == 10)
 
 expect_true("rand3" %in% colnames(cnr$Y))
@@ -120,8 +129,9 @@ expect_true("rand3" %in% colnames(cnr$Y))
 mapd <- data.frame(t(apply(cnr$X, 2, mapd)))
 mapd <- data.frame(cellID = rownames(mapd), mapd)
 
-cnr <- addQC(cnr, df = mapd)
+cnr <- addQC(cnr, df = mapd, by = "cellID", sort = FALSE)
 
+expect_equal(ncol(cnr$qc), 9)
 expect_true("mapd" %in% names(cnr$qc))
 expect_true("mapd.sd" %in% names(cnr$qc))
 expect_true("mapd.cv" %in% names(cnr$qc))
@@ -134,5 +144,4 @@ fakePval <- data.frame(pval = runif(5000))
 cnr <- addInfo(cnr, df = fakePval)
 
 expect_true("pval" %in% names(cnr$chromInfo))
-
 

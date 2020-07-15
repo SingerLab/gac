@@ -1,12 +1,11 @@
 #' Build a CNR bundle (Copy Number, --Rounded)
 #'
-#' A CNR bundle is a `list` composed of six matrices of class data.frame (mostly). The
-#' objective of the CNR is to keep the six matrices syncronized to optimize data
-#' management.  It is kept simple in order to easily pull the necesary information
-#' to generate a ComplexHetamap.   The functions keepCells, excludeCells, addCells,
-#' subsetCNR, manipulate the complete bundle.  Whereas addQC, addPheno, and addInfo
-#' manipulate, as the name implies, the QC, Y (phenotype), and chromInfo tables.  
-#' 
+#' A CNR bundle is a `list` composed of six matrices of class data.frame (mostly).
+#' The objective of the CNR is to keep single-cell data matrices syncronized 
+#' and facilitate interaction with this data.  The functions keepCells,
+#' excludeCells, addCells, subsetCNR, manipulate the complete bundle.
+#' Whereas addQC, addPheno, and addInfo, as the name implies they add columns to
+#' the QC, Y (phenotype), and chromInfo tables.
 #'
 #' @param X bin or common segment copy number data.  Can be in `numeric`
 #' or integer form.  By default it will be rounded by roundCNR.
@@ -27,12 +26,16 @@
 #'
 #' @param gene.index a GRanges generated matrix to link bins to genes
 #'
-#' @param cells a list of cells/samples in the object
-#'
 #' @param bulk logical specifying if data type is ratio from bulk DNA sequencing
 #'   or integer copy number.  If `TRUE` data is an untransformed segment ratio.
 #'   If `FALSE` data is integer copy number
 #'
+#' @param ... other parameters
+#'
+#' @return
+#' A CNR bundle composed of genotype, phenotype, and metadata for a single-cell
+#' DNA copy number experiment
+#' 
 #' @examples
 #'
 #' data(copynumbers)

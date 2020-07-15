@@ -1,19 +1,23 @@
 Package: gac
-Version: 0.0.9001
-Date: 2020-04-28
+Version: 0.0.9002
+Date: 2020-07-15
 Title: Genetic Analysis of Cells
 Authors@R: person("Rodrigo Gularte Merida", "Developer", role = c("aut", "cre"),
                      email = "gularter@mskcc.org")
 Author: Rodrigo Gularte Merida [aut, cre]
 Maintainer: Rodrigo Gularte Merida <gularter@mskcc.org> 
-Depends: R (>= 3.1.0), ComplexHeatmap, colourvalues, circlize, vegan
-Imports: 
+Depends: R (>= 3.1.0), ComplexHeatmap, circlize, vegan
+Imports:
+    colourvalues,	
     stats,
     GenomicRanges,
     IRanges,
-    dplyr
+    SCclust,
+    ape,
+    assertthat
 Suggests:
     biomaRt,
+    dplyr,
     tidyverse,
     knitr,
     rmarkdown,
@@ -23,5 +27,5 @@ License: BSD_3_clause + file LICENSE
 URL: https://github.com/SingerLab/GAC/
 BugReports: https://github.com/SingerLab/GAC/
 VignetteBuilder: knitr
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Encoding: UTF-8

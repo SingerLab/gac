@@ -10,6 +10,13 @@ gisticGR(cnr, grTR, oncokb, depmeans, cutoff = -0.5)
 \item{cnr}{a cnr bundle}
 
 \item{grTR}{gistic regions table, output from gisticRegions}
+
+\item{oncokb}{OncoKB annotation (downloaded from OncoKB)}
+
+\item{depmeans}{dependency score means for cells of interest
+e.g. DepMap achilles scores}
+
+\item{cutoff}{threshold to consider a gene as essential or non-essential}
 }
 \description{
 **Still in development**

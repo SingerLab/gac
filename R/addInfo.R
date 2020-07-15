@@ -10,16 +10,28 @@
 #'
 #' @param cnr a cnr bundle
 #'
-#' @param df a data.frame with the data to incorporate.  Particularly useful for adding p-values, genetic effects, etc
+#' @param df a data.frame with the data to incorporate.  Particularly
+#' useful for adding p-values, genetic effects, etc to the bins
+#'
+#' @examples
+#'
+#' data(cnr)
+#'
+#' fakePval <- data.frame(pval = runif(5000))
+#'
+#' cnr <- addInfo(cnr, df = fakePval)
 #' 
+#' head(cnr$chromInfo)
 #' 
 #' @export
 addInfo <- function(cnr, df) {
-    if(nrow(cnr$chromInfo) == nrow(df)) {
-        Info <- cbind(cnr$chromInfo, df)
-    }
     
+    assertthat::assert_that(nrow(cnr$chromInfo) == nrow(df))
+
+    Info <- cbind(cnr$chromInfo, df)
+
     cnr[["chromInfo"]] <- Info
     
     return(cnr)
 }
+

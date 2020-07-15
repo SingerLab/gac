@@ -4,14 +4,12 @@
 \alias{addPheno}
 \title{Adds additional phenotypes for a new trait}
 \usage{
-addPheno(cnr, df, by = "cellID", ...)
+addPheno(cnr, df, ...)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
 \item{df}{a data frame with new Y traits}
-
-\item{by}{specify a common colum for merging}
 
 \item{...}{additional arguments by merge}
 }
@@ -22,8 +20,9 @@ add phenotype columns to the data
 
 data(cnr)
 
-rand3 <- cbind(cnr$Y, rnorm(nrow(cnr$Y), mean = 2, sd = 1))
-
-cnr <- addPheno(cnr, df = rand3)
+rand3 <- data.frame(cellID = cnr$Y$cellID,
+                    rand3 = rnorm(nrow(cnr$Y), mean = 2, sd = 1))
+                    
+cnr <- addPheno(cnr, df = rand3, by = "cellID")
 
 }

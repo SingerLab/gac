@@ -30,15 +30,19 @@ expression matrix. Must have cellID as rownames. default is NULL.}
 or integer copy number.  If `TRUE` data is an untransformed segment ratio.
 If `FALSE` data is integer copy number}
 
-\item{cells}{a list of cells/samples in the object}
+\item{...}{other parameters}
+}
+\value{
+A CNR bundle composed of genotype, phenotype, and metadata for a single-cell
+DNA copy number experiment
 }
 \description{
-A CNR bundle is a `list` composed of six matrices of class data.frame (mostly). The
-objective of the CNR is to keep the six matrices syncronized to optimize data
-management.  It is kept simple in order to easily pull the necesary information
-to generate a ComplexHetamap.   The functions keepCells, excludeCells, addCells,
-subsetCNR, manipulate the complete bundle.  Whereas addQC, addPheno, and addInfo
-manipulate, as the name implies, the QC, Y (phenotype), and chromInfo tables.
+A CNR bundle is a `list` composed of six matrices of class data.frame (mostly).
+The objective of the CNR is to keep single-cell data matrices syncronized 
+and facilitate interaction with this data.  The functions keepCells,
+excludeCells, addCells, subsetCNR, manipulate the complete bundle.
+Whereas addQC, addPheno, and addInfo, as the name implies they add columns to
+the QC, Y (phenotype), and chromInfo tables.
 }
 \examples{
 

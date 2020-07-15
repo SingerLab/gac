@@ -4,16 +4,12 @@
 \alias{addQC}
 \title{addQC}
 \usage{
-addQC(cnr, df, by = "cellID", sort = FALSE, ...)
+addQC(cnr, df, ...)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
 \item{df}{data containg the additional metadata to be incorporated into the qc}
-
-\item{by}{sort by common colum between the cnr$qc and df}
-
-\item{sort}{logical, weather `merge` sorts the table or not, default is FALSE}
 
 \item{...}{additional parameters for sort}
 }
@@ -30,9 +26,6 @@ data(cnr)
 mapd <- data.frame(t(apply(cnr$X, 2, mapd)))
 mapd <- data.frame(cellID = rownames(mapd), mapd)
 
-cnr <- addQC(cnr, df = mapd)
-
-saveRDS(cnr, file = "cnr.rds")
-
+cnr <- addQC(cnr, df = mapd, by = "cellID", sort = FALSE)
 
 }

@@ -57,9 +57,6 @@
 #' sapply(cnr, dim)
 #' 
 #'
-#' saveRDS(cnr, file = "cnr.rds")
-#'
-#' 
 #' @export
 addCells <- function(cnr, newX, newY, newqc, newYe = NULL, do.clean = TRUE, ...) {
 

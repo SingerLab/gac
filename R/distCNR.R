@@ -6,12 +6,18 @@
 #' dissimilarity
 #'
 #' @param ... other parameters passed to vegan::vegdist
+#'
+#' @import vegan
+#' 
+#' @return
+#' Returns a cell-to-cell distance matrix of class `dist`
+#'
 #' 
 #' @export
 distCNR <- function(cnr, method = "bray", ...) {
     
-    if(cnr[["bulk"]]) {
-
+    if(cnr$bulk) {
+        
         ## Bray-Curtis dissimilarity doesn't work well on log2 ratio,
         ## transforming back to ratio
         cdb <- vegan::vegdist(t(2^cnr[["X"]]), method = method, ...)
@@ -32,8 +38,10 @@ distCNR <- function(cnr, method = "bray", ...) {
 #'
 #' @param method method for heirarchical clustering, defaults to "ward.D2"
 #'
-#' @param ... other parameters passed to hclust
+#' @importFrom stats hclust
 #' 
+#' @param ... other parameters passed to hclust
+#'
 #' @export
 hclustCNR <- function(cnr, method = "ward.D2", ...) {
 
@@ -41,5 +49,5 @@ hclustCNR <- function(cnr, method = "ward.D2", ...) {
     
     return(hcdb)
 
-}
+} ## hclustCNR
 
