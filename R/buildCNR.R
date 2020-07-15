@@ -20,7 +20,7 @@
 #' cells. requires a `cellID` column
 #'
 #' @param exprs slot for expression same-cell (same-sample) gene
-#' expression matrix. default is NULL
+#' expression matrix. Must have cellID as rownames. default is NULL. 
 #' 
 #' @param chromInfo bin chromosome and end position in base pairs.
 #' Needs to match X
@@ -28,6 +28,10 @@
 #' @param gene.index a GRanges generated matrix to link bins to genes
 #'
 #' @param cells a list of cells/samples in the object
+#'
+#' @param bulk logical specifying if data type is ratio from bulk DNA sequencing
+#'   or integer copy number.  If `TRUE` data is an untransformed segment ratio.
+#'   If `FALSE` data is integer copy number
 #'
 #' @examples
 #'
@@ -54,32 +58,56 @@
 #'
 #' 
 #' @export
-buildCNR <- function(X, Y, qc, chromInfo, exprs = NULL, gene.index, ...) {
-    
-    muffin <- roundCNR(X)
-    puffin <- data.frame(expand2genes(muffin, gene.index))
-    rownames(puffin) <- colnames(muffin)
-    rownames(Y) <- Y$cellID
-    rownames(qc) <- qc$cellID
-    
-    if(is.null(exprs)) {
+buildCNR <- function(X, Y, qc, chromInfo, exprs = NULL, gene.index,
+                     bulk = FALSE, ...) {
 
-        cnr <-   list(muffin, puffin,  Y,   qc,   chromInfo,   gene.index)
-        names(cnr) <- c("X", "genes", "Y", "qc", "chromInfo", "gene.index")
-
-        cnr[["exprs"]] <- NULL
-        
+    ## chose if data is ratio or integer CN
+    if(bulk) {
+        ## for ratio data transfrom to log2
+        muffin <- log2(X)
     } else {
-        Ye <- exprs
-        
-        cnr <-  list(muffin, puffin,   Y,     Ye,   qc,   chromInfo,   gene.index)
-        names(cnr) <- c("X", "genes", "Y", "exprs", "qc", "chromInfo", "gene.index")
-
+        ## round to nearest state (see round CNR)
+        muffin <- roundCNR(X)
     }
 
+    ## interpolate to genes
+    puffin <- data.frame(expand2genes(muffin, gene.index))
+    rownames(puffin) <- colnames(muffin)
+
+    ## confirm cellIDs are not duplicated
+    assertthat::assert_that(!any(duplicated(Y$cellID)))
+    assertthat::assert_that(!any(duplicated(qc$cellID)))
+
+    ## make cellID as key
+    rownames(Y) <- Y$cellID
+    rownames(qc) <- qc$cellID
+
+    ## build CNR object
+    cnr <-   list(muffin, puffin)
+    names(cnr) <- c("X", "genes")
+
+    ## coerce order of Y and qc to match. No missing allowed.
+    cnr[["Y"]] <- Y[colnames(cnr[["X"]]), ]
+    cnr[["qc"]] <- qc[colnames(cnr[["X"]]), ]
+
+    cnr[["chromInfo"]] <- chromInfo
+    cnr[["gene.index"]] <- gene.index
+    
+    ## if expression matrix is available, add it here
+    ## must have rownames as cellID/sampleID
+    if(is.null(exprs)) {
+        cnr[["exprs"]] <- NULL
+    } else {
+        assertthat::assert_that(all(rownames(exprs) %in% colnames(cnr[["X"]])))
+        assertthat::assert_that(all(colnames(exprs) %in%
+                                    colnames(cnr[["gene.index"]]$hgnc.symbol)))
+                                    
+        cnr[["exprs"]] <- exprs[colnames(cnr[["X"]]), ]
+    }
+    
     cnr[["cells"]] <- colnames(cnr[["X"]])
+    cnr[["bulk"]] <- bulk
 
     return(cnr)
-    
-}
 
+}

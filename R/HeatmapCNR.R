@@ -77,31 +77,51 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
     }
     
     if(what == "X") {
+        cf <- factor(cnr$chromInfo$chrom)
         grs <-  c("#404040", "#bababa")
-        rp <- ceiling(length(unique(cnr$chromInfo$bin.chrom))/2)
+        rp <- ceiling(length(unique(cf))/2)
         chl <- rep(grs, rp)
-        chl <- chl[1:length(unique(cnr$chromInfo$bin.chrom))]
-        names(chl) <- unique(cnr$chromInfo$bin.chrom)
+        chl <- chl[1:length(unique(cf))]
+        names(chl) <- unique(cf)
         
-        chrAnno <- rowAnnotation(chr = cnr$chromInfo$bin.chrom, col = list(chr = chl))
+        chrAnno <- rowAnnotation(chr = cf, col = list(chr = chl))
+        if(cnr[["bulk"]]) {
+            
+            Hmap <- Heatmap(use, name = "X", clustering_distance_columns = function(X) vegan::vegdist(2^X, method = "bray", na.rm = TRUE),
+                            cluster_rows = FALSE,
+                            left_annotation = chrAnno,
+                            clustering_method_columns = "ward.D2",
+                            ...)
+            
+        } else {
+
+            Hmap <- Heatmap(use, name = "X", clustering_distance_columns = function(X) vegan::vegdist(X, method = "bray", na.rm = TRUE),
+                            cluster_rows = FALSE,
+                            left_annotation = chrAnno,
+                            clustering_method_columns = "ward.D2",
+                            ...)
+        }
         
-        Hmap <- Heatmap(use, name = "X", clustering_distance_columns = function(X) vegan::vegdist(X, method = "bray", na.rm = TRUE),
-                        cluster_rows = FALSE,
-                        left_annotation = chrAnno,
-                        clustering_method_columns = "ward.D2",
-                        ...)
     } else {
         
         if(what == "genes" & all(which.genes %in% colnames(cnr$genes))) {
-
-            Hmap <- Heatmap(use, name = "genes", clustering_distance_rows = function(X) vegan::vegdist(X, method = "bray"),
-                            clustering_method_rows = "ward.D2",
-                            ...)
-
+            
+            if(cnr[["bulk"]]) {
+                Hmap <- Heatmap(use, name = "genes", clustering_distance_rows = function(X) vegan::vegdist(2^X, method = "bray"),
+                                clustering_method_rows = "ward.D2",
+                                ...)
+                
+            } else {
+                
+                Hmap <- Heatmap(use, name = "genes", clustering_distance_rows = function(X) vegan::vegdist(X, method = "bray"),
+                                clustering_method_rows = "ward.D2",
+                                ...)
+            }
+            
         }
-
+        
     }
-
+    
     return(Hmap)
-
+    
 } # HeatmapCNR
