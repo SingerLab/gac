@@ -26,31 +26,36 @@
 excludeCells <- function(cnr, excl) {
 
     if(all(excl %in% colnames(cnr$X))) {
+
         keep <- colnames(cnr$X)[!colnames(cnr$X) %in% excl]
+
         X <- cnr$X[,keep ]
         Y <- cnr$Y[keep, ]
         genes <- cnr$genes[keep, ]
         qc <- cnr$qc[keep, ]
         Ye <- cnr$exprs[keep, ]
-
+        
     } else {
-
+        
         warning("not all cells in `excl` are in X, removed what was possible")
-
+        
         keep <- colnames(cnr$X)[!colnames(cnr$X) %in% excl]
+        
         X <- cnr$X[, keep]
         Y <- cnr$Y[keep, ]
         genes <- cnr$genes[keep, ]
         qc <- cnr$qc[keep, ]
         Ye <- cnr$exprs[keep, ]
-
+        
     }
-
+    
     cnr[["X"]] <- X
     cnr[["genes"]] <- genes
     cnr[["Y"]] <- Y
     cnr[["qc"]] <- qc
     cnr[["exprs"]] <- Ye
+    cnr[["cells"]] <- keep
+    
     
     return(cnr)
     

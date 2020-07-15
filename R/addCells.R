@@ -71,6 +71,8 @@ addCells <- function(cnr, newX, newY, newqc, newYe = NULL, do.clean = TRUE, ...)
     Y <- rbind(cnr$Y, newY)
     qc <- rbind(cnr$qc, newqc)
 
+    newCells <- names(muffin)
+    
     if(!is.null(newYe)) {
         Ye <- rbind(cnr$exprs, newYe)
         rownames(Ye) <- colnames(muffin)
@@ -81,18 +83,21 @@ addCells <- function(cnr, newX, newY, newqc, newYe = NULL, do.clean = TRUE, ...)
     
     if(do.clean) {
         ## re-create cnr
-        cnr <- list(muffin, puffin, cnr$Y, cnr$qc, Ye,
-                    cnr$chromInfo, cnr$gene.index, cnr$cells, cnr$bulk)
+        cnr <- list(muffin, puffin, Y, qc, Ye,
+                    cnr$chromInfo, cnr$gene.index, newCells, cnr$bulk)
         names(cnr) <- c("X", "genes", "Y", "qc", "exprs",
                         "chromInfo", "gene.index", "cells", "bulk")
         
     } else {
+
         cnr[["X"]] <- muffin
         cnr[["genes"]] <- puffin
         cnr[["Y"]] <- Y
-        cnr[["exprs"]] <- NULL
+        cnr[["exprs"]] <- Ye
         cnr[["qc"]] <- qc
+        cnr[["cells"]] <- newCells
     }
+    
     
     return(cnr)
 }

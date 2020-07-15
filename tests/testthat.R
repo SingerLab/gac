@@ -1,3 +1,5 @@
+rm(list = ls())
+
 library(testthat)
 library(gac)
 
@@ -33,12 +35,15 @@ expect_equal(length(cnr), 8)
 expect_true(all(names(cnr) %in% c("X", "genes", "Y", "qc", "chromInfo", "gene.index", "cells", "bulk")))
 
 ## visualize genome-wide
-h1 <- HeatmapCNR(cnr)
+h1 <- HeatmapCNR(cnr, col = segCol)
 expect_true(all.equal(dim(h1@matrix), dim(cnr$X)))
+
+h1
 
 ## visualize genes of interest
 h2 <- HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"), col = segCol)
 
+h2
 
 ## ADD cells
 newX <- data.frame(cbind(rep(c(5,2), c(3000, 2000)),
@@ -70,15 +75,30 @@ cnr <- addCells(cnr, newX = newX, newY = newY, newqc = newQC)
 
 sapply(cnr, dim)
 
+## expect_equal(length(cnr), 9)
+expect_equal(ncol(cnr$X), length(cnr$cells))
+expect_equal(nrow(cnr$Y), length(cnr$cells))
+expect_equal(nrow(cnr$qc), length(cnr$cells))
 expect_equal(length(cnr), 9)
 
-HeatmapCNR(cnr)
+h3 <- HeatmapCNR(cnr)
+expect_equal(ncol(h3@matrix), 14)
 
 ## remove cells
 ( excl.cells <- rownames(cnr$qc)[cnr$qc$qc.status == "FAIL"] )
 cnr <- excludeCells(cnr, excl = excl.cells)
 sapply(cnr, dim)
-HeatmapCNR(cnr)
+
+expect_equal(any(excl.cells %in% names(cnr$X)), FALSE)
+expect_equal(any(excl.cells %in% rownames(cnr$Y)), FALSE)
+expect_equal(any(excl.cells %in% rownames(cnr$qc)), FALSE)
+expect_equal(any(excl.cells %in% cnr$cells), FALSE)
+
+## expect_true(all(cnr$qc$qc.status == "PASS"))
+
+h4 <- HeatmapCNR(cnr)
+
+expect_equal(ncol(h4@matrix), 12)
 
 ## keep cells
 ( keep.cells <- colnames(cnr$X)[c(1:8)] )
@@ -94,13 +114,17 @@ rand3 <- data.frame(cellID = cnr$Y$cellID, rand3 = rnorm(nrow(cnr$Y), mean = 2, 
 cnr <- addPheno(cnr, df = rand3)
 expect_true(ncol(cnr$Y) == 10)
 
+expect_true("rand3" %in% colnames(cnr$Y))
+
 ## add QC
 mapd <- data.frame(t(apply(cnr$X, 2, mapd)))
 mapd <- data.frame(cellID = rownames(mapd), mapd)
+
 cnr <- addQC(cnr, df = mapd)
 
-expect_equal(class(mapd), "data.frame")
-expect_equal(nrow(cnr$qc), 8)
+expect_true("mapd" %in% names(cnr$qc))
+expect_true("mapd.sd" %in% names(cnr$qc))
+expect_true("mapd.cv" %in% names(cnr$qc))
 
 
 ## addInfo
@@ -108,5 +132,7 @@ expect_equal(nrow(cnr$qc), 8)
 fakePval <- data.frame(pval = runif(5000))
 
 cnr <- addInfo(cnr, df = fakePval)
-expect_true(ncol(cnr$chromInfo) == 13)
+
+expect_true("pval" %in% names(cnr$chromInfo))
+
 
