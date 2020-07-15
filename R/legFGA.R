@@ -7,5 +7,5 @@
 #' @docType data
 #' @keywords datasets
 #' @usage data(legFGA)
-#' @source \url{https://github.com/SingerLab/GAC"}
+#' @source \url{https://github.com/SingerLab/gac"}
 "legFGA"

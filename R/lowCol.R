@@ -10,5 +10,5 @@
 #' #' @docType data
 #' @keywords datasets
 #' @usage data(lowCol)
-#' @source \url{https://github.com/SingerLab/GAC"}
+#' @source \url{https://github.com/SingerLab/gac"}
 "lowCol"

@@ -8,7 +8,7 @@
 An object of class \code{Legends} of length 1.
 }
 \source{
-\url{https://github.com/SingerLab/GAC"}
+\url{https://github.com/SingerLab/gac"}
 }
 \usage{
 data(legPloidy)

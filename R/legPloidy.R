@@ -7,5 +7,5 @@
 #' @docType data
 #' @keywords datasets
 #' @usage data(legPloidy)
-#' @source \url{https://github.com/SingerLab/GAC"}
+#' @source \url{https://github.com/SingerLab/gac"}
 "legPloidy"
