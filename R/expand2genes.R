@@ -19,7 +19,9 @@
 expand2genes <- function(X, gene.index, bin.id = "bin.id", gene.id = "hgnc.symbol") {
     
     ## expanding segment data to geneCN data
-    giu <- gene.index[!duplicated(gene.index[, gene.id]) & gene.index[, gene.id] != "", ]
+    giu <- gene.index[!duplicated(gene.index[, gene.id]) &
+                      gene.index[, gene.id] != "", ]
+    
     geneCN  <- t(X[giu[, bin.id], ])
     colnames(geneCN) <- giu[, gene.id]
     geneCN <- data.frame(geneCN)

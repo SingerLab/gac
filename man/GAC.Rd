@@ -3,17 +3,17 @@
 \docType{package}
 \name{GAC}
 \alias{GAC}
-\title{GAC: the open-source simple integrated analysis of cells/copynumber}
+\title{GAC}
 \source{
 \url{https://github.com/SingerLab/GAC}
 }
 \description{
-GAC is an open-source framework and toolkit for managing genome wide copy
-number data.  It provides a set of standard matrices that are symultaneously
-manipulated by various functions to maintain syncronized bin, gene, annotation,
-and qc information from a single-cell DNA sequencing experiment as same-cell
-G+T.  Efforts will be made to add support for log-ratios for the analysis of
-bulk DNA data.
+GAC is an open-source framework and toolkit for management and analysis of
+genome wide copy number data.  It provides a set of standard matrices that
+are symultaneously manipulated by various functions to maintain syncronized
+bin, gene, annotation, and qc information from a single-cell DNA sequencing
+experiment as same-cell G+T.  Efforts will be made to add support for
+log-ratios for the analysis of bulk DNA data.
 }
 \details{
 GAC is actively being developed and is currently in ALPHA pre-release.

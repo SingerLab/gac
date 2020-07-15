@@ -23,6 +23,8 @@ default is NULL}
 \item{chromInfo}{bin chromosome and end position in base pairs. Needs to match X}
 
 \item{gene.index}{a GRanges generated matrix to link bins to genes}
+
+\item{cells}{a list of cells/samples in the object}
 }
 \description{
 A CNR bundle is a `list` composed of six matrices of class data.frame (mostly). The

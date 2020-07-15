@@ -4,7 +4,7 @@
 \alias{gisticGR}
 \title{Gistic Genomic Ranges, get genes in gene.index that overlap with significant genomic ranges in GISTIC2 output}
 \usage{
-gisticGR(cnr, grTR)
+gisticGR(cnr, grTR, oncokb, depmeans, cutoff = -0.5)
 }
 \arguments{
 \item{cnr}{a cnr bundle}

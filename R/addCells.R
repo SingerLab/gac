@@ -40,8 +40,8 @@
 #' newY <- head(pheno, n = 2)
 #' newY$cellID <- paste0("cell", 13:14)
 #' rownames(newY) <- newY$cellID
-#'
 #' newY[, c(6:9)] <- newY[,c(6,9)]+3
+#'
 #' newY
 #' 
 #' ## creating new QC
@@ -65,34 +65,32 @@ addCells <- function(cnr, newX, newY, newqc, newYe = NULL, do.clean = TRUE, ...)
 
     muffin <- cbind(cnr$X, newX)
 
-    puffin <- rbind(cnr$genes, expand2genes(newX, cnr$gene.index))
+    puffin <- expand2genes(muffin, cnr$gene.index)
     rownames(puffin) <- colnames(muffin)
     
     Y <- rbind(cnr$Y, newY)
     qc <- rbind(cnr$qc, newqc)
 
-    if(is.null(newYe)) {
-
-        Ye <- matrix(NA, nrow = nrow(newY), ncol = nrow(cnr$gene.index),
-                     dimnames = list(newY$cellID, cnr$gene.index$hgnc.symbol))
-        
+    if(!is.null(newYe)) {
+        Ye <- rbind(cnr$exprs, newYe)
+        rownames(Ye) <- colnames(muffin)
     } else {
-
-        Ye <- newYe
-        
+        Ye <- NULL
     }
+        
     
-    exprs <- rbind(cnr$exprs, Ye)
-    rownames(exprs) <- Y$cellID
-
     if(do.clean) {
-        cnr <- list(muffin, puffin,    Y, exprs, qc, cnr$chromInfo, cnr$gene.index)
-        names(cnr) <- c("X", "genes", "Y", "exprs", "qc",  "chromInfo", "gene.index")
+        ## re-create cnr
+        cnr <- list(muffin, puffin, cnr$Y, cnr$qc, Ye,
+                    cnr$chromInfo, cnr$gene.index, cnr$cells, cnr$bulk)
+        names(cnr) <- c("X", "genes", "Y", "qc", "exprs",
+                        "chromInfo", "gene.index", "cells", "bulk")
+        
     } else {
         cnr[["X"]] <- muffin
         cnr[["genes"]] <- puffin
         cnr[["Y"]] <- Y
-        cnr[["exprs"]] <- exprs
+        cnr[["exprs"]] <- NULL
         cnr[["qc"]] <- qc
     }
     

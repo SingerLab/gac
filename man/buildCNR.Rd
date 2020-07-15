@@ -4,7 +4,7 @@
 \alias{buildCNR}
 \title{Build a CNR bundle (Copy Number, --Rounded)}
 \usage{
-buildCNR(X, Y, qc, chromInfo, exprs = NULL, gene.index, ...)
+buildCNR(X, Y, qc, chromInfo, exprs = NULL, gene.index, bulk = FALSE, ...)
 }
 \arguments{
 \item{X}{bin or common segment copy number data.  Can be in `numeric`
@@ -22,9 +22,15 @@ cells. requires a `cellID` column}
 Needs to match X}
 
 \item{exprs}{slot for expression same-cell (same-sample) gene
-expression matrix. default is NULL}
+expression matrix. Must have cellID as rownames. default is NULL.}
 
 \item{gene.index}{a GRanges generated matrix to link bins to genes}
+
+\item{bulk}{logical specifying if data type is ratio from bulk DNA sequencing
+or integer copy number.  If `TRUE` data is an untransformed segment ratio.
+If `FALSE` data is integer copy number}
+
+\item{cells}{a list of cells/samples in the object}
 }
 \description{
 A CNR bundle is a `list` composed of six matrices of class data.frame (mostly). The

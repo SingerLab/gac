@@ -22,10 +22,7 @@ Cross-references a gene index with OncoKB.  Information about OncoKB is availabl
 \dontrun{
 oncokb <- read.table("inst/extdata/oncokb.txt")
 
-
 cnr <- oncoKB_annotate(cnr, oncokb)
-
-
 
 }
 

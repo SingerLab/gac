@@ -34,11 +34,9 @@ keep <- grep("BONE", names(depmap))
 
 d2_bone <- DepScores(depmap = d2_map, keep = keep)
 
-
 depMeans <- rowMeans(d2_bone[,keep])
 
 depmap_annotate(cnr, depMeans = depMeans)
-
 
 }
 

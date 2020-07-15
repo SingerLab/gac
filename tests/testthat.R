@@ -1,28 +1,51 @@
 library(testthat)
 library(gac)
 
-## import example cnr
-data(cnr)
+## read in data
+cn.file <- system.file("extdata/copynumbers.txt", package = "gac")
+pheno.file <- system.file("extdata/pheno.txt", package = "gac")
+qc.file <- system.file("extdata/qc.txt", package = "gac")
+gx.file <- system.file("extdata/gene.index.txt", package = "gac")
+ci.file <- system.file("extdata/chromInfo.txt", package = "gac")
+
+expect_true(file.exists(cn.file))
+expect_true(file.exists(pheno.file))
+expect_true(file.exists(qc.file))
+expect_true(file.exists(gx.file))
+expect_true(file.exists(ci.file))
+
+X <- read.delim(cn.file, as.is = TRUE)
+Y <- read.delim(pheno.file, as.is = TRUE)
+qc <- read.delim(qc.file, as.is = TRUE)
+gx <- read.delim(gx.file, as.is = TRUE)
+ci <- read.delim(ci.file, as.is = TRUE)
+
+## cnr
+
+cnr <- buildCNR(X = X, Y = Y, qc = qc, chromInfo = ci, gene.index = gx)
 
 ## import colors
 data(segCol)
 
 ## check number of rows and columns throughout cnr object
-sapply(cnr, dim)
+expect_equal(length(cnr), 8)
+
+expect_true(all(names(cnr) %in% c("X", "genes", "Y", "qc", "chromInfo", "gene.index", "cells", "bulk")))
 
 ## visualize genome-wide
-HeatmapCNR(cnr)
-
+h1 <- HeatmapCNR(cnr)
+expect_true(all.equal(dim(h1@matrix), dim(cnr$X)))
 
 ## visualize genes of interest
-HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"))
+h2 <- HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"), col = segCol)
+
 
 ## ADD cells
-
 newX <- data.frame(cbind(rep(c(5,2), c(3000, 2000)),
                          rep(c(2,4),  c(3000, 2000))))
 names(newX) <- paste0("cell", 13:14)
-newX
+head(newX)
+tail(newX)
 
 ## creating new phenotypes
 newY <- head(cnr$Y, n = 2)
@@ -30,7 +53,8 @@ newY$cellID <- paste0("cell", 13:14)
 rownames(newY) <- newY$cellID
 
 newY[, c(6:9)] <- newY[,c(6,9)]+3
-newY
+head(newY)
+tail(newY)
 
 ## creating new QC
 newQC <- head(cnr$qc, 2)
@@ -38,11 +62,16 @@ newQC$cellID <- paste0("cell", 13:14)
 rownames(newQC) <- newQC$cellID
 
 newQC[,2:4] <- newQC[,2:4] + 2
-newQC
+head(newQC)
+tail(newQC)
 
 ## add cells
 cnr <- addCells(cnr, newX = newX, newY = newY, newqc = newQC)
+
 sapply(cnr, dim)
+
+expect_equal(length(cnr), 9)
+
 HeatmapCNR(cnr)
 
 ## remove cells
@@ -52,7 +81,7 @@ sapply(cnr, dim)
 HeatmapCNR(cnr)
 
 ## keep cells
-( keep.cells <- colnames(cnr$X)[-c(11:12)] )
+( keep.cells <- colnames(cnr$X)[c(1:8)] )
 cnr <- keepCells(cnr, keep = keep.cells)
 sapply(cnr, dim)
 
@@ -63,17 +92,21 @@ HeatmapCNR(cnr)
 rand3 <- data.frame(cellID = cnr$Y$cellID, rand3 = rnorm(nrow(cnr$Y), mean = 2, sd = 1))
 
 cnr <- addPheno(cnr, df = rand3)
-sapply(cnr, dim)
+expect_true(ncol(cnr$Y) == 10)
 
 ## add QC
 mapd <- data.frame(t(apply(cnr$X, 2, mapd)))
 mapd <- data.frame(cellID = rownames(mapd), mapd)
-
 cnr <- addQC(cnr, df = mapd)
+
+expect_equal(class(mapd), "data.frame")
+expect_equal(nrow(cnr$qc), 8)
+
 
 ## addInfo
 
-fakePval <- data.frame(runif(5000))
+fakePval <- data.frame(pval = runif(5000))
 
 cnr <- addInfo(cnr, df = fakePval)
+expect_true(ncol(cnr$chromInfo) == 13)
 
