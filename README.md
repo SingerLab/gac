@@ -185,7 +185,7 @@ We hope you enjoy \!
 
   - support for .seg files
 
-  - Implementation of a data model with dm[https://github.com/krlmlr/dm]
+  - Implementation of a data model with [dm](https://github.com/krlmlr/dm)
 
   - Cleaner code with tidyverse
 
