@@ -26,11 +26,11 @@ The goal of GAC is to deliver a formal end-to-end analysis by
 integrating proven methods of quantitative genetics, statistics, and
 evolutionary biology for the genetic analysis of single-cell DNA copy
 number. GAC implements a simple, lightweight, and open-source R
-framework (Figure 1). Inspired, but unlike Seurat and Scanpy, adapts the
+framework (Figure 1). Inspired, yet unlike Seurat and Scanpy, GAC adapts the
 logic of espressioSet/AnnData into relational matrices in native R. This
 keeps the toolkit easy to learn, hard to master; and facilitates the
 integration of algorithms for the downstream analysis of single-cell DNA
-data wich is so desperately needed. For now GAC facilitates the
+data wich is so desperately needed.  GAC facilitates the
 downstream analyses of segmented data with common segments by
 concurrently managing the X, Y across all cells or samples e.g. the
 output of [Varbin/Ginkgo](https://github.com/robertaboukhalil/ginkgo),
@@ -48,7 +48,7 @@ wet-lab notes) (qc) (cells\[j\] x qc\[*c*\]) - a gene to bin index
 (gene.index) - the genomic coordinates of the bins or genotypes
 (chromInfo) - and an optional expression matrix (Ye; for DNA-RNA or
 same-cell G+T([Macaulay, et
-al.2015](https://dx.doi.org/10.1038/nmeth.3370))
+al.2015](https://dx.doi.org/10.1038/nmeth.3370)) or matched DNA/RNA samples (still in development).
 
 ![Figure 1.](figures/CNR.png)
 
@@ -56,9 +56,9 @@ al.2015](https://dx.doi.org/10.1038/nmeth.3370))
 
 ### Dependencies:
 
-  - [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/)
+  - [ComplexHeatmap & circlize](https://jokergoo.github.io/ComplexHeatmap-reference/book/)
   - [vegan](https://github.com/vegandevs/vegan)
-  - [colorvalues](https://symbolixau.github.io/colourvalues/)
+  - [ape](https://cran.r-project.org/web/packages/ape/index.html)
 
 You can install the development version from
 [GitHub](https://github.com/) with:
@@ -66,8 +66,6 @@ You can install the development version from
 ``` r
 # install.packages("devtools")
 devtools::install_github("SingerLab/gac")
-#> Skipping install of 'gac' from a github remote, the SHA1 (b0baec4d) has not changed since last install.
-#>   Use `force = TRUE` to force installation
 ```
 
 ## Examples
@@ -160,7 +158,7 @@ The Singer Lab single-cell wet-lab and dry-lab endevours are carried
 forward by a skeleton crew. The need to have something simple that can
 help reduce the 85% of the time spent syncronizing bins, to genes, to
 phenotypes, and QC matrices capable of handling a large data set of
-\>16,000 cells was greatly needed. Knowing the data is growing by the
+\>20,000 cells was greatly needed. Knowing the data is growing by the
 week, I integrated functions to deal with the n+1 problem. This is
 easier when using bins instead of .seg data. Lastly, my background in
 animal genomics allowed me to borrow the succesful frameworks used in
@@ -187,7 +185,7 @@ We hope you enjoy \!
 
   - support for .seg files
 
-  - Computational efficiency with S4 dispatch with defined classes
+  - Implementation of a data model with [dm](https://github.com/krlmlr/dm)
 
   - Cleaner code with tidyverse
 
