@@ -1,20 +1,3 @@
-#' select clusters to use based on a minimum number of cells
-#'
-#' @param cnr a cnr bundle containing the output of setCluster
-#'
-#' @param minimum_cells minimum number of cells in a cluster, must be greater than 3
-#' to estimate a median
-#'
-#' @export
-use_clusters <- function(cnr, minimum_cells = 3) {
-
-    ucd <- table(cnr[["Y"]]$cluster)
-    ucd <- ucd[ucd >= minimum_cells]
-
-    return(ucd)
-
-} # use_clusters
-
 #' Build a consensus copy number profile for each cluster or clone
 #'
 #' @param cnr a cnr bundle containing the output of setCluster
@@ -50,21 +33,21 @@ get_cluster_profiles <- function(cnr, minimum_cells = 3) {
     
 }
 
-#' cluster representation across the sample
-#'
-#' @param cnr a cnr bundle
-#'
-#' @export
-binary.mat <- function(mat) {
-    mat[mat >= 1] <- 1
-    mat
-}
 
-#' cluster representation across the sample
+#' select clusters to use based on a minimum number of cells
 #'
-#' @param cnr a cnr bundle
+#' @param cnr a cnr bundle containing the output of setCluster
+#'
+#' @param minimum_cells minimum number of cells in a cluster, must be greater than 3
+#' to estimate a median
 #'
 #' @export
-consensus_representation <- function() {
-    
-}
+use_clusters <- function(cnr, minimum_cells = 3) {
+
+    ucd <- table(cnr[["Y"]]$cluster)
+    ucd <- ucd[ucd >= minimum_cells]
+
+    return(ucd)
+
+} # use_clusters
+
