@@ -184,6 +184,34 @@ fakePval <- data.frame(runif(5000))
 cnr <- addInfo(cnr, df = fakePval)
 ```
 
+```{r bray_diss_+phylo}
+
+cnr <- phyloCNR(cnr)
+
+plot(cnr[["phylo"]], type = "f")
+
+optClust(cnr)
+optClust(cnr, opt.range = seq(0.03, 0.08, by = 0.005))
+
+sc.tree.height <- 0.05
+
+cnr <- setClusters(cnr, tree.height = sc.tree.height)
+
+plot(cnr[["hcdb"]])
+abline(h = sc.tree.height, col = "#D40000")
+
+```
+
+```{r cc_clust}
+## par(ask = TRUE)
+cnr <- consensusClusterCNR(cnr, minK = 2, maxK = 8)
+
+setK <- 5
+
+cnr <- setKcc(cnr, K = 5)
+
+```
+
 
 ## Closing remarks
 
