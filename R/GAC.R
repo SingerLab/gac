@@ -19,8 +19,8 @@
 #' @docType package
 #' @author Rodrigo Gularte Merida \email{gularter@mskcc.org}
 #' @keywords package
-#' @source \url{https://github.com/SingerLab/GAC}
-#' @name GAC
+#' @source \url{https://github.com/SingerLab/gac}
+#' @name gac
 #'
 #'
 #' @import ComplexHeatmap
