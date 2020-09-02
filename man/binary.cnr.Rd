@@ -2,12 +2,12 @@
 % Please edit documentation in R/binary.cnr.R
 \name{binary.cnr}
 \alias{binary.cnr}
-\title{build binary matrix from integer copy number data}
+\title{build binary CNR from integer copy number data}
 \usage{
-binary.cnr(X)
+binary.cnr(cnr)
 }
 \arguments{
-\item{X}{a copy number matrix to convert to an incidence matrix}
+\item{cnr}{a copy number matrix to convert to an incidence matrix}
 }
 \description{
 This function builds a binary, incidence, matrix from the cnr$X.  It was designed as a helper function to generate the input for infSCITE.
@@ -21,7 +21,7 @@ By default, anything not diploid is 1.
 
 data(cnr)
 
-Z <- binary.cnr(cnr$genes[, c("CDK4", "MDM2")])
+Z <- binary.cnr(cnr)
 
 
 }
