@@ -5,6 +5,11 @@
 #' @param tree.height height of the tree (from optClust)
 #'
 #' @param prefix a prefix to append before the cluster number
+#'
+#' @return
+#'
+#' Returns a cnr object with cluster membership based on Bray-Curtis
+#'  heirarchical clustering.  Tree height must be specified.
 #' 
 #' @import assertthat
 #' @importFrom stats cutree

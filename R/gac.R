@@ -1,4 +1,4 @@
-#' GAC
+#' gac
 #'
 #' GAC is an open-source framework and toolkit for management and analysis of
 #' genome wide copy number data.  It provides a set of standard matrices that

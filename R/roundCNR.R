@@ -10,6 +10,8 @@
 #' @param loss lower bound for neutral, and upper bound threshold to be considered a loss of one copy
 #' @param del maximum threshold to consider a total deletion of the bin i.e. 0 copies
 #'
+#' @return
+#' Rounds X based on quantal
 #' 
 #' @examples
 #'

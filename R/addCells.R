@@ -3,7 +3,9 @@
 #' The function deals a little with the n+1 problem.
 #'
 #' Your data needs to `exact` to the existing cnr for it to be compatible.
-#'  This means it needs to have the same bin coordinates and number of X bins, annotation colums, and same qc colums.  It is assumed you generated it with the same pipeline
+#'  This means it needs to have the same bin coordinates and number of X
+#'  bins, annotation colums, and same qc colums.  It is assumed you generated
+#'  it with the same pipeline.
 #'
 #' @param cnr a cnr bundle
 #'
@@ -19,6 +21,22 @@
 #' 
 #' @param ... additional parameters if needed
 #'
+#' @return
+#'
+#' Returns a CNR object after adding new cells.  If `do.clean = TRUE` only the original
+#' eight data items will be returned.
+#'
+#' \itemize{
+#'   \item X copy number data
+#'   \item Y phenotype data
+#'   \item exprs expression data
+#'   \item qc quality control data
+#'   \item chromInfo bin to chromosome information
+#'   \item gene.index gene to bin and chromosome information
+#'   \item cells list of cells
+#'   \item bulk bulk DNA or single-cell copy number. If TRUE, data is bulk DNA log2 ratio
+#'   \item ... additional analyzed results
+#' }
 #'
 #' @examples
 #'
@@ -94,7 +112,6 @@ addCells <- function(cnr, newX, newY, newqc, newYe = NULL, do.clean = TRUE, ...)
         cnr[["qc"]] <- qc
         cnr[["cells"]] <- newCells
     }
-    
     
     return(cnr)
 }

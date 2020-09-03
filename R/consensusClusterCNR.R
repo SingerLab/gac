@@ -20,7 +20,17 @@
 #'
 #' @param ... additional parameters for ConsensusClusterPlus e.g. plot = "png"
 #'
+#' 
+#' @return
 #'
+#' A cnr object that contains the output of ConsensusClusterPlus for the
+#'  specified Ks.
+#'
+#' \itemize{
+#'   \item ccp ConsensusClusterPlus object
+#' }
+#' 
+#' 
 #' @examples
 #' data(cnr)
 #'

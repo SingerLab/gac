@@ -6,6 +6,10 @@
 #'
 #' @param x copy number data
 #'
+#' @return
+#'
+#' Returns a copy number object on Peter Andrew's arctan transformation
+#' 
 #' @examples
 #' data(cnr)
 #' 

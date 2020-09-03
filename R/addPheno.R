@@ -9,6 +9,10 @@
 #'
 #' @param ... additional arguments by merge
 #'
+#' @return
+#'
+#' Returns a CNR object with added columns to Y, e.g. additional cell
+#'  phenotypes, histologies, etc.
 #' 
 #' @examples
 #'

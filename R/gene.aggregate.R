@@ -1,6 +1,5 @@
 #' combine genes w/equal frequency to be only once
 #'
-#'
 #' This is a helper function to process the binary or ternary matrix.  Because gene data is interpolated from the bin data, linked loci within a bin will be duplicated.  Duplicate frequencies create infinite combinations in the trees in infSCITE.
 #'
 #' This function checks if two rows have are identical and merges them into one. It also creates unique rownames to know what was de-duplicated

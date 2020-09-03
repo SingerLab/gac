@@ -5,6 +5,12 @@
 #'
 #' @param K number of K clusters to use
 #'
+#'
+#' @return
+#'
+#' returns cluster membership based on consensus clustering for a
+#'  specified K
+#' 
 #' @export
 setKcc <- function(cnr, K = 5) {
     

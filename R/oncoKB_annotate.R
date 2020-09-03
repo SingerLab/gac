@@ -1,13 +1,16 @@
 #' annotate gene index with oncoKB
 #' 
-#' Cross-references a gene index with OncoKB.  Information about OncoKB is available at https://www.oncokb.org
+#' Cross-references a gene index with OncoKB.  Information about OncoKB is available
+#'  at https://www.oncokb.org
 #' 
 #' @param cnr a cnr bundle
 #'
 #' @param oncokb an oncokb table
 #' 
 #' @return
-#' Function retunrs an annotated gene.index with OncoKB cancer.gene,oncogene, and tummor suppressor gene (tsg).  Currently does not bring in the Actionability OncoKB level annotations.  
+#' Function retunrs an annotated gene.index with OncoKB cancer.gene,oncogene, and
+#'  tummor suppressor gene (tsg).  Currently does not bring in the Actionability
+#'  OncoKB level annotations.  
 #'
 #' @examples
 #'

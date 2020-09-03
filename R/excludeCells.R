@@ -2,12 +2,14 @@
 #'
 #' Both keepCells and excludeCells perform similar functions; keep cells with positive selection, and excludeCells with negative selection
 #' 
-#' 
 #' @param cnr the cnr bundle
 #'
 #' @param excl a string vector of cellID to be removed
 #'
+#' @return
 #'
+#' Returns a cnr object after removal of cells
+#' 
 #' @examples
 #'
 #' data(cnr)

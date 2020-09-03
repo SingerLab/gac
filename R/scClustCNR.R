@@ -12,6 +12,10 @@
 #' 
 #' @param ... additional parameters pased to SCclust::sim_fisher_wrapper
 #'
+#' @return
+#'
+#' SCclust pipeline and objects
+#' 
 #' @import SCclust
 #' 
 #' @source \url{https://github.com/KrasnitzLab/SCclust}

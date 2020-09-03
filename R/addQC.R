@@ -11,7 +11,7 @@
 #'
 #' @return
 #'
-#' returns a CNR bundle with new QC columns
+#' Returns a CNR object with added columns to QC, e.g. mapd, DNA concentratios
 #' 
 #' @examples
 #'

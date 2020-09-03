@@ -14,13 +14,14 @@
 #'
 #' @return
 #'
-#' function returns the gene.index with depmap annotation colums;
-#' both depMeans, and essential (essentian/non-essential)
+#' Function returns the gene.index with depmap annotation colums;
+#'  both depMeans, and essential (essentian/non-essential)
 #'
 #' @examples
 #'
 #' \dontrun{
-#' d2_map <- read.csv("inst/extdata/D2_combined_gene_dep_scores.csv.gz", header = TRUE, row.names = 1)
+#' d2_map <- read.csv("inst/extdata/D2_combined_gene_dep_scores.csv.gz",
+#'  header = TRUE, row.names = 1)
 #'
 #' ## select cells to use
 #' keep <- grep("BONE", names(depmap))

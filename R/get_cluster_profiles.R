@@ -5,6 +5,13 @@
 #' @param minimum_cells minimum number of cells in a cluster, must be greater than 3
 #' to estimate a median
 #'
+#' @return
+#'
+#' Returns a vector of clusters with miminum `n` cells (default 3), and two matrices.
+#'  One matrix `DDRC.df` with the median consensus profile for the cluster using
+#'  bins, the other `DDRC.g` which composes the median consensus profile for each
+#'  gene.
+#' 
 #' @export
 get_cluster_profiles <- function(cnr, minimum_cells = 3) {
 

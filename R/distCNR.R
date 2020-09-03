@@ -42,6 +42,9 @@ distCNR <- function(cnr, method = "bray", ...) {
 #' 
 #' @param ... other parameters passed to hclust
 #'
+#' @return
+#' Returns a heirarchical clustering object
+#'
 #' @export
 hclustCNR <- function(cnr, method = "ward.D2", ...) {
 

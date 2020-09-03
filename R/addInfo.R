@@ -13,6 +13,10 @@
 #' @param df a data.frame with the data to incorporate.  Particularly
 #' useful for adding p-values, genetic effects, etc to the bins
 #'
+#' @return
+#'
+#' Returns a CNR object with added columns to the chromInfo. e.g. p-values for genome wide scans
+#' 
 #' @examples
 #'
 #' data(cnr)

@@ -7,6 +7,9 @@
 #'
 #' @param keep a string vector of cellID to keep
 #'
+#' @return
+#'
+#' Returns a CNR bundle with only the cells we want to keep
 #'
 #' @examples
 #'
@@ -38,6 +41,7 @@ keepCells <- function(cnr, keep) {
     cnr[["Y"]] <- Y
     cnr[["qc"]] <- qc
     cnr[["exprs"]] <- Ye
+    cnr[["cells"]] <- keep
 
     return(cnr)
 }

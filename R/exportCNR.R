@@ -7,6 +7,21 @@
 #' @param ... arguments passed to write.table and ape::write.tree
 #'
 #' @import ape
+#' @import usethis
+#'
+#' @return
+#'
+#' Writes X, Y, genes, qc, gene.index, and chromInfo to `outdir`.  If
+#' `phylo` exists, a `.newick` format tree is also exported. Furthermore,
+#' if `DDRC` profiles are also present, files for these are also written
+#' to the specified directory.
+#' 
+#' 
+#' @examples
+#'
+#' data(cnr)
+#' 
+#' export(cnr, outdir = "cnr_out")
 #' 
 #' @export
 exportCNR <- function(cnr, outdir, ...) {
@@ -30,7 +45,8 @@ exportCNR <- function(cnr, outdir, ...) {
     write.table(cnr[["chromInfo"]], file = file.path(out.dir, "chromInfo.txt"), 
                 row.names = TRUE, col.names = TRUE,
                 sep = "\t", quote = FALSE, ...)
-    write.table(cnr[["geneIndex"]], file = file.path(out.dir, "chromInfo.txt"),
+
+    write.table(cnr[["gene.index"]], file = file.path(out.dir, "gene.index.txt"),
                 row.names = TRUE, col.names = TRUE,
                 sep = "\t", quote = FALSE, ...)
     
@@ -38,6 +54,9 @@ exportCNR <- function(cnr, outdir, ...) {
         ape::write.tree(cnr[["phylo"]],
                         file = file.path(out.dir, "phylo.newick"), ...)
     }
+
+    if(!is.null(cnr[["DDRC.df"]])) {
+        
     write.table(cnr[["DDRC.df"]], file = file.path(out.dir, "DDRC.txt"),
                 row.names = TRUE, col.names = TRUE,
                 sep = "\t", quote = FALSE, ...)
@@ -45,6 +64,7 @@ exportCNR <- function(cnr, outdir, ...) {
     write.table(cnr[["DDRC.g"]], file = file.path(out.dir, "DDRC_genes.txt"),
                 row.names = TRUE, col.names = TRUE,
                 sep = "\t", quote = FALSE, ...)
-        
+    }
+    
 } # end exportCNR
     
