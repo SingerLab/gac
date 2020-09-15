@@ -12,10 +12,13 @@ oncoKB_annotate(cnr, oncokb)
 \item{oncokb}{an oncokb table}
 }
 \value{
-Function retunrs an annotated gene.index with OncoKB cancer.gene,oncogene, and tummor suppressor gene (tsg).  Currently does not bring in the Actionability OncoKB level annotations.
+Function retunrs an annotated gene.index with OncoKB cancer.gene,oncogene, and
+ tummor suppressor gene (tsg).  Currently does not bring in the Actionability
+ OncoKB level annotations.
 }
 \description{
-Cross-references a gene index with OncoKB.  Information about OncoKB is available at https://www.oncokb.org
+Cross-references a gene index with OncoKB.  Information about OncoKB is available
+ at https://www.oncokb.org
 }
 \examples{
 

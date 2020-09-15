@@ -13,6 +13,10 @@ addPheno(cnr, df, ...)
 
 \item{...}{additional arguments by merge}
 }
+\value{
+Returns a CNR object with added columns to Y, e.g. additional cell
+ phenotypes, histologies, etc.
+}
 \description{
 add phenotype columns to the data
 }

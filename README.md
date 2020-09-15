@@ -12,7 +12,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![R build
 status](https://github.com/r-lib/usethis/workflows/R-CMD-check/badge.svg)](https://github.com/r-lib/usethis/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/usethis?branch=master)
+coverage](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/gh/SingerLab/gac?branch=master)
 [![Travis build
 status](https://travis-ci.com/SingerLab/gac.svg?branch=master)](https://travis-ci.com/SingerLab/gac)
 [![CRAN
@@ -26,11 +26,11 @@ The goal of GAC is to deliver a formal end-to-end analysis by
 integrating proven methods of quantitative genetics, statistics, and
 evolutionary biology for the genetic analysis of single-cell DNA copy
 number. GAC implements a simple, lightweight, and open-source R
-framework (Figure 1). Inspired, yet unlike Seurat and Scanpy, GAC adapts the
+framework (Figure 1). Inspired, but unlike Seurat and Scanpy, adapts the
 logic of espressioSet/AnnData into relational matrices in native R. This
 keeps the toolkit easy to learn, hard to master; and facilitates the
 integration of algorithms for the downstream analysis of single-cell DNA
-data wich is so desperately needed.  GAC facilitates the
+data wich is so desperately needed. For now GAC facilitates the
 downstream analyses of segmented data with common segments by
 concurrently managing the X, Y across all cells or samples e.g. the
 output of [Varbin/Ginkgo](https://github.com/robertaboukhalil/ginkgo),
@@ -48,7 +48,7 @@ wet-lab notes) (qc) (cells\[j\] x qc\[*c*\]) - a gene to bin index
 (gene.index) - the genomic coordinates of the bins or genotypes
 (chromInfo) - and an optional expression matrix (Ye; for DNA-RNA or
 same-cell G+T([Macaulay, et
-al.2015](https://dx.doi.org/10.1038/nmeth.3370)) or matched DNA/RNA samples (still in development).
+al.2015](https://dx.doi.org/10.1038/nmeth.3370))
 
 ![Figure 1.](figures/CNR.png)
 
@@ -56,9 +56,9 @@ al.2015](https://dx.doi.org/10.1038/nmeth.3370)) or matched DNA/RNA samples (sti
 
 ### Dependencies:
 
-  - [ComplexHeatmap & circlize](https://jokergoo.github.io/ComplexHeatmap-reference/book/)
+  - [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/)
   - [vegan](https://github.com/vegandevs/vegan)
-  - [ape](https://cran.r-project.org/web/packages/ape/index.html)
+  - [colorvalues](https://symbolixau.github.io/colourvalues/)
 
 You can install the development version from
 [GitHub](https://github.com/) with:
@@ -66,6 +66,21 @@ You can install the development version from
 ``` r
 # install.packages("devtools")
 devtools::install_github("SingerLab/gac")
+#> Downloading GitHub repo SingerLab/gac@master
+#> shape (1.4.4 -> 1.4.5) [CRAN]
+#> Skipping 3 packages not available: IRanges, GenomicRanges, ComplexHeatmap
+#> Installing 1 packages: shape
+#>      checking for file ‘/private/var/folders/f7/v_vt_5bn07z9tljnh56n9crnrzdbg9/T/Rtmp49mDYY/remotes2b9959f2fd92/SingerLab-gac-db799ad/DESCRIPTION’ ...  ✔  checking for file ‘/private/var/folders/f7/v_vt_5bn07z9tljnh56n9crnrzdbg9/T/Rtmp49mDYY/remotes2b9959f2fd92/SingerLab-gac-db799ad/DESCRIPTION’
+#>   ─  preparing ‘gac’:
+#>      checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
+#>   ─  checking for LF line-endings in source and make files and shell scripts
+#>   ─  checking for empty or unneeded directories
+#>   ─  looking to see if a ‘data/datalist’ file should be added
+#>   ─  building ‘gac_0.0.9004.tar.gz’
+#>      Warning: invalid uid value replaced by that for user 'nobody'
+#>    Warning: invalid gid value replaced by that for user 'nobody'
+#>      
+#> 
 ```
 
 ## Examples
@@ -77,7 +92,7 @@ library(gac)
 #> Loading required package: ComplexHeatmap
 #> Loading required package: grid
 #> ========================================
-#> ComplexHeatmap version 2.5.1
+#> ComplexHeatmap version 2.5.3
 #> Bioconductor page: http://bioconductor.org/packages/ComplexHeatmap/
 #> Github page: https://github.com/jokergoo/ComplexHeatmap
 #> Documentation: http://jokergoo.github.io/ComplexHeatmap-reference
@@ -89,10 +104,9 @@ library(gac)
 #> This message can be suppressed by:
 #>   suppressPackageStartupMessages(library(ComplexHeatmap))
 #> ========================================
-#> Loading required package: colourvalues
 #> Loading required package: circlize
 #> ========================================
-#> circlize version 0.4.9
+#> circlize version 0.4.10
 #> CRAN page: https://cran.r-project.org/package=circlize
 #> Github page: https://github.com/jokergoo/circlize
 #> Documentation: https://jokergoo.github.io/circlize_book/book/
@@ -158,7 +172,7 @@ The Singer Lab single-cell wet-lab and dry-lab endevours are carried
 forward by a skeleton crew. The need to have something simple that can
 help reduce the 85% of the time spent syncronizing bins, to genes, to
 phenotypes, and QC matrices capable of handling a large data set of
-\>20,000 cells was greatly needed. Knowing the data is growing by the
+\>16,000 cells was greatly needed. Knowing the data is growing by the
 week, I integrated functions to deal with the n+1 problem. This is
 easier when using bins instead of .seg data. Lastly, my background in
 animal genomics allowed me to borrow the succesful frameworks used in
@@ -185,7 +199,7 @@ We hope you enjoy \!
 
   - support for .seg files
 
-  - Implementation of a data model with [dm](https://github.com/krlmlr/dm)
+  - Computational efficiency with S4 dispatch with defined classes
 
   - Cleaner code with tidyverse
 

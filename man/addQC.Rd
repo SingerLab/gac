@@ -14,7 +14,7 @@ addQC(cnr, df, ...)
 \item{...}{additional parameters for sort}
 }
 \value{
-returns a CNR bundle with new QC columns
+Returns a CNR object with added columns to QC, e.g. mapd, DNA concentratios
 }
 \description{
 Add QC columns to the qc data frame

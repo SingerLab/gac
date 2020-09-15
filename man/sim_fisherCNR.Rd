@@ -20,6 +20,9 @@ sim_fisherCNR(cnr, cytobands, centromere = c("p11", "q11"), nsim = 200, ...)
 
 \item{...}{additional parameters pased to SCclust::sim_fisher_wrapper}
 }
+\value{
+SCclust pipeline and objects
+}
 \description{
 scClust uses Fisher distance
 }

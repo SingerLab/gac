@@ -15,6 +15,9 @@ roundCNR(X, neut = 2.5, loss = 1.2, del = 0.2)
 
 \item{del}{maximum threshold to consider a total deletion of the bin i.e. 0 copies}
 }
+\value{
+Rounds X based on quantal
+}
 \description{
 Rounds an X matrix to the nearest integer with special
 threasholds specific to single-cell quantal data from the Varbin algorithm

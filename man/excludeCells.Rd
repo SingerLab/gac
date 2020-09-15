@@ -11,6 +11,9 @@ excludeCells(cnr, excl)
 
 \item{excl}{a string vector of cellID to be removed}
 }
+\value{
+Returns a cnr object after removal of cells
+}
 \description{
 Both keepCells and excludeCells perform similar functions; keep cells with positive selection, and excludeCells with negative selection
 }

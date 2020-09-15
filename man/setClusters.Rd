@@ -13,6 +13,10 @@ setClusters(cnr, tree.height, prefix = "C")
 
 \item{prefix}{a prefix to append before the cluster number}
 }
+\value{
+Returns a cnr object with cluster membership based on Bray-Curtis
+ heirarchical clustering.  Tree height must be specified.
+}
 \description{
 setting clusters at optimal height
 }

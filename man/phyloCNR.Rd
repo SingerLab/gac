@@ -16,6 +16,16 @@ phyloCNR(cnr, dist.method = "bray", hclust.method = "ward.D2", ...)
 
 \item{...}{other parameters}
 }
+\value{
+Creates a cell-to-cell distance matrix, runs heirarchical clustering,
+ and converts the `hclust` object to an `ape` class `phylo` object.
+
+\itemize{
+  \item cdb cell to cell Bray-Curtis dissimiarly 
+  \item hcdb heirarchical clustering of distance matrix
+  \item phylo ape class `phylo` object
+}
+}
 \description{
 calculating distances, heirarchical clustering, and `phylo` object
 }

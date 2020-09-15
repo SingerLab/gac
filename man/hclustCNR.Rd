@@ -13,6 +13,9 @@ hclustCNR(cnr, method = "ward.D2", ...)
 
 \item{...}{other parameters passed to hclust}
 }
+\value{
+Returns a heirarchical clustering object
+}
 \description{
 heirarchical clustering
 }

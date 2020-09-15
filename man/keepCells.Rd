@@ -11,6 +11,9 @@ keepCells(cnr, keep)
 
 \item{keep}{a string vector of cellID to keep}
 }
+\value{
+Returns a CNR bundle with only the cells we want to keep
+}
 \description{
 Both keepCells and excludeCells perform similar functions; keep cells with positive selection, and excludeCells with negative selection
 }

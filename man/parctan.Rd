@@ -9,6 +9,9 @@ parctan(x)
 \arguments{
 \item{x}{copy number data}
 }
+\value{
+Returns a copy number object on Peter Andrew's arctan transformation
+}
 \description{
 The parctan transformation scales the data for visualization.  It zooms into low copy number, yet still see high valued copy number
 }

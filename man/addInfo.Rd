@@ -12,6 +12,9 @@ addInfo(cnr, df)
 \item{df}{a data.frame with the data to incorporate.  Particularly
 useful for adding p-values, genetic effects, etc to the bins}
 }
+\value{
+Returns a CNR object with added columns to the chromInfo. e.g. p-values for genome wide scans
+}
 \description{
 The function adds information at the bin level.  The gene information is an
 interpolation of the bin.  The number of independent tests you are performing

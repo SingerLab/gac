@@ -18,7 +18,12 @@ HeatmapCNR(cnr, what = "X", which.genes = NULL, show_row_dend = FALSE, ...)
 \item{...}{additional parameters from Heatmap}
 }
 \value{
-Returns a simple ComplexHeatmap plot clustered using Bray-Disimilarity with vegan::vegdist, and sorted by chromosome location.  Several color scales are provided in the package, see segCol, lowCol, ampCol, fgaCol, and ploidyCol.  These are useful for setting additional rowAnnotation and HeatmapAnnotations. A default chromosome color palette was left out as different organisms have different chromosome numbers and naming conventions.
+Returns a simple ComplexHeatmap plot clustered using Bray-Disimilarity with
+vegan::vegdist, and sorted by chromosome location.  Several color scales are
+provided in the package, see segCol, lowCol, ampCol, fgaCol, and ploidyCol.
+These are useful for setting additional rowAnnotation and HeatmapAnnotations.
+A default chromosome color palette was left out as different organisms have
+different chromosome numbers and naming conventions.
 
 For custumizing your heatmap, please visit the ComplexHeatmap documentation:
 
@@ -31,7 +36,10 @@ dissimilarity as the distance metric for clustering cells, and 'ward.D2' from
 is extensively used in Ecology for clustering comunities.
 }
 \details{
-If you prefer to use a different method, you can use the native Heatmap function. E.g. if you prefer genomic bins to cluster, and show a dendrogram when plotting X.  By default bins are kept in chromosome order, however, when plotting genes, rows are cells, and these are clustered.
+If you prefer to use a different method, you can use the native Heatmap function.
+E.g. if you prefer genomic bins to cluster, and show a dendrogram when plotting X.
+By default bins are kept in chromosome order, however, when plotting genes, rows
+are cells, and these are clustered.
 
 For convenience, GAC comes with several color palettes as part of the data. To use
  any of these run `data(segCol)` for example.  There are the different pallents and
@@ -40,11 +48,11 @@ For convenience, GAC comes with several color palettes as part of the data. To u
   * segCol for segmentation colors: loss and deletions in blue and yellow,
   respectively, 2 in white, gains and amplifications in red to gray scale
 
-  * lowcol for log2 ratio colors: blue-to-red scale from -2 to +2
+  * lowCol for log2 ratio colors: blue-to-red scale from -2 to +2
 
   * ampCol for amplification : yellow to red scale from 0 to Inf.
 
-  * fgaCol for Fraction of genome altered: from 0 e.g.. light yellow to 100 % in blue
+  * fgaCol for Fraction of genome altered: from 0 to 1 light yellow to 1 in blue
 
   * ploidyCol for ploidy : gradient of purples starting at 1.5
 }
