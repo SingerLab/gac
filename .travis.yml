@@ -3,6 +3,8 @@
 language: r
 r:
   - release
+r_packages:
+  - covr
 
 cache: packages
 
@@ -14,3 +16,6 @@ notifications:
   email:
     on_success: change
     on_failure: change
+
+after_success:
+  - Rscript -e 'library(covr); codecov()'
