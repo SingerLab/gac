@@ -127,7 +127,9 @@ Lastly, if you perform a new experiment, and need to add additional cells  use t
 newX <- data.frame(cbind(rep(c(5,2), c(3000, 2000)),
                          rep(c(2,4),  c(3000, 2000))))
 names(newX) <- paste0("cell", 13:14)
-newX
+head(newX)
+
+tail(newX)
 
 ## creating new phenotypes
 newY <- head(cnr$Y, n = 2)
@@ -213,6 +215,17 @@ cnr <- setKcc(cnr, K = 5)
 ```
 
 
-## Closing remarks
+```{r cluster_profiles}
+cnr <- get_cluster_profiles(cnr)
 
-Thank you for downloading and taking the time to learn this package.
+cnr <- cluster_representation(cnr) 
+
+cnr$consensus_counts
+
+```
+
+
+## Session Informatioin
+```{r sessioninfo}
+sessionInfo()
+```

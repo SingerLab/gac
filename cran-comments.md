@@ -4,8 +4,22 @@
 * win-builder (devel)
 
 ## R CMD check results
+
+### Tue Sep 15 18:53:38 2020
+ 
+* checking package dependencies ... ERROR
+Namespace dependency not required: ‘SCclust’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
 Duration: 3m 15.3s
 
+
+### 
 ❯ checking installed package size ... NOTE
     installed size is  8.9Mb
     sub-directories of 1Mb or more:
