@@ -42,7 +42,7 @@ cluster_heterogeneity <- function(cnr, by = NULL) {
     
     occ <- cluster_representation(occ, n.samples = ns)
     
-    cnr[["cell_heterogeneity"]] <- occ
+    cnr[["cluster_heterogeneity"]] <- occ
     
     return(cnr)
 } # cluster_heterogeneity
