@@ -193,9 +193,11 @@ cnr <- phyloCNR(cnr)
 plot(cnr[["phylo"]], type = "f")
 
 optClust(cnr)
-optClust(cnr, opt.range = seq(0.03, 0.08, by = 0.005))
+( mopc <- optClust(cnr, opt.range = seq(0.03, 0.08, by = 0.005)) )
 
-sc.tree.height <- 0.05
+plotCL(mopc)
+
+sc.tree.height <- 0.065
 
 cnr <- setClusters(cnr, tree.height = sc.tree.height)
 
@@ -218,9 +220,9 @@ cnr <- setKcc(cnr, K = 5)
 ```{r cluster_profiles}
 cnr <- get_cluster_profiles(cnr)
 
-cnr <- cluster_representation(cnr) 
+cnr <- cluster_heterogeneity(cnr) 
 
-cnr$consensus_counts
+cnr$cell_heterogeneity
 
 ```
 
