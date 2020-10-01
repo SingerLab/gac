@@ -165,8 +165,8 @@ HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"), col = segCol)
     a gene to bin index (gene.index) allowed the flexibility to
     interpolate the bin data to gene level resolution and integration to
     the complete set of phenotypes, and QC data, but it’s not the
-    restricted to the mouse mouse or human genomes. Cows, viruses, and
-    plants have genomes too\!
+    restricted to the mouse mouse or human genomes. The system is flexible
+    to configure to other genomes e.g. Cow, viruses, and plants.
 
 The Singer Lab single-cell wet-lab and dry-lab endevours are carried
 forward by a skeleton crew. The need to have something simple that can
@@ -177,9 +177,7 @@ week, I integrated functions to deal with the n+1 problem. This is
 easier when using bins instead of .seg data. Lastly, my background in
 animal genomics allowed me to borrow the succesful frameworks used in
 Genomic Selection in an abstract way in hopes that we can provide
-appropriate models for future same-cell technologies.
-
-We hope you enjoy \!
+appropriate models for future associations in multi-omic technologies.
 
   - Rodrigo, et al.
 
@@ -195,11 +193,9 @@ We hope you enjoy \!
 
   - Integration with Pathview for KEGG pathway visualization
 
-  - Appropriate clustering methods and thresholds
+  - Robust clustering methods and thresholds
 
   - support for .seg files
-
-  - Computational efficiency with S4 dispatch with defined classes
 
   - Cleaner code with tidyverse
 
