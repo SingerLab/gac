@@ -161,6 +161,9 @@ rand3 <- data.frame(cellID = cnr$Y$cellID, rand3 = rnorm(nrow(cnr$Y), mean = 2, 
 
 cnr <- addPheno(cnr, df = rand3)
 sapply(cnr, dim)
+
+head(cnr$Y)
+
 ```
 
 Similarly, if you run a qc metric such as Median Absolute Pairwise Deviance (MAPD) which is used to estimate how noisy the profiles are.  This estimate should be computed on the non-segmented bin estimates (this is not the right input for GAC as it requires you provided it segmented results). See documentation for [Ginkgo/Varbin](https://github.com/robertaboukhalil/ginkgo), MUMdex(http://mumdex.com), HMMcopy(https://bioconductor.org/packages/release/bioc/html/HMMcopy.html), or SCOPE(https://github.com/rujinwang/SCOPE) for details on how to perform the upstream analysis.
@@ -173,6 +176,9 @@ mapd <- data.frame(t(apply(cnr$X, 2, mapd)))
 mapd <- data.frame(cellID = rownames(mapd), mapd)
 
 cnr <- addQC(cnr, df = mapd)
+
+head(cnr$qc)
+
 ```
 
 Lastly, the goal of this tool is to facilitate the genetic, and statistical analysis of single-cell copy number data.  Most analysis will be carried out at the bin level.  Even if you aim to work with a single gene, the bin is the smallest independent unit for segmented data.  To add, for example, p-values to see which bins are linked to your phenotype the helper function is `addInfo`.
@@ -181,9 +187,12 @@ Lastly, the goal of this tool is to facilitate the genetic, and statistical anal
 ```{r addInfo}
 ## addInfo
 
-fakePval <- data.frame(runif(5000))
+fakePval <- data.frame(fakePval = runif(5000))
 
 cnr <- addInfo(cnr, df = fakePval)
+
+head(cnr$chromInfo)
+
 ```
 
 ```{r bray_diss_+phylo}
@@ -208,20 +217,24 @@ abline(h = sc.tree.height, col = "#D40000")
 
 ```{r cc_clust}
 ## par(ask = TRUE)
-cnr <- consensusClusterCNR(cnr, minK = 2, maxK = 8)
+data(ccClustCol)
+cnr <- consensusClusterCNR(cnr, maxK = 8)
 
 setK <- 5
 
 cnr <- setKcc(cnr, K = 5)
 
+plot_ccp(cnr, k = 5, col = ccClustCol)
+
+HeatmapCNR(cnr, col = segCol,
+           top_annotation =
+               HeatmapAnnotation(df = cnr$Y[, c("cluster", "ccK5")]))
+
 ```
 
 
 ```{r cluster_profiles}
-cnr <- get_cluster_profiles(cnr)
-
-cnr <- cluster_heterogeneity(cnr) 
-
+cnr <- cluster_heterogeneity(cnr)
 cnr$cell_heterogeneity
 
 ```

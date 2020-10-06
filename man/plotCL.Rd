@@ -9,6 +9,8 @@ plotCL(optC, type = "b", ...)
 \arguments{
 \item{optC}{output of optClust()}
 
+\item{type}{type of plot e.g point, line, both (p, l, b)}
+
 \item{...}{additional arguments passed to plot and points}
 }
 \description{

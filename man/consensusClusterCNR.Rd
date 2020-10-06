@@ -6,7 +6,6 @@
 \usage{
 consensusClusterCNR(
   cnr,
-  minK = 4,
   maxK = 8,
   reps = 150,
   title = "cnr_ccp",
@@ -18,8 +17,6 @@ consensusClusterCNR(
 }
 \arguments{
 \item{cnr}{a cnr object}
-
-\item{minK}{minimum K, start of the k sequence}
 
 \item{maxK}{maximum K, end of K sequence}
 
@@ -51,6 +48,6 @@ data(cnr)
 
 cnr <- phyloCNR(cnr)
 
-cnr <- consensusClusterCNR(cnr, minK = 4, maxK = 6)
+cnr <- consensusClusterCNR(cnr, maxK = 6)
 
 }

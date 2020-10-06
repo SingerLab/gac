@@ -4,7 +4,7 @@
 \alias{exportCNR}
 \title{export CNR to flat text files}
 \usage{
-exportCNR(cnr, outdir, ...)
+exportCNR(cnr, outdir = ".", ...)
 }
 \arguments{
 \item{cnr}{a cnr}
@@ -23,9 +23,10 @@ to the specified directory.
 export CNR to flat text files
 }
 \examples{
-
+\dontrun{
 data(cnr)
 
-export(cnr, outdir = "cnr_out")
+exportCNR(cnr, outdir = "cnr_out/")
+}
 
 }
