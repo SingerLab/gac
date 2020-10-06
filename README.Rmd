@@ -64,7 +64,7 @@ devtools::install_github("SingerLab/gac")
 
 
 ## Examples
-This is a basic example which shows you how to solve a common problem:
+This is a basic example for drawing a copy number heatmap.  For a comprehensive overview of the package please follow the `getting_started.Rmd` in the `vignettes/`
 
 ```{r example}
 library(gac)
