@@ -2,10 +2,35 @@
 % Please edit documentation in R/cluster_heterogeneity.R
 \name{cluster_representation}
 \alias{cluster_representation}
-\title{heterogeneity}
+\title{cluster representation}
 \usage{
-cluster_representation(cc, n.samples)
+cluster_representation(cc, n.samples = 1)
+}
+\arguments{
+\item{cc}{cluster counts}
+
+\item{n.samples}{vector containing the number of samples. Must
+mach number of rows in cc}
 }
 \description{
-heterogeneity
+cluster representation
+}
+\examples{
+
+## cluster table, no subsamples
+cc <- table(sample(paste0("C", 1:12), size = 1000, replace = TRUE))
+
+( cc <- cluster_representation(cc) )
+
+cc <- data.frame(cluster = sample(paste0("C", 1:12), size = 1000,
+                                  replace = TRUE),
+            sample = sample(paste0("S", 1:6), size = 1000, replace = TRUE))
+
+cc <- table(cc[, c("cluster", "sample")])
+cc[cc <= 10] <- 0
+
+ns <- rowSums(binary.mat(cc))
+
+( cc <- cluster_representation(cc, n.samples = ns) )
+
 }

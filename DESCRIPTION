@@ -1,6 +1,6 @@
 Package: gac
-Version: 0.0.9008
-Date: 2020-07-15
+Version: 0.0.9009
+Date: 2020-09-27
 Title: Genetic Analysis of Cells
 Authors@R: person("Rodrigo Gularte Merida",
 	   role = c("aut", "cre"),
@@ -17,15 +17,15 @@ Imports:
     assertthat,
     ConsensusClusterPlus,
     usethis,
-    entropy
+    entropy,
+    SCclust
 Suggests:
     dplyr,
     biomaRt,
     tidyverse,
     knitr,
     rmarkdown,
-    testthat,
-    SCclust
+    testthat
 Description: This package is a framework and toolkit for the analysis of single-cell genomic data. It provides a framework to efficiently carry out the downstream quantative analysis of single cell data by managing concurrent phenotypic and metadata about all the cells and the samples they came from. It applies the state-of-the art methods for identifying recurrent altered regions, and makes use of mixed models used in quantitative genetics to identify causal genes. An additional, convenient feature is that it automatically expands the bin/segment data to genes seamlesly and to facilitate the biological interpretation of results.
 License: BSD_3_clause + file LICENSE
 URL: https://github.com/SingerLab/gac/

@@ -17,17 +17,13 @@ cluster heterogeneity across the sample
 }
 \examples{
 
-## cluster table, no subsamples
-cc <- table(sample(paste0("C", 1:12), size = 1000, replace = TRUE))
+data(cnr)
 
-( cc <- cluster_representation(cc) )
+cnr <- phyloCNR(cnr)
 
-cc <- data.frame(cluster = sample(paste0("C", 1:12), size = 1000, replace = TRUE),
-            sample = sample(paste0("S", 1:6), size = 1000, replace = TRUE))
+cnr <- setClusters(cnr, tree.height = 0.065)
 
-cc <- table(cc[, c("cluster", "sample")])
-cc[cc <= 10] <- 0
+cnr <- cluster_heterogeneity(cnr)
 
-( cc <- cluster_representation(cc) )
 
 }

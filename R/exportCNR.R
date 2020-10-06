@@ -6,9 +6,10 @@
 #'
 #' @param ... arguments passed to write.table and ape::write.tree
 #'
-#' @import ape
+#' @import ape 
 #' @import usethis
-#'
+#' @import utils
+#' 
 #' @return
 #'
 #' Writes X, Y, genes, qc, gene.index, and chromInfo to `outdir`.  If
@@ -18,50 +19,53 @@
 #' 
 #' 
 #' @examples
-#'
+#'\dontrun{
 #' data(cnr)
 #' 
-#' export(cnr, outdir = "cnr_out")
+#' exportCNR(cnr, outdir = "cnr_out/")
+#'}
 #' 
 #' @export
-exportCNR <- function(cnr, outdir, ...) {
+exportCNR <- function(cnr, outdir = ".", ...) {
 
     usethis::use_directory(outdir)
     
-    write.table(cnr[["X"]], file = file.path(out.dir, "X.txt"), row.names = TRUE,
-                col.names = TRUE, sep = "\t", quote = FALSE, ...)
+    utils::write.table(cnr[["X"]], file = file.path(outdir, "X.txt"),
+                       row.names = TRUE,
+                       col.names = TRUE, sep = "\t", quote = FALSE, ...)
 
-    write.table(cnr[["Y"]], file = file.path(out.dir, "Y.txt"), row.names = TRUE,
-                col.names = TRUE, sep = "\t", quote = FALSE, ...)
+    utils::write.table(cnr[["Y"]], file = file.path(outdir, "Y.txt"),
+                       row.names = TRUE,
+                       col.names = TRUE, sep = "\t", quote = FALSE, ...)
 
-    write.table(cnr[["genes"]], file = file.path(out.dir, "geneCN.txt"),
+    utils::write.table(cnr[["genes"]], file = file.path(outdir, "geneCN.txt"),
                 row.names = TRUE,col.names = TRUE,
                 sep = "\t", quote = FALSE, ...)
 
-    write.table(cnr[["qc"]], file = file.path(out.dir, "qc.txt"),
+    utils::write.table(cnr[["qc"]], file = file.path(outdir, "qc.txt"),
                 row.names = TRUE, col.names = TRUE,
                 sep = "\t", quote = FALSE, ...)
                 
-    write.table(cnr[["chromInfo"]], file = file.path(out.dir, "chromInfo.txt"), 
+    utils::write.table(cnr[["chromInfo"]], file = file.path(outdir, "chromInfo.txt"), 
                 row.names = TRUE, col.names = TRUE,
                 sep = "\t", quote = FALSE, ...)
 
-    write.table(cnr[["gene.index"]], file = file.path(out.dir, "gene.index.txt"),
+    utils::write.table(cnr[["gene.index"]], file = file.path(outdir, "gene.index.txt"),
                 row.names = TRUE, col.names = TRUE,
                 sep = "\t", quote = FALSE, ...)
     
     if(!is.null(cnr[["phylo"]])) {
         ape::write.tree(cnr[["phylo"]],
-                        file = file.path(out.dir, "phylo.newick"), ...)
+                        file = file.path(outdir, "phylo.newick"), ...)
     }
 
     if(!is.null(cnr[["DDRC.df"]])) {
         
-    write.table(cnr[["DDRC.df"]], file = file.path(out.dir, "DDRC.txt"),
+    utils::write.table(cnr[["DDRC.df"]], file = file.path(outdir, "DDRC.txt"),
                 row.names = TRUE, col.names = TRUE,
                 sep = "\t", quote = FALSE, ...)
     
-    write.table(cnr[["DDRC.g"]], file = file.path(out.dir, "DDRC_genes.txt"),
+    utils::write.table(cnr[["DDRC.g"]], file = file.path(outdir, "DDRC_genes.txt"),
                 row.names = TRUE, col.names = TRUE,
                 sep = "\t", quote = FALSE, ...)
     }

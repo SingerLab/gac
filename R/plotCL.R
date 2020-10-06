@@ -1,9 +1,14 @@
 #' plot cluster optimization
 #'
 #' @param optC output of optClust()
+#'
+#' @param type type of plot e.g point, line, both (p, l, b)
 #' 
 #' @param ... additional arguments passed to plot and points
 #'
+#'
+#' @import graphics
+#' 
 #' @examples
 #'
 #' data(cnr)
@@ -18,6 +23,6 @@
 plotCL <- function(optC, type = "b", ...) {
     plot(rownames(optC), optC[,1], pch = 1, ylim = c(0, max(optC)),
          type = type, ...)
-    points(rownames(optC), optC[,2], pch = 2, type = type,  ...)
-    legend("topright", legend = c("One-cell", "Multi-cell"), pch = 1:2)
+    graphics::points(rownames(optC), optC[,2], pch = 2, type = type,  ...)
+    graphics::legend("topright", legend = c("One-cell", "Multi-cell"), pch = 1:2)
 }

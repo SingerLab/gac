@@ -13,7 +13,7 @@
 #'
 #' 
 #' @examples
-#'
+#'\dontrun{
 #' data(cnr)
 #'
 #' ## for binary data
@@ -25,6 +25,7 @@
 #' G <- ternary.cnr(cnr$genes[, c("CDK4", "MDM2", "HMGA2")])
 #'
 #' aggrMat.G <- gene.aggregate(Z = G)
+#' }
 #' 
 #' @export
 gene.aggregate <- function(Z) {

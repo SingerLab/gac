@@ -4,8 +4,6 @@
 #'
 #' @param cnr a cnr object
 #'
-#' @param minK minimum K, start of the k sequence
-#'
 #' @param maxK maximum K, end of K sequence
 #'
 #' @param reps number of times the clustering runs
@@ -36,12 +34,12 @@
 #'
 #' cnr <- phyloCNR(cnr)
 #'
-#' cnr <- consensusClusterCNR(cnr, minK = 4, maxK = 6)
+#' cnr <- consensusClusterCNR(cnr, maxK = 6)
 #' 
 #' @import ConsensusClusterPlus
 #'
 #' @export
-consensusClusterCNR <- function(cnr, minK = 4, maxK = 8, reps = 150,
+consensusClusterCNR <- function(cnr, maxK = 8, reps = 150,
                                 title = "cnr_ccp",
                                 innerLinkage = "ward.D2",
                                 finalLinkage = "ward.D2",
@@ -49,6 +47,8 @@ consensusClusterCNR <- function(cnr, minK = 4, maxK = 8, reps = 150,
                                 ...) {
 
     assertthat::assert_that(!is.null(cnr[["cdb"]]))
+
+    minK <- 2
     
     cnr[["ccp"]] <- ConsensusClusterPlus::ConsensusClusterPlus(cnr[["cdb"]],
                                          minK = minK, maxK = maxK, reps = reps,

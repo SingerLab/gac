@@ -19,7 +19,7 @@ This is a helper function to process the binary or ternary matrix.  Because gene
 This function checks if two rows have are identical and merges them into one. It also creates unique rownames to know what was de-duplicated
 }
 \examples{
-
+\dontrun{
 data(cnr)
 
 ## for binary data
@@ -31,5 +31,6 @@ aggrMat.Z <- gene.aggregate(Z = Z)
 G <- ternary.cnr(cnr$genes[, c("CDK4", "MDM2", "HMGA2")])
 
 aggrMat.G <- gene.aggregate(Z = G)
+}
 
 }
