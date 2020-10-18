@@ -48,10 +48,8 @@ consensusClusterCNR <- function(cnr, maxK = 8, reps = 150,
 
     assertthat::assert_that(!is.null(cnr[["cdb"]]))
 
-    minK <- 2
-    
     cnr[["ccp"]] <- ConsensusClusterPlus::ConsensusClusterPlus(cnr[["cdb"]],
-                                         minK = minK, maxK = maxK, reps = reps,
+                                         maxK = maxK, reps = reps,
                                          title = title, innerLinkage = innerLinkage,
                                          finalLinkage = finalLinkage, seed = seed,
                                          ...)
