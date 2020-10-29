@@ -50,8 +50,7 @@ consensusClusterCNR <- function(cnr, maxK = 40, reps = 150,
 
     cnr[["ccp"]] <- ConsensusClusterPlus::ConsensusClusterPlus(cnr[["cdb"]],
                                          maxK = maxK, reps = reps,
-                                         title = title,
-                                         innerLinkage = innerLinkage,
+                                         title = title, innerLinkage = innerLinkage,
                                          finalLinkage = finalLinkage, seed = seed,
                                          ...)
     return(cnr)

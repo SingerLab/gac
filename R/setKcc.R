@@ -32,15 +32,15 @@ setKcc <- function(cnr, kCC = NULL, prefix = NULL) {
     cc_membership <- as.data.frame(factor(cnr[["ccp"]][[kCC]]$consensusClass))
     colnames(cc_membership) <- "ConsensusC"
 
-    if(!is.null(prefix)) {
+  if(!is.null(prefix)) {
         cc_membership[,1] <- paste0(prefix, cc_membership[,1])
     }
     
     cnr <- addPheno(cnr, df = cc_membership, by.x = "cellID", by.y = 0,
                     sort = FALSE)
 
-    cnr[["kCC"]] <- kCC
-    
-    return(cnr)
+  cnr[["kCC"]] <- kCC
+
+  return(cnr)
 }
 
