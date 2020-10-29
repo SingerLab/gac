@@ -52,7 +52,7 @@ gisticGR <- function(cnr, grTR, oncokb = TRUE, depmeans = TRUE) {
     
     names(gistic.genes) <- c("seqnames", "start", "end", "width", "strand",
                              "alteration.type", 
-                             "chr", "gene.start", "gene.end", "width",
+                             "chr", "gene.start", "gene.end", "gene.width",
                              "gene.strand", "ensembl_gene_id",
                              "hgnc.symbol", "gene.type", "bin.id",
                              "oncoKB", "depMeans", "essential")
