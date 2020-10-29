@@ -19,8 +19,8 @@
 #' @export
 setKcc <- function(cnr, kCC = NULL, prefix = NULL) {
 
-    assertthat::assert_that(any("ConsensusC" %in% colnames(cnr[["Y"]])),
-                            msg = "a consensus cluster column already exists")
+    ## assertthat::assert_that("ConsensusC" %in% colnames(cnr[["Y"]]),
+    ##                        msg = "a consensus cluster column already exists")
     
     if(is.null(kCC) & !is.null(cnr[["optK"]]["kCC"])) {
         kCC <- cnr[["optK"]]["kCC"]
