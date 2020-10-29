@@ -39,7 +39,7 @@
 #' @import ConsensusClusterPlus
 #'
 #' @export
-consensusClusterCNR <- function(cnr, maxK = 8, reps = 150,
+consensusClusterCNR <- function(cnr, maxK = 40, reps = 150,
                                 title = "cnr_ccp",
                                 innerLinkage = "ward.D2",
                                 finalLinkage = "ward.D2",

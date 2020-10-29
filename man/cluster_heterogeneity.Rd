@@ -4,13 +4,15 @@
 \alias{cluster_heterogeneity}
 \title{cluster heterogeneity across the sample}
 \usage{
-cluster_heterogeneity(cnr, by = NULL)
+cluster_heterogeneity(cnr, by = NULL, cluster_column = NULL)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
 \item{by}{a categorical variable used to stratify the cell population.  If
 NULL i.e. no stratification, the representation will be done overall}
+
+\item{cluster_column}{column to use as cluster}
 }
 \description{
 cluster heterogeneity across the sample
@@ -21,9 +23,9 @@ data(cnr)
 
 cnr <- phyloCNR(cnr)
 
-cnr <- setClusters(cnr, tree.height = 0.065)
+cnr <- setBrayClusters(cnr, tree.height = 0.065)
 
-cnr <- cluster_heterogeneity(cnr)
+cnr <- cluster_heterogeneity(cnr, cluster_column = "BrayC")
 
 
 }

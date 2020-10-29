@@ -21,7 +21,7 @@ get_cluster_profiles <- function(cnr, minimum_cells = 3) {
     ## this also removes clusteres with a low number of cells
     DDRC.df <- sapply(names(uclust), function(clust) {
     ## getting consensus copy number profile for each cluster
-        udf <- cnr$X[, cnr$Y$cellID[cnr$Y$cluster == clust]]
+        udf <- cnr$X[, cnr$Y$cellID[cnr$Y$final_cluster == clust]]
         if ( ncol(udf) != 0 && ! is.null(ncol(udf)) ) {
             apply(udf, 1, median, na.rm = TRUE)
         }
@@ -51,9 +51,9 @@ get_cluster_profiles <- function(cnr, minimum_cells = 3) {
 #' @export
 use_clusters <- function(cnr, minimum_cells = 3) {
 
-    ucd <- table(cnr[["Y"]]$cluster)
+    ucd <- table(cnr[["Y"]]$final_cluster)
     ucd <- ucd[ucd >= minimum_cells]
-
+    
     return(ucd)
 
 } # use_clusters
