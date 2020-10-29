@@ -6,7 +6,7 @@
 \usage{
 consensusClusterCNR(
   cnr,
-  maxK = 8,
+  maxK = 40,
   reps = 150,
   title = "cnr_ccp",
   innerLinkage = "ward.D2",

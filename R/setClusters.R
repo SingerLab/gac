@@ -15,18 +15,18 @@
 #' @importFrom stats cutree
 #' 
 #' @export
-setClusters <- function(cnr, tree.height, prefix = "C") {
-
-    assertthat::assert_that("cluster" %in% colnames(cnr[["Y"]]) == FALSE,
+setBrayClusters <- function(cnr, tree.height, prefix = "C") {
+    
+    assertthat::assert_that("BrayC" %in% colnames(cnr[["Y"]]) == FALSE,
                             msg = "a cluster column already exists")
-
-    cluster <-  cutree(cnr[["hcdb"]], h = tree.height)
+    
+    BrayC <-  cutree(cnr[["hcdb"]], h = tree.height)
 
     if(!is.null(prefix)) {
-        cluster <- paste0(prefix, cluster)
+        BrayC <- paste0(prefix, BrayC)
     }
     
-    cnr[["Y"]]$cluster <- cluster
+    cnr[["Y"]]$BrayC <- BrayC
     cnr[["tree.height"]] <- tree.height
 
     return(cnr)

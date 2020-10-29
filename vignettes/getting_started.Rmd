@@ -85,7 +85,7 @@ data(segCol)
 HeatmapCNR(cnr, col = segCol)
 
 ## visualize genes of interest
-HeatmapCNR(cnr, col = segCol, what = "genes", which.genes = c("CDK4", "MDM2"))
+HeatmapCNR(cnr, col = segCol, what = "genes", which.genes = c("CDK4", "MDM2", "TP53"))
 
 ```
 
@@ -105,6 +105,7 @@ cnr <- excludeCells(cnr, excl = excl.cells)
 sapply(cnr, dim)
 
 HeatmapCNR(cnr, col = segCol)
+
 ```
 
 Conversly, if you have multiple samples or have multiple conditions and wish to use only part of the data, you can use `keepCells`
@@ -172,10 +173,10 @@ To add QC metrix use the `addQC`
 
 ```{r add.qc}
 ## add QC
-mapd <- data.frame(t(apply(cnr$X, 2, mapd)))
-mapd <- data.frame(cellID = rownames(mapd), mapd)
+mapdX <- data.frame(t(apply(cnr$X, 2, mapd)))
+mapdX <- data.frame(cellID = rownames(mapdX), mapdX)
 
-cnr <- addQC(cnr, df = mapd)
+cnr <- addQC(cnr, df = mapdX)
 
 head(cnr$qc)
 
@@ -196,7 +197,6 @@ head(cnr$chromInfo)
 ```
 
 ```{r bray_diss_+phylo}
-
 cnr <- phyloCNR(cnr)
 
 plot(cnr[["phylo"]], type = "f")
@@ -208,7 +208,7 @@ plotCL(mopc)
 
 sc.tree.height <- 0.065
 
-cnr <- setClusters(cnr, tree.height = sc.tree.height)
+cnr <- setBrayClusters(cnr, tree.height = sc.tree.height)
 
 plot(cnr[["hcdb"]])
 abline(h = sc.tree.height, col = "#D40000")
@@ -216,31 +216,46 @@ abline(h = sc.tree.height, col = "#D40000")
 ```
 
 ```{r cc_clust}
-## par(ask = TRUE)
 data(ccClustCol)
 cnr <- consensusClusterCNR(cnr, maxK = 8)
 
-setK <- 5
+cnr <- doKSpectral(cnr)
 
-cnr <- setKcc(cnr, K = 5)
+cnr$kStats
 
-plot_ccp(cnr, k = 5, col = ccClustCol)
+cnr$optK
+
+cnr <- setKcc(cnr)
+
+plot_ccp(cnr, k = 8, col = ccClustCol)
 
 HeatmapCNR(cnr, col = segCol,
+           column_split = cnr$Y$ConsensusC,
+           column_gap = unit(0, "mm"),
            top_annotation =
-               HeatmapAnnotation(df = cnr$Y[, c("cluster", "ccK5")]))
+               HeatmapAnnotation(df = cnr$Y[, c("BrayC", "ConsensusC")]))
 
 ```
 
+
+```{r cluster_heterogeneity}
+cnr <- cluster_heterogeneity(cnr, cluster_column = "BrayC")
+
+cnr$cluster_heterogeneity
+
+```
 
 ```{r cluster_profiles}
-cnr <- cluster_heterogeneity(cnr)
-cnr$cell_heterogeneity
+cnr <- get_cluster_profiles(cnr)
+
+Heatmap(cnr$DDRC.df, col = segCol, cluster_rows = FALSE, cluster_columns = FALSE,
+        column_labels = paste(names(cnr$uclust), "(n =", cnr$uclust, ")" ))
 
 ```
-
 
 ## Session Informatioin
 ```{r sessioninfo}
+date()
 sessionInfo()
+
 ```

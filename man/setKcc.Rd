@@ -4,16 +4,20 @@
 \alias{setKcc}
 \title{pull cluster membership for K clusters}
 \usage{
-setKcc(cnr, K = 5)
+setKcc(cnr, kCC = NULL, prefix = NULL)
 }
 \arguments{
 \item{cnr}{a cnr object}
 
-\item{K}{number of K clusters to use}
+\item{kCC}{number of K clusters to use, 
+select optimum or maximum k from kSpectral.  Default is NULL
+which will pull the optK[kCC] from kStats}
+
+\item{prefix}{prefix charcter to append to Consensus Clusters}
 }
 \value{
 returns cluster membership based on consensus clustering for a
- specified K
+ specified kCC
 }
 \description{
 pull cluster membership for K clusters

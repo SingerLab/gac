@@ -4,6 +4,8 @@
 #'
 #' @param by a categorical variable used to stratify the cell population.  If
 #' NULL i.e. no stratification, the representation will be done overall
+#'
+#' @param cluster_column column to use as cluster
 #' 
 #' @import entropy
 #'
@@ -13,17 +15,20 @@
 #'
 #' cnr <- phyloCNR(cnr)
 #'
-#' cnr <- setClusters(cnr, tree.height = 0.065)
+#' cnr <- setBrayClusters(cnr, tree.height = 0.065)
 #'
-#' cnr <- cluster_heterogeneity(cnr)
+#' cnr <- cluster_heterogeneity(cnr, cluster_column = "BrayC")
 #'
 #' 
 #' @export
-cluster_heterogeneity <- function(cnr, by = NULL) {
+cluster_heterogeneity <- function(cnr, by = NULL, cluster_column = NULL) {
 
+    assertthat::assert_that(!is.null(cluster_column))
+    assertthat::assert_that(any(cluster_column %in% names(cnr$Y)))
+    
     if(is.null(by)) {
 
-        occ <- table(cnr$Y$cluster)
+        occ <- table(cnr$Y[, cluster_column])
         ns <- rep(1, length(occ))
         
     } else {
@@ -31,13 +36,15 @@ cluster_heterogeneity <- function(cnr, by = NULL) {
         assertthat::is.string(by)
         assertthat::assert_that(by %in% names(cnr$Y))
         
-        occ <- table(cnr$Y[, c("cluster", by)])
+        occ <- table(cnr$Y[, c(cluster_column, by)])
         ns <- rowSums(binary.mat(occ))
         
     }
     
     occ <- cluster_representation(occ, n.samples = ns)
-    
+
+    cnr$Y$final_cluster <- cnr$Y[, cluster_column]
+
     cnr[["cluster_heterogeneity"]] <- occ
     
     return(cnr)

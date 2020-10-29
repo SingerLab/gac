@@ -1,5 +1,5 @@
 Package: gac
-Version: 0.0.9009
+Version: 0.0.90012
 Date: 2020-09-27
 Title: Genetic Analysis of Cells
 Authors@R: person("Rodrigo Gularte Merida",
@@ -7,7 +7,12 @@ Authors@R: person("Rodrigo Gularte Merida",
 	   email = "gularter@mskcc.org")
 Author: Rodrigo Gularte Merida [aut, cre]
 Maintainer: Rodrigo Gularte Merida <gularter@mskcc.org> 
-Depends: R (>= 3.1.0), ComplexHeatmap, circlize, vegan
+Depends: 
+    R (>= 3.1.0),
+    ComplexHeatmap,
+    circlize,
+    vegan,
+    dplyr
 Imports:
     colourvalues,
     stats,
@@ -20,7 +25,6 @@ Imports:
     entropy,
     SCclust
 Suggests:
-    dplyr,
     biomaRt,
     tidyverse,
     knitr,
