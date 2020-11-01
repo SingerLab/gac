@@ -36,9 +36,6 @@
 #' 
 #' @param ... additional parameters from Heatmap
 #' 
-#'
-#' 
-#'
 #' @return
 #' Returns a simple ComplexHeatmap plot clustered using Bray-Disimilarity with
 #' vegan::vegdist, and sorted by chromosome location.  Several color scales are
@@ -91,8 +88,14 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
         chl <- rep(grs, rp)
         chl <- chl[1:length(unique(cf))]
         names(chl) <- unique(cf)
+
+        chrBreaks <- cumsum(table(cnr$chromInfo$chrom))
+        midChr <- chrBreaks - floor((chrBreaks - c(1, chrBreaks[1:23]))  / 2)
         
-        chrAnno <- rowAnnotation(chr = cf, col = list(chr = chl))
+        chrAnno <- rowAnnotation(labs = anno_mark(at = midChr, labels = unique(cf), side = "left",
+                                                  labels_gp = gpar(fontsize = 10)),
+                                 chr = cf, col = list(chr = chl), show_legend = FALSE)
+        
         if(cnr[["bulk"]]) {
             
             Hmap <- Heatmap(use, name = "X", clustering_distance_columns = function(X) vegan::vegdist(2^X, method = "bray", na.rm = TRUE),
