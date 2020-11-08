@@ -4,21 +4,23 @@
 \alias{gisticGR}
 \title{Gistic Genomic Ranges, get genes in gene.index that overlap with significant genomic ranges in GISTIC2 output}
 \usage{
-gisticGR(cnr, grTR, oncokb, depmeans, cutoff = -0.5)
+gisticGR(cnr, grTR, oncokb = TRUE, depmeans = TRUE)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
 \item{grTR}{gistic regions table, output from gisticRegions}
 
-\item{oncokb}{OncoKB annotation (downloaded from OncoKB)}
+\item{oncokb}{OncoKB cancer gene annotations (TRUE/FALSE)
+(see ?oncoKB_annotation)}
 
 \item{depmeans}{dependency score means for cells of interest
-e.g. DepMap achilles scores}
-
-\item{cutoff}{threshold to consider a gene as essential or non-essential}
+e.g. DepMap achilles scores (see ?depmap_annotation), (TRUE/FALSE)}
 }
 \description{
 **Still in development**
 ** requires GenommicRanges
+}
+\details{
+note if oncokb or depmeans are FALSE, both annotations will be ignored
 }

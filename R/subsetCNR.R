@@ -21,8 +21,9 @@
 #' data(cnr)
 #' data(segCol)
 #' 
-#' chr19 <- rownames(cnr$X)[cnr$chromInfo$chrom == "19"]
-#' cnr_chr19 <- subsetCNR(cnr, based.on = "X", keep = chr19)
+#' chr19.bins <- rownames(cnr$X)[cnr$chromInfo$chrom == "19"]
+#' 
+#' cnr_chr19 <- subsetCNR(cnr, based.on = "X", keep = chr19.bins)
 #'
 #' sapply(cnr_chr19, dim)
 #'

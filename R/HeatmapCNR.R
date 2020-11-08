@@ -90,7 +90,13 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
         names(chl) <- unique(cf)
 
         chrBreaks <- cumsum(table(cnr$chromInfo$chrom))
-        midChr <- chrBreaks - floor((chrBreaks - c(1, chrBreaks[1:23]))  / 2)
+
+        if(length(chrBreaks) == 1) {
+            midChr <- floor(chrBreaks/2)
+        } else {
+            
+            midChr <- chrBreaks - floor((chrBreaks - c(1, chrBreaks[1:(length(chrBreaks) -1)]))  / 2)
+        }
         
         chrAnno <- rowAnnotation(labs = anno_mark(at = midChr, labels = unique(cf), side = "left",
                                                   labels_gp = gpar(fontsize = 10)),
