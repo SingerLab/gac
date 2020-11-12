@@ -68,7 +68,7 @@ get_bin_frequencies <- function(cnr) {
     delCT <- get_del_frequencies(t(cnr[["X"]]), bulk = cnr$bulk)
     altCT <- get_alt_frequencies(t(cnr[["X"]]), bulk = cnr$bulk)
 
-    ncells <- nrow(cnr$X)
+    ncells <- ncol(cnr$X)
     
     altDF <- data.frame(AmpCT, delCT, altCT,
                         AmpFQ = AmpCT/ncells, delFQ = delCT/ncells,
@@ -90,7 +90,7 @@ get_gene_frequencies <- function(cnr) {
     delCT <- get_del_frequencies(cnr[["genes"]], bulk = cnr$bulk)
     altCT <- get_alt_frequencies(cnr[["genes"]], bulk = cnr$bulk)
 
-    ncells <- nrow(cnr$X)
+    ncells <- ncol(cnr$X)
     
     altDF <- data.frame(AmpCT, delCT, altCT,
                         AmpFQ = AmpCT/ncells, delFQ = delCT/ncells,
