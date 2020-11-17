@@ -1,16 +1,16 @@
 #' Build a consensus copy number profile for each cluster or clone
 #'
-#' @param cnr a cnr bundle containing the output of setCluster
+#' @param cnr a cnr bundle containing a `final_cluster` column in Y.
 #'
-#' @param minimum_cells minimum number of cells in a cluster, must be greater than 3
+#' @param minimum_cells minimum number of cells in a cluster, best if greater than 3
 #' to estimate a median
 #'
 #' @return
 #'
-#' Returns a vector of clusters with miminum `n` cells (default 3), and two matrices.
-#'  One matrix `DDRC.df` with the median consensus profile for the cluster using
-#'  bins, the other `DDRC.g` which composes the median consensus profile for each
-#'  gene.
+#' Function returns the cnr with three additional tables. 
+#' * uclust : number of cells in each final_cluster, only clusters greater than the specified minimum number of cells is shown
+#' * DDRC.df: a matrix containing the representative profile for each `final_cluster` at the bin level.
+#' * DDRC.g : interpolation of the DDRC.df at the gene level for each `final_cluster`.
 #' 
 #' @export
 get_cluster_profiles <- function(cnr, minimum_cells = 3) {
