@@ -4,12 +4,16 @@
 \alias{lookupCN}
 \title{Lookup copy number data from bins}
 \usage{
-lookupCN(cnr, coord)
+lookupCN(cnr, chr = 12, start = 69200804, end = 69246466)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
-\item{coord}{a `list` with elements named chr start end}
+\item{chr}{a chromosome name, must match 'cnr$chromInfo$bin.chrom'}
+
+\item{start}{start coodinate}
+
+\item{end}{end coordinate}
 }
 \value{
 Returns the X data for a set of chromosome coordinates
@@ -20,8 +24,8 @@ This function pulls the X copy number data based on coordinate information from 
 \examples{
 
 data(cnr)
-coords <- list(chr = 2, start = 550000, end = 600000)
+coord <- data.frame(chr = 2, start = 550000, end = 600000)
 
-lookupCN(cnr, coord = coords)
+lookupCN(cnr, chr = coord$chr, start = coord$start, end = coord$end)
 
 }

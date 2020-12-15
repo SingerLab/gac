@@ -102,6 +102,10 @@ get_gene_frequencies <- function(cnr) {
 
 #' amplification gene frequency
 #'
+#' @param X a matrix of integer copy number `cnr$X`
+#'
+#' @param bulk logical, weather the cnr is from bulk DNA, default is FALSE
+#' 
 #' @import assertthat
 #' 
 #' @export
@@ -121,6 +125,10 @@ get_amp_frequencies <- function(X, bulk) {
 
 #' deletion frequency
 #'
+#' @param X a matrix of integer copy number `cnr$X`
+#'
+#' @param bulk logical, weather the cnr is from bulk DNA, default is FALSE
+#'
 #' @import assertthat
 #' 
 #' @export
@@ -138,6 +146,10 @@ get_del_frequencies <- function(X, bulk) {
 }
 
 #' alteration frequency (both Amp + Del)
+#'
+#' @param X a matrix of integer copy number `cnr$X`
+#'
+#' @param bulk logical, weather the cnr is from bulk DNA, default is FALSE
 #'
 #' @import assertthat
 #' 

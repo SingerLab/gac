@@ -6,6 +6,11 @@
 \usage{
 get_alt_frequencies(X, bulk)
 }
+\arguments{
+\item{X}{a matrix of integer copy number `cnr$X`}
+
+\item{bulk}{logical, weather the cnr is from bulk DNA, default is FALSE}
+}
 \description{
 alteration frequency (both Amp + Del)
 }
