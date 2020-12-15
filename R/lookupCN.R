@@ -4,7 +4,11 @@
 #'
 #' @param cnr a cnr bundle
 #'
-#' @param coord a `list` with elements named chr start end
+#' @param chr a chromosome name, must match 'cnr$chromInfo$bin.chrom'
+#'
+#' @param start start coodinate
+#'
+#' @param end end coordinate
 #'
 #' @return
 #'
@@ -14,13 +18,13 @@
 #' @examples
 #'
 #' data(cnr)
-#' coords <- list(chr = 2, start = 550000, end = 600000)
+#' coord <- data.frame(chr = 2, start = 550000, end = 600000)
 #'
-#' lookupCN(cnr, coord = coords)
-#' 
+#' lookupCN(cnr, chr = coord$chr, start = coord$start, end = coord$end)
+#'
 #' @export
-lookupCN <- function(cnr, coord) {
+lookupCN <- function(cnr, chr = 12, start = 69200804, end = 69246466) {
     ## coord is a list object with elements $chr $start $end
-    t(cnr$X[as.character(cnr$chromInfo$bin.chrom) == coord$chr & cnr$chromInfo$bin.start > coord$start & cnr$chromInfo$bin.end < coord$end, ])
+    t(cnr$X[as.character(cnr$chromInfo$bin.chrom) == chr & cnr$chromInfo$bin.start > start & cnr$chromInfo$bin.end < end, ])
 } ## lookupCN
 

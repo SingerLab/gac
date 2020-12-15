@@ -1,5 +1,9 @@
 # gac 0.0.9013
 
+* Added f(x) to pull information from the gene.index
+
+# gac 0.0.9013
+
 * Added estimation of alteration frequencies at gene and bin level
 
 * Deduplicated example bin to gene tracks
