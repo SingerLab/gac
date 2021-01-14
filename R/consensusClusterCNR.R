@@ -6,7 +6,7 @@
 #'
 #' @param maxK maximum K, end of K sequence
 #'
-#' @param reps number of times the clustering runs
+#' @param iters number of times the clustering runs
 #'
 #' @param title title for the consensus cluster map
 #'
@@ -39,19 +39,25 @@
 #' @import ConsensusClusterPlus
 #'
 #' @export
-consensusClusterCNR <- function(cnr, maxK = 40, reps = 150,
+consensusClusterCNR <- function(cnr, maxK = 40, iters = 180,
                                 title = "cnr_ccp",
                                 innerLinkage = "ward.D2",
                                 finalLinkage = "ward.D2",
                                 seed = 2020.0314,
+                                verbose = TRUE,
                                 ...) {
 
     assertthat::assert_that(!is.null(cnr[["cdb"]]))
-
+    
+    if(iters <= 200) {
+        message("Default value of iters is set to 180. This number iterations only shows general trends.  To identify rare events and off-diagonal events with accuracy, please consider increasing this parameter according to the complexity of your data, and the frequency of events your interested in observing.")
+        }
+    
     cnr[["ccp"]] <- ConsensusClusterPlus::ConsensusClusterPlus(cnr[["cdb"]],
-                                         maxK = maxK, reps = reps,
+                                         maxK = maxK, reps = iters,
                                          title = title, innerLinkage = innerLinkage,
                                          finalLinkage = finalLinkage, seed = seed,
+                                         verbose = TRUE,
                                          ...)
     return(cnr)
 }

@@ -1,3 +1,9 @@
+# gac 0.0.9015
+
+* Added VDJ genotyping and visualization
+
+* Progress status in consensusClusterCNR
+
 # gac 0.0.9013
 
 * Added f(x) to pull information from the gene.index
