@@ -47,28 +47,15 @@ Lastly, a *qc* matrix containg metadata about each cell is also required.
 
 Figure 1. Schematic representation of the CNR bundle and how the different components are related.
 
+### View what data is present in the cnr
 ```{r data}
 data(cnr)
-
-head(cnr$X)
-
-head(cnr$Y)
-
-## currently a null object
-head(cnr$exprs)
-
-head(cnr$qc)
-
-head(cnr$chromInfo)
-
-head(cnr$gene.index)
-
+sapply(cnr, tibble)
 ```
 
+### make sure numbers of cells match in all objects
 ```{r work.with.cnr}
-## check number of rows and columns throughout cnr object
 sapply(cnr, dim)
-
 ```
 
 I made use of [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/) for this package.  ComplexHeatmap is one of the most powerful visualization tools available for R.  To use the richness of ComplexHeatmap, the `HeatmapCNR` function attempts to minimize the total number of presets.  Please visit the ComplexHeatmap documentation to take advantage of its potential.
@@ -92,7 +79,6 @@ HeatmapCNR(cnr, col = segCol, what = "genes", which.genes = c("CDK4", "MDM2", "T
 ## Working with a CNR
 
 GAC is equiped with a couple of management functions that are prefixed with `add*`, `exclude*` and `keep*`.  
-
 
 On a more frequent basis you will want to remove cells that have noisy profiles.  
 
@@ -196,24 +182,47 @@ head(cnr$chromInfo)
 
 ```
 
+## Clonal decomposition of cell populations based on copy number
+
+Two methods are implemented: Heriarchical clustering, and Consensus Clustering
+
+### Heirarchical Clustering
+
+For this method we estimate Bray-Curtis Dissimilarty across all pairwise cells.  Heirarchical clustering is
+then performed on the complete matrix with `phyloCNR`.   To set the tree height and asign cluster membership,
+we iteratively test various heights, and count the number of one-cell clusters, and multi-cell clusters.  This
+is done with `optClust`.  The optimal height is set to the intersection between one-cell and multi-cell clusters. 
+Bray-Curtis dissimilarity based clusters are then set using `setBrayClusters`.  The package `ape` contains 
+various functions to visualize heirarchical trees, a tree object class `phylo` is created to faciliate this.  Bray-Dissimilarity membership is saved to the phenotype table `Y` as  `BrayC`.
+
 ```{r bray_diss_+phylo}
 cnr <- phyloCNR(cnr)
 
-plot(cnr[["phylo"]], type = "f")
-
-optClust(cnr)
-( mopc <- optClust(cnr, opt.range = seq(0.03, 0.08, by = 0.005)) )
+( mopc <- optClust(cnr) )
 
 plotCL(mopc)
 
 sc.tree.height <- 0.065
 
 cnr <- setBrayClusters(cnr, tree.height = sc.tree.height)
+```
 
+#### Single-cell dendrogram with tree height for cluster membership
+```{r plot_hierarchical_dendrogram}
 plot(cnr[["hcdb"]])
 abline(h = sc.tree.height, col = "#D40000")
-
 ```
+
+#### Other tree types from package ape using the `phylo` class
+```{r plot_phylo}
+cnr[["phylo"]]
+plot(cnr[["phylo"]])
+
+plot(cnr[["phylo"]], type = 'fan')
+```
+
+## Consensus clustering
+We implement [ConsensusClusterPlus](https://bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.html) using the function `consensusClusterCNR` directly on the CNR.  Optimum number of clusters is based on the maximum number of stable clusters ([Meyer et al. 2013](https://arxiv.org/abs/1408.0967)).  Stable Cluster membership is saved to the phenotype table `Y` as  `ConsensusC`.  K parameter (kCC) and number of stable clusters (sK) are saved into `cnr[["optK"]]`.  The table of kCC, and kS is saved as `cnr[["kStats"]]`.
 
 ```{r cc_clust}
 data(ccClustCol)
@@ -234,22 +243,36 @@ HeatmapCNR(cnr, col = segCol,
            column_gap = unit(0, "mm"),
            top_annotation =
                HeatmapAnnotation(df = cnr$Y[, c("BrayC", "ConsensusC")]))
-
 ```
 
+
+## Cluster heterogeneity
+
+Sample heterogeneity based on clustering can be estimated using `cluster_heterogeneity`.  The function returns a table with the same name containing the counts of each cluster, frequency, and other stats.  Furthermore, it returns a vector in the phenotype table `Y` named `final_cluster`.  There is no default cluster_column to use, one must choose either BrayC, ConsensusC, or if clustering was done outside GAC, these clusters can be imported to `Y` to be used here.
 
 ```{r cluster_heterogeneity}
 cnr <- cluster_heterogeneity(cnr, cluster_column = "BrayC")
 
 cnr$cluster_heterogeneity
-
 ```
 
+## Cluster Summary Profiles
+The function `get_cluster_profiles` is used to summarize the genetic profile of each cluster.  Cluster summary profiles are saved in `cnr[["DDRC.df"]]`.
 ```{r cluster_profiles}
 cnr <- get_cluster_profiles(cnr)
 
 Heatmap(cnr$DDRC.df, col = segCol, cluster_rows = FALSE, cluster_columns = FALSE,
         column_labels = paste(names(cnr$uclust), "(n =", cnr$uclust, ")" ))
+```
+
+## VDJ genotyping
+To asses weather T-cells or B-cells are present in the cell populations, the function genotype_vdj will classify cells containing VDJ deletions into T-cells, B-cells, or vdj.unspecified. A visualization function is also provided.
+
+
+```{r vdj_genotyping}
+cnr <- genotype_vdj(cnr)
+
+vdjHeatmap(cnr)
 
 ```
 
