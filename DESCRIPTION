@@ -1,5 +1,5 @@
 Package: gac
-Version: 0.0.90015
+Version: 0.0.90016
 Date: 2020-09-27
 Title: Genetic Analysis of Cells
 Authors@R: person("Rodrigo Gularte Merida",

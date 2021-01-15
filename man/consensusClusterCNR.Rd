@@ -7,11 +7,12 @@
 consensusClusterCNR(
   cnr,
   maxK = 40,
-  reps = 150,
+  iters = 180,
   title = "cnr_ccp",
   innerLinkage = "ward.D2",
   finalLinkage = "ward.D2",
   seed = 2020.0314,
+  verbose = TRUE,
   ...
 )
 }
@@ -20,7 +21,7 @@ consensusClusterCNR(
 
 \item{maxK}{maximum K, end of K sequence}
 
-\item{reps}{number of times the clustering runs}
+\item{iters}{number of times the clustering runs}
 
 \item{title}{title for the consensus cluster map}
 
