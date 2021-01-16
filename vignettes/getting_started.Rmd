@@ -25,13 +25,11 @@ GAC comes bundle with example data.  This data is composed of 12 fake cell copy 
 
 The primary container to handle the complexity of single-cell DNA data is a CNR bundle.
 
-The cnr bundle is composed of an *X*, *Y*, *Ye* or _expression_ matrix, a *qc* metadata matrix, the *chromInfo* with chromosome-end coordinates, and a gene index.
+The cnr bundle is composed of a genotype (integer copy number) matrix, *X*, phenotype matrix *Y*, _expression_ matrix *Ye* , a QC or metadata matrix *qc*, the *chromInfo* with chromosome-end coordinates, and a *gene.index* to map bins to specific genes.  These are user provided tables.  See documentation for `buildCNR` to learn how to build a CNR bundle with your data.
 
-These are all user provided tables.  See documentation for `buildCNR` to learn how to build a CNR bundle with your data.
+The CNR is modeled after the expressionSet and AnnData objects from R/Bioconductor and Python, respectively.  It is a lightweight and versitile framework to operate and manipulate large single-cell DNA data.  For statistical analysis, the framework facilitates the use matrix operations by concurrently managing genotype and phenotype data.
 
-The CNR is modeled after the expressionSet and AnnData objects from R/Bioconductor and Python.  This is a lightweight and versitile framework to operate and manipulate single-cell data.  For statistical analysis, the framework facilitates the use of linear mixed models to estimate the genetic effects of copy numbers.
-
-As a new user it's important to familiarize youself with the CNR.  At the heart of the CNR bundle is the *X* matrix wich hold copy number as ploidy corrected `numeric` estimations or `integer` states, with bins as rows, and cells as columns.  Bins can be the direct output from Ginkgo/Varbin algorithm, or the a set of common segments from a .seg file in `matrix` form.
+As a new user it's important to familiarize youself with the CNR.  At the heart of the CNR bundle is the genotype *X* matrix wich hold copy number as ploidy corrected `numeric` estimations or `integer` states, with bins as rows, and cells as columns.  Bins can be the direct output from Ginkgo/Varbin algorithm, or the a set of common segments from a .seg file in `matrix` form.
 
 The bin information is located on the `chromInfo` table, and the gene-to-bin mappings on the `gene.index`, which helps link the output of the segmentation to a biological context.
 
