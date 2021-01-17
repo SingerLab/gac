@@ -58,11 +58,11 @@ vdjHeatmap <- function(cnr, vdj.genes = NULL, vdjGeneAnno = NULL,
     }
 
     if(is.null(vdjGeneAnno)) {
-        vdjAnnoSC <- ComplexHeatmap::rowAnnotation(
+        vdjAnnot <- ComplexHeatmap::rowAnnotation(
             "Cell Type" = cnr$vdj.cells,
             show_legend = TRUE)
     } else {
-        vdjAnnoSC <- vdjCellAnno
+        vdjAnnot <- vdjCellAnno
     }
 
     vdjH <- ComplexHeatmap::Heatmap(
@@ -71,7 +71,7 @@ vdjHeatmap <- function(cnr, vdj.genes = NULL, vdjGeneAnno = NULL,
                     cluster_columns = FALSE,
                     cluster_row_slices = FALSE,
                     top_annotation = vdjChr,
-                    left_annotation = vdjAnnoSC,
+                    left_annotation = vdjAnnot,
                     column_split = cnr$gene.index[gsub("\\.", "-", vdj.genes), "seqnames"],
                     ...)
     
