@@ -7,7 +7,7 @@
 consensusClusterCNR(
   cnr,
   maxK = 40,
-  iters = 180,
+  iters = 200,
   title = "cnr_ccp",
   innerLinkage = "ward.D2",
   finalLinkage = "ward.D2",
@@ -30,6 +30,8 @@ consensusClusterCNR(
 \item{finalLinkage}{final linkage, see ConsensusClusterPlus}
 
 \item{seed}{seed of analysis}
+
+\item{verbose}{print out progress}
 
 \item{...}{additional parameters for ConsensusClusterPlus e.g. plot = "png"}
 }

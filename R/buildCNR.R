@@ -56,9 +56,10 @@
 #' data(segCol)
 #' 
 #' HeatmapCNR(cnr)
-#' 
-#' saveRDS(cnr, file = "cnr.rds")
 #'
+#' \dontrun{
+#'  saveRDS(cnr, file = "cnr.rds")
+#' }
 #' 
 #' @export
 buildCNR <- function(X, Y, qc, chromInfo, exprs = NULL, gene.index,
