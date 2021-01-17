@@ -15,8 +15,11 @@
 #' @param depmeans dependency score means for cells of interest
 #'    e.g. DepMap achilles scores (see ?depmap_annotation), (TRUE/FALSE)
 #'
-#' @import GenomicRanges
-#' @import assertthat
+#' @importFrom assertthat assert_that
+#' @importFrom IRanges IRanges
+#' @importFrom GenomicRanges GRanges
+#' @importFrom GenomicRanges findOverlaps
+#' 
 #' 
 #' @export
 gisticGR <- function(cnr, grTR, oncokb = TRUE, depmeans = TRUE) {

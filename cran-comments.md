@@ -5,6 +5,31 @@
 
 ## R CMD check results
 
+### Sun Jan 17 12:04:21 2021
+── R CMD check results ────────────────────────────────────── gac 0.0.90017 ────
+Duration: 6m 40.1s
+
+❯ checking installed package size ... NOTE
+    installed size is  7.7Mb
+    sub-directories of 1Mb or more:
+      data      1.7Mb
+      extdata   4.8Mb
+
+❯ checking dependencies in R code ... NOTE
+  Package in Depends field not imported from: ‘circlize’
+    These packages need to be imported from (in the NAMESPACE file)
+    for when this namespace is loaded but not attached.
+
+❯ checking R code for possible problems ... NOTE
+  HeatmapCNR: no visible global function definition for ‘gpar’
+  doKSpectral: no visible binding for global variable ‘topEigenValues’
+  doKSpectral: no visible binding for global variable ‘k’
+  doKSpectral: no visible binding for global variable ‘dLambdaMax’
+  Undefined global functions or variables:
+    dLambdaMax gpar k topEigenValues
+
+0 errors ✔ | 0 warnings ✔ | 3 notes ✖
+
 ###  Mon Dec 14 19:08:13 2020
 ── R CMD check results ────────────────────────────────────── gac 0.0.90014 ────
 Duration: 6m 25.4s

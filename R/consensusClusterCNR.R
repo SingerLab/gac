@@ -16,6 +16,8 @@
 #'
 #' @param seed seed of analysis
 #'
+#' @param verbose print out progress
+#'
 #' @param ... additional parameters for ConsensusClusterPlus e.g. plot = "png"
 #'
 #' 

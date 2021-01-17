@@ -1,3 +1,9 @@
+# gac 0.0.9017
+
+* Added summaryCNR function
+
+* debugged warnings and notes
+
 # gac 0.0.9016
 
 * Added VDJ genotyping and visualization

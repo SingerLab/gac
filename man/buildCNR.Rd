@@ -65,7 +65,8 @@ data(segCol)
 
 HeatmapCNR(cnr)
 
-saveRDS(cnr, file = "cnr.rds")
-
+\dontrun{
+ saveRDS(cnr, file = "cnr.rds")
+}
 
 }

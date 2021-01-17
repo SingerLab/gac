@@ -22,11 +22,4 @@
 #' @source \url{https://github.com/SingerLab/gac}
 #' @name gac
 #'
-#'
-#' @import ComplexHeatmap
-#' @import GenomicRanges
-#' @import circlize
-#' @import colourvalues
-#' @import vegan
-#' 
 NULL
