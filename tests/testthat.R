@@ -3,28 +3,11 @@ rm(list = ls())
 library(testthat)
 library(gac)
 
-## read in data
-cn.file <- system.file("extdata/copynumbers.txt", package = "gac")
-pheno.file <- system.file("extdata/pheno.txt", package = "gac")
-qc.file <- system.file("extdata/qc.txt", package = "gac")
-gx.file <- system.file("extdata/gene.index.txt", package = "gac")
-ci.file <- system.file("extdata/chromInfo.txt", package = "gac")
+## load example data
+data(copynumbers, pheno, qc, chromInfo, gene.index)
 
-expect_true(file.exists(cn.file))
-expect_true(file.exists(pheno.file))
-expect_true(file.exists(qc.file))
-expect_true(file.exists(gx.file))
-expect_true(file.exists(ci.file))
-
-X <- read.delim(cn.file, as.is = TRUE)
-Y <- read.delim(pheno.file, as.is = TRUE)
-qc <- read.delim(qc.file, as.is = TRUE)
-gx <- read.delim(gx.file, as.is = TRUE)
-ci <- read.delim(ci.file, as.is = TRUE)
-
-## cnr
-
-cnr <- buildCNR(X = X, Y = Y, qc = qc, chromInfo = ci, gene.index = gx)
+cnr <- buildCNR(X = copynumbers, Y = pheno, qc =qc,
+                chromInfo = chromInfo, gene.index = gene.index)
 
 expect_true("X" %in% names(cnr))
 expect_true("genes" %in% names(cnr))

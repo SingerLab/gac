@@ -21,39 +21,158 @@ library(gac)
 
 # Getting Started
 
-GAC comes bundle with example data.  This data is composed of 12 fake cell copy number profiles with deletions, losses, gains and amplifications along 5000 bins.  Additionaly for the 12 cells, are examples of binary, categorical, and quantitative phenotypes, and some QC data. 
+GAC comes bundle with example data.  This data is composed of 12 simulated cell copy number profiles with deletions, losses, gains and focal amplifications along 5000 bins.  Additionaly for the 12 cells, are examples of binary, categorical, and quantitative phenotypes, and some QC data. 
 
-The primary container to handle the complexity of single-cell DNA data is a CNR bundle.
+The primary container to handle the complexity of single-cell DNA data is a CNR.
 
-The cnr bundle is composed of a genotype (integer copy number) matrix, *X*, phenotype matrix *Y*, _expression_ matrix *Ye* , a QC or metadata matrix *qc*, the *chromInfo* with chromosome-end coordinates, and a *gene.index* to map bins to specific genes.  These are user provided tables.  See documentation for `buildCNR` to learn how to build a CNR bundle with your data.
-
-The CNR is modeled after the expressionSet and AnnData objects from R/Bioconductor and Python, respectively.  It is a lightweight and versitile framework to operate and manipulate large single-cell DNA data.  For statistical analysis, the framework facilitates the use matrix operations by concurrently managing genotype and phenotype data.
-
-As a new user it's important to familiarize youself with the CNR.  At the heart of the CNR bundle is the genotype *X* matrix wich hold copy number as ploidy corrected `numeric` estimations or `integer` states, with bins as rows, and cells as columns.  Bins can be the direct output from Ginkgo/Varbin algorithm, or the a set of common segments from a .seg file in `matrix` form.
-
-The bin information is located on the `chromInfo` table, and the gene-to-bin mappings on the `gene.index`, which helps link the output of the segmentation to a biological context.
+The cnr is composed of a genotype (integer copy number) matrix, *X*, phenotype matrix *Y*, _expression_ matrix *Ye* , a QC or metadata matrix *qc*, the *chromInfo* with chromosome-end coordinates, and a *gene.index* to map bins to specific genes.  These are user provided tables.  See documentation for `buildCNR` to learn how to build a CNR bundle with your data.  The CNR is modeled after the expressionSet and AnnData objects from R/Bioconductor and Python, respectively.  It is a lightweight and versitile framework to operate and manipulate large single-cell DNA data.  The framework facilitates the use matrix operations by concurrently managing genotype and phenotype data.  At the heart of the CNR bundle is the genotype *X* matrix wich hold copy number as ploidy corrected `numeric` estimations or `integer` states, with bins as rows, and cells as columns.  Bins can be the direct output from Ginkgo/Varbin algorithm, or the a set of common segments from a .seg file in `matrix` form.  The bin information is located on the `chromInfo` table, and the gene-to-bin mappings on the `gene.index`, which helps link the output of the segmentation to a biological context.  An example on how to construt these is provided in the section **Preparing your data**.
 
 Cell/sample phenotypes are housed in the *Y* matrix, these are sample specific and biological in nature. These are the phenotypes we wish to gain biological insights.
 
 In a not so distant future, the posibility to acquire single-cell DNA and RNA from the same cell will become feasable at scale.  To this end, a *Ye* or _exprs_ matrix is included in the bundle, as for purposes of genetic analysis _gene expression_ is a phenotype.  If you have data of this type, it's best to have the last/most-accurate, curated, and complete data possible for the analyses to make sense.  Eg. scaled, log2-transformed, MAGIC Imputed, without duplets.
 
-Lastly, a *qc* matrix containg metadata about each cell is also required.
-
-
+Lastly, a *qc* matrix containg metadata about each cell is required.
 
 ![Figure1](../figures/CNR.png)
 
 Figure 1. Schematic representation of the CNR bundle and how the different components are related.
 
-### View what data is present in the cnr
-```{r data}
-data(cnr)
-sapply(cnr, tibble)
+## Preparing your data
+Data should be in rectancular form, preferably as a data.frame or matrix.  The example data included in the package was generated as follows.
+
+* Copy numbers are a sequence from 0 - 5 in 12 cells as our copy number data, with some added focal amplifcations in a bins, and noise in cells 5 and 11. Column names must be the `cellID`.
+
+```{r copy_number_simulated_data}
+## set pattern
+X <- as.data.frame(replicate(n = 12, expr = round(seq(0, 5, by = 5/4999), digits = 4)))
+names(X) <- paste("cell", 1:12, sep = "")
+
+## set focal
+X[801:840, 1:4] <- 12
+X[800:843, 5:12] <- 18
+X[1810:1860, 3:12] <- 22
+X[3801:3881, 8:12] <- 80
+
+## adding noise
+set.seed(2020)
+X[,5] <- X[,5] + rnorm(5000)
+X[,11] <- X[,11] + rnorm(5000)
 ```
 
+* Phenotype in three forms, binary, categorical, and quantitive; and an additional two random variables. Must have one column named `cellID`, and must match those in the copy number matrix.
+
+```{r simulated_phenotype_data}
+Y <- data.frame(matrix(NA, nrow = 12, ncol = 9))
+names(Y) <- c("cellID", "binary1", "binary2",
+              "category1", "category2",
+              "quantitative1", "quantitative2",
+              "random1", "random2")
+
+Y$cellID <- names(X)
+
+Y$binary1 <- rep(c(0, 1), c(4, 8))
+Y$binary2 <- rep(c(1, 0), each = 6)
+
+Y$category1 <- rep(LETTERS[1:3], c(4, 6, 2))
+Y$category2 <- rep(LETTERS[26:24], c(2, 6, 4))
+
+Y$quantitative1 <- c(rnorm(n = 4, mean = 2), rnorm(n = 8, mean = 8))
+Y$quantitative2 <- rev(seq(0, 20, by = 20/12)[-1])
+Y$quantitative2[5] <- Y$quantitative2[5] - abs(rnorm(1, 3))
+Y$quantitative2[12] <- Y$quantitative2[12] + abs(rnorm(1, 3))
+
+Y$random1 <- abs(rnorm(12))
+Y$random2 <- abs(rnorm(12, mean = 200, sd = 300))
+```
+
+* QC metadata in this case will be limited to aligned reads (ReadsKept), median bin counts, amplified DNA concentrations, flow cytometry gate, and qc.status as PASS/FAIL.  Must have one column named `cellID`, and must match those in the copy number matrix and phenotype data. QC metrics of cells 5 and 11 are set similar to failed cells in an experiment.
+
+This example was constructed using the following :
+  * ReadsKept are simulated based on the recomended sequencing depth in (Baslan et al. 2015)[https://pubmed.ncbi.nlm.nih.gov/25858951/]
+  * MedianBinCouts assume uniform distribution of ReadsKept across all bins
+  * DNA concentrations are simulated based on expected yields from WGA methods
+  * Cells 5, and 11 set as FAIL
+  
+```{r qc_metadata}
+qc <- data.frame(matrix(NA, nrow = 12, ncol = 6))
+names(qc) <- c("cellID", "ReadsKept", "MedianBinCount",
+               "dna.ng.ul", "sort.gate", "qc.status")
+
+qc$cellID <- names(X)
+qc$ReadsKept <- 2000000 + rnorm(n = 12, sd = 700000)
+qc$MedianBinCount <- round(qc$ReadsKept/5000)
+qc$dna.ng.ul <- 200 + rnorm(n = 12, sd = 70)
+qc$sort.gate <- rep(c("p6", "p7"), c(4, 8))
+qc$qc.status <- "PASS"
+## match noisy cells to QC
+qc$ReadsKept[c(5,11)] <- abs(200000 + rnorm(n = 2, sd = 700000))
+qc$qc.status[c(5,11)] <- "FAIL"
+```
+
+* gene.index is prepared using biomart, requires bin information to map genes
+Bin mappings are part of the chromInfo, and user supplied.  These can be downloaded from (Ginkgo)[http://qb.cshl.edu/ginkgo/?q=/T1s5zj45ztcLxoVUMxjF] or (QDNAseq)[https://bioconductor.org/packages/release/bioc/html/QDNAseq.html].  Ginkgo uses variable length bins with an equal mappability, vs QDNAseq which uses equally spaced bins with variable mappability.  For this example, we'll use the bins from (Baslan et al. 2012)[https://pubmed.ncbi.nlm.nih.gov/22555242/] and are provided in the package.
+
+```{r gene.index_from_biomaRt}
+library(GenomicRanges)
+library(biomaRt)
+library(dplyr)
+
+data(chromInfo)
+
+## set up a genomic ranges object for the bins
+( gr.5k <- GRanges(seqnames = chromInfo$bin.chrom,
+                 ranges = IRanges(start = chromInfo$bin.start,
+                                  end = chromInfo$bin.end,
+                                  names = 1:nrow(chromInfo))) )
+
+## get ensembl genes w/hgnc
+grch37 <- useMart(biomart="ENSEMBL_MART_ENSEMBL",
+                  dataset = "hsapiens_gene_ensembl",
+                  host="grch37.ensembl.org",
+                  path="/biomart/martservice")
+
+grch37.genes <- getBM(attributes = c("ensembl_gene_id", "hgnc_symbol",
+                                     "chromosome_name", "start_position",
+                                     "end_position", "gene_biotype"),
+                      mart = grch37) %>%
+    filter(chromosome_name %in% c(1:22, "X", "Y")) %>%
+    arrange(chromosome_name)
+
+( grch37.genes <- GRanges(seqnames = grch37.genes$chromosome_name,
+                        ranges = IRanges(start = grch37.genes$start_position,
+                                         end = grch37.genes$end_position,
+                                         names = grch37.genes$ensembl_gene_id),
+                        ensembl_gene_id = grch37.genes$ensembl_gene_id,
+                        hgnc.symbol = grch37.genes$hgnc_symbol,
+                        gene.type = grch37.genes$gene_biotype) )
+
+## find and print the overlaps
+( gr.5k.grch37.genes <- findOverlaps(gr.5k, grch37.genes,
+                                     ignore.strand = TRUE) )
+
+tail( gr.5k.grch37.genes <- as.data.frame(gr.5k.grch37.genes)[!duplicated(gr.5k.grch37.genes@to),]  )
+
+any(duplicated(gr.5k.grch37.genes$subjectHits))
+
+## assign binID to each gene
+grch37.genes.5k <- grch37.genes[gr.5k.grch37.genes$subjectHits]
+grch37.genes.5k$bin.id <- gr.5k.grch37.genes$queryHits
+grch37.genes.5k
+
+## coerce to data.frame and keep unique genes with HGNC symbols
+grch37.genes.5k <- data.frame(grch37.genes.5k) %>%
+    filter(hgnc.symbol != "", !duplicated(hgnc.symbol))
+
+cnr <- buildCNR(X = X, Y= Y, qc = qc, chromInfo = chromInfo, gene.index = grch37.genes.5k)
+
+summaryCNR(cnr)
+```
+
+### View what data is present in the cnr
 ### make sure numbers of cells match in all objects
-```{r work.with.cnr}
-sapply(cnr, dim)
+```{r data}
+data(cnr)
+summaryCNR(cnr)
 ```
 
 I made use of [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/) for this package.  ComplexHeatmap is one of the most powerful visualization tools available for R.  To use the richness of ComplexHeatmap, the `HeatmapCNR` function attempts to minimize the total number of presets.  Please visit the ComplexHeatmap documentation to take advantage of its potential.
@@ -273,6 +392,7 @@ cnr <- genotype_vdj(cnr)
 vdjHeatmap(cnr)
 
 ```
+
 
 ## Session Informatioin
 ```{r sessioninfo}
