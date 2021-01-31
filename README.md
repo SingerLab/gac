@@ -1,15 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-GAC: Genetic Analysis of Cells
-------------------------------
+## GAC: Genetic Analysis of Cells
 
 ------------------------------------------------------------------------
 
 <!-- badges: start -->
 
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![R build
 status](https://github.com/r-lib/usethis/workflows/R-CMD-check/badge.svg)](https://github.com/r-lib/usethis/actions)
 [![Codecov test
@@ -18,11 +17,9 @@ coverage](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](ht
 status](https://travis-ci.com/SingerLab/gac.svg?branch=master)](https://travis-ci.com/SingerLab/gac)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gac)](https://CRAN.R-project.org/package=gac)
-
 <!-- badges: end -->
 
-GAC is currently in ALPHA-release
-=================================
+# GAC is currently in ALPHA-release
 
 The goal of GAC is to deliver a formal end-to-end analysis by
 integrating proven methods of quantitative genetics, statistics, and
@@ -54,91 +51,56 @@ al.2015](https://dx.doi.org/10.1038/nmeth.3370))
 
 ![Figure 1.](figures/CNR.png)
 
-Installation
-------------
+## Installation
 
 ### Dependencies:
 
 -   [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/)
 -   [vegan](https://github.com/vegandevs/vegan)
--   [colorvalues](https://symbolixau.github.io/colourvalues/)
+-   [dplyr](https://dplyr.tidyverse.org)
 
 You can install the development version from
 [GitHub](https://github.com/) with:
 
-    # install.packages("devtools")
-    devtools::install_github("SingerLab/gac")
-    #> Using github PAT from envvar GITHUB_PAT
-    #> Downloading GitHub repo SingerLab/gac@HEAD
-    #> Skipping 4 packages not available: SCclust, IRanges, GenomicRanges, ComplexHeatmap
-    #>      checking for file ‘/private/var/folders/f7/v_vt_5bn07z9tljnh56n9crnrzdbg9/T/RtmpO8LUpl/remotesd6ab11a5c6b2/SingerLab-gac-f0d5483/DESCRIPTION’ ...  ✔  checking for file ‘/private/var/folders/f7/v_vt_5bn07z9tljnh56n9crnrzdbg9/T/RtmpO8LUpl/remotesd6ab11a5c6b2/SingerLab-gac-f0d5483/DESCRIPTION’
-    #>   ─  preparing ‘gac’:
-    #>      checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
-    #>   ─  checking for LF line-endings in source and make files and shell scripts
-    #>   ─  checking for empty or unneeded directories
-    #>   ─  looking to see if a ‘data/datalist’ file should be added
-    #>   ─  building ‘gac_0.0.9009.tar.gz’
-    #>      Warning: invalid uid value replaced by that for user 'nobody'
-    #>    Warning: invalid gid value replaced by that for user 'nobody'
-    #>      
-    #> 
+``` r
+# install.packages("devtools")
+devtools::install_github("SingerLab/gac")
+```
 
-Examples
---------
+## Examples
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example for drawing a copy number heatmap. For a
+comprehensive overview of the package please follow the
+`getting_started.Rmd` in the `vignettes/`
 
-    library(gac)
-    #> Loading required package: ComplexHeatmap
-    #> Loading required package: grid
-    #> ========================================
-    #> ComplexHeatmap version 2.5.5
-    #> Bioconductor page: http://bioconductor.org/packages/ComplexHeatmap/
-    #> Github page: https://github.com/jokergoo/ComplexHeatmap
-    #> Documentation: http://jokergoo.github.io/ComplexHeatmap-reference
-    #> 
-    #> If you use it in published research, please cite:
-    #> Gu, Z. Complex heatmaps reveal patterns and correlations in multidimensional 
-    #>   genomic data. Bioinformatics 2016.
-    #> 
-    #> This message can be suppressed by:
-    #>   suppressPackageStartupMessages(library(ComplexHeatmap))
-    #> ========================================
-    #> Loading required package: circlize
-    #> ========================================
-    #> circlize version 0.4.10
-    #> CRAN page: https://cran.r-project.org/package=circlize
-    #> Github page: https://github.com/jokergoo/circlize
-    #> Documentation: https://jokergoo.github.io/circlize_book/book/
-    #> 
-    #> If you use it in published research, please cite:
-    #> Gu, Z. circlize implements and enhances circular visualization
-    #>   in R. Bioinformatics 2014.
-    #> 
-    #> This message can be suppressed by:
-    #>   suppressPackageStartupMessages(library(circlize))
-    #> ========================================
-    #> Loading required package: vegan
-    #> Loading required package: permute
-    #> Loading required package: lattice
-    #> This is vegan 2.5-6
+``` r
+library(gac)
 
-    ## basic example code
-    data(cnr)
-    data(segCol)
+## basic example code
+data(cnr)
+data(segCol)
+data(legSeg)
 
-    ( excl.cells <- rownames(cnr$qc)[cnr$qc$qc.status == "FAIL"] )
-    #> [1] "cell5"  "cell12"
+( excl.cells <- rownames(cnr$qc)[cnr$qc$qc.status == "FAIL"] )
+#> [1] "cell5"  "cell11"
 
-    cnr <- excludeCells(cnr, excl = excl.cells)
+cnr <- excludeCells(cnr, excl = excl.cells)
 
-    HeatmapCNR(cnr, what = 'X', col = segCol)
+aH <- HeatmapCNR(cnr, what = 'X', col = segCol, show_heatmap_legend = FALSE)
+
+draw(aH, annotation_legend_list = list(legSeg))
+```
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
+``` r
+bH <- HeatmapCNR(cnr, what = "genes",
+                 which.genes = c("CDK4", "MDM2"),
+                 col = segCol, show_heatmap_legend = FALSE)
+#> Warning: The input is a data frame, convert it to the matrix.
 
-    HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"), col = segCol)
-    #> Warning: The input is a data frame, convert it to the matrix.
+draw(bH, annotation_legend_list = list(legSeg))
+```
 
 <img src="man/figures/README-example-2.png" width="100%" />
 
@@ -169,22 +131,22 @@ The Singer Lab single-cell wet-lab and dry-lab endevours are carried
 forward by a skeleton crew. The need to have something simple that can
 help reduce the 85% of the time spent syncronizing bins, to genes, to
 phenotypes, and QC matrices capable of handling a large data set of
-&gt;16,000 cells was greatly needed. Knowing the data is growing by the
-week, I integrated functions to deal with the n+1 problem. This is
-easier when using bins instead of .seg data. Lastly, my background in
-animal genomics allowed me to borrow the succesful frameworks used in
-Genomic Selection in an abstract way in hopes that we can provide
-appropriate models for future same-cell technologies.
+&gt;24,000 cells was greatly needed. Knowing the data is growing by the
+week, I integrated functions to deal with the n+1 problem. Lastly, my
+background in animal genomics allowed me to borrow the succesful
+frameworks used in Genomic Selection in an abstract way in hopes that we
+can provide appropriate models for future same-cell technologies.
 
 We hope you enjoy !
 
 -   Rodrigo, et al.
 
-What’s in the works
-===================
+# What’s in the works
 
 -   Integration of Henderson’s Animal Model for the phenoype-genotype
     analyses
+
+-   Integration with MLR for non-linear genetic models
 
 -   Integration with CORE and GISTIC2 for fidning focal and recurrent
     events
@@ -193,17 +155,12 @@ What’s in the works
 
 -   Integration with Pathview for KEGG pathway visualization
 
--   Appropriate clustering methods and thresholds
-
 -   support for .seg files
-
--   Computational efficiency with S4 dispatch with defined classes
 
 -   Cleaner code with tidyverse
 
 -   CRAN testing
 
-Licence
-=======
+# Licence
 
 GAC framework and code is distributed under a BSD-3 License

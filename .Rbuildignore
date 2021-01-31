@@ -7,6 +7,7 @@
 ^.*\.Rproj$         # Automatically added by RStudio,
 ^\.Rproj\.user$     # used for temporary files. 
 ^README\.Rmd$       # An Rmarkdown file used to generate README.md
+^README\.html$
 ^cran-comments\.md$ # Comments for CRAN submission
 ^NEWS\.md$          # A news file written in Markdown
 ^\.travis\.yml$     # Used for continuous integration testing with travis
@@ -14,8 +15,10 @@
 ^data-raw$
 ^\.travis\.yml$
 ^.*\.rds$
-^README\.Rmd$
 ^CODE_OF_CONDUCT\.md$
 ^cran-comments\.md$
 ^doc$
+^README\.Rmd$
 ^Meta$
+^inst/extdata/\.keep$
+^vignettes/inst/extdata/.keep$

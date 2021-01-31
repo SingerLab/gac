@@ -18,12 +18,11 @@ GAC: Genetic Analysis of Cells
 ***
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![R build status](https://github.com/r-lib/usethis/workflows/R-CMD-check/badge.svg)](https://github.com/r-lib/usethis/actions)
 [![Codecov test coverage](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/gh/SingerLab/gac?branch=master)
 [![Travis build status](https://travis-ci.com/SingerLab/gac.svg?branch=master)](https://travis-ci.com/SingerLab/gac)
 [![CRAN status](https://www.r-pkg.org/badges/version/gac)](https://CRAN.R-project.org/package=gac)
-
 <!-- badges: end -->
 
 # GAC is currently in ALPHA-release
@@ -46,7 +45,7 @@ To implement GAC we require five easy to generate inputs:
 ### Dependencies:
  - [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/)
  - [vegan](https://github.com/vegandevs/vegan)
- - [colorvalues](https://symbolixau.github.io/colourvalues/)
+ - [dplyr](https://dplyr.tidyverse.org)
  
 
 
@@ -72,14 +71,21 @@ library(gac)
 ## basic example code
 data(cnr)
 data(segCol)
+data(legSeg)
 
 ( excl.cells <- rownames(cnr$qc)[cnr$qc$qc.status == "FAIL"] )
 
 cnr <- excludeCells(cnr, excl = excl.cells)
 
-HeatmapCNR(cnr, what = 'X', col = segCol)
+aH <- HeatmapCNR(cnr, what = 'X', col = segCol, show_heatmap_legend = FALSE)
 
-HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"), col = segCol)
+draw(aH, annotation_legend_list = list(legSeg))
+
+bH <- HeatmapCNR(cnr, what = "genes",
+                 which.genes = c("CDK4", "MDM2"),
+                 col = segCol, show_heatmap_legend = FALSE)
+
+draw(bH, annotation_legend_list = list(legSeg))
 
 ```
 

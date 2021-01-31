@@ -1,3 +1,11 @@
+# gac 0.0.9018
+
+* section on preparing your data added to `getting_started.Rmd`
+
+* minor debugging on warnings, and unit tests
+
+* moved badge to maturing
+
 # gac 0.0.9017
 
 * Added summaryCNR function
