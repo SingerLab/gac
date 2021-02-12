@@ -58,12 +58,21 @@ al.2015](https://dx.doi.org/10.1038/nmeth.3370))
 -   [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/)
 -   [vegan](https://github.com/vegandevs/vegan)
 -   [dplyr](https://dplyr.tidyverse.org)
+-   [SCclust](https://github.com/KrasnitzLab/SCclust)
+
+### Install dependencies
+```
+install.packages("devtools")
+devtools::install_github("KrasnitzLab/SCclust")
+
+install.packages("BiocManager")
+BiocManager::install(c("ComplexHeatmap", "ConsensusClusterPlus"))
+```
 
 You can install the development version from
 [GitHub](https://github.com/) with:
 
-``` r
-# install.packages("devtools")
+```
 devtools::install_github("SingerLab/gac")
 ```
 
