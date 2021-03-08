@@ -30,12 +30,8 @@ expect_true(all(names(cnr) %in% c("X", "genes", "Y", "qc", "chromInfo", "gene.in
 h1 <- HeatmapCNR(cnr, col = segCol)
 expect_true(all.equal(dim(h1@matrix), dim(cnr$X)))
 
-h1
-
 ## visualize genes of interest
 h2 <- HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"), col = segCol)
-
-h2
 
 ## ADD cells
 newX <- data.frame(cbind(rep(c(5,2), c(3000, 2000)),
@@ -96,8 +92,6 @@ expect_equal(ncol(h4@matrix), 12)
 ( keep.cells <- colnames(cnr$X)[c(1:8)] )
 cnr <- keepCells(cnr, keep = keep.cells)
 sapply(cnr, dim)
-
-HeatmapCNR(cnr)
 
 ## addPheno
 rand3 <- data.frame(cellID = cnr$Y$cellID,

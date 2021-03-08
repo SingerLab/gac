@@ -33,7 +33,7 @@
 #' optClust(cnr, opt.range = seq(0, 0.2, by = 0.001))
 #'
 #' @export
-optClust <- function(cnr, opt.range = seq(0, 0.6, by = 0.05)) {
+optClust <- function(cnr, opt.range = seq(0.005, 0.6, by = 0.005)) {
 
     clL <- sapply(opt.range, function(h) {
         ctbl <- sort(table(cutree(cnr[["hcdb"]], h = h)),
@@ -47,6 +47,19 @@ optClust <- function(cnr, opt.range = seq(0, 0.6, by = 0.05)) {
     ncol = 3,
     dimnames = list(opt.range, c("One-cell", "Multi-cell", "%CMC")))
     
-    omt
+    return(omt)
     
 } # optClust
+
+
+#' Minimum tree.height at the intersect of one-cell and multi-cell clusters
+#'
+#' @param mocp output from \link{optClust}
+#'
+#' @export
+minimum.intersect <- function(mocp) {
+
+    mi <- as.numeric(names(which(mocp[,1] < mocp[,2])[1]))
+    return(mi)
+    
+} #end minimum.intersect

@@ -17,10 +17,11 @@
 #'
 #' data(copynumbers)
 #'
+#' head(copynumbers)
+#' 
 #' cni <- roundCNR(copynumbers)
-#' 
-#' Heatmap(cni)
-#' 
+#'
+#' head(cni)
 #' 
 #' @export
 roundCNR <- function(X, neut = 2.5, loss = 1.2, del = 0.2) {

@@ -5,6 +5,20 @@
 
 ## R CMD check results
 
+### Sun Mar  7 12:40:35 2021
+── R CMD check results ────────────────────────────────────── gac 0.0.90019 ────
+Duration: 9m 4.9s
+
+❯ checking R code for possible problems ... NOTE
+  doKSpectral: no visible binding for global variable ‘topEigenValues’
+  doKSpectral: no visible binding for global variable ‘k’
+  doKSpectral: no visible binding for global variable ‘dLambdaMax’
+  Undefined global functions or variables:
+    dLambdaMax k topEigenValues
+
+0 errors ✔ | 0 warnings ✔ | 1 note ✖
+
+
 ### Sun Jan 31 10:42:04 2021 
 ── R CMD check results ────────────────────────────────────── gac 0.0.90018 ────
 Duration: 6m 31.2s

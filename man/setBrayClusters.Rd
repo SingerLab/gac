@@ -4,7 +4,7 @@
 \alias{setBrayClusters}
 \title{setting clusters at optimal height}
 \usage{
-setBrayClusters(cnr, tree.height, prefix = "C")
+setBrayClusters(cnr, tree.height = NULL, prefix = "C", ...)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
@@ -12,6 +12,8 @@ setBrayClusters(cnr, tree.height, prefix = "C")
 \item{tree.height}{height of the tree (from optClust)}
 
 \item{prefix}{a prefix to append before the cluster number}
+
+\item{...}{additional parameters passed to \link{optClust}}
 }
 \value{
 Returns a cnr object with cluster membership based on Bray-Curtis

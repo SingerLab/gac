@@ -1,3 +1,9 @@
+# gac 0.0.9019
+
+* added plot_frequencies to plot amplification and deletion frequencies
+
+* in setBrayClusters, if tree.height is NULL,  the minimum intersect between one-cell and multi-cell clusters is used by default as the tree.height
+
 # gac 0.0.9018
 
 * section on preparing your data added to `getting_started.Rmd`
@@ -30,7 +36,7 @@
 
 * Added DATASET.R to show how example data is generated
 
-# gac 0.0.12
+# gac 0.0.9012
 
 * Added chromosome tickmarks in HeatmapCNR
 
