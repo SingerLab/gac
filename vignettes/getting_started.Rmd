@@ -33,7 +33,7 @@ In a not so distant future, the posibility to acquire single-cell DNA and RNA fr
 
 Lastly, a *qc* matrix containg metadata about each cell is required.
 
-![Figure1](../figures/CNR.png)
+![Figure1](figures/CNR.png)
 
 Figure 1. Schematic representation of the CNR bundle and how the different components are related.
 
@@ -290,7 +290,6 @@ Lastly, the goal of this tool is to facilitate the genetic, and statistical anal
 
 ```{r addInfo}
 ## addInfo
-
 fakePval <- data.frame(fakePval = runif(5000))
 
 cnr <- addInfo(cnr, df = fakePval)
@@ -310,24 +309,35 @@ then performed on the complete matrix with `phyloCNR`.   To set the tree height 
 we iteratively test various heights, and count the number of one-cell clusters, and multi-cell clusters.  This
 is done with `optClust`.  The optimal height is set to the intersection between one-cell and multi-cell clusters. 
 Bray-Curtis dissimilarity based clusters are then set using `setBrayClusters`.  The package `ape` contains 
-various functions to visualize heirarchical trees, a tree object class `phylo` is created to faciliate this.  Bray-Dissimilarity membership is saved to the phenotype table `Y` as  `BrayC`.
+various functions to visualize heirarchical trees, a tree object class `phylo` is created to faciliate this. 
+Bray-Dissimilarity membership is saved to the phenotype table `Y` as  `BrayC`.
 
 ```{r bray_diss_+phylo}
 cnr <- phyloCNR(cnr)
-
-( mopc <- optClust(cnr) )
+( mopc <- optClust(cnr, seq(0, 0.2, by = 0.005)) )
 
 plotCL(mopc)
 
-sc.tree.height <- 0.065
-
+sc.tree.height <- 0.015
 cnr <- setBrayClusters(cnr, tree.height = sc.tree.height)
+```
+
+The new version of `gac` will automatically identify the first point of intersection and use that 
+as the default height to define clones.
+
+**note:** You can't overwrite an exiting BrayC column, thus it needs to be removed in advacne.
+```{r set_BrayC_clusters, eval = FALSE}
+cnr$Y <- cnr$Y[, -c(grep("BrayC", names(cnr$Y)))]
+
+cnr <- setBrayClusters(cnr)
 ```
 
 #### Single-cell dendrogram with tree height for cluster membership
 ```{r plot_hierarchical_dendrogram}
 plot(cnr[["hcdb"]])
-abline(h = sc.tree.height, col = "#D40000")
+abline(h = cnr$tree.height, col = "#D40000")
+abline(h = sc.tree.height, col = "#575757")
+text(x = 1, y = sc.tree.height, labels = "Alternate tree.height = 0.065", col = "#575757", adj = c(0, 0))
 ```
 
 #### Other tree types from package ape using the `phylo` class
@@ -364,7 +374,6 @@ HeatmapCNR(cnr, col = segCol,
 
 
 ## Cluster heterogeneity
-
 Sample heterogeneity based on clustering can be estimated using `cluster_heterogeneity`.  The function returns a table with the same name containing the counts of each cluster, frequency, and other stats.  Furthermore, it returns a vector in the phenotype table `Y` named `final_cluster`.  There is no default cluster_column to use, one must choose either BrayC, ConsensusC, or if clustering was done outside GAC, these clusters can be imported to `Y` to be used here.
 
 ```{r cluster_heterogeneity}
@@ -390,13 +399,10 @@ To asses weather T-cells or B-cells are present in the cell populations, the fun
 cnr <- genotype_vdj(cnr)
 
 vdjHeatmap(cnr)
-
 ```
-
 
 ## Session Informatioin
 ```{r sessioninfo}
 date()
 sessionInfo()
-
 ```

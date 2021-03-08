@@ -27,6 +27,6 @@ data(cnr)
 
 G <- ternary.cnr(cnr$genes[, c("CDK4", "MDM2")])
 
-Heatmap(G)
+head(G)
 
 }

@@ -4,7 +4,7 @@
 \alias{optClust}
 \title{optimizing clustering for single-cell copy number}
 \usage{
-optClust(cnr, opt.range = seq(0, 0.6, by = 0.05))
+optClust(cnr, opt.range = seq(0.005, 0.6, by = 0.005))
 }
 \arguments{
 \item{cnr}{a cnr bundle}

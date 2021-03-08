@@ -48,8 +48,12 @@ doKSpectral <- function(cnr, ...) {
     cnr[["kStats"]] <- do.call(rbind, kStats)
     cnr[["eigenVals"]] <- do.call(rbind, eigenVals)
     
-    cnr[["optK"]] <- c("kCC" = cnr[["kStats"]] %>% top_n(1, k) %>% top_n(1, dLambdaMax) %>% pull(kCC),
-                       "sK" = cnr[["kStats"]] %>% top_n(1, k) %>% top_n(1, dLambdaMax) %>% pull(k))
+    cnr[["optK"]] <- c("kCC" = cnr[["kStats"]] %>%
+                           top_n(1, k) %>% top_n(1, dLambdaMax) %>%
+                           pull(kCC),
+                       "sK" = cnr[["kStats"]] %>%
+                           top_n(1, k) %>% top_n(1, dLambdaMax) %>%
+                           pull(k))
     
     return(cnr)
     

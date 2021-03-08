@@ -34,7 +34,8 @@ If `FALSE` data is integer copy number}
 }
 \value{
 A CNR bundle composed of genotype, phenotype, and metadata for a single-cell
-DNA copy number experiment
+DNA copy number experiment.  See `getting_started.Rmd` vignette for additional
+details.
 }
 \description{
 A CNR bundle is a `list` composed of six matrices of class data.frame (mostly).
@@ -53,17 +54,15 @@ data(chromInfo)
 data(gene.index)
 
 cnr <- buildCNR(X = copynumbers, Y = pheno, qc = qc, exprs = NULL,
-chromInfo = chromInfo, gene.index = gene.index)
+                chromInfo = chromInfo, gene.index = gene.index)
 
 class(cnr)
 
-head(cnr$bins[, 1:5])
+head(cnr$X[, 1:5])
+
+head(cnr$Y[, 1:5])
 
 head(cnr$genes[, 1:5])
-
-data(segCol)
-
-HeatmapCNR(cnr)
 
 \dontrun{
  saveRDS(cnr, file = "cnr.rds")

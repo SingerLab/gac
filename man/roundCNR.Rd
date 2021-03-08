@@ -27,9 +27,10 @@ for deletions, losses, and neutral (2 copies)
 
 data(copynumbers)
 
+head(copynumbers)
+
 cni <- roundCNR(copynumbers)
 
-Heatmap(cni)
-
+head(cni)
 
 }

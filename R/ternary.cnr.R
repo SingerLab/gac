@@ -19,7 +19,7 @@
 #'
 #' G <- ternary.cnr(cnr$genes[, c("CDK4", "MDM2")])
 #'
-#' Heatmap(G)
+#' head(G)
 #' 
 #' @export
 ternary.cnr <- function(X, gain = 3, amp = 20) {
