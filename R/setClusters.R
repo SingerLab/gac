@@ -24,7 +24,7 @@ setBrayClusters <- function(cnr, tree.height = NULL, prefix = "C", ...) {
 
     if(is.null(tree.height)) {
         mocp <- optClust(cnr, ...)
-        tree.height <- min.int <- minimum.intersect(mocp)
+        tree.height <- minimum.intersect(mocp)
         message("tree.height not set, using minum intersect point of ",
                 tree.height, " as tree.height")
     } else {
