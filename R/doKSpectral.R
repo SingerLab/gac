@@ -34,11 +34,11 @@ doKSpectral <- function(cnr, ...) {
     
         kStats[[kCC]] <- as_tibble(kS)[1, ] %>%
             mutate(kCC = kCC) %>%
-            select(-topEigenValues)
+            select(-.data$topEigenValues)
 
         eigenVals[[kCC]] <- as_tibble(kS) %>%
             mutate(kCC = kCC) %>%
-            select(kCC, k, topEigenValues)
+            select(.data$kCC, .data$k, .data$topEigenValues)
     
         if(kS$k < 4 & kCC > 15) {
             break
@@ -49,11 +49,11 @@ doKSpectral <- function(cnr, ...) {
     cnr[["eigenVals"]] <- do.call(rbind, eigenVals)
     
     cnr[["optK"]] <- c("kCC" = cnr[["kStats"]] %>%
-                           top_n(1, k) %>% top_n(1, dLambdaMax) %>%
-                           pull(kCC),
+                           top_n(1, .data$k) %>% top_n(1, .data$dLambdaMax) %>%
+                           pull(.data$kCC),
                        "sK" = cnr[["kStats"]] %>%
-                           top_n(1, k) %>% top_n(1, dLambdaMax) %>%
-                           pull(k))
+                           top_n(1, .data$k) %>% top_n(1, .data$dLambdaMax) %>%
+                           pull(.data$k))
     
     return(cnr)
     

@@ -2,18 +2,32 @@
 % Please edit documentation in R/subsetCNR.R
 \name{subsetCNR}
 \alias{subsetCNR}
-\title{subset a set of bins or genes from a CNR object}
+\title{Subset a set of bins or genes from a CNR object}
 \usage{
-subsetCNR(cnr, based.on = "X", keep, ...)
+subsetCNR(
+  cnr,
+  bins = NULL,
+  genes = NULL,
+  chrom = NULL,
+  start = NULL,
+  end = NULL,
+  ...
+)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
-\item{based.on}{"X", "genes", "position"}
+\item{bins}{a vector of bins to keep}
 
-\item{keep}{string vector with which bins or genes to keep}
+\item{genes}{a vector of genes to keep}
 
-\item{...}{additional parameters}
+\item{chrom}{a vector of chromosomes, or single chromosome if genomic coordinates are used}
+
+\item{start}{a start position}
+
+\item{end}{an end position}
+
+\item{...}{additional parameters e.g. padding to add bins when coordinates are used}
 }
 \value{
 Returns a cnr object with only the desired bins.  This function also subsets the gene index and chromInfo as well
@@ -21,20 +35,20 @@ Returns a cnr object with only the desired bins.  This function also subsets the
 \description{
 This function pulls out a section of the genome for further analysis.
 }
-\details{
-It currently only works based on bin data, but working to get gene based
-subset and chromsome position subset.
-}
 \examples{
 data(cnr)
 data(segCol)
 
-chr19.bins <- rownames(cnr$X)[cnr$chromInfo$chrom == "19"]
+## subset based on bins
+bins1.100 <- subsetCNR(cnr, bins = 1:100)
 
-cnr_chr19 <- subsetCNR(cnr, based.on = "X", keep = chr19.bins)
+## subset based on genes
+genes.3 <- subsetCNR(cnr, genes = c("CDK4", "MDM2", "HMGA2", "TP53"))
 
-sapply(cnr_chr19, dim)
+## subset based on chromosomes
+chrom6.12 <- subsetCNR(cnr, chrom = c(6, 12))
 
-HeatmapCNR(cnr_chr19, col = segCol)
+## subset based on genomic coordinates
+chrom12q13.15 <- subsetCNR(cnr, chrom = 12, start = 46000000, end = 71000000)
 
 }

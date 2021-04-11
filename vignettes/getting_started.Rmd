@@ -3,7 +3,7 @@ title: "Get started with single-cell DNA copy number analyses"
 author: Rodrigo Gularte Merida <gularter@mskcc.org>
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{get_started}
+  %\VignetteIndexEntry{Get started with single-cell DNA copy number analyses}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -23,8 +23,17 @@
 #' @export
 mark.genes <- function(cnr, gene.list) {
     ## genes to mark in Heatmap
-    gg <- cnr$gene.index[gene.list, "bin.id"]
-    names(gg) <- gene.list
+
+    ggL <- cnr$gene.index$hgnc.symbol %in% gene.list
+
+    na <- setdiff(gene.list, cnr$gene.index$hgnc.symbol)
+
+    if(length(na) > 0) {
+        warning(na)
+    }
+    
+    gg <- cnr$gene.index[ggL, "bin.id"]
+    names(gg) <- cnr$gene.index[ggL, "hgnc.symbol"]
     return(gg)
     
 } ## mark.genes

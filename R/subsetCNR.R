@@ -1,17 +1,20 @@
-#'  subset a set of bins or genes from a CNR object
+#' Subset a set of bins or genes from a CNR object
 #'
 #' This function pulls out a section of the genome for further analysis. 
 #'
-#' It currently only works based on bin data, but working to get gene based
-#' subset and chromsome position subset.
-#'
 #' @param cnr a cnr bundle
 #'
-#' @param based.on "X", "genes", "position"
+#' @param bins a vector of bins to keep
 #'
-#' @param keep string vector with which bins or genes to keep
+#' @param genes a vector of genes to keep
 #'
-#' @param ... additional parameters
+#' @param chrom a vector of chromosomes, or single chromosome if genomic coordinates are used
+#'
+#' @param start a start position
+#'
+#' @param end an end position
+#'
+#' @param ... additional parameters e.g. padding to add bins when coordinates are used
 #' 
 #' @return
 #'
@@ -20,66 +23,163 @@
 #' @examples
 #' data(cnr)
 #' data(segCol)
-#' 
-#' chr19.bins <- rownames(cnr$X)[cnr$chromInfo$chrom == "19"]
-#' 
-#' cnr_chr19 <- subsetCNR(cnr, based.on = "X", keep = chr19.bins)
 #'
-#' sapply(cnr_chr19, dim)
+#' ## subset based on bins
+#' bins1.100 <- subsetCNR(cnr, bins = 1:100)
 #'
-#' HeatmapCNR(cnr_chr19, col = segCol)
+#' ## subset based on genes
+#' genes.3 <- subsetCNR(cnr, genes = c("CDK4", "MDM2", "HMGA2", "TP53"))
+#'
+#' ## subset based on chromosomes
+#' chrom6.12 <- subsetCNR(cnr, chrom = c(6, 12))
+#' 
+#' ## subset based on genomic coordinates
+#' chrom12q13.15 <- subsetCNR(cnr, chrom = 12, start = 46000000, end = 71000000)
+#'
+#' @importFrom assertthat assert_that
 #' 
 #' @export
-subsetCNR <- function(cnr, based.on = "X", keep, ...) {
+subsetCNR <- function(cnr, bins = NULL, genes = NULL, chrom = NULL, start = NULL, end = NULL, ...) {
 
-    message("work in progress, ping me if you really need this")
-
-    if(based.on == "X") {
-
-        ## select hgnc sybmols within bins, and present in `genes`
-        kgb <- cnr$gene.index$hgnc.symbol[cnr$gene.index$bin.id %in% keep]
-        kgb <- kgb[kgb %in% names(cnr$genes)]
-
-        ## subsetting by bin.id
-        muffin <- cnr$X[keep, ]
-        chromInfo <- cnr$chromInfo[keep, ]
-        gene.index <- cnr$gene.index[cnr$gene.index$bin.id %in% keep, ]
-        ## subsetting by hgnc.symbol
-        puffin <- cnr$genes[, kgb]
+    if(!is.null(bins)) {
+        assertthat::assert_that(is.null(genes))
+        assertthat::assert_that(is.null(chrom))
+        assertthat::assert_that(is.null(start))
+        assertthat::assert_that(is.null(end))
         
-        if(!is.null(cnr$exprs)) {
-            Ye <- cnr$exprs[, gene.index$hgnc.symbol]
-        } else {
-            Ye <- NULL
-        }
+        cnr <- subset_on_bins(cnr, bins = bins)
+    }
+    
+    if(!is.null(genes)) {
+        assertthat::assert_that(is.null(bins))
+        assertthat::assert_that(is.null(chrom))
+        assertthat::assert_that(is.null(start))
+        assertthat::assert_that(is.null(end))
         
-        
-    } else {
-        
-        if(based.on == "genes" & all(keep %in% cnr$chromInfo$hgnc.symbol)) {
-
-            kgb <- cnr$chromInfo$bin.id[cnr$chromInfo$hgnc.symbol %in% keep]
-            
-            muffin <- cnr$X[kgb, ]
-            chromInfo <- cnr$chromInfo[kgb, ]
-            ## keeping gene index based on bin.id
-            gene.index <- cnr$gene.index[cnr$gene.index$bin.id %in% kgb, ]
-            puffin <- cnr$genes[, keep]
-            
-            if(!is.null(cnr$exprs)) {
-                Ye <- cnr$exprs[, gene.index$hgnc.symbol]
-            } else {
-                Ye <- NULL
-            }
-        }
+        cnr <- subset_on_genes(cnr, genes = genes, ...)
     }
 
-    cnr[["X"]] <- muffin
-    cnr[["genes"]] <- puffin
-    cnr[["exprs"]] <- Ye
-    cnr[["gene.index"]] <- gene.index
-    cnr[["chromInfo"]] <- chromInfo
+    if(!is.null(chrom) & is.null(start) & is.null(end)) {
+        assertthat::assert_that(is.null(bins))
+        assertthat::assert_that(is.null(genes))
+
+        cnr <- subset_on_chrom(cnr, chrom = chrom)
+    }
+
+    if(!is.null(chrom) & !is.null(start) & !is.null(end)) {
+        assertthat::assert_that(is.null(bins))
+        assertthat::assert_that(is.null(genes))
+
+        cnr <- subset_on_coordinates(cnr, chrom = chrom,
+                                     start = start, end = end, ...)
+    }
+    
+    return(cnr)
+    
+}
+
+
+#' subset based on bins
+#' @param cnr a cnr bundle
+#'
+#' @param bins a list of bins to subset
+#' 
+#' @export
+subset_on_bins <- function(cnr, bins) {
+
+    ## subset X based on bins
+    nX <- cnr$X[bins, ]
+
+    ## subset gene index based on bins
+    g2 <- cnr$gene.index[cnr$gene.index$bin.id %in% bins, ]
+
+    ## subset genes matrix based on bins
+    gg <- gsub("-", ".", g2$hgnc.symbol)
+    nGenes <- cnr$genes[, gg]
+
+    ## subset chromInfo based on bins
+    nCI <- cnr$chromInfo[bins,]
+
+    ## if expression is present
+    if(!is.null(cnr[["expr"]])) {
+        nE <- cnr$expr[, gg]
+    }
+    
+    cnr[["X"]] <- nX
+    cnr[["genes"]] <- nGenes
+    cnr[["gene.index"]] <- g2
+    cnr[["chromInfo"]] <- nCI
+    if(!is.null(cnr[["expr"]])) {
+        cnr[["expr"]] <- nE
+    }
 
     return(cnr)
+} # end subset_on_bins
 
-}
+
+#' subset based on genes
+#' @param cnr a cnr bundle
+#'
+#' @param genes a list of genes to subset
+#'
+#' @param all return all genes within on the bins of the genes of interst
+#' 
+#' @export
+subset_on_genes <- function(cnr, genes, all = TRUE) {
+
+    ## transforming genes to column names
+    gg <- gsub("-", ".", genes)
+    
+    ## subset genes matrix based on genes
+    b2 <- as.numeric(gac::mark.genes(cnr, gene.list = genes))
+
+    cnr <- subset_on_bins(cnr, bins = b2)
+
+    if(!all) {
+        cnr[["genes"]] <- cnr$genes[, gg]
+        cnr[["gene.index"]] <- cnr$gene.index[cnr$gene.index$hgnc.symbol %in% genes, ]
+    }
+    
+    return(cnr)
+} # end subset_on_genes
+
+
+#' subset based on complete chromosomes
+#' @param cnr a cnr bundle
+#'
+#' @param chrom a list of chromosomes of interst
+#' 
+#' @export
+subset_on_chrom <- function(cnr, chrom) {
+
+    b2 <- which(cnr$chromInfo$bin.chrom %in% chrom)
+    
+    cnr <- subset_on_bins(cnr, bins = b2)
+    
+    return(cnr)
+} # end subset_on_chrom
+
+
+#' subset based on complete chromosomes
+#' @param cnr a cnr bundle
+#'
+#' @param chrom a chromosome, only one chromosome
+#'
+#' @param start start coordinate
+#'
+#' @param end end coordinate
+#'
+#' @param padding number of bins to add before or after the start and end coordinates
+#' 
+#' @export
+subset_on_coordinates <- function(cnr, chrom, start, end, padding = 1) {
+
+    b2 <- which(cnr$chromInfo$bin.chrom %in% chrom &
+                cnr$chromInfo$bin.start >= start &
+                cnr$chromInfo$bin.end <= end)
+    b2 <- c(min(b2) - padding, b2, max(b2) + padding)
+    
+    cnr <- subset_on_bins(cnr, bins = b2)
+    
+    return(cnr)
+} # end subset_on_coordinates
