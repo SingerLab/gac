@@ -4,6 +4,12 @@
 * win-builder (devel)
 
 ## R CMD check results
+### Sun Apr 11 00:16:00 2021 
+
+── R CMD check results ────────────────────────────────────── gac 0.0.90020 ────
+Duration: 9m 10.8s
+
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
 ### Sun Mar  7 12:40:35 2021
 ── R CMD check results ────────────────────────────────────── gac 0.0.90019 ────

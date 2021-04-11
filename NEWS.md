@@ -1,3 +1,10 @@
+# gac 0.0.9020
+
+* added support for subbsetting based on bins, genes, full chromosomes and genomic coordinates
+
+* debugged build notes
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+
 # gac 0.0.9019
 
 * added plot_frequencies to plot amplification and deletion frequencies
