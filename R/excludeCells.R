@@ -59,7 +59,7 @@ excludeCells <- function(cnr, excl) {
     cnr[["cells"]] <- keep
 
     if(!is.null(cnr[["vdj.cells"]])) {
-        vk <- cnr[["vdj.cells"]] %in% keep
+        vk <- names(cnr[["vdj.cells"]]) %in% keep
         cnr[["vdj.cells"]] <- cnr[["vdj.cells"]][vk]
     }
 

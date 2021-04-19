@@ -57,7 +57,7 @@ vdjHeatmap <- function(cnr, vdj.genes = NULL, vdjGeneAnno = NULL,
         vdjChr <- vdjGeneAnno
     }
 
-    if(is.null(vdjGeneAnno)) {
+    if(is.null(vdjCellAnno)) {
         vdjAnnot <- ComplexHeatmap::rowAnnotation(
             "Cell Type" = cnr$vdj.cells,
             show_legend = TRUE)

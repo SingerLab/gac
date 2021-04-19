@@ -1,3 +1,9 @@
+# gac 0.0.9021
+
+* added VDJ clustering with Bray-Curtis Dissimilarity
+
+* fixed vdj cell type in keepCells and excludeCells
+
 # gac 0.0.9020
 
 * added support for subbsetting based on bins, genes, full chromosomes and genomic coordinates

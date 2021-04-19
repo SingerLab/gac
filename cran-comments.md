@@ -1,9 +1,17 @@
 ## Test environments
 * local R installation, R 4.1.0
 * ubuntu 16.04 (on travis-ci), R 4.1.0
-* win-builder (devel)
+* CentOS7 Institutional HPC Cluster
+
 
 ## R CMD check results
+### Mon Apr 19 16:18:56 2021
+   
+── R CMD check results ────────────────────────────────────── gac 0.0.90021 ────
+Duration: 9m 1.4s
+
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+
 ### Sun Apr 11 00:16:00 2021 
 
 ── R CMD check results ────────────────────────────────────── gac 0.0.90020 ────

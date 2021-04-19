@@ -67,9 +67,9 @@ genotype_vdj <- function(cnr) {
     assertthat::assert_that(all(names(vdjCells) == names(cnr$X)))
     assertthat::assert_that(all(names(vdjCells) == rownames(cnr$Y)))
     
-    cnr$Y$cell.type[cnr$Y$cellID %in% names(vdjType)[vdjType == "T-cell"]] <- "T-cell"
-    cnr$Y$cell.type[cnr$Y$cellID %in% names(vdjType)[vdjType == "B-cell"]] <- "B-cell"
-    cnr$Y$cell.type[cnr$Y$cellID %in% names(vdjType)[vdjType == "vdj.unspecified"]] <- "vdj.unspecified"
+    cnr$Y[cnr$Y$cellID %in% names(vdjType)[vdjType == "T-cell"], "cell.type"] <- "T-cell"
+    cnr$Y[cnr$Y$cellID %in% names(vdjType)[vdjType == "B-cell"], "cell.type"] <- "B-cell"
+    cnr$Y[cnr$Y$cellID %in% names(vdjType)[vdjType == "vdj.unspecified"], "cell.type"] <- "vdj.unspecified"
 
     cnr[["vdj.cells"]] <- vdjType
 
