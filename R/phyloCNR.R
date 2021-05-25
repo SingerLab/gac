@@ -90,16 +90,16 @@ phyloDDRC <- function(cnr, exclude.clones = NULL, root.clone = NULL,
     
     if(!is.null(root.clone)) {
         assertthat::assert_that(length(root.clone) == 1)
-        assertthat::assert_that(any(root.clone %in% names(cnr$DDRC.df)),
+        assertthat::assert_that(any(root.clone %in% colnames(cnr$DDRC.df)),
                                 msg = "root.cell not found. the root.cell must be contained within the data")
     }
     
     if(!is.null(exclude.clones)) {
         assertthat::assert_that(all(exclude.clones %in% cnr$DDRC.df),
                                 msg = "not all exclude.clones are present in DDRC.df")
-        keep.clones <- setdiff(names(cnr$DDRC.df), exclude.clones)
+        keep.clones <- setdiff(colnames(cnr$DDRC.df), exclude.clones)
     } else {
-        keep.clones <- names(cnr$DDRC.df)
+        keep.clones <- colnames(cnr$DDRC.df)
     }
     
     cnr[["DDRC.dist"]] <- vegan::vegdist(cnr$DDRC.df[, keep.clones], method = dist.method, ...)
