@@ -102,7 +102,7 @@ phyloDDRC <- function(cnr, exclude.clones = NULL, root.clone = NULL,
         keep.clones <- colnames(cnr$DDRC.df)
     }
     
-    cnr[["DDRC.dist"]] <- vegan::vegdist(cnr$DDRC.df[, keep.clones], method = dist.method, ...)
+    cnr[["DDRC.dist"]] <- vegan::vegdist(t(cnr$DDRC.df[, keep.clones]), method = dist.method, ...)
     
     cnr[["DDRC.nj"]] <- ape::nj(cnr[["DDRC.dist"]])
     
