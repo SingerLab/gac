@@ -2,9 +2,15 @@
 % Please edit documentation in R/phyloCNR.R
 \name{phyloCNR}
 \alias{phyloCNR}
-\title{calculating distances, heirarchical clustering, and `phylo` object}
+\title{Calculating cell-to-cell distances, heirarchical clustering, and generating a tree class `phylo`}
 \usage{
-phyloCNR(cnr, dist.method = "bray", hclust.method = "ward.D2", ...)
+phyloCNR(
+  cnr,
+  dist.method = "bray",
+  hclust.method = "ward.D2",
+  root.cell = NULL,
+  ...
+)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
@@ -13,6 +19,8 @@ phyloCNR(cnr, dist.method = "bray", hclust.method = "ward.D2", ...)
 (see vegan::vegdist)}
 
 \item{hclust.method}{method for heirarchical clustering (see hclust)}
+
+\item{root.cell}{a cellID to root the three.}
 
 \item{...}{other parameters}
 }
@@ -27,5 +35,5 @@ Creates a cell-to-cell distance matrix, runs heirarchical clustering,
 }
 }
 \description{
-calculating distances, heirarchical clustering, and `phylo` object
+Calculating cell-to-cell distances, heirarchical clustering, and generating a tree class `phylo`
 }

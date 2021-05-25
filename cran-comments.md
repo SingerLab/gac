@@ -5,15 +5,21 @@
 
 
 ## R CMD check results
+
+### Mon May 24 23:26:20 EDT 2021
+── R CMD check results ────────────────────────────────────── gac 0.0.90022 ────
+Duration: 8m 54.7s
+
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+
+
 ### Mon Apr 19 16:18:56 2021
-   
 ── R CMD check results ────────────────────────────────────── gac 0.0.90021 ────
 Duration: 9m 1.4s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
 ### Sun Apr 11 00:16:00 2021 
-
 ── R CMD check results ────────────────────────────────────── gac 0.0.90020 ────
 Duration: 9m 10.8s
 

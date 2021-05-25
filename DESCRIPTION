@@ -22,11 +22,11 @@ Imports:
     ConsensusClusterPlus,
     usethis,
     entropy,
+    circlize,
     SCclust,
     tibble
 Suggests:
     biomaRt,
-    circlize,
     tidyverse,
     knitr,
     rmarkdown,

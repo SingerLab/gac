@@ -46,7 +46,6 @@ To implement GAC we require five easy to generate inputs:
  - [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/)
  - [vegan](https://github.com/vegandevs/vegan)
  - [dplyr](https://dplyr.tidyverse.org)
- 
 
 
 ```{r cran, eval = FALSE, include = FALSE, echo = FALSE}
@@ -60,7 +59,6 @@ You can install the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("SingerLab/gac")
 ```
-
 
 ## Examples
 This is a basic example for drawing a copy number heatmap.  For a comprehensive overview of the package please follow the `getting_started.Rmd` in the `vignettes/`
@@ -123,5 +121,4 @@ We hope you enjoy !
 
 # Licence
 GAC framework and code is distributed under a BSD-3 License
-
 
