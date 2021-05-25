@@ -95,7 +95,7 @@ phyloDDRC <- function(cnr, exclude.clones = NULL, root.clone = NULL,
     }
     
     if(!is.null(exclude.clones)) {
-        assertthat::assert_that(all(exclude.clones %in% cnr$DDRC.df),
+        assertthat::assert_that(all(exclude.clones %in% colnames(cnr$DDRC.df)),
                                 msg = "not all exclude.clones are present in DDRC.df")
         keep.clones <- setdiff(colnames(cnr$DDRC.df), exclude.clones)
     } else {
