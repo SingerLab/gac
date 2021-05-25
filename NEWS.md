@@ -1,3 +1,11 @@
+# gac 0.0.9022
+
+* added clone assignment ranked by FGA and/or frequency
+
+* added ability to root the cell phylogenetic tree
+
+* added function to run clone phylogenetic analysis
+
 # gac 0.0.9021
 
 * added VDJ clustering with Bray-Curtis Dissimilarity

@@ -2,14 +2,14 @@
 % Please edit documentation in R/setClusters.R
 \name{setBrayClusters}
 \alias{setBrayClusters}
-\title{setting clusters at optimal height}
+\title{Set clusters using one-cell and multi-cell height intersection}
 \usage{
 setBrayClusters(cnr, tree.height = NULL, prefix = "C", ...)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
-\item{tree.height}{height of the tree (from optClust)}
+\item{tree.height}{height of the tree \link{optClust}}
 
 \item{prefix}{a prefix to append before the cluster number}
 
@@ -17,8 +17,11 @@ setBrayClusters(cnr, tree.height = NULL, prefix = "C", ...)
 }
 \value{
 Returns a cnr object with cluster membership based on Bray-Curtis
- heirarchical clustering.  Tree height must be specified.
+ Ward.D2 heirarchical clustering. If hieght is NULL, then the
+ the tree height is calculated using \link{minimum.intersect}. Where
+ optimal height is the value at the intersect between the number of
+ one-cell and multi-cell clusters.
 }
 \description{
-setting clusters at optimal height
+Set clusters using one-cell and multi-cell height intersection
 }

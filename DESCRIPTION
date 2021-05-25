@@ -1,5 +1,5 @@
 Package: gac
-Version: 0.0.90021
+Version: 0.0.90022
 Date: 2020-09-27
 Title: Genetic Analysis of Cells
 Authors@R: person("Rodrigo Gularte Merida",
@@ -22,11 +22,11 @@ Imports:
     ConsensusClusterPlus,
     usethis,
     entropy,
+    circlize,
     SCclust,
     tibble
 Suggests:
     biomaRt,
-    circlize,
     tidyverse,
     knitr,
     rmarkdown,
