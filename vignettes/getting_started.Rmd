@@ -165,6 +165,9 @@ grch37.genes.5k <- data.frame(grch37.genes.5k) %>%
 
 cnr <- buildCNR(X = X, Y= Y, qc = qc, chromInfo = chromInfo, gene.index = grch37.genes.5k)
 
+## example for changing loss threshold in round CNR
+cnr2 <- buildCNR(X = X, Y= Y, qc = qc, chromInfo = chromInfo, gene.index = grch37.genes.5k, loss = 1.5) 
+
 summaryCNR(cnr)
 ```
 
@@ -178,7 +181,6 @@ summaryCNR(cnr)
 I made use of [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/) for this package.  ComplexHeatmap is one of the most powerful visualization tools available for R.  To use the richness of ComplexHeatmap, the `HeatmapCNR` function attempts to minimize the total number of presets.  Please visit the ComplexHeatmap documentation to take advantage of its potential.
 
 The `HeatmapCNR` function will create a viable plot if you are in a time constraint.
-
 
 ```{r visualize}
 ## a color scale to visualize the integer copy number is provided
@@ -194,7 +196,6 @@ HeatmapCNR(cnr, col = segCol, what = "genes", which.genes = c("CDK4", "MDM2", "T
 ```
 
 ## Working with a CNR
-
 GAC is equiped with a couple of management functions that are prefixed with `add*`, `exclude*` and `keep*`.  
 
 On a more frequent basis you will want to remove cells that have noisy profiles.  

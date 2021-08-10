@@ -8,7 +8,7 @@ buildCNR(X, Y, qc, chromInfo, exprs = NULL, gene.index, bulk = FALSE, ...)
 }
 \arguments{
 \item{X}{bin or common segment copy number data.  Can be in `numeric`
-or integer form.  By default it will be rounded by roundCNR.}
+or integer form.  By default it will be rounded by \code{\link{roundCNR}}.}
 
 \item{Y}{phenotype and additional cell-level annotation data nrow(Y)
 needs to equal ncol(X).  There is no check for this yet. requires a
@@ -30,7 +30,7 @@ expression matrix. Must have cellID as rownames. default is NULL.}
 or integer copy number.  If `TRUE` data is an untransformed segment ratio.
 If `FALSE` data is integer copy number}
 
-\item{...}{other parameters}
+\item{...}{parameters passed to roundCNR}
 }
 \value{
 A CNR bundle composed of genotype, phenotype, and metadata for a single-cell

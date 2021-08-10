@@ -1,3 +1,7 @@
+# gac 0.0.9023
+
+* minor fix to pass `roundCNR` arguments from `buildCNR`
+
 # gac 0.0.9022
 
 * added clone assignment ranked by FGA and/or frequency

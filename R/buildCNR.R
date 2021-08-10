@@ -8,7 +8,7 @@
 #' the QC, Y (phenotype), and chromInfo tables.
 #'
 #' @param X bin or common segment copy number data.  Can be in `numeric`
-#' or integer form.  By default it will be rounded by roundCNR.
+#' or integer form.  By default it will be rounded by \code{\link{roundCNR}}.
 #'
 #' @param Y phenotype and additional cell-level annotation data nrow(Y)
 #' needs to equal ncol(X).  There is no check for this yet. requires a
@@ -30,7 +30,7 @@
 #'   or integer copy number.  If `TRUE` data is an untransformed segment ratio.
 #'   If `FALSE` data is integer copy number
 #'
-#' @param ... other parameters
+#' @param ... parameters passed to roundCNR
 #'
 #' @return
 #' A CNR bundle composed of genotype, phenotype, and metadata for a single-cell
@@ -70,7 +70,7 @@ buildCNR <- function(X, Y, qc, chromInfo, exprs = NULL, gene.index,
         muffin <- log2(X)
     } else {
         ## round to nearest state (see round CNR)
-        muffin <- roundCNR(X)
+        muffin <- roundCNR(X, ...)
     }
 
     ## interpolate to genes
