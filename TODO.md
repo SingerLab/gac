@@ -5,7 +5,7 @@
 - [ ] same as above with depmap hgnc.symbol, use merge w/hgnc.symbol
 - [ ] generalize to add annotations to gene.index again, hgnc.symbol, use merge w/hgnc.symbol
 - [ ] Integrate with kegg pathway views, need entrez ID genes for this
-- [ ] Document functions
+- [X] Document functions
 - [ ] Integrate CORE
 - [ ] debug scclust integration
 - [ ] make a function for calling amplification and deletions on buildDNA -- Bastien
