@@ -4,16 +4,18 @@
 devtools::load_all()
 
 ## fixed colors
-segCol <- colorRamp2(breaks = c(0:5, 10, 20, 40, 80),
+segCol <- circlize::colorRamp2(breaks = c(0:5, 10, 20, 40, 80),
                      colors = c("#F2D200", "#318CE7", "#FFFFFF",
                                 "#FFA89F", "#FF523F", "#D40000",
                                 "#7F7F7F", "#636363", "#515151",
                                 "#303030"))
-lowCol <- colorRamp2(breaks = c(-2, 0, 2),
+lowCol <- circlize::colorRamp2(breaks = c(-2, 0, 2),
                      colors = c("#032ADD", "#FFFFFF", "#D40000"))
 ampCol <- segCol
-fgaCol <- colorRamp2(0:50/100, colour_values(0:50/100, "GnBu"))
-ploidyCol <- colorRamp2(c(0, 2, 4),
+
+fgaCol <- circlize::colorRamp2(0:50/100, colourvalues::colour_values(0:50/100, "GnBu"))
+
+ploidyCol <- circlize::colorRamp2(c(0, 2, 4),
                         colors = c("#F2F0F7", "#9E9AC8", "#54278F"))
 
 ## legends
