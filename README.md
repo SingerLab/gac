@@ -56,6 +56,7 @@ al.2015](https://dx.doi.org/10.1038/nmeth.3370))
 ### Dependencies:
 
 -   [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/)
+-   [ConsensusClusterPlus](https://bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.html)
 -   [vegan](https://github.com/vegandevs/vegan)
 -   [dplyr](https://dplyr.tidyverse.org)
 -   [SCclust](https://github.com/KrasnitzLab/SCclust)
