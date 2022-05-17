@@ -26,11 +26,11 @@ integrating proven methods of quantitative genetics, statistics, and
 evolutionary biology for the genetic analysis of single-cell DNA copy
 number. GAC implements a simple, lightweight, and open-source R
 framework (Figure 1). Inspired, but unlike Seurat and Scanpy, adapts the
-logic of espressioSet/AnnData into relational matrices in native R. This
-keeps the toolkit easy to learn, hard to master; and facilitates the
+logic of espressioSet/AnnData into relational matrices in native R which facilitate the
 integration of algorithms for the downstream analysis of single-cell DNA
-data wich is so desperately needed. For now GAC facilitates the
-downstream analyses of segmented data with common segments by
+data wich is so desperately needed. 
+
+GAC facilitates the downstream analyses of segmented data with common segments by
 concurrently managing the X, Y across all cells or samples e.g. the
 output of [Varbin/Ginkgo](https://github.com/robertaboukhalil/ginkgo),
 [FACETS](https://github.com/mskcc/facets), [MUMdex](http://mumdex.com),
