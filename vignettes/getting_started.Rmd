@@ -119,12 +119,6 @@ library(dplyr)
 
 data(chromInfo)
 
-## set up a genomic ranges object for the bins
-( gr.5k <- GRanges(seqnames = chromInfo$bin.chrom,
-                 ranges = IRanges(start = chromInfo$bin.start,
-                                  end = chromInfo$bin.end,
-                                  names = 1:nrow(chromInfo))) )
-
 ## get ensembl genes w/hgnc
 grch37 <- useMart(biomart="ENSEMBL_MART_ENSEMBL",
                   dataset = "hsapiens_gene_ensembl",
@@ -145,6 +139,13 @@ grch37.genes <- getBM(attributes = c("ensembl_gene_id", "hgnc_symbol",
                         ensembl_gene_id = grch37.genes$ensembl_gene_id,
                         hgnc.symbol = grch37.genes$hgnc_symbol,
                         gene.type = grch37.genes$gene_biotype) )
+
+
+## set up a genomic ranges object for the genome bins
+( gr.5k <- GRanges(seqnames = chromInfo$bin.chrom,
+                 ranges = IRanges(start = chromInfo$bin.start,
+                                  end = chromInfo$bin.end,
+                                  names = 1:nrow(chromInfo))) )
 
 ## find and print the overlaps
 ( gr.5k.grch37.genes <- findOverlaps(gr.5k, grch37.genes,
