@@ -117,9 +117,10 @@ library(GenomicRanges)
 library(biomaRt)
 library(dplyr)
 
+## load example bin data
 data(chromInfo)
 
-## get ensembl genes w/hgnc
+## get ensembl genes w/HGNC symbol
 grch37 <- useMart(biomart="ENSEMBL_MART_ENSEMBL",
                   dataset = "hsapiens_gene_ensembl",
                   host="grch37.ensembl.org",
@@ -132,6 +133,7 @@ grch37.genes <- getBM(attributes = c("ensembl_gene_id", "hgnc_symbol",
     filter(chromosome_name %in% c(1:22, "X", "Y")) %>%
     arrange(chromosome_name)
 
+## set up a genomic ranges object for the gene index annotation
 ( grch37.genes <- GRanges(seqnames = grch37.genes$chromosome_name,
                         ranges = IRanges(start = grch37.genes$start_position,
                                          end = grch37.genes$end_position,
