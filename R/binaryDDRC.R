@@ -24,6 +24,8 @@
 #'     consensusClusterCNR(iters = 20, maxK = 40) %>%
 #'     doKSpectral() %>%
 #'     setKcc() %>%
+#'     cluster_heterogeneity(by = "category1",
+#'                           cluster_column = "ConsensusC") %>%
 #'     get_cluster_profiles() 
 #' 
 #' 
