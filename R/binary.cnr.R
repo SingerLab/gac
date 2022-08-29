@@ -8,7 +8,9 @@
 #'
 #'
 #' @param cnr a copy number matrix to convert to an incidence matrix
-#'
+#' 
+#' @param base.ploidy expected cell ploidy, e.g. 2N = 2, 4N = 4.
+#' 
 #' @return
 #'
 #' Returns an incidence matrix for X as part of the cnr object
@@ -26,11 +28,11 @@
 #' 
 #' 
 #' @export
-binary.cnr <- function(cnr) {
+binary.cnr <- function(cnr, base.ploidy = 2) {
 
     Z <- cnr[["X"]]
-    Z[Z != 2] <- 1
-    Z[Z == 2] <- 0
+    Z[Z != base.ploidy] <- 1
+    Z[Z == base.ploidy] <- 0
     
     cnr[["Z"]] <- Z
     
@@ -51,9 +53,11 @@ binary.cnr <- function(cnr) {
 #'
 #' @param X a copy number matrix to convert to an incidence matrix
 #'
+#' @param base.ploidy expected cell ploidy, e.g. 2N = 2, 4N = 4
+#'
 #' @return
 #'
-#' Returns an incidence matrix for X, when X != 2
+#' Returns an incidence matrix for X, when X != base.ploidy
 #' 
 #' @examples
 #'
@@ -63,10 +67,10 @@ binary.cnr <- function(cnr) {
 #' 
 #' 
 #' @export
-binary.X <- function(X) {
+binary.X <- function(X, base.ploidy = 2) {
     Z <- X
-    Z[Z != 2] <- 1
-    Z[Z == 2] <- 0
+    Z[Z != base.ploidy] <- 1
+    Z[Z == base.ploidy] <- 0
     Z
 } ## binary.X
 

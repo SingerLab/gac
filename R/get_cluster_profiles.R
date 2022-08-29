@@ -13,7 +13,7 @@
 #' * DDRC.g : interpolation of the DDRC.df at the gene level for each `final_cluster`.
 #' 
 #' @export
-get_cluster_profiles <- function(cnr, minimum_cells = 3) {
+get_cluster_profiles <- function(cnr, minimum_cells = 3, base.ploidy = 2) {
 
     uclust <- use_clusters(cnr, minimum_cells = minimum_cells)
     
@@ -27,8 +27,8 @@ get_cluster_profiles <- function(cnr, minimum_cells = 3) {
         }
     })
     
-    DDRC.df[DDRC.df >=2] <- ceiling(DDRC.df[DDRC.df >=2])
-    DDRC.df[DDRC.df <2] <- floor(DDRC.df[DDRC.df <2])
+    DDRC.df[DDRC.df >= base.ploidy ] <- ceiling(DDRC.df[DDRC.df >= base.ploidy])
+    DDRC.df[DDRC.df < base.ploidy] <- floor(DDRC.df[DDRC.df < base.ploidy])
     
     DDRC.g <- round(t(expand2genes(DDRC.df, gene.index = cnr$gene.index)))
     

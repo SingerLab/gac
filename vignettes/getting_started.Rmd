@@ -43,46 +43,53 @@ Data should be in rectancular form, preferably as a data.frame or matrix.  The e
 * Copy numbers are a sequence from 0 - 5 in 12 cells as our copy number data, with some added focal amplifcations in a bins, and noise in cells 5 and 11. Column names must be the `cellID`.
 
 ```{r copy_number_simulated_data}
+## number of cells to simulate
+n.cells <- 82
+
 ## set pattern
-X <- as.data.frame(replicate(n = 12, expr = round(seq(0, 5, by = 5/4999), digits = 4)))
-names(X) <- paste("cell", 1:12, sep = "")
+X <- as.data.frame(replicate(n = n.cells, expr = round(seq(0, 5, by = 5/4999), digits = 4)))
+names(X) <- paste("cell", 0:(n.cells -1), sep = "")
 
 ## set focal
-X[801:840, 1:4] <- 12
-X[800:843, 5:12] <- 18
-X[1810:1860, 3:12] <- 22
-X[3801:3881, 8:12] <- 80
+X[, 1] <- 2
+X[801:840, 2:10] <- 12
+X[800:843, 11:24] <- 18
+X[1810:1860, 24:40] <- 22
+X[3801:3881, 40:82] <- 80
 
-## adding noise
+## adding noisy cells
 set.seed(2020)
-X[,5] <- X[,5] + rnorm(5000)
-X[,11] <- X[,11] + rnorm(5000)
+noisy.cells <- sort(round(runif(6, min = 1, max = n.cells)))
+for(i in noisy.cells) {
+    X[,i] <- X[,i] + rnorm(5000)
+}
 ```
 
 * Phenotype in three forms, binary, categorical, and quantitive; and an additional two random variables. Must have one column named `cellID`, and must match those in the copy number matrix.
 
 ```{r simulated_phenotype_data}
-Y <- data.frame(matrix(NA, nrow = 12, ncol = 9))
+Y <- data.frame(matrix(NA, nrow = n.cells, ncol = 9))
 names(Y) <- c("cellID", "binary1", "binary2",
               "category1", "category2",
               "quantitative1", "quantitative2",
               "random1", "random2")
-
 Y$cellID <- names(X)
 
-Y$binary1 <- rep(c(0, 1), c(4, 8))
-Y$binary2 <- rep(c(1, 0), each = 6)
+Y$binary1 <- rep(c(0, 1), c(floor(n.cells * 0.2), ## 20% of the data
+                            ceiling(n.cells * 0.8))) ## 80% of the data
+Y$binary2 <- rep(c(1, 0), each = floor(n.cells/2)) ## 50:50 + NA if n.cells is an odd number
 
-Y$category1 <- rep(LETTERS[1:3], c(4, 6, 2))
-Y$category2 <- rep(LETTERS[26:24], c(2, 6, 4))
+Y$category1 <- rep(LETTERS[1:3], round(c(0.33, 0.50, 0.17) * n.cells))
+Y$category2 <- rep(LETTERS[26:24], round(c(0.17, 0.50, 0.33) * n.cells))
 
-Y$quantitative1 <- c(rnorm(n = 4, mean = 2), rnorm(n = 8, mean = 8))
-Y$quantitative2 <- rev(seq(0, 20, by = 20/12)[-1])
-Y$quantitative2[5] <- Y$quantitative2[5] - abs(rnorm(1, 3))
-Y$quantitative2[12] <- Y$quantitative2[12] + abs(rnorm(1, 3))
+Y$quantitative1 <- c(rnorm(n = floor(n.cells * 0.2), mean = 2),
+                     rnorm(n = ceiling(n.cells * 0.8), mean = 8))
+Y$quantitative2 <- rev(seq(0, 20, by = 20/n.cells)[-1])
+Y$quantitative2[noisy.cells] <- Y$quantitative2[noisy.cells] - abs(rnorm(1, 3))
+Y$quantitative2[noisy.cells] <- Y$quantitative2[noisy.cells] + abs(rnorm(1, 3))
 
-Y$random1 <- abs(rnorm(12))
-Y$random2 <- abs(rnorm(12, mean = 200, sd = 300))
+Y$random1 <- abs(rnorm(n.cells))
+Y$random2 <- abs(rnorm(n.cells, mean = 200, sd = 300))
 ```
 
 * QC metadata in this case will be limited to aligned reads (ReadsKept), median bin counts, amplified DNA concentrations, flow cytometry gate, and qc.status as PASS/FAIL.  Must have one column named `cellID`, and must match those in the copy number matrix and phenotype data. QC metrics of cells 5 and 11 are set similar to failed cells in an experiment.
@@ -94,19 +101,20 @@ This example was constructed using the following :
   * Cells 5, and 11 set as FAIL
   
 ```{r qc_metadata}
-qc <- data.frame(matrix(NA, nrow = 12, ncol = 6))
+qc <- data.frame(matrix(NA, nrow = n.cells, ncol = 6))
 names(qc) <- c("cellID", "ReadsKept", "MedianBinCount",
                "dna.ng.ul", "sort.gate", "qc.status")
 
 qc$cellID <- names(X)
-qc$ReadsKept <- 2000000 + rnorm(n = 12, sd = 700000)
+qc$ReadsKept <- 2000000 + rnorm(n = n.cells, sd = 700000)
 qc$MedianBinCount <- round(qc$ReadsKept/5000)
-qc$dna.ng.ul <- 200 + rnorm(n = 12, sd = 70)
-qc$sort.gate <- rep(c("p6", "p7"), c(4, 8))
+qc$dna.ng.ul <- 200 + rnorm(n = n.cells, sd = 70)
+qc$sort.gate <- rep(c("p6", "p7"), c(floor(n.cells * 0.2),
+                                     ceiling(n.cells * 0.8)))
 qc$qc.status <- "PASS"
 ## match noisy cells to QC
-qc$ReadsKept[c(5,11)] <- abs(200000 + rnorm(n = 2, sd = 700000))
-qc$qc.status[c(5,11)] <- "FAIL"
+qc$ReadsKept[c(noisy.cells)] <- abs(200000 + rnorm(n = 2, sd = 700000))
+qc$qc.status[c(noisy.cells)] <- "FAIL"
 ```
 
 * gene.index is prepared using biomart, requires bin information to map genes
@@ -403,6 +411,24 @@ To asses weather T-cells or B-cells are present in the cell populations, the fun
 cnr <- genotype_vdj(cnr)
 
 vdjHeatmap(cnr)
+```
+
+## Example of a complete analysis pipeline
+```{r complete_pipeline}
+noisy.cells <- cnr$qc %>% filter(qc.status == "FAIL") %>% pull(cellID)
+cnr <- cnr %>%
+    excludeCells(excl = noisy.cells) %>%
+    phyloCNR(root.cell = "cell0") %>%
+    setBrayClusters() %>%
+    consensusClusterCNR(iters = 20, maxK = 40) %>%
+    doKSpectral() %>%
+    setKcc() %>%
+    cluster_heterogeneity(by = "category1",
+                          cluster_column = "ConsensusC") %>%
+    get_cluster_profiles() %>%
+    get_alt_frequenciesCNR() %>%
+    phyloDDRC()
+
 ```
 
 ## Session Informatioin
