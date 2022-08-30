@@ -1,6 +1,6 @@
 Package: gac
-Version: 0.0.90023
-Date: 2020-09-27
+Version: 0.0.90026
+Date: 2022-08-29
 Title: Genetic Analysis of Cells
 Authors@R: person("Rodrigo Gularte Merida",
 	   role = c("aut", "cre"),
@@ -24,7 +24,11 @@ Imports:
     entropy,
     circlize,
     SCclust,
-    tibble
+    tibble,
+    pathview,
+    magrittr,
+    glmnet,
+    tidyr
 Suggests:
     biomaRt,
     tidyverse,
@@ -36,6 +40,6 @@ License: BSD_3_clause + file LICENSE
 URL: https://github.com/SingerLab/gac/
 BugReports: https://github.com/SingerLab/gac/issues
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Encoding: UTF-8
 LazyData: true

@@ -150,7 +150,7 @@ callDNA_CN <- function(cnr,
                        deletion.threshold = -0.5,
                        loss.threshold = -0.1,
                        gains.threshold = 0.1,
-                       amplification.thresholds = 1.0) {
+                       amplification.threshold = 1.0) {
 
     assertthat::assert_that(loss.threshold > deletion.threshold)
     assertthat::assert_that(gains.threshold > loss.threshold)

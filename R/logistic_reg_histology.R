@@ -45,11 +45,14 @@
 #'
 #' data(cnr)
 #'
-#' cnr <- histo_logit(cnr, trait = "binary1", pheno0 = 0, pheno1 = 1)
+#' cnr <- histo_logit(cnr, trait = "binary1",
+#'    pheno0 = 0, pheno1 = 1)
 #'
-#' cnr <- histo_logit(cnr, trait = "category1", pheno0 = "A", pheno1 = c("B", "C"))
+#' cnr <- histo_logit(cnr, trait = "category1",
+#'    pheno0 = "A", pheno1 = c("B", "C"))
 #'
-#' cnr <- histo_logit(cnr, trait = "category1", pheno0 = c("X", "Y"), pheno1 = "Z")
+#' cnr <- histo_logit(cnr, trait = "category1",
+#'    pheno0 = c("X", "Y"), pheno1 = "Z")
 #' 
 #' @import stats
 #' 
@@ -123,15 +126,18 @@ histo_logit <- function(cnr, trait, pheno0, pheno1,
 #' 
 #' @examples
 #'
-#' data(cnr)
+#' pdata(cnr)
 #'
-#' cnr <- histo_logit_cov(cnr, trait = "binary1", pheno0 = 0, pheno1 = 1, covar = "category1")
+#' cnr <- histo_logit_cov(cnr, trait = "binary1",
+#'    pheno0 = 0, pheno1 = 1, covar = "category1")
 #'
-#' cnr <- histo_logit_cov(cnr, trait = "category1", pheno0 = "A", pheno1 = c("B", "C"), covar = "category2")
+#' cnr <- histo_logit_cov(cnr, trait = "category1",
+#'    pheno0 = "A", pheno1 = c("B", "C"), covar = "category2")
 #'
-#' cnr <- histo_logit_cov(cnr, trait = "category1", pheno0 = c("X", "Y"), pheno1 = "Z", covar = "category1")
+#' cnr <- histo_logit_cov(cnr, trait = "category1",
+#'    pheno0 = c("X", "Y"), pheno1 = "Z", covar = "category1")
 #' 
-#' @import stats
+#' @import stats 
 #' 
 #' @export
 histo_logit_cov <- function(cnr, trait, pheno0, pheno1, covar, 
@@ -154,7 +160,59 @@ histo_logit_cov <- function(cnr, trait, pheno0, pheno1, covar,
 
 
 #' perform logistic regression for a binary/binarized trait
-#' @export
+#' 
+#' Internal to histo_logit for gene level analysis
+#' 
+#' @param cnr a cnr bundle
+#'
+#' @param trait character, name of the trait of interest to analyze.  Must
+#'  be a column in the phenotype matrix (Y). e.g. "binary1"
+#'
+#' @param pheno0  character, phenotype(s) to use as baseline, e.g. "0"
+#'
+#' @param pheno1  character, phenotype(s) to use as alternate, e.g. "1"
+#'
+#' @param exclude.cluster character, list of clusters to exclude, e.g.
+#'  hypersegmented, Stroma, etc. Default "HC"
+#'
+#' @param family  character, description of the error distribution and
+#' link function to be used in the model. See \link[stats]{glm} for details.
+#'  Default "binomial"
+#'  
+#' @param na.action character, handling of NA. default is "na.exclude"
+#'
+#' @param ... additional arguments passed to glm
+#'
+#' @return
+#' a CNR object with results from a logistic regression analysis
+#'  (family = "binomial") with effect estimates, and p-values attached to
+#'  the chromInfo matrices.
+#'
+#' Results columns are "Estimate", "Std.Error", "z.value", "p.value" ; with
+#'  the phenotype comparison pre-apended as <pheno0>.vs.<pheno1>.lr.<value>.
+#'  Using grade as an example  these would be:
+#' 
+#' 0.vs.1.lr.Estimate
+#' 0.vs.1.lr.Std.Error
+#' 0.vs.1.lr.z.value
+#' 0.vs.1.lr.p.value
+#'
+#' 
+#' @examples
+#'
+#' data(cnr)
+#'
+#' cnr <- histo_logit(cnr, trait = "binary1",
+#'    pheno0 = 0, pheno1 = 1)
+#'
+#' cnr <- histo_logit(cnr, trait = "category1",
+#'    pheno0 = "A", pheno1 = c("B", "C"))
+#'
+#' cnr <- histo_logit(cnr, trait = "category1",
+#'    pheno0 = c("X", "Y"), pheno1 = "Z")
+#' 
+#' @import stats
+#' 
 histo_logit_gene <- function(cnr, trait, pheno0, pheno1,
                              exclude.cluster = "HC",
                              family = "binomial",
@@ -209,6 +267,59 @@ histo_logit_gene <- function(cnr, trait, pheno0, pheno1,
 
 
 #' perform logistic regresion for a binarized trait
+#'
+#' Internal to histo_logit for bin level analysis
+#' 
+#' @param cnr a cnr bundle
+#'
+#' @param trait character, name of the trait of interest to analyze.  Must
+#'  be a column in the phenotype matrix (Y). e.g. "binary1"
+#'
+#' @param pheno0  character, phenotype(s) to use as baseline, e.g. "0"
+#'
+#' @param pheno1  character, phenotype(s) to use as alternate, e.g. "1"
+#'
+#' @param exclude.cluster character, list of clusters to exclude, e.g.
+#'  hypersegmented, Stroma, etc. Default "HC"
+#'
+#' @param family  character, description of the error distribution and
+#' link function to be used in the model. See \link[stats]{glm} for details.
+#'  Default "binomial"
+#'  
+#' @param na.action character, handling of NA. default is "na.exclude"
+#'
+#' @param ... additional arguments passed to glm
+#'
+#' @return
+#' a CNR object with results from a logistic regression analysis
+#'  (family = "binomial") with effect estimates, and p-values attached to
+#'  the chromInfo matrices.
+#'
+#' Results columns are "Estimate", "Std.Error", "z.value", "p.value" ; with
+#'  the phenotype comparison pre-apended as <pheno0>.vs.<pheno1>.lr.<value>.
+#'  Using grade as an example  these would be:
+#' 
+#' 0.vs.1.lr.Estimate
+#' 0.vs.1.lr.Std.Error
+#' 0.vs.1.lr.z.value
+#' 0.vs.1.lr.p.value
+#'
+#' 
+#' @examples
+#'
+#' data(cnr)
+#'
+#' cnr <- histo_logit(cnr, trait = "binary1",
+#'    pheno0 = 0, pheno1 = 1)
+#'
+#' cnr <- histo_logit(cnr, trait = "category1",
+#'    pheno0 = "A", pheno1 = c("B", "C"))
+#'
+#' cnr <- histo_logit(cnr, trait = "category1",
+#'    pheno0 = c("X", "Y"), pheno1 = "Z")
+#' 
+#' @import stats
+#' 
 histo_logit_bin <- function(cnr, trait, pheno0, pheno1, 
                             exclude.cluster = "HC",
                             family = "binomial",
@@ -262,6 +373,64 @@ histo_logit_bin <- function(cnr, trait, pheno0, pheno1,
 
 
 #' perform logistic regresion for a binarized trait with one covariate
+#'
+#' Internal for histo_logit_cov for gene level analysis
+#' 
+#' @param cnr a cnr bundle
+#'
+#' @param trait character, name of the trait of interest to analyze.  Must
+#'  be a column in the phenotype matrix (Y). e.g. "binary1"
+#'
+#' @param pheno0  character, phenotype(s) to use as baseline, e.g. "0"
+#'
+#' @param pheno1  character, phenotype(s) to use as alternate, e.g. "1"
+#'
+#' @param covar  character, model covariates to include in the model,
+#'  e.g. "category1"
+#'
+#' @param exclude.cluster character, list of clusters to exclude, e.g.
+#'  hypersegmented, Stroma, etc. Default "HC"
+#'
+#' @param family  character, description of the error distribution and
+#'  link function to be used in the model. See \link[stats]{glm} for details.
+#'  Default "binomial"
+#'  
+#' @param na.action character, handling of NA. default is "na.exclude"
+#'
+#' @param ... additional arguments passed to glm
+#' 
+#'
+#' @return
+#' a CNR object with results from a logistic regression analysis
+#' (family = "binomial") with effect estimates, and p-values attached to
+#' the chromInfo and gene.index matrices.
+#'
+#' Results columns are "Estimate", "Std.Error", "z.value", "p.value" ; with
+#'  the phenotype comparison pre-apended as
+#'  <pheno0>.vs.<pheno1>.cv<covar>.lr.<value>.
+#'  Using grade as an example  these would be:
+#' 
+#' 0.vs.1..lr.Estimate
+#' 0.vs.1.quantitative1.lr.Std.Error
+#' 0.vs.1.quantitative1.lr.z.value
+#' 0.vs.1.quantitative1.lr.p.value
+#'
+#' 
+#' @examples
+#'
+#' pdata(cnr)
+#'
+#' cnr <- histo_logit_cov(cnr, trait = "binary1",
+#'    pheno0 = 0, pheno1 = 1, covar = "category1")
+#'
+#' cnr <- histo_logit_cov(cnr, trait = "category1",
+#'    pheno0 = "A", pheno1 = c("B", "C"), covar = "category2")
+#'
+#' cnr <- histo_logit_cov(cnr, trait = "category1",
+#'    pheno0 = c("X", "Y"), pheno1 = "Z", covar = "category1")
+#' 
+#' @import stats 
+#' 
 histo_logit_gene_cov <- function(cnr, trait, pheno0, pheno1, covar,
                                  exclude.cluster = "HC",
                                  family = "binomial",
@@ -320,6 +489,64 @@ histo_logit_gene_cov <- function(cnr, trait, pheno0, pheno1, covar,
 
 
 #' perform logistic regresion for a binarized trait with one covariate
+#'
+#' Internal to histo_logit_cov for bin level analysis
+#' 
+#' @param cnr a cnr bundle
+#'
+#' @param trait character, name of the trait of interest to analyze.  Must
+#'  be a column in the phenotype matrix (Y). e.g. "binary1"
+#'
+#' @param pheno0  character, phenotype(s) to use as baseline, e.g. "0"
+#'
+#' @param pheno1  character, phenotype(s) to use as alternate, e.g. "1"
+#'
+#' @param covar  character, model covariates to include in the model,
+#'  e.g. "category1"
+#'
+#' @param exclude.cluster character, list of clusters to exclude, e.g.
+#'  hypersegmented, Stroma, etc. Default "HC"
+#'
+#' @param family  character, description of the error distribution and
+#'  link function to be used in the model. See \link[stats]{glm} for details.
+#'  Default "binomial"
+#'  
+#' @param na.action character, handling of NA. default is "na.exclude"
+#'
+#' @param ... additional arguments passed to glm
+#' 
+#'
+#' @return
+#' a CNR object with results from a logistic regression analysis
+#' (family = "binomial") with effect estimates, and p-values attached to
+#' the chromInfo and gene.index matrices.
+#'
+#' Results columns are "Estimate", "Std.Error", "z.value", "p.value" ; with
+#'  the phenotype comparison pre-apended as
+#'  <pheno0>.vs.<pheno1>.cv<covar>.lr.<value>.
+#'  Using grade as an example  these would be:
+#' 
+#' 0.vs.1..lr.Estimate
+#' 0.vs.1.quantitative1.lr.Std.Error
+#' 0.vs.1.quantitative1.lr.z.value
+#' 0.vs.1.quantitative1.lr.p.value
+#'
+#' 
+#' @examples
+#'
+#' pdata(cnr)
+#'
+#' cnr <- histo_logit_cov(cnr, trait = "binary1",
+#'    pheno0 = 0, pheno1 = 1, covar = "category1")
+#'
+#' cnr <- histo_logit_cov(cnr, trait = "category1",
+#'    pheno0 = "A", pheno1 = c("B", "C"), covar = "category2")
+#'
+#' cnr <- histo_logit_cov(cnr, trait = "category1",
+#'    pheno0 = c("X", "Y"), pheno1 = "Z", covar = "category1")
+#' 
+#' @import stats 
+#' 
 histo_logit_bin_cov <- function(cnr, trait, pheno0, pheno1, covar,
                                 exclude.cluster = "HC",
                                 family = "binomial",
@@ -426,6 +653,8 @@ plot_lr <- function(cnr, pval = "LL.vs.SCL.lr.p.value",
 #' 
 #' @param cnr a cnr bundle
 #'
+#' @param outdir output directory, default is "."
+#'
 #' @param pval.column column to export
 #'
 #' @param outfile.prefix basename of file
@@ -453,8 +682,10 @@ plot_lr <- function(cnr, pval = "LL.vs.SCL.lr.p.value",
 #' 
 #' @references https://software.broadinstitute.org/software/igv/GWAS
 #'
+#' @import magrittr
+#' 
 #' @export
-export_pval_igv <- function(cnr, pval.column, outdir,
+export_pval_igv <- function(cnr, pval.column, outdir = ".",
                             outfile.prefix, extension = ".logistic",
                             na.value = "1", print.output = FALSE ) {
     ## get bin pvalues
@@ -466,9 +697,9 @@ export_pval_igv <- function(cnr, pval.column, outdir,
                     pvals1, by = "bin.id")
     ## wrangle & write
     pvals1 %>%
-        mutate(bp = floor((start + end)/2),
-               snp = hgnc.symbol) %>%
-        select(chr, bp, snp, pval) %>%
+        mutate(bp = floor((.data$start + .data$end)/2),
+               snp = .data$hgnc.symbol) %>%
+        select(.data$chr, .data$bp, .data$snp, .data$pval) %>%
         write.table(
             file = file.path(outdir, paste0(outfile.prefix, "_bin_pval",
                                             extension)),
@@ -479,9 +710,9 @@ export_pval_igv <- function(cnr, pval.column, outdir,
     names(genePvals) <- c("chr", "start", "end", "hgnc.symbol", "pval")
     ## wrangle & write
     genePvals %>%
-        mutate(bp = floor((start + end)/2),
-               snp = hgnc.symbol) %>%
-        select(chr, bp, snp, pval) %>%
+        mutate(bp = floor((.data$start + .data$end)/2),
+               snp = .data$hgnc.symbol) %>%
+        select(.data$chr, .data$bp, .data$snp, .data$pval) %>%
         write.table(
             file = file.path(outdir,
                              paste0(outfile.prefix, "_gene_pval",
@@ -543,6 +774,34 @@ estimate_joint_effects <- function(cnr, trait, pheno0, pheno1,
 }
 
 #' Joint CNA effect estimation using GLMNet at the bin level
+#'
+#' Internal function to \link{estimate_joint_effects}
+#'
+#' @param cnr a cnr bundle
+#'
+#' @param trait character, name of the trait of interest to analyze.  Must
+#'  be a column in the phenotype matrix (Y). e.g. "binary1"
+#'
+#' @param pheno0  character, phenotype(s) to use as baseline, e.g. "0"
+#'
+#' @param pheno1  character, phenotype(s) to use as alternate, e.g. "1"
+#'
+#' @param exclude.cluster character, list of clusters to exclude, e.g.
+#'  hypersegmented, Stroma, etc. Default "HC"
+#'
+#' @return
+#' A CNR object containing joint CNA effect estimates using GLMNet at the
+#' `BIN` level.  Hence, this function runs the analysis on the `X` matrix.
+#'
+#' Effects are estimated at two Lambda; min, 1se.  Lambda values are appended
+#' as attributes to the chromInfo, and gene.index, for the bin, respectively.
+#' 
+#' @examples
+#' data(cnr)
+#'
+#' cnr <- estimate_joint_effects(cnr, trait = "binary1",
+#'    pheno0 = 0, pheno1 = 1)
+#' 
 #' @importFrom glmnet glmnet cv.glmnet
 estimate_joint_effects_bin <- function(cnr, trait, pheno0, pheno1,
                                    exclude.cluster = "HC") {
@@ -569,9 +828,8 @@ estimate_joint_effects_bin <- function(cnr, trait, pheno0, pheno1,
     ## plot(fit, xvar = "dev", label = TRUE)
     ## plot(cvfit)
     ## print(cvfit)
-    beta_coeff <- cbind(coef(fit, s = cvfit$lambda.min),
-                        coef(fit, s = cvfit$lambda.1se)) %>%
-        as.matrix
+    beta_coeff <- as.matrix(cbind(coef(fit, s = cvfit$lambda.min),
+                        coef(fit, s = cvfit$lambda.1se)))
 
     prefix <- paste0(paste(pheno0, collapse = "."), ".vs.",
                      paste(pheno1, collapse = "."))
@@ -591,6 +849,35 @@ estimate_joint_effects_bin <- function(cnr, trait, pheno0, pheno1,
 }
 
 #' Joint CNA effect estimation using GLMNet at the gene level
+#' 
+#' Internal function to \link{estimate_joint_effects}
+#'
+#' @param cnr a cnr bundle
+#'
+#' @param trait character, name of the trait of interest to analyze.  Must
+#'  be a column in the phenotype matrix (Y). e.g. "binary1"
+#'
+#' @param pheno0  character, phenotype(s) to use as baseline, e.g. "0"
+#'
+#' @param pheno1  character, phenotype(s) to use as alternate, e.g. "1"
+#'
+#' @param exclude.cluster character, list of clusters to exclude, e.g.
+#'  hypersegmented, Stroma, etc. Default "HC"
+#'
+#' @return
+#' A CNR object containing joint CNA effect estimates using GLMNet at the
+#' `GENE` level.  Hence, this function runs the analysis on the `genes`
+#' matrix.
+#'
+#' Effects are estimated at two Lambda; min, 1se.  Lambda values are appended
+#' as attributes to the chromInfo, and gene.index, for the bin, respectively.
+#' 
+#' @examples
+#' data(cnr)
+#'
+#' cnr <- estimate_joint_effects(cnr, trait = "binary1",
+#'    pheno0 = 0, pheno1 = 1)
+#' 
 #' @importFrom glmnet glmnet cv.glmnet
 estimate_joint_effects_gene <- function(cnr, trait, pheno0, pheno1,
                                         exclude.cluster = "HC") {
@@ -618,10 +905,9 @@ estimate_joint_effects_gene <- function(cnr, trait, pheno0, pheno1,
     ## plot(fit, xvar = "dev", label = TRUE)
     ## plot(cvfit)
     ## print(cvfit)
-    beta_coeff <- cbind(coef(fit, s = cvfit$lambda.min),
-                        coef(fit, s = cvfit$lambda.1se)) %>%
-        as.matrix %>%
-        as.data.frame
+    beta_coeff <- as.matrix(cbind(coef(fit, s = cvfit$lambda.min),
+                        coef(fit, s = cvfit$lambda.1se)))
+    beta_coeff <- as.data.frame(beta_coeff)
 
     prefix <- paste0(paste(pheno0, collapse = "."),
                      ".vs.",
@@ -675,7 +961,8 @@ estimate_joint_effects_gene <- function(cnr, trait, pheno0, pheno1,
 #' @examples
 #' data(cnr)
 #'
-#' cnr <- histo_logit(cnr, trait = "binary1", pheno0 = 0, pheno1 = 1)
+#' cnr <- histo_logit(cnr, trait = "binary1",
+#'    pheno0 = 0, pheno1 = 1)
 #'
 #' plot_effect(cnr, effect.column = "0.vs.1.lr.Effect.at_Lambda.min")
 #' 

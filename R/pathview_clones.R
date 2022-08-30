@@ -22,6 +22,8 @@
 #' Possible values are: "sum","mean", "median", "max", "max.abs" and "random".
 #' Passed to \code{\link[pathview]{node.map}}.  default is 'max.abs'.
 #'
+#' @param ... additional parameters passed to pathview
+#'
 #' @return
 #'
 #' Returns a normalized CN representation of a KEGG pathway.  By default, the scale
@@ -33,20 +35,19 @@
 #' data(cnr)
 #' data(paths.hsa)
 #' 
-#' noisy.cells <- cnr$qc %>% filter(qc.status == "FAIL") %>% pull(cellID)
+#' noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
 #'
 #' ## reduced pipeline to genrate DDRC clone profiles
-#' cnr <- cnr %>%
-#'     excludeCells(excl = noisy.cells) %>%
-#'     phyloCNR(root.cell = "cell0") %>%
-#'     setBrayClusters() %>%
-#'     consensusClusterCNR(iters = 20, maxK = 40) %>%
-#'     doKSpectral() %>%
-#'     setKcc() %>%
-#'     cluster_heterogeneity(by = "category1",
-#'                           cluster_column = "ConsensusC") %>%
-#'     get_cluster_profiles()
-#'
+#' cnr <- excludeCells(cnr, excl = noisy.cells)
+#' cnr <- phyloCNR(root.cell = "cell0")
+#' cnr <- setBrayClusters()
+#' cnr <- consensusClusterCNR(iters = 20, maxK = 40)
+#' cnr <- doKSpectral()
+#' cnr <- setKcc()
+#' cnr <- cluster_heterogeneity(by = "category1",
+#'           cluster_column = "ConsensusC")
+#' cnr <- get_cluster_profiles()
+#' 
 #' clone.1 <- colnames(cnr$DDRC.g)[1]
 #'
 #' top.3.clones <- names(rev(sort(table(cnr$Y$final_cluster))))[1:3]
@@ -54,27 +55,14 @@
 #' pathview_clones(cnr, clones = clone.1)
 #' pathview_clones(cnr, clones = top.3.clones)
 #' 
-#' @export
-binaryDDRC <- function(ddrc, base.ploidy = 2) {
-    z = matrix(0, nrow = nrow(ddrc), ncol = ncol(ddrc),
-               dimnames = list(rownames(ddrc), colnames(ddrc)))
-    z[ddrc != base.ploidy] <- 1
-    z <- as.data.frame(z)
-    z
-} ## binaryDDRC
-
-
-#' pathview_clones(
-#' 
 #' @references
-#'
 #' If you use this module, please cite:
 #' 
 #' Weijun Luo and Cory Brouwer. Pathview: an R/Bioconductor package for
 #' pathway-based data integration and visu- alization. Bioinformatics,
 #' 29(14):1830-1831, 2013. doi: 10.1093/bioinformatics/btt285.
 #' 
-#' @importFrom asserthat assert_that
+#' @importFrom assertthat assert_that
 #' @importFrom pathview pathview
 #' @export
 pathview_clones <- function(cnr, clones,
@@ -85,8 +73,6 @@ pathview_clones <- function(cnr, clones,
                             out.suffix = "clones",
                             node.sum = "max", ...) {
 
-    require(pathview) || stop("package `pathview` not installed")
-    
     ## check required variables
     assertthat::assert_that(!is.null(clones))
     assertthat::assert_that(is.character(clones))
@@ -116,7 +102,7 @@ pathview_clones <- function(cnr, clones,
     tmp1[tmp1 == -1] <- ploidy.norm * -1
 
     ## fx
-    pwv <- pathview(gene.data = tmp1,
+    pwv <- pathview::pathview(gene.data = tmp1,
              pathway.id = pathway.id,
              species = species,
              out.suffix = paste(clones.txt, out.suffix,

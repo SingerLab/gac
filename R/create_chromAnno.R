@@ -79,6 +79,8 @@ create_chromosome_annotation_left <- function(cnr, ...) {
 #' create chromosome annotations for custom heatmaps
 #'
 #' @param cnr a cnr bundle
+#' @param labels_gp graphic parameters from \link[grid]{gpar}, default fontsize = 10
+#' @param labels_rot label rotation, default 90
 #' @param ... additional prameters passed to HeatmapAnnotation
 #' 
 #' @importFrom ComplexHeatmap rowAnnotation anno_mark
@@ -117,6 +119,8 @@ create_chromosome_annotation_top <- function(cnr,
 #' create chromosome annotations for custom heatmaps
 #'
 #' @param cnr a cnr bundle
+#' @param labels_gp graphic parameters from \link[grid]{gpar}, default fontsize = 10
+#' @param labels_rot label rotation, default 90
 #' @param ... additional prameters passed to HeatmapAnnotation
 #' 
 #' @importFrom ComplexHeatmap rowAnnotation anno_mark

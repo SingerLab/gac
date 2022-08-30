@@ -6,6 +6,9 @@
 #'
 #' @param sample.id column name of sample ID in the .seg dat, default is "ID"
 #'
+#' @param bin.id column name containing a bin.id, defalt NULL,
+#'  bin.id will be taken as the rownames of the data
+#' 
 #' @param coordinates.a  names of the columns containing chromosome, start,
 #' and end coordinates in the cnr
 #' 
@@ -96,8 +99,9 @@ seg2bins <- function(cnr, seg, sample.id = "ID", bin.id = NULL,
         ## merging with chromInfo to obtain all chromInfo bins
         ## removes bin.id
         pcf <- merge(cnr$chromInfo[, c(coordinates.a)],
-                     pcf, all.x = TRUE)  %>%
-            select(-bin.id)
+                     pcf, all.x = TRUE)
+        pcf <- pcf[, -c(grep("bin.id", names(pcf)))]
+            
         
     } else {
         

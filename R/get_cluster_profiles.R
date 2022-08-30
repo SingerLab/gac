@@ -5,6 +5,8 @@
 #' @param minimum_cells minimum number of cells in a cluster, best if greater than 3
 #' to estimate a median
 #'
+#' @param base.ploidy base ploidy of the tumor, default 2 i.e. diploid
+#' 
 #' @return
 #'
 #' Function returns the cnr with three additional tables. 

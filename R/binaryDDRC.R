@@ -1,6 +1,6 @@
 #' binaryDDRC
 #'
-#' @param DDRC a DDRC.df or DDRC.g matrix belonging to a cnr object
+#' @param ddrc a DDRC.df or DDRC.g matrix belonging to a cnr object
 #'
 #' @param base.ploidy expected cell ploidy, e.g. 2N = 2, 4N = 4.
 #'
@@ -14,20 +14,18 @@
 #' 
 #' data(cnr)
 #' 
-#' noisy.cells <- cnr$qc %>% filter(qc.status == "FAIL") %>% pull(cellID)
+#' noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
 #'
 #' ## reduced pipeline to genrate DDRC clone profiles
-#' cnr <- cnr %>%
-#'     excludeCells(excl = noisy.cells) %>%
-#'     phyloCNR(root.cell = "cell0") %>%
-#'     setBrayClusters() %>%
-#'     consensusClusterCNR(iters = 20, maxK = 40) %>%
-#'     doKSpectral() %>%
-#'     setKcc() %>%
-#'     cluster_heterogeneity(by = "category1",
-#'                           cluster_column = "ConsensusC") %>%
-#'     get_cluster_profiles() 
-#' 
+#' cnr <- excludeCells(cnr, excl = noisy.cells)
+#' cnr <- phyloCNR(root.cell = "cell0")
+#' cnr <- setBrayClusters()
+#' cnr <- consensusClusterCNR(iters = 20, maxK = 40)
+#' cnr <- doKSpectral()
+#' cnr <- setKcc()
+#' cnr <- cluster_heterogeneity(by = "category1",
+#'           cluster_column = "ConsensusC")
+#' cnr <- get_cluster_profiles()
 #' 
 #' binary.ddrc <- binaryDDRC(cnr$DDRC.df)
 #' head(binary.ddrc)

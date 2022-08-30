@@ -4,13 +4,15 @@
 \alias{binary.X}
 \title{build binary matrix from integer copy number data}
 \usage{
-binary.X(X)
+binary.X(X, base.ploidy = 2)
 }
 \arguments{
 \item{X}{a copy number matrix to convert to an incidence matrix}
+
+\item{base.ploidy}{expected cell ploidy, e.g. 2N = 2, 4N = 4}
 }
 \value{
-Returns an incidence matrix for X, when X != 2
+Returns an incidence matrix for X, when X != base.ploidy
 }
 \description{
 This function builds a binary, incidence, matrix from the cnr$X.  It was designed as a helper function to generate the input for infSCITE.

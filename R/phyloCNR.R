@@ -2,14 +2,14 @@
 #'
 #' @param cnr a cnr bundle
 #'
-#' @param dist.method method for calculating cell-to-cell distance
-#' (see vegan::vegdist)
-#'
-#' @param hclust.method method for heirarchical clustering (see hclust)
-#'
 #' @param root.cell a cellID to root the three.
 #'
-#' @param ... other parameters
+#' @param dist.method method for calculating cell-to-cell distance
+#' (see \link[vegan]{vegdist})
+#'
+#' @param hclust.method method for heirarchical clustering (see hclust)
+#' 
+#' @param ... other parameters passed to \link[vegan]{vegdist}
 #'
 #' @return
 #'
@@ -26,7 +26,8 @@
 #' @importFrom ape as.phylo root
 #' 
 #' @export
-phyloCNR <- function(cnr, dist.method = "bray", hclust.method = "ward.D2", root.cell = NULL, ...) {
+phyloCNR <- function(cnr, root.cell = NULL,
+                     dist.method = "bray", hclust.method = "ward.D2",  ...) {
 
     if(!is.null(root.cell)) {
         assertthat::assert_that(length(root.cell) == 1)
@@ -50,7 +51,6 @@ phyloCNR <- function(cnr, dist.method = "bray", hclust.method = "ward.D2", root.
 }
 
 
-
 #' Calculating clone-to-clone distances, and estimating a phylogenetic tree
 #' 
 #' @param cnr a cnr bundle
@@ -64,7 +64,7 @@ phyloCNR <- function(cnr, dist.method = "bray", hclust.method = "ward.D2", root.
 #'
 #' @param hclust.method method for heirarchical clustering (see hclust)
 #'
-#' @param ... other parameters
+#' @param ... other parameters passed to vegan
 #'
 #' @return
 #'
@@ -82,8 +82,10 @@ phyloCNR <- function(cnr, dist.method = "bray", hclust.method = "ward.D2", root.
 #' @importFrom vegan vegdist
 #' 
 #' @export
-phyloDDRC <- function(cnr, exclude.clones = NULL, root.clone = NULL,
-                      dist.method = "manhattan", hclust.method = "ward.D2",  ...) {
+phyloDDRC <- function(cnr, root.clone = NULL,
+                      exclude.clones = NULL, 
+                      dist.method = "bray",
+                      hclust.method = "ward.D2",  ...) {
     
     assertthat::assert_that(!is.null(cnr$DDRC.df),
                             msg = "DDRC.df not found, please run get_cluster_profiles")

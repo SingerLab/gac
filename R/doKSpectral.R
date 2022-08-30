@@ -18,7 +18,7 @@
 #' 
 #' @references  Philip A. Knight (2008) The Sinkhorn–Knopp Algorithm: Convergence and Applications. SIAM Journal on Matrix Analysis and Applications 30(1), 261-275. doi: 10.1137/060659624
 #' 
-#' @import dplyr
+#' @import dplyr magrittr
 #' 
 #' @export 
 doKSpectral <- function(cnr, ...) {
@@ -49,10 +49,12 @@ doKSpectral <- function(cnr, ...) {
     cnr[["eigenVals"]] <- do.call(rbind, eigenVals)
     
     cnr[["optK"]] <- c("kCC" = cnr[["kStats"]] %>%
-                           top_n(1, .data$k) %>% top_n(1, .data$dLambdaMax) %>%
+                           top_n(1, .data$k) %>%
+                           top_n(1, .data$dLambdaMax) %>%
                            pull(.data$kCC),
                        "sK" = cnr[["kStats"]] %>%
-                           top_n(1, .data$k) %>% top_n(1, .data$dLambdaMax) %>%
+                           top_n(1, .data$k) %>%
+                           top_n(1, .data$dLambdaMax) %>%
                            pull(.data$k))
     
     return(cnr)
