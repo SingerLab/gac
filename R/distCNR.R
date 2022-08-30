@@ -11,7 +11,6 @@
 #' 
 #' @return
 #' Returns a cell-to-cell distance matrix of class `dist`
-#'
 #' 
 #' @export
 distCNR <- function(cnr, method = "bray", ...) {
@@ -38,13 +37,13 @@ distCNR <- function(cnr, method = "bray", ...) {
 #'
 #' @param method method for heirarchical clustering, defaults to "ward.D2"
 #'
-#' @importFrom stats hclust
-#' 
 #' @param ... other parameters passed to hclust
 #'
 #' @return
 #' Returns a heirarchical clustering object
 #'
+#' @importFrom stats hclust
+#' 
 #' @export
 hclustCNR <- function(cnr, method = "ward.D2", ...) {
 

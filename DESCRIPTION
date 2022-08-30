@@ -11,13 +11,13 @@ Depends:
     R (>= 3.1.0),
     ComplexHeatmap,
     vegan,
-    dplyr
+    stats,
+    dplyr,
+    ape
 Imports:
     colourvalues,
-    stats,
     GenomicRanges,
     IRanges,
-    ape,
     assertthat,
     ConsensusClusterPlus,
     usethis,
