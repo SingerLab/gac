@@ -49,8 +49,10 @@ this function is a wrapper to plot CNA detected in clones onto KEGG pathways.
 Requires Bioconductor/Pathview to be installed
 }
 \examples{
+library(pathview)
+
 data(cnr)
-data(paths.hsa, package = "pathview")
+data(paths.hsa, bods, package = "pathview")
 
 noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
 

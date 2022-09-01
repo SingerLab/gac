@@ -1,7 +1,9 @@
-#' plot pathview of specific clones
+#' Plot KEGG pathways with specific clones using Bioconductor/Pathview
 #'
-#' this function is a wrapper to plot CNA detected in clones onto KEGG pathways.
-#' Requires Bioconductor/Pathview to be installed
+#' This function is a wrapper to plot CNA detected in clones onto KEGG pathways.
+#' Requires Bioconductor/Pathview to be installed, loaded `library(pathview)`,
+#' and load it's internal data `data(paths.hsa, bods)` prior to running the
+#' function
 #' 
 #' @param cnr a cnr bundle after running \code{\link{cluster_heterogeneity}}
 #'
@@ -33,7 +35,6 @@
 #'
 #' @examples
 #' data(cnr)
-#' data(paths.hsa, package = "pathview")
 #' 
 #' noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
 #'
@@ -51,6 +52,9 @@
 #' clone.1 <- colnames(cnr$DDRC.g)[1]
 #'
 #' top.3.clones <- names(rev(sort(table(cnr$Y$final_cluster))))[1:3]
+#' 
+#' library(pathview)
+#' data(paths.hsa, bods, package = "pathview")
 #' 
 #' pathview_clones(cnr, clones = clone.1)
 #' pathview_clones(cnr, clones = top.3.clones)
