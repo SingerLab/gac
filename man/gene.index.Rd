@@ -29,7 +29,12 @@ was not changed
 data(gene.index)
 }
 \description{
-This table was constructed by mapping bin regions to gene coordinates.  We found the simplest way to do this, was to pull the gencode annotation with biomaRt[https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/biomaRt.html] and use findOverlap with GenomicRanges[https://bioconductor.org/packages/release/bioc/vignettes/GenomicRanges/inst/doc/GenomicRangesIntroduction.html]. The resulting GRanges object was saved as a text file.
+This table was constructed by mapping bin regions to gene coordinates.
+ We found the simplest way to do this, was to pull the gencode annotation
+with biomaRt[https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/biomaRt.html]
+and use findOverlap with
+GenomicRanges[https://bioconductor.org/packages/release/bioc/vignettes/GenomicRanges/inst/doc/GenomicRangesIntroduction.html].
+The resulting GRanges object was saved as a text file.
 }
 \details{
 A table to interpolate bin copy number to individual genes.

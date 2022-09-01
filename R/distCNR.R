@@ -7,11 +7,12 @@
 #'
 #' @param ... other parameters passed to vegan::vegdist
 #'
-#' @import vegan
+#' @importFrom vegan vegdist
 #' 
 #' @return
 #' Returns a cell-to-cell distance matrix of class `dist`
 #' 
+#' @keywords internal
 #' @export
 distCNR <- function(cnr, method = "bray", ...) {
     
@@ -44,10 +45,11 @@ distCNR <- function(cnr, method = "bray", ...) {
 #'
 #' @importFrom stats hclust
 #' 
+#' @keywords internal
 #' @export
 hclustCNR <- function(cnr, method = "ward.D2", ...) {
 
-    hcdb <- hclust(cnr[["cdb"]], method = method, ...)
+    hcdb <- stats::hclust(cnr[["cdb"]], method = method, ...)
     
     return(hcdb)
 

@@ -1,4 +1,5 @@
-#' Gistic Genomic Ranges, get genes in gene.index that overlap with significant genomic ranges in GISTIC2 output
+#' Gistic Genomic Ranges, get genes in gene.index that overlap with significant
+#' genomic ranges in GISTIC2 output
 #'
 #' **Still in development**
 #' ** requires GenommicRanges
@@ -20,8 +21,7 @@
 #' @importFrom GenomicRanges GRanges
 #' @importFrom GenomicRanges findOverlaps
 #' 
-#' 
-#' @export
+#' @keywords internal
 gisticGR <- function(cnr, grTR, oncokb = TRUE, depmeans = TRUE) {
     ## set up vector of amplified regions
     amp <- grTR[grep("Amp", grTR$Unique.Name), c("chr", "start", "end")]

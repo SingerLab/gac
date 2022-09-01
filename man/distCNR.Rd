@@ -20,3 +20,4 @@ Returns a cell-to-cell distance matrix of class `dist`
 \description{
 calculating cell-to-cell distances for clustering
 }
+\keyword{internal}

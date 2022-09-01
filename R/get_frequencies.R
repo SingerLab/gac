@@ -28,25 +28,27 @@
 #' head(cnr$gene.index)
 #' head(cnr$chromInfo)
 #'
-#' cnr <- get_alt_frequenciesCNR(cnr)
+#' cnr <- get_alteration_frequenciesCNR(cnr)
 #'
 #' head(cnr$chromInfo)
 #' head(cnr$gene.index)
 #'
-#' @import assertthat
+#' @importFrom assertthat assert_that
 #' 
 #' @export
-get_alt_frequenciesCNR <- function(cnr, symbol = "hgnc.symbol", ...) {
+get_alteration_frequenciesCNR <- function(cnr, symbol = "hgnc.symbol", ...) {
 
     binDF <- get_bin_frequencies(cnr)
     geneDF <- get_gene_frequencies(cnr)
     rownames(geneDF) <- gsub("\\.", "-", rownames(geneDF))
-    
-    cnr <- addInfo(cnr, df = binDF)
 
-    assertthat::assert_that(all(rownames(geneDF) %in% cnr[["gene.index"]][, symbol]))
+    assertthat::assert_that(all(rownames(geneDF) %in%
+                                cnr[["gene.index"]][, symbol]))
+
+    cnr <- addInfo(cnr, df = binDF)
     cnr[["gene.index"]] <- merge(cnr[["gene.index"]], geneDF, by.x = symbol,
                                  by.y = 0, sort = FALSE, all.x = TRUE, ...)
+    rownames(cnr[["gene.index"]]) <- cnr[["gene.index"]][, symbol]
     
     return(cnr)
 }
@@ -57,16 +59,19 @@ get_alt_frequenciesCNR <- function(cnr, symbol = "hgnc.symbol", ...) {
 #'
 #' @param cnr a cnr bundle
 #'
-#' @import assertthat
+#' @param ... additional parameters passed to get_amp_counts, get_del_counts, or
+#' get_alt_counts
 #'
-#' @export
-get_bin_frequencies <- function(cnr) {
+#' @importFrom assertthat assert_that
+#' 
+#' @keywords internal
+get_bin_frequencies <- function(cnr, ...) {
 
     assertthat::assert_that(!cnr$bulk)
     
-    AmpCT <- get_amp_frequencies(t(cnr[["X"]]), bulk = cnr$bulk)
-    delCT <- get_del_frequencies(t(cnr[["X"]]), bulk = cnr$bulk)
-    altCT <- get_alt_frequencies(t(cnr[["X"]]), bulk = cnr$bulk)
+    AmpCT <- get_amp_counts(t(cnr[["X"]]), bulk = cnr$bulk, ...)
+    delCT <- get_del_counts(t(cnr[["X"]]), bulk = cnr$bulk, ...)
+    altCT <- get_alt_counts(t(cnr[["X"]]), bulk = cnr$bulk, ...)
 
     ncells <- ncol(cnr$X)
     
@@ -81,14 +86,19 @@ get_bin_frequencies <- function(cnr) {
 #'
 #' @param cnr a cnr bundle
 #'
-#' @export
-get_gene_frequencies <- function(cnr) {
+#' @param ... additional parameters passed to get_amp_counts, get_del_counts, or
+#' get_alt_counts
+#' 
+#' @importFrom assertthat assert_that
+#' 
+#' @keywords internal
+get_gene_frequencies <- function(cnr, ...) {
 
     assertthat::assert_that(!cnr$bulk)
 
-    AmpCT <- get_amp_frequencies(cnr[["genes"]], bulk = cnr$bulk)
-    delCT <- get_del_frequencies(cnr[["genes"]], bulk = cnr$bulk)
-    altCT <- get_alt_frequencies(cnr[["genes"]], bulk = cnr$bulk)
+    AmpCT <- get_amp_counts(cnr[["genes"]], bulk = cnr$bulk, ...)
+    delCT <- get_del_counts(cnr[["genes"]], bulk = cnr$bulk, ...)
+    altCT <- get_alt_counts(cnr[["genes"]], bulk = cnr$bulk, ...)
 
     ncells <- ncol(cnr$X)
     
@@ -100,22 +110,24 @@ get_gene_frequencies <- function(cnr) {
 }
 
 
-#' amplification gene frequency
+#' amplification gene counts
 #'
 #' @param X a matrix of integer copy number `cnr$X`
 #'
 #' @param bulk logical, weather the cnr is from bulk DNA, default is FALSE
+#'
+#' @param base.ploidy tumor expected ploidy
 #' 
-#' @import assertthat
-#' 
-#' @export
-get_amp_frequencies <- function(X, bulk) {
+#' @importFrom assertthat assert_that
+#'
+#' @keywords internal
+get_amp_counts <- function(X, bulk, base.ploidy = 2) {
 
     assertthat::assert_that(!bulk)
     
     ampX <- X
-    ampX[X >= 3] <- 1
-    ampX[X <= 2] <- 0
+    ampX[X >= (base.ploidy+1)] <- 1
+    ampX[X <= base.ploidy] <- 0
 
     delCT <- colSums(ampX)
 
@@ -123,42 +135,46 @@ get_amp_frequencies <- function(X, bulk) {
 }
 
 
-#' deletion frequency
+#' deletion counts
 #'
 #' @param X a matrix of integer copy number `cnr$X`
 #'
 #' @param bulk logical, weather the cnr is from bulk DNA, default is FALSE
 #'
-#' @import assertthat
-#' 
-#' @export
-get_del_frequencies <- function(X, bulk) {
+#' @param base.ploidy tumor expected ploidy
+#'
+#' @importFrom assertthat assert_that
+#'
+#' @keywords internal
+get_del_counts <- function(X, bulk, base.ploidy = 2) {
 
     assertthat::assert_that(!bulk)
     
     delX <- X
-    delX[X < 2] <- 1
-    delX[X >= 2] <- 0
+    delX[X < base.ploidy] <- 1
+    delX[X >= base.ploidy] <- 0
     
     delCT <- colSums(delX)
 
     return(delCT)
 }
 
-#' alteration frequency (both Amp + Del)
+#' alteration counts (both Amp + Del)
 #'
 #' @param X a matrix of integer copy number `cnr$X`
 #'
 #' @param bulk logical, weather the cnr is from bulk DNA, default is FALSE
 #'
-#' @import assertthat
-#' 
-#' @export
-get_alt_frequencies <- function(X, bulk) {
+#' @param ... additional parameters passed to get_amp_counts, get_del_counts, or
+#' get_alt_counts
+#'
+#' @importFrom assertthat assert_that
+#' @keywords internal
+get_alt_counts <- function(X, bulk, ...) {
 
     assertthat::assert_that(!bulk)
     
-    altX <- binary.X(X)
+    altX <- binary.X(X, ...)
     
     altCT <- colSums(altX)
 

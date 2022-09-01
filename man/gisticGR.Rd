@@ -2,7 +2,8 @@
 % Please edit documentation in R/gisticGR.R
 \name{gisticGR}
 \alias{gisticGR}
-\title{Gistic Genomic Ranges, get genes in gene.index that overlap with significant genomic ranges in GISTIC2 output}
+\title{Gistic Genomic Ranges, get genes in gene.index that overlap with significant
+genomic ranges in GISTIC2 output}
 \usage{
 gisticGR(cnr, grTR, oncokb = TRUE, depmeans = TRUE)
 }
@@ -24,3 +25,4 @@ e.g. DepMap achilles scores (see ?depmap_annotation), (TRUE/FALSE)}
 \details{
 note if oncokb or depmeans are FALSE, both annotations will be ignored
 }
+\keyword{internal}

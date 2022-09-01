@@ -11,7 +11,8 @@ An object class list containg a rounded CNR
 
   \item X, An integer matrix of bins x n.cells containing copy number
 estimations for each bin[i] and cell[j] Where bins represent a common genomic
-segment across all cells (either a fixed with, variable binning, or .seg data).  This data can be constructed using a variable length bin and CBS (Varbin
+segment across all cells (either a fixed with, variable binning, or .seg data). 
+ This data can be constructed using a variable length bin and CBS (Varbin
 algorithm) (Baslan et al 2012.), and implemented on Ginkgo, or from hmmCopy.
 These are upstream analyses to the package.
 
@@ -41,7 +42,8 @@ qc.status for individual cells.  contains cells as rows and metadata as columns
  \item chromInfo, ordered chromosome information for the bins
 
  \item gene.index, table to map bins to genes
-#'   ...
+
+  ...
 }
 }
 \source{

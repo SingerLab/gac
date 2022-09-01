@@ -17,7 +17,7 @@
 #'  one-cell and multi-cell clusters.
 #' 
 #' 
-#' @import assertthat
+#' @importFrom assertthat assert_that
 #' @importFrom stats cutree
 #' 
 #' @export
@@ -234,4 +234,4 @@ rank_clones <- function(cnr, cluster_column, rank_by, fga.method, prefix = NULL)
     
     return(cnr)
     
-}
+} ## end ranked_clones

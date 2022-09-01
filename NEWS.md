@@ -1,3 +1,27 @@
+# gac 0.0.9026
+
+* added functions to associate copy number to categorical phenotypes
+
+* added functions to pull copy number froms specific genes
+
+* added functions to visualize association resutls, e.g. manhattan plots, and effect plots
+
+* added functions to convert from .seg Run Length Encoding (RLE) data to bin coordinates
+
+* added functions to facilitate creating chromsome annotations for custom plots
+
+* other helper functions
+
+* removed @export tag in DepMap, OncoKB, and GISTIC2 specific functions
+
+* tagged internal functions 
+
+# gac 0.0.9025
+
+# gac 0.0.9024
+
+* added phyloDDRC among other functions
+
 # gac 0.0.9023
 
 * minor fix to pass `roundCNR` arguments from `buildCNR`

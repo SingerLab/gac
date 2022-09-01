@@ -35,3 +35,4 @@ cnr <- sim_fisherCNR(cnr, cytobands = hg19_cytoBand)
 }
 
 }
+\keyword{internal}

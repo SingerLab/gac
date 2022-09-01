@@ -24,5 +24,4 @@ data(cnr)
 
 pull_gene_copy_numbers(cnr, c("MDM2", "CDK4"))
 
-
 }

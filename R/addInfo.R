@@ -26,6 +26,8 @@
 #' cnr <- addInfo(cnr, df = fakePval)
 #' 
 #' head(cnr$chromInfo)
+#'
+#' @importFrom assertthat assert_that
 #' 
 #' @export
 addInfo <- function(cnr, df) {
@@ -38,4 +40,3 @@ addInfo <- function(cnr, df) {
     
     return(cnr)
 }
-

@@ -28,7 +28,8 @@ Imports:
     pathview,
     magrittr,
     glmnet,
-    tidyr
+    tidyr,
+    reshape2
 Suggests:
     biomaRt,
     tidyverse,

@@ -1,6 +1,7 @@
 #' Peter Andrew's arctan transformation for visualizing copy number
 #'
-#' The parctan transformation scales the data for visualization.  It zooms into low copy number, yet still see high valued copy number
+#' The parctan transformation scales the data for visualization.  It zooms into low copy 
+#' number, yet still see high valued copy number
 #'
 #' See http://mumdex.com
 #'
@@ -21,4 +22,23 @@ parctan <- function(x) {
     sqrt((atan(plog(x) / plog(5))) / atan(Inf))
 
 } ## parctan
+
+#' internal
+#'
+#' calculates a plog for parctan()
+#'
+#' @param x vector or matrix of copy numbers
+#'
+#' @return
+#' Returns plog transformed data
+#'
+#' @examples
+#' data(cnr)
+#' 
+#' plog(cnr$X[,1])
+#' 
+#' @keywords internal
+plog <- function(x) {
+    log10(1 + x^2)
+}
 

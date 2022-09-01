@@ -17,5 +17,6 @@ eps : Spacing of floating point numbers
 Philip A. Knight (2008) The Sinkhorn–Knopp Algorithm: Convergence and Applications. SIAM Journal on Matrix Analysis and Applications 30(1), 261-275. doi: 10.1137/060659624
 }
 \author{
-Nick Socci <soccin@mskcc.org>
+ND Socci <soccin .at. mskcc dot org>
 }
+\keyword{internal}

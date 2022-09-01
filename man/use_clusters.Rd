@@ -15,3 +15,4 @@ to estimate a median}
 \description{
 select clusters to use based on a minimum number of cells
 }
+\keyword{internal}

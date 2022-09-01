@@ -51,10 +51,8 @@
 #' cnr <- histo_logit(cnr, trait = "category1",
 #'    pheno0 = "A", pheno1 = c("B", "C"))
 #'
-#' cnr <- histo_logit(cnr, trait = "category1",
+#' cnr <- histo_logit(cnr, trait = "category2",
 #'    pheno0 = c("X", "Y"), pheno1 = "Z")
-#' 
-#' @import stats
 #' 
 #' @export
 histo_logit <- function(cnr, trait, pheno0, pheno1,
@@ -126,7 +124,7 @@ histo_logit <- function(cnr, trait, pheno0, pheno1,
 #' 
 #' @examples
 #'
-#' pdata(cnr)
+#' data(cnr)
 #'
 #' cnr <- histo_logit_cov(cnr, trait = "binary1",
 #'    pheno0 = 0, pheno1 = 1, covar = "category1")
@@ -134,10 +132,8 @@ histo_logit <- function(cnr, trait, pheno0, pheno1,
 #' cnr <- histo_logit_cov(cnr, trait = "category1",
 #'    pheno0 = "A", pheno1 = c("B", "C"), covar = "category2")
 #'
-#' cnr <- histo_logit_cov(cnr, trait = "category1",
+#' cnr <- histo_logit_cov(cnr, trait = "category2",
 #'    pheno0 = c("X", "Y"), pheno1 = "Z", covar = "category1")
-#' 
-#' @import stats 
 #' 
 #' @export
 histo_logit_cov <- function(cnr, trait, pheno0, pheno1, covar, 
@@ -208,11 +204,11 @@ histo_logit_cov <- function(cnr, trait, pheno0, pheno1, covar,
 #' cnr <- histo_logit(cnr, trait = "category1",
 #'    pheno0 = "A", pheno1 = c("B", "C"))
 #'
-#' cnr <- histo_logit(cnr, trait = "category1",
+#' cnr <- histo_logit(cnr, trait = "category2",
 #'    pheno0 = c("X", "Y"), pheno1 = "Z")
 #' 
-#' @import stats
-#' 
+#' @importFrom stats glm coef
+#' @keywords internal
 histo_logit_gene <- function(cnr, trait, pheno0, pheno1,
                              exclude.cluster = "HC",
                              family = "binomial",
@@ -229,10 +225,10 @@ histo_logit_gene <- function(cnr, trait, pheno0, pheno1,
     ## perform genome scan with LR
     reg.eff <- t(apply(cnr$genes, 2, function(x) {
         ## perform glm
-        out <- glm(y ~  x, family = family, na.action = na.action, ...)
+        out <- stats::glm(y ~  x, family = family, na.action = na.action, ...)
         ## exctract genotype effects
-        if(nrow(coef(summary(out))) == 2) {
-            eff <- coef(summary(out))["x", ]
+        if(nrow(stats::coef(summary(out))) == 2) {
+            eff <- stats::coef(summary(out))["x", ]
         } else {
             ## if no variation on x, set effects to 0
             ## and stats to NA
@@ -315,11 +311,11 @@ histo_logit_gene <- function(cnr, trait, pheno0, pheno1,
 #' cnr <- histo_logit(cnr, trait = "category1",
 #'    pheno0 = "A", pheno1 = c("B", "C"))
 #'
-#' cnr <- histo_logit(cnr, trait = "category1",
+#' cnr <- histo_logit(cnr, trait = "category2",
 #'    pheno0 = c("X", "Y"), pheno1 = "Z")
 #' 
-#' @import stats
-#' 
+#' @importFrom stats glm coef
+#' @keywords internal
 histo_logit_bin <- function(cnr, trait, pheno0, pheno1, 
                             exclude.cluster = "HC",
                             family = "binomial",
@@ -336,10 +332,10 @@ histo_logit_bin <- function(cnr, trait, pheno0, pheno1,
     ## perform genome scan with LR
     reg.eff <- t(apply(cnr$X, 1, function(x) {
         ## perform glm
-        out <- glm(y ~  x, family = family, na.action = na.action, ...)
+        out <- stats::glm(y ~  x, family = family, na.action = na.action, ...)
         ## exctract genotype effects
-        if(nrow(coef(summary(out))) == 2) {
-            eff <- coef(summary(out))["x", ]
+        if(nrow(stats::coef(summary(out))) == 2) {
+            eff <- stats::coef(summary(out))["x", ]
         } else {
             ## if no variation on x, set effects to 0
             ## and stats to NA
@@ -418,7 +414,7 @@ histo_logit_bin <- function(cnr, trait, pheno0, pheno1,
 #' 
 #' @examples
 #'
-#' pdata(cnr)
+#' data(cnr)
 #'
 #' cnr <- histo_logit_cov(cnr, trait = "binary1",
 #'    pheno0 = 0, pheno1 = 1, covar = "category1")
@@ -426,11 +422,11 @@ histo_logit_bin <- function(cnr, trait, pheno0, pheno1,
 #' cnr <- histo_logit_cov(cnr, trait = "category1",
 #'    pheno0 = "A", pheno1 = c("B", "C"), covar = "category2")
 #'
-#' cnr <- histo_logit_cov(cnr, trait = "category1",
+#' cnr <- histo_logit_cov(cnr, trait = "category2",
 #'    pheno0 = c("X", "Y"), pheno1 = "Z", covar = "category1")
 #' 
-#' @import stats 
-#' 
+#' @importFrom stats glm coef
+#' @keywords internal
 histo_logit_gene_cov <- function(cnr, trait, pheno0, pheno1, covar,
                                  exclude.cluster = "HC",
                                  family = "binomial",
@@ -448,11 +444,11 @@ histo_logit_gene_cov <- function(cnr, trait, pheno0, pheno1, covar,
     ## perform genome scan with LR
     reg.eff <- t(apply(cnr$genes, 2, function(x) {
         ## perform glm
-        out <- glm(y ~  x + cc, family = family,
+        out <- stats::glm(y ~  x + cc, family = family,
                    na.action = na.action, ...)
         ## exctract genotype effects
-        if(nrow(coef(summary(out))) == 2) {
-            eff <- coef(summary(out))["x", ]
+        if(nrow(stats::coef(summary(out))) == 2) {
+            eff <- stats::coef(summary(out))["x", ]
         } else {
             ## if no variation on x, set effects to 0
             ## and stats to NA
@@ -534,7 +530,7 @@ histo_logit_gene_cov <- function(cnr, trait, pheno0, pheno1, covar,
 #' 
 #' @examples
 #'
-#' pdata(cnr)
+#' data(cnr)
 #'
 #' cnr <- histo_logit_cov(cnr, trait = "binary1",
 #'    pheno0 = 0, pheno1 = 1, covar = "category1")
@@ -542,11 +538,11 @@ histo_logit_gene_cov <- function(cnr, trait, pheno0, pheno1, covar,
 #' cnr <- histo_logit_cov(cnr, trait = "category1",
 #'    pheno0 = "A", pheno1 = c("B", "C"), covar = "category2")
 #'
-#' cnr <- histo_logit_cov(cnr, trait = "category1",
+#' cnr <- histo_logit_cov(cnr, trait = "category2",
 #'    pheno0 = c("X", "Y"), pheno1 = "Z", covar = "category1")
 #' 
-#' @import stats 
-#' 
+#' @importFrom stats glm coef
+#' @keywords internal
 histo_logit_bin_cov <- function(cnr, trait, pheno0, pheno1, covar,
                                 exclude.cluster = "HC",
                                 family = "binomial",
@@ -566,11 +562,11 @@ histo_logit_bin_cov <- function(cnr, trait, pheno0, pheno1, covar,
     ## perform genome scan with LR
     reg.eff <- t(apply(cnr$X, 1, function(x) {
         ## perform glm
-        out <- glm(y ~  x + cc, family = family, na.action = na.action,
+        out <- stats::glm(y ~  x + cc, family = family, na.action = na.action,
                    ...)
         ## exctract genotype effects
-        if(nrow(coef(summary(out))) == 2) {
-            eff <- coef(summary(out))["x", ]
+        if(nrow(stats::coef(summary(out))) == 2) {
+            eff <- stats::coef(summary(out))["x", ]
         } else {
             ## if no variation on x, set effects to 0
             ## and stats to NA
@@ -626,8 +622,6 @@ histo_logit_bin_cov <- function(cnr, trait, pheno0, pheno1, covar,
 #' @return
 #' A manhattan plot with p-values for e.g. logistic regresion or other comparisons
 #'
-#' 
-#' 
 #' @export
 plot_lr <- function(cnr, pval = "LL.vs.SCL.lr.p.value",
                     sig.threshold = 10^-8,
@@ -682,7 +676,8 @@ plot_lr <- function(cnr, pval = "LL.vs.SCL.lr.p.value",
 #' 
 #' @references https://software.broadinstitute.org/software/igv/GWAS
 #'
-#' @import magrittr
+#' @importFrom magrittr %>%
+#' @importFrom dplyr mutate select
 #' 
 #' @export
 export_pval_igv <- function(cnr, pval.column, outdir = ".",
@@ -697,9 +692,9 @@ export_pval_igv <- function(cnr, pval.column, outdir = ".",
                     pvals1, by = "bin.id")
     ## wrangle & write
     pvals1 %>%
-        mutate(bp = floor((.data$start + .data$end)/2),
+        dplyr::mutate(bp = floor((.data$start + .data$end)/2),
                snp = .data$hgnc.symbol) %>%
-        select(.data$chr, .data$bp, .data$snp, .data$pval) %>%
+        dplyr::select(.data$chr, .data$bp, .data$snp, .data$pval) %>%
         write.table(
             file = file.path(outdir, paste0(outfile.prefix, "_bin_pval",
                                             extension)),
@@ -710,9 +705,9 @@ export_pval_igv <- function(cnr, pval.column, outdir = ".",
     names(genePvals) <- c("chr", "start", "end", "hgnc.symbol", "pval")
     ## wrangle & write
     genePvals %>%
-        mutate(bp = floor((.data$start + .data$end)/2),
+        dplyr::mutate(bp = floor((.data$start + .data$end)/2),
                snp = .data$hgnc.symbol) %>%
-        select(.data$chr, .data$bp, .data$snp, .data$pval) %>%
+        dplyr::select(.data$chr, .data$bp, .data$snp, .data$pval) %>%
         write.table(
             file = file.path(outdir,
                              paste0(outfile.prefix, "_gene_pval",
@@ -754,8 +749,6 @@ export_pval_igv <- function(cnr, pval.column, outdir = ".",
 #' data(cnr)
 #'
 #' cnr <- estimate_joint_effects(cnr, trait = "binary1", pheno0 = 0, pheno1 = 1)
-#' 
-#' @importFrom glmnet glmnet cv.glmnet
 #' 
 #' @export
 estimate_joint_effects <- function(cnr, trait, pheno0, pheno1,
@@ -803,6 +796,8 @@ estimate_joint_effects <- function(cnr, trait, pheno0, pheno1,
 #'    pheno0 = 0, pheno1 = 1)
 #' 
 #' @importFrom glmnet glmnet cv.glmnet
+#' @importFrom stats complete.cases predict
+#' @keywords internal
 estimate_joint_effects_bin <- function(cnr, trait, pheno0, pheno1,
                                    exclude.cluster = "HC") {
 
@@ -823,7 +818,7 @@ estimate_joint_effects_bin <- function(cnr, trait, pheno0, pheno1,
     fit = glmnet::glmnet(t(G), P, family = "binomial")
     cvfit = glmnet::cv.glmnet(t(G), P, family = "binomial",
                               type.measure = "class")
-    beta_glmnet = as.matrix(predict(fit, type = "coefficients")[-1,])
+    beta_glmnet = as.matrix(stats::predict(fit, type = "coefficients")[-1,])
     
     ## plot(fit, xvar = "dev", label = TRUE)
     ## plot(cvfit)
@@ -847,6 +842,8 @@ estimate_joint_effects_bin <- function(cnr, trait, pheno0, pheno1,
                               "lambda.1se" = cvfit$lambda.1se)
     return(cnr)
 }
+
+
 
 #' Joint CNA effect estimation using GLMNet at the gene level
 #' 
@@ -879,6 +876,8 @@ estimate_joint_effects_bin <- function(cnr, trait, pheno0, pheno1,
 #'    pheno0 = 0, pheno1 = 1)
 #' 
 #' @importFrom glmnet glmnet cv.glmnet
+#' @importFrom stats complete.cases predict
+#' @keywords internal
 estimate_joint_effects_gene <- function(cnr, trait, pheno0, pheno1,
                                         exclude.cluster = "HC") {
 
@@ -893,14 +892,14 @@ estimate_joint_effects_gene <- function(cnr, trait, pheno0, pheno1,
     ## remove missing values and create genotype
     ## and phenotype matrices
     P <- y[!is.na(y)]
-    genes.all.ok <- complete.cases(t(cnr$genes))
+    genes.all.ok <- stats::complete.cases(t(cnr$genes))
     G <- as.matrix(cnr$genes[!is.na(y), genes.all.ok])
 
     ## effect estimation
     fit = glmnet::glmnet(G, P, family = "binomial")
     cvfit = glmnet::cv.glmnet(G, P, family = "binomial",
                               type.measure = "class")
-    beta_glmnet = as.matrix(predict(fit, type = "coefficients")[-1,])
+    beta_glmnet = as.matrix(stats::predict(fit, type = "coefficients")[-1,])
     
     ## plot(fit, xvar = "dev", label = TRUE)
     ## plot(cvfit)

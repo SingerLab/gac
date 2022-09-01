@@ -11,7 +11,10 @@ gisticRegions(gisticDir, conf = 80)
 \arguments{
 \item{gisticDir}{path to directory of gistic output}
 
-\item{conf}{confidence used in gistic, default is 75, for single-cells 80 or highrer works a little better.  Also, requires increasing amp/del calling thresholds to log2(1/2) for deletions, and log2(3/2) for gains and amplifications}
+\item{conf}{confidence used in gistic, default is 75, for single-cells
+80 or highrer works a little better.  Also, requires increasing amp/del
+calling thresholds to log2(1/2) for deletions, and log2(3/2) for gains
+and amplifications}
 }
 \description{
 **Still in development**
@@ -24,3 +27,4 @@ grTR <- gisticRegions("path/to/gistic/", conf = 80)
 }
 
 }
+\keyword{internal}

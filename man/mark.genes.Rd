@@ -23,8 +23,6 @@ data(cnr)
 
 aa <- mark.genes(cnr, gene.list = c("CDK4", "MDM2"))
 
-geneAnno <- rowAnnotation(genes = anno_mark(at = aa, labels = names(aa)))
-
-
+geneAnno <- ComplexHeatmap::rowAnnotation(genes = anno_mark(at = aa, labels = names(aa)))
 
 }

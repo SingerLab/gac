@@ -34,3 +34,4 @@ contains cnr[["pins"]] and cnr[["fisher"]]}
 \description{
 implementation of SCclust pipeline
 }
+\keyword{internal}

@@ -7,6 +7,8 @@
 #'
 #' @param df a data frame with new Y traits
 #'
+#' @param sort logical, sort data.frame after merge \code{\link[base]{merge}}
+#'
 #' @param ... additional arguments by merge
 #'
 #' @return
@@ -24,15 +26,16 @@
 #' cnr <- addPheno(cnr, df = rand3, by = "cellID")
 #' 
 #' @export
-addPheno <- function(cnr, df, ...) {
+addPheno <- function(cnr, df,
+                     sort = FALSE, ...) {
 
     if(all(df$cellID %in% colnames(cnr$X))) {
-        ny <- merge(cnr$Y, df, ...)
-        rownames(ny) <- cnr$Y$cellID
+        ny <- merge(cnr$Y, df, sort = sort, ...)
+        rownames(ny) <- ny$cellID
     }
     
     cnr[["Y"]] <- ny
     
     return(cnr)
     
-}
+} ## end addPheno

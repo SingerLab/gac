@@ -33,7 +33,7 @@ In a not so distant future, the posibility to acquire single-cell DNA and RNA fr
 
 Lastly, a *qc* matrix containg metadata about each cell is required.
 
-![Figure1](figures/CNR.png)
+![Figure1](figures/CNR.png){ width=50% }
 
 Figure 1. Schematic representation of the CNR bundle and how the different components are related.
 

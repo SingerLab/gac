@@ -1,3 +1,39 @@
+#' implementation of SCclust pipeline
+#'
+#' @param cnr a cnr bundle
+#'
+#' @param cytobands UCSC cytobands file
+#'
+#' @param hc.method clustering method for hclust_tree
+#'
+#' @param tree.method clustering method for tree_py
+#' 
+#' @param run.fisher logical, weather you want to run sim_fisherCNR. defaults TRUE.
+#'    If FALSE, it assumes you have ran sim_fisherCNR before, and the cnr already
+#'    contains cnr[["pins"]] and cnr[["fisher"]]
+#'
+#' @param ... additional arguments passed
+#'
+#' @source \url{https://github.com/KrasnitzLab/SCclust}
+#'
+#' @import SCclust
+#' 
+#' @keywords internal
+scClustCNR <- function(cnr, cytobands, hc.method = "average",
+                       tree.method = "average", run.fisher = TRUE, ...) {
+    if(run.fisher) {
+        cnr <- sim_fisherCNR(cnr, cytobands = cytobands, ...)
+    }
+    
+    cnr <- fisher_tree(cnr, hc.method = hc.method, tree.method = tree.method, ...)
+    
+    cnr <- getSubclonesCNR(cnr, ...)
+    
+    return(cnr)
+
+} ## end scClustCNR
+
+    
 #' implementation of SCclust sim_fisher_wrapper
 #'
 #' scClust uses Fisher distance
@@ -28,7 +64,7 @@
 #' cnr <- sim_fisherCNR(cnr, cytobands = hg19_cytoBand)
 #' }
 #' 
-#' @export
+#' @keywords internal
 sim_fisherCNR <- function(cnr, cytobands, centromere = c("p11", "q11"),
                           nsim = 200, ...) {
 
@@ -69,7 +105,7 @@ sim_fisherCNR <- function(cnr, cytobands, centromere = c("p11", "q11"),
 #'
 #' @source \url{https://github.com/KrasnitzLab/SCclust}
 #' 
-#' @export
+#' @keywords internal
 fisher_tree <- function(cnr, hc.method = "average", tree.method = "average", ...) {
 
     cnr[["mfdr"]] <- SCclust::fisher_fdr(cnr$fisher$true, cnr$fisher$sim,
@@ -93,7 +129,9 @@ fisher_tree <- function(cnr, hc.method = "average", tree.method = "average", ...
 #'
 #' @source \url{https://github.com/KrasnitzLab/SCclust}
 #' 
-#' @export
+#' @import SCclust
+#'
+#' @keywords internal
 getSubclonesCNR <- function(cnr,  ...) {
 
     cnr[["hc"]] <- SCclust::find_clones(cnr[["hc"]])
@@ -105,40 +143,3 @@ getSubclonesCNR <- function(cnr,  ...) {
     return(cnr)
 }
 
-#' implementation of SCclust pipeline
-#'
-#' @param cnr a cnr bundle
-#'
-#' @param cytobands UCSC cytobands file
-#'
-#' @param hc.method clustering method for hclust_tree
-#'
-#' @param tree.method clustering method for tree_py
-#' 
-#' @param run.fisher logical, weather you want to run sim_fisherCNR. defaults TRUE.
-#'    If FALSE, it assumes you have ran sim_fisherCNR before, and the cnr already
-#'    contains cnr[["pins"]] and cnr[["fisher"]]
-#'
-#' @param ... additional arguments passed
-#'
-#' @import SCclust
-#'
-#' @source \url{https://github.com/KrasnitzLab/SCclust}
-#' 
-#' @export
-scClustCNR <- function(cnr, cytobands, hc.method = "average",
-                       tree.method = "average", run.fisher = TRUE, ...) {
-    if(run.fisher) {
-        cnr <- sim_fisherCNR(cnr, cytobands = cytobands, ...)
-    }
-    
-    cnr <- fisher_tree(cnr, hc.method = hc.method, tree.method = tree.method, ...)
-    
-    cnr <- getSubclonesCNR(cnr, ...)
-    
-    return(cnr)
-
-}
-
-
-    

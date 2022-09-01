@@ -31,6 +31,5 @@ By default, anything not diploid is 1.
 data(cnr)
 
 Z <- binary.cnr(cnr)
-
-
+ 
 }

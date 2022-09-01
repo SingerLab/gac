@@ -15,7 +15,7 @@
 #' 
 #' @importFrom assertthat assert_that
 #' 
-#' @export
+#' @keywords internal
 merge_lineage_tables <- function(cnr, branch_table, lineage_table,
                                  adjacency_alterations) {
 

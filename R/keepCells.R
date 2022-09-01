@@ -1,7 +1,6 @@
-#' exclude cells from CNR bundle
+#' keep cells from CNR bundle
 #'
 #' Both keepCells and excludeCells perform similar functions; keep cells with positive selection, and excludeCells with negative selection
-#' 
 #' 
 #' @param cnr the cnr bundle
 #'
@@ -20,7 +19,6 @@
 #' cnr3 <- keepCells(cnr, keep = cnr$Y$cellID[cnr$qc$ReadsKept >= 800000])
 #'
 #' all.equal(cnr2, cnr3)
-#'
 #' 
 #' @export
 keepCells <- function(cnr, keep) {
@@ -49,4 +47,4 @@ keepCells <- function(cnr, keep) {
     }
 
     return(cnr)
-}
+} ## end keepCells

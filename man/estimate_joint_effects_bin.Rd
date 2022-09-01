@@ -36,3 +36,4 @@ cnr <- estimate_joint_effects(cnr, trait = "binary1",
    pheno0 = 0, pheno1 = 1)
 
 }
+\keyword{internal}

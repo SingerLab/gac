@@ -38,7 +38,8 @@
 #'
 #' cnr <- consensusClusterCNR(cnr, maxK = 6)
 #' 
-#' @import ConsensusClusterPlus
+#' @importFrom ConsensusClusterPlus ConsensusClusterPlus
+#' @importFrom assertthat assert_that
 #'
 #' @export
 consensusClusterCNR <- function(cnr, maxK = 40, iters = 200,

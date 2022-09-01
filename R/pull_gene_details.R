@@ -16,7 +16,6 @@
 #' 
 #' @examples
 #'
-#' library(dplyr)
 #' data(cnr)
 #' coord.df <- data.frame(chr = 12,
 #'                     start = 69200804,
@@ -60,7 +59,6 @@ get_gene_details <- function(cnr, seqnames = 12, start = 69200804, end = 6924646
 #'
 #' @examples
 #'
-#' library(dplyr)
 #' data(cnr)
 #' coord <- "12:69200804:69246466"
 #' 

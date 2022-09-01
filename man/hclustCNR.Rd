@@ -19,3 +19,4 @@ Returns a heirarchical clustering object
 \description{
 heirarchical clustering
 }
+\keyword{internal}

@@ -13,7 +13,8 @@ parctan(x)
 Returns a copy number object on Peter Andrew's arctan transformation
 }
 \description{
-The parctan transformation scales the data for visualization.  It zooms into low copy number, yet still see high valued copy number
+The parctan transformation scales the data for visualization.  It zooms into low copy 
+number, yet still see high valued copy number
 }
 \details{
 See http://mumdex.com

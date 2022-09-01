@@ -4,11 +4,15 @@
 \alias{get_gene_frequencies}
 \title{estimate bin alteration frequencies}
 \usage{
-get_gene_frequencies(cnr)
+get_gene_frequencies(cnr, ...)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
+
+\item{...}{additional parameters passed to get_amp_counts, get_del_counts, or
+get_alt_counts}
 }
 \description{
 estimate bin alteration frequencies
 }
+\keyword{internal}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/vdjBrayClust.R
 \name{vdjBrayClust}
 \alias{vdjBrayClust}
-\title{VDJ cells bray clustering}
+\title{VDJ cells clustering based on Bray-Curtis Dissimilarity}
 \usage{
 vdjBrayClust(cnr, vdj.genes = NULL)
 }
@@ -13,5 +13,5 @@ vdjBrayClust(cnr, vdj.genes = NULL)
 gene.index `hgnc.symbol` column}
 }
 \description{
-VDJ cells bray clustering
+VDJ cells clustering based on Bray-Curtis Dissimilarity
 }

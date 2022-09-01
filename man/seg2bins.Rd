@@ -34,8 +34,8 @@ and end coordinates in the seg data}
 \item{seg.mean.b}{name of column containg segment means default "seg.mean"}
 
 \item{multipcf}{weather to create a multi sample matrix of the .seg data
-or keep as run length encoding, akin to \code{\link[copynumber]{multipcf}},
-and \code{\link[copynumber]{pcf}}, respectively.  This option requires
+or keep as run length encoding, akin to copynumber::multipcf,
+and copynumber::pcf, respectively.  This function requires
 tidyr::pivot_wider}
 }
 \description{

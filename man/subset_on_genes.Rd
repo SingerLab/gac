@@ -16,3 +16,4 @@ subset_on_genes(cnr, genes, all = TRUE)
 \description{
 subset based on genes
 }
+\keyword{internal}

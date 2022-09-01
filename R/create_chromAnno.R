@@ -43,18 +43,20 @@ create_chromosome_annotation <- function(cnr, side = "left", ...) {
 #' create chromosome annotations for custom heatmaps
 #'
 #' @param cnr a cnr bundle
+#'
 #' @param ... additional prameters passed to HeatmapAnnotation
 #' 
 #' @importFrom ComplexHeatmap rowAnnotation anno_mark
 #' @importFrom grid gpar
 create_chromosome_annotation_left <- function(cnr, ...) {
-    cf <- factor(cnr$chromInfo$chrom)
+    cf <- factor(cnr$chromInfo$bin.chrom)
     grs <- c("#404040", "#BABABA")
     rp <- ceiling(length(unique(cf))/2)
     chl <- rep(grs, rp)
     chl <- chl[1:length(unique(cf))]
     names(chl) <- unique(cf)
-    chrBreaks <- cumsum(table(cnr$chromInfo$chrom))
+
+    chrBreaks <- cumsum(table(cnr$chromInfo$bin.chrom))
     if (length(chrBreaks) == 1) {
         midChr <- floor(chrBreaks/2)
     }
@@ -88,13 +90,14 @@ create_chromosome_annotation_left <- function(cnr, ...) {
 create_chromosome_annotation_top <- function(cnr,
                                              labels_gp = grid::gpar(fontsize = 10),
                                              labels_rot = 90, ...) {
-    cf <- factor(cnr$chromInfo$chrom)
+    cf <- factor(cnr$chromInfo$bin.chrom)
     grs <- c("#404040", "#BABABA")
     rp <- ceiling(length(unique(cf))/2)
     chl <- rep(grs, rp)
     chl <- chl[1:length(unique(cf))]
     names(chl) <- unique(cf)
-    chrBreaks <- cumsum(table(cnr$chromInfo$chrom))
+
+    chrBreaks <- cumsum(table(cnr$chromInfo$bin.chrom))
     if (length(chrBreaks) == 1) {
         midChr <- floor(chrBreaks/2)
     }
@@ -128,13 +131,14 @@ create_chromosome_annotation_top <- function(cnr,
 create_chromosome_annotation_bottom <- function(cnr,
                                              labels_gp = grid::gpar(fontsize = 10),
                                              labels_rot = 90, ...) {
-    cf <- factor(cnr$chromInfo$chrom)
+    cf <- factor(cnr$chromInfo$bin.chrom)
     grs <- c("#404040", "#BABABA")
     rp <- ceiling(length(unique(cf))/2)
     chl <- rep(grs, rp)
     chl <- chl[1:length(unique(cf))]
     names(chl) <- unique(cf)
-    chrBreaks <- cumsum(table(cnr$chromInfo$chrom))
+
+    chrBreaks <- cumsum(table(cnr$chromInfo$bin.chrom))
     if (length(chrBreaks) == 1) {
         midChr <- floor(chrBreaks/2)
     }
@@ -164,13 +168,14 @@ create_chromosome_annotation_bottom <- function(cnr,
 #' @importFrom ComplexHeatmap rowAnnotation anno_mark
 #' @importFrom grid gpar
 create_chromosome_annotation_right <- function(cnr, ...) {
-    cf <- factor(cnr$chromInfo$chrom)
+    cf <- factor(cnr$chromInfo$bin.chrom)
     grs <- c("#404040", "#BABABA")
     rp <- ceiling(length(unique(cf))/2)
     chl <- rep(grs, rp)
     chl <- chl[1:length(unique(cf))]
     names(chl) <- unique(cf)
-    chrBreaks <- cumsum(table(cnr$chromInfo$chrom))
+
+    chrBreaks <- cumsum(table(cnr$chromInfo$bin.chrom))
     if (length(chrBreaks) == 1) {
         midChr <- floor(chrBreaks/2)
     }

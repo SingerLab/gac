@@ -17,3 +17,4 @@ getSubclonesCNR(cnr, ...)
 \description{
 implementation of finding clones and subclones from SCclust
 }
+\keyword{internal}

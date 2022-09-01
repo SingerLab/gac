@@ -1,6 +1,5 @@
 #' addQC
 #'
-#'
 #' Add QC columns to the qc data frame
 #'
 #' @param cnr a cnr bundle

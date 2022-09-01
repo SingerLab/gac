@@ -33,8 +33,7 @@
 #' depmap_annotate(cnr, depMeans = depMeans)
 #'
 #' }
-#' 
-#' @export
+#' @keywords internal
 depmap_annotate <- function(cnr, depMeans, cutoff = -0.5) {
 ## set boundaries at -0.8 for essential genes
     ngi <- cnr[["gene.index"]]

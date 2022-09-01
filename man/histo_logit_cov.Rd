@@ -64,7 +64,7 @@ genetics P = G + E.  Alternate arguments of `family` have no been tested.
 }
 \examples{
 
-pdata(cnr)
+data(cnr)
 
 cnr <- histo_logit_cov(cnr, trait = "binary1",
    pheno0 = 0, pheno1 = 1, covar = "category1")
@@ -72,7 +72,7 @@ cnr <- histo_logit_cov(cnr, trait = "binary1",
 cnr <- histo_logit_cov(cnr, trait = "category1",
    pheno0 = "A", pheno1 = c("B", "C"), covar = "category2")
 
-cnr <- histo_logit_cov(cnr, trait = "category1",
+cnr <- histo_logit_cov(cnr, trait = "category2",
    pheno0 = c("X", "Y"), pheno1 = "Z", covar = "category1")
 
 }

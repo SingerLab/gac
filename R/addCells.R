@@ -2,7 +2,7 @@
 #'
 #' The function deals a little with the n+1 problem.
 #'
-#' Your data needs to `exact` to the existing cnr for it to be compatible.
+#' Your data needs to be `exact` to the existing cnr for it to be compatible.
 #'  This means it needs to have the same bin coordinates and number of X
 #'  bins, annotation colums, and same qc colums.  It is assumed you generated
 #'  it with the same pipeline.
@@ -47,16 +47,20 @@
 #' data(pheno)
 #' data(qc)
 #'
+#' ## create unique cell names
+#' n.cells <- nrow(cnr$Y)
+#' new.cells <- paste0("cell", n.cells + 1:2)
+#' 
 #' ## new X w simulated data
 #' newX <- data.frame(cbind(rep(c(5,2), c(3000, 2000)),
 #'                         rep(c(2,4),  c(3000, 2000))))
-#' names(newX) <- paste0("cell", 13:14)
+#' names(newX) <- new.cells
 #' head(newX)
 #' tail(newX)
-#' 
+#'
 #' ## creating new phenotypes
 #' newY <- head(pheno, n = 2)
-#' newY$cellID <- paste0("cell", 13:14)
+#' newY$cellID <- new.cells
 #' rownames(newY) <- newY$cellID
 #' newY[, c(6:9)] <- newY[,c(6,9)]+3
 #'
@@ -64,7 +68,7 @@
 #' 
 #' ## creating new QC
 #' newQC <- head(qc, 2)
-#' newQC$cellID <- paste0("cell", 13:14)
+#' newQC$cellID <- new.cells
 #' rownames(newQC) <- newQC$cellID
 #'
 #' newQC[,2:4] <- newQC[,2:4] + 2

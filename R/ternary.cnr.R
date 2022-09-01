@@ -21,7 +21,7 @@
 #'
 #' head(G)
 #' 
-#' @export
+#' @keywords internal
 ternary.cnr <- function(X, gain = 3, amp = 20) {
     G <- X
     G[G == 2] <- 0

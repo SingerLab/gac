@@ -1,23 +1,25 @@
 #' Genotype cells at the VDJ recombination sites
 #'
-#' @param cnr a cnr bundle.  gene.index MUST include a column named `gene.type` with
-#'             pattern "TR.*gene" for T-cell receptor genes, and "IG.*gene" for B-cell
-#'             receptor genes.  These are the defaults for gene.type in bioconductor::biomaRt
+#' @param cnr a cnr bundle.  gene.index MUST include a column named `gene.type`
+#'   with pattern "TR.*gene" for T-cell receptor genes, and "IG.*gene" for B-cell
+#'   receptor genes.  These are the defaults for gene.type in bioconductor::biomaRt
 #'
 #' @return
-#' Returns a CNR object with `cell.type` column containing assigments for `T-cell`, `B-cell`, and
-#'   `vdj.unspecified`.  The function will only annotate cells with deletions on a `TR` or `IG`
-#'   gene present in the gene.index table.  All other annotation will be left intact.  If `cell.type`
-#'   column is not present one will be created with `NA`.
+#' Returns a CNR object with `cell.type` column containing assigments for
+#'  `T-cell`, `B-cell`, and `vdj.unspecified`.  The function will only annotate
+#'  cells with deletions on a `TR` or `IG` gene present in the gene.index table.
+#'  All other annotation will be left intact.  If `cell.type` column is not
+#'  present one will be created with `NA`.
 #'
-#' An additional cnr[["vdj.cells"]] vector is also returned containing the cell type of only VDJ cells.
+#' An additional cnr[["vdj.cells"]] vector is also returned containing the cell
+#'  type of only VDJ cells.
 #'
 #' @examples
 #' data(cnr)
 #'
 #' cnr <- genotype_vdj(cnr)
 #' 
-#' @import assertthat
+#' @importFrom assertthat assert_that
 #' 
 #' @export
 genotype_vdj <- function(cnr) {
@@ -75,4 +77,4 @@ genotype_vdj <- function(cnr) {
 
     return(cnr)
     
-}
+} ## end genotype_vdj

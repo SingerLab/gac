@@ -6,7 +6,6 @@
 #' 
 #' By default, anything not diploid is 1.
 #'
-#'
 #' @param cnr a copy number matrix to convert to an incidence matrix
 #' 
 #' @param base.ploidy expected cell ploidy, e.g. 2N = 2, 4N = 4.
@@ -18,15 +17,13 @@
 #' \itemize{
 #'   \item Z incidence matrix from X, copy number != 2 is 1, all 2 are 0
 #' }
-#'
 #' 
 #' @examples
 #'
 #' data(cnr)
 #'
 #' Z <- binary.cnr(cnr)
-#' 
-#' 
+#'  
 #' @export
 binary.cnr <- function(cnr, base.ploidy = 2) {
 
@@ -50,7 +47,6 @@ binary.cnr <- function(cnr, base.ploidy = 2) {
 #' 
 #' By default, anything not diploid is 1.
 #'
-#'
 #' @param X a copy number matrix to convert to an incidence matrix
 #'
 #' @param base.ploidy expected cell ploidy, e.g. 2N = 2, 4N = 4
@@ -64,7 +60,6 @@ binary.cnr <- function(cnr, base.ploidy = 2) {
 #' data(cnr)
 #'
 #' Z <- binary.X(cnr$genes[, c("CDK4", "MDM2")])
-#' 
 #' 
 #' @export
 binary.X <- function(X, base.ploidy = 2) {

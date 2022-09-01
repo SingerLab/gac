@@ -20,3 +20,4 @@ subset_on_coordinates(cnr, chrom, start, end, padding = 1)
 \description{
 subset based on complete chromosomes
 }
+\keyword{internal}

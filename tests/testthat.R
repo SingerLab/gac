@@ -24,7 +24,8 @@ data(segCol)
 ## check number of rows and columns throughout cnr object
 expect_equal(length(cnr), 8)
 
-expect_true(all(names(cnr) %in% c("X", "genes", "Y", "qc", "chromInfo", "gene.index", "cells", "bulk")))
+expect_true(all(names(cnr) %in% c("X", "genes", "Y", "qc",
+                                  "chromInfo", "gene.index", "cells", "bulk")))
 
 ## visualize genome-wide
 h1 <- HeatmapCNR(cnr, col = segCol)
@@ -34,15 +35,18 @@ expect_true(all.equal(dim(h1@matrix), dim(cnr$X)))
 h2 <- HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"), col = segCol)
 
 ## ADD cells
+n.cells <- nrow(cnr$Y)
+new.cells <- paste0("cell", n.cells+1:2)
+
 newX <- data.frame(cbind(rep(c(5,2), c(3000, 2000)),
                          rep(c(2,4),  c(3000, 2000))))
-names(newX) <- paste0("cell", 13:14)
+names(newX) <- new.cells
 head(newX)
 tail(newX)
 
 ## creating new phenotypes
 newY <- head(cnr$Y, n = 2)
-newY$cellID <- paste0("cell", 13:14)
+newY$cellID <- new.cells
 rownames(newY) <- newY$cellID
 
 newY[, c(6:9)] <- newY[,c(6,9)]+3
@@ -61,7 +65,7 @@ tail(newQC)
 ## add cells
 cnr <- addCells(cnr, newX = newX, newY = newY, newqc = newQC)
 
-sapply(cnr, dim)
+## sapply(cnr, dim)
 
 ## expect_equal(length(cnr), 9)
 expect_equal(ncol(cnr$X), length(cnr$cells))
@@ -70,12 +74,13 @@ expect_equal(nrow(cnr$qc), length(cnr$cells))
 expect_equal(length(cnr), 9)
 
 h3 <- HeatmapCNR(cnr)
-expect_equal(ncol(h3@matrix), 14)
+expect_equal(ncol(h3@matrix), n.cells +2)
 
 ## remove cells
 ( excl.cells <- rownames(cnr$qc)[cnr$qc$qc.status == "FAIL"] )
 cnr <- excludeCells(cnr, excl = excl.cells)
 sapply(cnr, dim)
+n.cells2 <- ncol(cnr$X)
 
 expect_equal(any(excl.cells %in% names(cnr$X)), FALSE)
 expect_equal(any(excl.cells %in% rownames(cnr$Y)), FALSE)
@@ -86,7 +91,7 @@ expect_equal(any(excl.cells %in% cnr$cells), FALSE)
 
 h4 <- HeatmapCNR(cnr)
 
-expect_equal(ncol(h4@matrix), 12)
+expect_equal(ncol(h4@matrix), n.cells2)
 
 ## keep cells
 ( keep.cells <- colnames(cnr$X)[c(1:8)] )

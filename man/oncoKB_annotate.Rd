@@ -33,3 +33,4 @@ cnr <- oncoKB_annotate(cnr, oncokb = oncoKB)
 }
 
 }
+\keyword{internal}

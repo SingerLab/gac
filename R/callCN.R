@@ -154,14 +154,14 @@ callDNA_CN <- function(cnr,
 
     assertthat::assert_that(loss.threshold > deletion.threshold)
     assertthat::assert_that(gains.threshold > loss.threshold)
-    assertthat::assert_that(amplification.thresholds > gains.threshold)
+    assertthat::assert_that(amplification.threshold > gains.threshold)
     
     mm = matrix(NA, nrow= nrow(cnr$X), ncol = ncol(cnr$X), dimnames = dimnames(cnr$X))
     mm[cnr$X <= deletion.threshold] = "D"
     mm[cnr$X > deletion.threshold & cnr$X <= loss.threshold] = "L"
     mm[cnr$X > loss.threshold & cnr$X < gains.threshold ] = "N"
-    mm[cnr$X >= gains.threshold & cnr$X < amplification.thresholds ] = "G"
-    mm[cnr$X >= amplification.thresholds] = "A"
+    mm[cnr$X >= gains.threshold & cnr$X < amplification.threshold ] = "G"
+    mm[cnr$X >= amplification.threshold] = "A"
 
     if(cbioportal) {
             mm[mm == "D"] <- -2
@@ -173,6 +173,6 @@ callDNA_CN <- function(cnr,
         
     return(mm)
     
-}
+} ## callDNA_CN
 
 

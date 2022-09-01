@@ -9,8 +9,9 @@ vdjHeatmap(cnr, vdj.genes = NULL, vdjGeneAnno = NULL, vdjCellAnno = NULL, ...)
 \arguments{
 \item{cnr}{a cnir bundle}
 
-\item{vdj.genes}{list of VDJ genes.  By default is set to NULL, vdj.genes is the union of T-cell Receptor
-and B-cell Receptor genes (i.e. TR, IG genes, used in genotype_vdj)}
+\item{vdj.genes}{list of VDJ genes.  By default is set to NULL, vdj.genes is
+the union of T-cell Receptor and B-cell Receptor genes (i.e. TR, IG genes,
+used in genotype_vdj)}
 
 \item{vdjGeneAnno}{HeatmapAnnotation object to annotate gene attributes}
 
@@ -19,8 +20,8 @@ and B-cell Receptor genes (i.e. TR, IG genes, used in genotype_vdj)}
 \item{...}{additional arguments passed to ComplexHeatmap::Heatmap}
 }
 \value{
-Returns a heatmap of VDJ cells with rows as cells, and TR/IG genes as columns.  Heatmap is split
-by chromosome name, and cell types are annotated on the left
+Returns a heatmap of VDJ cells with rows as cells, and TR/IG genes as columns.
+ Heatmap is split by chromosome name, and cell types are annotated on the left
 }
 \description{
 Heatmap of cells with VDJ recombination

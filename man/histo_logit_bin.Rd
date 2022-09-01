@@ -63,7 +63,8 @@ cnr <- histo_logit(cnr, trait = "binary1",
 cnr <- histo_logit(cnr, trait = "category1",
    pheno0 = "A", pheno1 = c("B", "C"))
 
-cnr <- histo_logit(cnr, trait = "category1",
+cnr <- histo_logit(cnr, trait = "category2",
    pheno0 = c("X", "Y"), pheno1 = "Z")
 
 }
+\keyword{internal}

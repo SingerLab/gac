@@ -2,17 +2,18 @@
 #'
 #' @param S similarity matrix
 #'
-#' @author Nick Socci <soccin@mskcc.org>
+#' @author ND Socci <soccin .at. mskcc dot org>
 #'
 #' @references Philip A. Knight (2008) The Sinkhorn–Knopp Algorithm: Convergence and Applications. SIAM Journal on Matrix Analysis and Applications 30(1), 261-275. doi: 10.1137/060659624
-#' 
-#' @export
+#'
+#' @importFrom utils head
+#' @keywords internal
 kSpectral <- function(S) {
 
     tol <- eps(nrow(S))
     P <- symmetricSinkhornKnopp(S)
     ee <- eigen(P)
-    deltaLambda <- -diff(head(ee$values, 25))
+    deltaLambda <- -diff(utils::head(ee$values, 25))
     kMax <- which.max(deltaLambda)
     dLambdaMax <- deltaLambda[kMax]
 
@@ -33,11 +34,11 @@ kSpectral <- function(S) {
 #'
 #' @param N number of rows of S
 #' #' 
-#' @author Nick Socci <soccin@mskcc.org>
+#' @author ND Socci <soccin .at. mskcc dot org>
 #' 
 #' @references Philip A. Knight (2008) The Sinkhorn–Knopp Algorithm: Convergence and Applications. SIAM Journal on Matrix Analysis and Applications 30(1), 261-275. doi: 10.1137/060659624
 #'
-#' @export
+#' @keywords internal
 eps <- function(N) {
 
     2^(-52+floor(log2(N)))
@@ -55,9 +56,11 @@ eps <- function(N) {
 #'
 #' @param debug logical, turn on/off debugging i.e. TRUE/FALSE; default is FALSE
 #'
+#' @author ND Socci <soccin .at. mskcc dot org>
+#'
 #' @references Philip A. Knight (2008) The Sinkhorn–Knopp Algorithm: Convergence and Applications. SIAM Journal on Matrix Analysis and Applications 30(1), 261-275. doi: 10.1137/060659624
 #' 
-#' @export
+#' @keywords internal
 sinkhornKnopp <- function(A, tol = NA, maxiter = Inf, debug = FALSE) {
 
     ## N = size(A, 1);
@@ -102,9 +105,11 @@ sinkhornKnopp <- function(A, tol = NA, maxiter = Inf, debug = FALSE) {
 #'
 #' @param debug logical, turn on/off debugging i.e. TRUE/FALSE; default is FALSE
 #'
+#' @author ND Socci <soccin .at. mskcc dot org>
+#'
 #' @references Philip A. Knight (2008) The Sinkhorn–Knopp Algorithm: Convergence and Applications. SIAM Journal on Matrix Analysis and Applications 30(1), 261-275. doi: 10.1137/060659624
 #'
-#' @export
+#' @keywords internal
 symmetricSinkhornKnopp <- function(A, tol = NA, maxiter = Inf, debug = FALSE) {
 
     N <- nrow(A)

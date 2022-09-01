@@ -40,5 +40,5 @@ depMeans <- rowMeans(d2_bone[,keep])
 depmap_annotate(cnr, depMeans = depMeans)
 
 }
-
 }
+\keyword{internal}

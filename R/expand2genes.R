@@ -11,7 +11,6 @@
 #' @param bin.id name of the bin.id column (the bin.id is the row in the bins data.frame)
 #'
 #' @param gene.id string noting which gene ID you want to use e.g. hgnc.symbol, ensembl_gene_id
-#'
 #' 
 #' @export
 expand2genes <- function(X, gene.index, bin.id = "bin.id", gene.id = "hgnc.symbol") {

@@ -7,8 +7,6 @@
 #'
 #' @param cluster_column column to use as cluster
 #' 
-#' @import entropy
-#'
 #' @examples
 #'
 #' data(cnr)
@@ -19,6 +17,7 @@
 #'
 #' cnr <- cluster_heterogeneity(cnr, cluster_column = "BrayC")
 #'
+#' @importFrom assertthat assert_that is.string
 #' 
 #' @export
 cluster_heterogeneity <- function(cnr, by = NULL, cluster_column = NULL) {
@@ -41,7 +40,7 @@ cluster_heterogeneity <- function(cnr, by = NULL, cluster_column = NULL) {
         
     }
     
-    occ <- cluster_representation(occ, n.samples = ns)
+    occ <- cluster_representation(occ)
 
     cnr$Y$final_cluster <- cnr$Y[, cluster_column]
 
@@ -66,9 +65,6 @@ binary.mat <- function(mat) {
 #'
 #' @param cc cluster counts
 #'
-#' @param n.samples vector containing the number of samples. Must
-#' mach number of rows in cc
-#'
 #' @examples
 #' 
 #' ## cluster table, no subsamples
@@ -85,22 +81,38 @@ binary.mat <- function(mat) {
 #'
 #' ns <- rowSums(binary.mat(cc))
 #' 
-#' ( cc <- cluster_representation(cc, n.samples = ns) )
+#' ( cc <- cluster_representation(cc) )
 #'
-#'@export
-cluster_representation <- function(cc, n.samples = 1) {
+#' @importFrom entropy entropy
+#' 
+#' @keywords internal
+#' 
+#' @export
+cluster_representation <- function(cc) {
 
-    acc <- ifelse(is.na(ncol(cc)), cc, rowSums(cc))
+    if(is.matrix(cc)) {
+        n.cells.clone <- rowSums(cc)
+        freqs <- cc / n.cells.clone
+        colnames(freqs) <- paste0(colnames(cc), ".fq")
+        n.regions <- rowSums(binary.mat(cc))
+        enropy <- apply(cc, 1, entropy::entropy)
+        
+    } else {
+        n.cells.clone <- sum(cc)
+        freqs <- cc / n.cells.clone
+        n.regions <- 1
+        entropy <- entropy::entropy(cc)
+    }
     
-    cc <- data.frame(
+    ccx <- data.frame(
         cbind(cc,
-              n.cells = cc,
-              overall.freq = acc / sum(cc),
-              n.samples = n.samples,
-              entropy = entropy::entropy(cc))
+              n.cells = n.cells.clone,
+              n.regions = n.regions,
+              freqs,
+              entropy = entropy)
     )
     
-    return(cc)
+    return(ccx)
     
 } # end heterogeneity
 

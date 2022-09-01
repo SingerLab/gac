@@ -20,6 +20,7 @@
 #' 
 #' @import dplyr magrittr
 #' 
+#' @keywords internal
 #' @export 
 doKSpectral <- function(cnr, ...) {
     

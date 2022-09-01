@@ -4,13 +4,10 @@
 \alias{cluster_representation}
 \title{cluster representation}
 \usage{
-cluster_representation(cc, n.samples = 1)
+cluster_representation(cc)
 }
 \arguments{
 \item{cc}{cluster counts}
-
-\item{n.samples}{vector containing the number of samples. Must
-mach number of rows in cc}
 }
 \description{
 cluster representation
@@ -31,6 +28,7 @@ cc[cc <= 10] <- 0
 
 ns <- rowSums(binary.mat(cc))
 
-( cc <- cluster_representation(cc, n.samples = ns) )
+( cc <- cluster_representation(cc) )
 
 }
+\keyword{internal}

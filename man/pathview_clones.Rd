@@ -50,20 +50,20 @@ Requires Bioconductor/Pathview to be installed
 }
 \examples{
 data(cnr)
-data(paths.hsa)
+data(paths.hsa, package = "pathview")
 
 noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
 
 ## reduced pipeline to genrate DDRC clone profiles
 cnr <- excludeCells(cnr, excl = noisy.cells)
-cnr <- phyloCNR(root.cell = "cell0")
-cnr <- setBrayClusters()
-cnr <- consensusClusterCNR(iters = 20, maxK = 40)
-cnr <- doKSpectral()
-cnr <- setKcc()
-cnr <- cluster_heterogeneity(by = "category1",
+cnr <- phyloCNR(cnr, root.cell = "cell0")
+cnr <- setBrayClusters(cnr)
+cnr <- consensusClusterCNR(cnr, iters = 20, maxK = 40)
+cnr <- doKSpectral(cnr)
+cnr <- setKcc(cnr)
+cnr <- cluster_heterogeneity(cnr, by = "category1",
           cluster_column = "ConsensusC")
-cnr <- get_cluster_profiles()
+cnr <- get_cluster_profiles(cnr)
 
 clone.1 <- colnames(cnr$DDRC.g)[1]
 

@@ -7,7 +7,8 @@
 DepScores(depmap, keep)
 }
 \arguments{
-\item{depmap}{Genetic Dependency Combined RNAi; Depmap D2_conbined object  (see: https://depmap.org/portal/)}
+\item{depmap}{Genetic Dependency Combined RNAi; Depmap D2_conbined object
+(see: https://depmap.org/portal/)}
 
 \item{keep}{which cell lines you want to keep}
 }
@@ -37,3 +38,4 @@ depMeans <- rowMeans(d2_bone[,keep])
 }
 
 }
+\keyword{internal}

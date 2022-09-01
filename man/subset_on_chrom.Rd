@@ -14,3 +14,4 @@ subset_on_chrom(cnr, chrom)
 \description{
 subset based on complete chromosomes
 }
+\keyword{internal}

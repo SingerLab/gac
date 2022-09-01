@@ -28,5 +28,4 @@ data(cnr)
 
 Z <- binary.X(cnr$genes[, c("CDK4", "MDM2")])
 
-
 }

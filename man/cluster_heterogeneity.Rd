@@ -27,5 +27,4 @@ cnr <- setBrayClusters(cnr, tree.height = 0.065)
 
 cnr <- cluster_heterogeneity(cnr, cluster_column = "BrayC")
 
-
 }

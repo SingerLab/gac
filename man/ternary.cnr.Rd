@@ -30,3 +30,4 @@ G <- ternary.cnr(cnr$genes[, c("CDK4", "MDM2")])
 head(G)
 
 }
+\keyword{internal}

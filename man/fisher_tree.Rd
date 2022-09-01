@@ -21,3 +21,4 @@ fisher_tree(cnr, hc.method = "average", tree.method = "average", ...)
 \description{
 implementation of fisher_dist, hc, and tree
 }
+\keyword{internal}

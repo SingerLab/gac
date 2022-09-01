@@ -49,7 +49,8 @@ get_cluster_profiles <- function(cnr, minimum_cells = 3, base.ploidy = 2) {
 #'
 #' @param minimum_cells minimum number of cells in a cluster, must be greater than 3
 #' to estimate a median
-#'
+#' 
+#' @keywords internal
 #' @export
 use_clusters <- function(cnr, minimum_cells = 3) {
 

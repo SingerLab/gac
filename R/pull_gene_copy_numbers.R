@@ -14,7 +14,6 @@
 #'
 #' pull_gene_copy_numbers(cnr, c("MDM2", "CDK4"))
 #' 
-#' 
 #' @export
 pull_gene_copy_numbers <- function(cnr, genes) {
     genesRN <- gsub("-", ".", genes)

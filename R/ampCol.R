@@ -2,7 +2,7 @@
 #' 
 #' @description
 #' 
-#' ampcol is a ComplexHeatmap scale to use when plotting X data or gene bin data
+#' ampCol is a ComplexHeatmap scale to use when plotting X data or gene bin data
 #'
 #' Unlike segCol, the color pallete in ampCol is YlRd from RColorBrewer
 #'

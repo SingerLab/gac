@@ -1,4 +1,4 @@
-#' VDJ cells bray clustering 
+#' VDJ cells clustering based on Bray-Curtis Dissimilarity
 #'
 #' @param cnr a cnr bundle, previously genotyped for VDJ
 #'
@@ -7,6 +7,7 @@
 #' 
 #' @importFrom ape as.phylo
 #' @importFrom assertthat assert_that
+#' @importFrom vegan vegdist
 #' 
 #' @export
 vdjBrayClust <- function(cnr, vdj.genes = NULL) {

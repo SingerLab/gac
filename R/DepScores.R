@@ -4,7 +4,8 @@
 #'
 #' It will read, and process the row.names to preserve the hgnc.symbols and entrezID 
 #'
-#' @param depmap Genetic Dependency Combined RNAi; Depmap D2_conbined object  (see: https://depmap.org/portal/)
+#' @param depmap Genetic Dependency Combined RNAi; Depmap D2_conbined object  
+#' (see: https://depmap.org/portal/)
 #'
 #' @param keep which cell lines you want to keep
 #'
@@ -27,7 +28,7 @@
 #'
 #' }
 #' 
-#' @export
+#' @keywords internal
 DepScores <- function(depmap, keep) {
     depScores <- depScores[, keep]
     

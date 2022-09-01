@@ -7,16 +7,22 @@
 gene.aggregate(Z)
 }
 \arguments{
-\item{Z}{binary incidence matrix or G genotype matrix.  Internally, both Z or G will be turned into a Z matrics for frequency calculations.}
+\item{Z}{binary incidence matrix or G genotype matrix.  Internally, both
+Z or G will be turned into a Z matrics for frequency calculations.}
 }
 \value{
-returns a de-duplicated incidence or ternary matrix with rownams naving the multipe duplicated rows
+returns a de-duplicated incidence or ternary matrix with rownams naving
+the multipe duplicated rows
 }
 \description{
-This is a helper function to process the binary or ternary matrix.  Because gene data is interpolated from the bin data, linked loci within a bin will be duplicated.  Duplicate frequencies create infinite combinations in the trees in infSCITE.
+This is a helper function to process the binary or ternary matrix.  Because
+gene data is interpolated from the bin data, linked loci within a bin will
+be duplicated.  Duplicate frequencies create infinite combinations in the
+trees in infSCITE.
 }
 \details{
-This function checks if two rows have are identical and merges them into one. It also creates unique rownames to know what was de-duplicated
+This function checks if two rows have are identical and merges them into
+one. It also creates unique rownames to know what was de-duplicated
 }
 \examples{
 \dontrun{
@@ -34,3 +40,4 @@ aggrMat.G <- gene.aggregate(Z = G)
 }
 
 }
+\keyword{internal}
