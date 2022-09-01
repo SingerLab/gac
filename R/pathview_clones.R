@@ -91,7 +91,8 @@ pathview_clones <- function(cnr, clones,
     assertthat::assert_that(!is.null(species))
     assertthat::assert_that(is.character(species))
 
-    ## data("bods", package = "pathview")    
+    ## produces a N in check
+    data("bods", package = "pathview")    
 
     ## checking DDRC.g is present
     if(is.null(cnr[["DDRC.g"]])) {

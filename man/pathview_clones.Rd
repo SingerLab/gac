@@ -2,7 +2,7 @@
 % Please edit documentation in R/pathview_clones.R
 \name{pathview_clones}
 \alias{pathview_clones}
-\title{plot pathview of specific clones}
+\title{Plot KEGG pathways with specific clones using Bioconductor/Pathview}
 \usage{
 pathview_clones(
   cnr,
@@ -45,14 +45,13 @@ shows the copy number deviation from the expected ploidy of the tumor.
 Output is written to the working directory as a PNG, among other files
 }
 \description{
-this function is a wrapper to plot CNA detected in clones onto KEGG pathways.
-Requires Bioconductor/Pathview to be installed
+This function is a wrapper to plot CNA detected in clones onto KEGG pathways.
+Requires Bioconductor/Pathview to be installed, loaded `library(pathview)`,
+and load it's internal data `data(paths.hsa, bods)` prior to running the
+function
 }
 \examples{
-library(pathview)
-
 data(cnr)
-data(paths.hsa, bods, package = "pathview")
 
 noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
 
@@ -70,6 +69,9 @@ cnr <- get_cluster_profiles(cnr)
 clone.1 <- colnames(cnr$DDRC.g)[1]
 
 top.3.clones <- names(rev(sort(table(cnr$Y$final_cluster))))[1:3]
+
+library(pathview)
+data(paths.hsa, bods, package = "pathview")
 
 pathview_clones(cnr, clones = clone.1)
 pathview_clones(cnr, clones = top.3.clones)
