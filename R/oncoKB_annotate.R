@@ -5,7 +5,6 @@
 #'
 #' When using OncoKB, please cite: [Chakravarty et al., JCO PO 2017.](https://ascopubs.org/doi/full/10.1200/PO.17.00011)
 #' 
-#' 
 #' @param cnr a cnr bundle
 #'
 #' @param oncokb an oncokb table
@@ -24,7 +23,8 @@
 #' 
 #'}
 #' 
-#' @export
+#' @keywords internal
+#' @noRd
 oncoKB_annotate <- function(cnr, oncokb) {
 
     ngi <- cnr$gene.index

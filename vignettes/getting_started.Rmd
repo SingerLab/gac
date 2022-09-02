@@ -33,7 +33,7 @@ In a not so distant future, the posibility to acquire single-cell DNA and RNA fr
 
 Lastly, a *qc* matrix containg metadata about each cell is required.
 
-![Figure1](figures/CNR.png)
+![Figure1](figures/CNR.png){ width=50% }
 
 Figure 1. Schematic representation of the CNR bundle and how the different components are related.
 
@@ -43,46 +43,53 @@ Data should be in rectancular form, preferably as a data.frame or matrix.  The e
 * Copy numbers are a sequence from 0 - 5 in 12 cells as our copy number data, with some added focal amplifcations in a bins, and noise in cells 5 and 11. Column names must be the `cellID`.
 
 ```{r copy_number_simulated_data}
+## number of cells to simulate
+n.cells <- 82
+
 ## set pattern
-X <- as.data.frame(replicate(n = 12, expr = round(seq(0, 5, by = 5/4999), digits = 4)))
-names(X) <- paste("cell", 1:12, sep = "")
+X <- as.data.frame(replicate(n = n.cells, expr = round(seq(0, 5, by = 5/4999), digits = 4)))
+names(X) <- paste("cell", 0:(n.cells -1), sep = "")
 
 ## set focal
-X[801:840, 1:4] <- 12
-X[800:843, 5:12] <- 18
-X[1810:1860, 3:12] <- 22
-X[3801:3881, 8:12] <- 80
+X[, 1] <- 2
+X[801:840, 2:10] <- 12
+X[800:843, 11:24] <- 18
+X[1810:1860, 24:40] <- 22
+X[3801:3881, 40:82] <- 80
 
-## adding noise
+## adding noisy cells
 set.seed(2020)
-X[,5] <- X[,5] + rnorm(5000)
-X[,11] <- X[,11] + rnorm(5000)
+noisy.cells <- sort(round(runif(6, min = 1, max = n.cells)))
+for(i in noisy.cells) {
+    X[,i] <- X[,i] + rnorm(5000)
+}
 ```
 
 * Phenotype in three forms, binary, categorical, and quantitive; and an additional two random variables. Must have one column named `cellID`, and must match those in the copy number matrix.
 
 ```{r simulated_phenotype_data}
-Y <- data.frame(matrix(NA, nrow = 12, ncol = 9))
+Y <- data.frame(matrix(NA, nrow = n.cells, ncol = 9))
 names(Y) <- c("cellID", "binary1", "binary2",
               "category1", "category2",
               "quantitative1", "quantitative2",
               "random1", "random2")
-
 Y$cellID <- names(X)
 
-Y$binary1 <- rep(c(0, 1), c(4, 8))
-Y$binary2 <- rep(c(1, 0), each = 6)
+Y$binary1 <- rep(c(0, 1), c(floor(n.cells * 0.2), ## 20% of the data
+                            ceiling(n.cells * 0.8))) ## 80% of the data
+Y$binary2 <- rep(c(1, 0), each = floor(n.cells/2)) ## 50:50 + NA if n.cells is an odd number
 
-Y$category1 <- rep(LETTERS[1:3], c(4, 6, 2))
-Y$category2 <- rep(LETTERS[26:24], c(2, 6, 4))
+Y$category1 <- rep(LETTERS[1:3], round(c(0.33, 0.50, 0.17) * n.cells))
+Y$category2 <- rep(LETTERS[26:24], round(c(0.17, 0.50, 0.33) * n.cells))
 
-Y$quantitative1 <- c(rnorm(n = 4, mean = 2), rnorm(n = 8, mean = 8))
-Y$quantitative2 <- rev(seq(0, 20, by = 20/12)[-1])
-Y$quantitative2[5] <- Y$quantitative2[5] - abs(rnorm(1, 3))
-Y$quantitative2[12] <- Y$quantitative2[12] + abs(rnorm(1, 3))
+Y$quantitative1 <- c(rnorm(n = floor(n.cells * 0.2), mean = 2),
+                     rnorm(n = ceiling(n.cells * 0.8), mean = 8))
+Y$quantitative2 <- rev(seq(0, 20, by = 20/n.cells)[-1])
+Y$quantitative2[noisy.cells] <- Y$quantitative2[noisy.cells] - abs(rnorm(1, 3))
+Y$quantitative2[noisy.cells] <- Y$quantitative2[noisy.cells] + abs(rnorm(1, 3))
 
-Y$random1 <- abs(rnorm(12))
-Y$random2 <- abs(rnorm(12, mean = 200, sd = 300))
+Y$random1 <- abs(rnorm(n.cells))
+Y$random2 <- abs(rnorm(n.cells, mean = 200, sd = 300))
 ```
 
 * QC metadata in this case will be limited to aligned reads (ReadsKept), median bin counts, amplified DNA concentrations, flow cytometry gate, and qc.status as PASS/FAIL.  Must have one column named `cellID`, and must match those in the copy number matrix and phenotype data. QC metrics of cells 5 and 11 are set similar to failed cells in an experiment.
@@ -94,25 +101,26 @@ This example was constructed using the following :
   * Cells 5, and 11 set as FAIL
   
 ```{r qc_metadata}
-qc <- data.frame(matrix(NA, nrow = 12, ncol = 6))
+qc <- data.frame(matrix(NA, nrow = n.cells, ncol = 6))
 names(qc) <- c("cellID", "ReadsKept", "MedianBinCount",
                "dna.ng.ul", "sort.gate", "qc.status")
 
 qc$cellID <- names(X)
-qc$ReadsKept <- 2000000 + rnorm(n = 12, sd = 700000)
+qc$ReadsKept <- 2000000 + rnorm(n = n.cells, sd = 700000)
 qc$MedianBinCount <- round(qc$ReadsKept/5000)
-qc$dna.ng.ul <- 200 + rnorm(n = 12, sd = 70)
-qc$sort.gate <- rep(c("p6", "p7"), c(4, 8))
+qc$dna.ng.ul <- 200 + rnorm(n = n.cells, sd = 70)
+qc$sort.gate <- rep(c("p6", "p7"), c(floor(n.cells * 0.2),
+                                     ceiling(n.cells * 0.8)))
 qc$qc.status <- "PASS"
 ## match noisy cells to QC
-qc$ReadsKept[c(5,11)] <- abs(200000 + rnorm(n = 2, sd = 700000))
-qc$qc.status[c(5,11)] <- "FAIL"
+qc$ReadsKept[c(noisy.cells)] <- abs(200000 + rnorm(n = 2, sd = 700000))
+qc$qc.status[c(noisy.cells)] <- "FAIL"
 ```
 
 * gene.index is prepared using biomart, requires bin information to map genes
 Bin mappings are part of the chromInfo, and user supplied.  These can be downloaded from (Ginkgo)[http://qb.cshl.edu/ginkgo/?q=/T1s5zj45ztcLxoVUMxjF] or (QDNAseq)[https://bioconductor.org/packages/release/bioc/html/QDNAseq.html].  Ginkgo uses variable length bins with an equal mappability, vs QDNAseq which uses equally spaced bins with variable mappability.  For this example, we'll use the bins from (Baslan et al. 2012)[https://pubmed.ncbi.nlm.nih.gov/22555242/] and are provided in the package.
 
-```{r gene.index_from_biomaRt}
+```{r gene.index_from_biomaRt, eval = FALSE}
 library(GenomicRanges)
 library(biomaRt)
 library(dplyr)
@@ -188,7 +196,6 @@ The `HeatmapCNR` function will create a viable plot if you are in a time constra
 ```{r visualize}
 ## a color scale to visualize the integer copy number is provided
 ## visualize genome-wide
-data(cnr)
 data(segCol)
 
 HeatmapCNR(cnr, col = segCol)
@@ -207,12 +214,11 @@ For example to exclude cells that you have been deemed as "FAIL" b/c of low read
 
 ```{r remove.cells}
 ## remove cells
-( excl.cells <- rownames(cnr$qc)[cnr$qc$qc.status == "FAIL"] )
-cnr <- excludeCells(cnr, excl = excl.cells)
-sapply(cnr, dim)
+( excl.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"] )
+cnrE <- excludeCells(cnr, excl = excl.cells)
+sapply(cnrE, dim)
 
-HeatmapCNR(cnr, col = segCol)
-
+HeatmapCNR(cnrE, col = segCol)
 ```
 
 Conversly, if you have multiple samples or have multiple conditions and wish to use only part of the data, you can use `keepCells`
@@ -220,11 +226,13 @@ Conversly, if you have multiple samples or have multiple conditions and wish to 
 e.g.
 ```{r keep.cells}
 ## keep cells
-( keep.cells <- colnames(cnr$X)[-c(11:12)] )
-cnr <- keepCells(cnr, keep = keep.cells)
-sapply(cnr, dim)
+## offset by 1 b/c cell names are 0 based
+keep.cells <- setdiff(colnames(cnr$X), paste0("cell",noisy.cells-1))
 
-HeatmapCNR(cnr, col = segCol)
+cnrK <- keepCells(cnr, keep = keep.cells)
+sapply(cnrK, dim)
+
+HeatmapCNR(cnrK, col = segCol)
 
 ```
 
@@ -234,14 +242,14 @@ Lastly, if you perform a new experiment, and need to add additional cells  use t
 ## make new cells
 newX <- data.frame(cbind(rep(c(5,2), c(3000, 2000)),
                          rep(c(2,4),  c(3000, 2000))))
-names(newX) <- paste0("cell", 13:14)
+names(newX) <- paste0("cell", c(n.cells+1, n.cells+2))
 head(newX)
 
 tail(newX)
 
 ## creating new phenotypes
 newY <- head(cnr$Y, n = 2)
-newY$cellID <- paste0("cell", 13:14)
+newY$cellID <- paste0("cell", c(n.cells+1, n.cells+2))
 rownames(newY) <- newY$cellID
 
 newY[, c(6:9)] <- newY[,c(6,9)]+3
@@ -249,16 +257,17 @@ newY
 
 ## creating new QC
 newQC <- head(cnr$qc, 2)
-newQC$cellID <- paste0("cell", 13:14)
+newQC$cellID <- paste0("cell", c(n.cells+1, n.cells+2))
 rownames(newQC) <- newQC$cellID
+newQC$qc.status <- "FAIL"
 
 newQC[,2:4] <- newQC[,2:4] + 2
 newQC
 
 ## add cells
-cnr <- addCells(cnr, newX = newX, newY = newY, newqc = newQC)
-sapply(cnr, dim)
-HeatmapCNR(cnr, col = segCol)
+cnrA <- addCells(cnr, newX = newX, newY = newY, newqc = newQC)
+sapply(cnrA, dim)
+HeatmapCNR(cnrA, col = segCol)
 ```
 
 For developers, if you run an algorithm to estimate genomic complexity or another parameter, you can add these to the Y matrix using `addPheno`
@@ -310,38 +319,44 @@ Two methods are implemented: Heriarchical clustering, and Consensus Clustering
 
 For this method we estimate Bray-Curtis Dissimilarty across all pairwise cells.  Heirarchical clustering is
 then performed on the complete matrix with `phyloCNR`.   To set the tree height and asign cluster membership,
-we iteratively test various heights, and count the number of one-cell clusters, and multi-cell clusters.  This
-is done with `optClust`.  The optimal height is set to the intersection between one-cell and multi-cell clusters. 
-Bray-Curtis dissimilarity based clusters are then set using `setBrayClusters`.  The package `ape` contains 
-various functions to visualize heirarchical trees, a tree object class `phylo` is created to faciliate this. 
-Bray-Dissimilarity membership is saved to the phenotype table `Y` as  `BrayC`.
+we iteratively test various heights, and count the number of one-cell clusters, and multi-cell clusters.  By 
+default `setBrayClusters` will set the height is set to the intersection between one-cell and multi-cell clusters. 
+The package `ape` contains various functions to visualize heirarchical trees, a tree object class `phylo` 
+is created to faciliate this. Bray-Dissimilarity membership is saved to the phenotype table `Y` as  `BrayC`, and
+pairwise distances saved in `cbd`.
+
 
 ```{r bray_diss_+phylo}
-cnr <- phyloCNR(cnr)
+cnr <- phyloCNR(cnr, root.cell = "cell0")
+cnr <- setBrayClusters(cnr)
+
+table(cnr$Y$BrayC)
+```
+
+pInternally, the operations to select the intersect are:
+```{r default_method, eval = FALSE}
 ( mopc <- optClust(cnr, seq(0, 0.2, by = 0.005)) )
 
 plotCL(mopc)
 
-sc.tree.height <- 0.015
-cnr <- setBrayClusters(cnr, tree.height = sc.tree.height)
-```
+## select a different tree height
+minimum.intersect(mopc)
+sc.tree.height <- 0.06
 
-The new version of `gac` will automatically identify the first point of intersection and use that 
-as the default height to define clones.
-
-**note:** You can't overwrite an exiting BrayC column, thus it needs to be removed in advacne.
-```{r set_BrayC_clusters, eval = FALSE}
+## to overwrite the tree.height
+cnr <- cnr
 cnr$Y <- cnr$Y[, -c(grep("BrayC", names(cnr$Y)))]
 
-cnr <- setBrayClusters(cnr)
+cnr <- setBrayClusters(cnr, tree.height = sc.tree.height)
 ```
 
 #### Single-cell dendrogram with tree height for cluster membership
 ```{r plot_hierarchical_dendrogram}
 plot(cnr[["hcdb"]])
 abline(h = cnr$tree.height, col = "#D40000")
-abline(h = sc.tree.height, col = "#575757")
-text(x = 1, y = sc.tree.height, labels = "Alternate tree.height = 0.065", col = "#575757", adj = c(0, 0))
+text(1, y = cnr$tree.height,
+     labels = paste("tree.height =", cnr$tree.height),
+     adj = c(0, 0))
 ```
 
 #### Other tree types from package ape using the `phylo` class
@@ -349,15 +364,15 @@ text(x = 1, y = sc.tree.height, labels = "Alternate tree.height = 0.065", col = 
 cnr[["phylo"]]
 plot(cnr[["phylo"]])
 
-plot(cnr[["phylo"]], type = 'fan')
+plot(cnr[["phylo"]], type = 'u')
 ```
 
 ## Consensus clustering
-We implement [ConsensusClusterPlus](https://bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.html) using the function `consensusClusterCNR` directly on the CNR.  Optimum number of clusters is based on the maximum number of stable clusters ([Meyer et al. 2013](https://arxiv.org/abs/1408.0967)).  Stable Cluster membership is saved to the phenotype table `Y` as  `ConsensusC`.  K parameter (kCC) and number of stable clusters (sK) are saved into `cnr[["optK"]]`.  The table of kCC, and kS is saved as `cnr[["kStats"]]`.
+In addition, we implemented [ConsensusClusterPlus](https://bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.html) using the function `run_consensus_clustering` directly on the CNR.  Optimum number of clusters is based on the maximum number of stable clusters ([Meyer et al. 2013](https://arxiv.org/abs/1408.0967)).  Stable Cluster membership is saved to the phenotype table `Y` as  `ConsensusC`.  K parameter (kCC) and number of stable clusters (sK) are saved into `cnr[["optK"]]`.  The table of kCC, and kS is saved as `cnr[["kStats"]]`.
 
 ```{r cc_clust}
 data(ccClustCol)
-cnr <- consensusClusterCNR(cnr, maxK = 8)
+cnr <- run_consensus_clustering(cnr, maxK = 20)
 
 cnr <- doKSpectral(cnr)
 
@@ -367,7 +382,7 @@ cnr$optK
 
 cnr <- setKcc(cnr)
 
-plot_ccp(cnr, k = 8, col = ccClustCol)
+plot_ccp(cnr, k = cnr$kCC, col = ccClustCol)
 
 HeatmapCNR(cnr, col = segCol,
            column_split = cnr$Y$ConsensusC,
@@ -381,7 +396,7 @@ HeatmapCNR(cnr, col = segCol,
 Sample heterogeneity based on clustering can be estimated using `cluster_heterogeneity`.  The function returns a table with the same name containing the counts of each cluster, frequency, and other stats.  Furthermore, it returns a vector in the phenotype table `Y` named `final_cluster`.  There is no default cluster_column to use, one must choose either BrayC, ConsensusC, or if clustering was done outside GAC, these clusters can be imported to `Y` to be used here.
 
 ```{r cluster_heterogeneity}
-cnr <- cluster_heterogeneity(cnr, cluster_column = "BrayC")
+cnr <- cluster_heterogeneity(cnr, cluster_column = "ConsensusC")
 
 cnr$cluster_heterogeneity
 ```
@@ -391,9 +406,24 @@ The function `get_cluster_profiles` is used to summarize the genetic profile of 
 ```{r cluster_profiles}
 cnr <- get_cluster_profiles(cnr)
 
+chrAnnoLeft <- create_chromosome_annotation(cnr, side = "left")
+
 Heatmap(cnr$DDRC.df, col = segCol, cluster_rows = FALSE, cluster_columns = FALSE,
-        column_labels = paste(names(cnr$uclust), "(n =", cnr$uclust, ")" ))
+        column_labels = paste(names(cnr$uclust), "(n =", cnr$uclust, ")" ),
+        left_annotation = chrAnnoLeft)
+
 ```
+
+## Phylogenetic analysis of clones
+The function `phyloDDRC` was created to perform a phylogenetic analysis of clones. First a pairwise Bray-Curtis disimilarity, then the phylogeny is constructed using Neighbourhood Joining, finally the tree is rooted if a `root.clone` is provided.
+
+
+```{r clone_phylogen}
+cnr <- phyloDDRC(cnr, root.clone = "X2")
+
+plot(cnr$DDRC.nj)
+```
+
 
 ## VDJ genotyping
 To asses weather T-cells or B-cells are present in the cell populations, the function genotype_vdj will classify cells containing VDJ deletions into T-cells, B-cells, or vdj.unspecified. A visualization function is also provided.
@@ -405,8 +435,45 @@ cnr <- genotype_vdj(cnr)
 vdjHeatmap(cnr)
 ```
 
+## Example of a complete analysis pipeline
+```{r complete_pipeline}
+library(tidyverse)
+
+data(cnr)
+
+noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
+
+cnr <- cnr %>%
+    excludeCells(excl = noisy.cells) %>%
+    phyloCNR(root.cell = "cell0") %>%
+    setBrayClusters() %>%
+    run_consensus_clustering(iters = 20, maxK = 40) %>%
+    doKSpectral() %>%
+    setKcc() %>%
+    cluster_heterogeneity(by = "category1",
+                          cluster_column = "ConsensusC") %>%
+    get_cluster_profiles() %>%
+    get_alteration_frequencies() %>%
+    genotype_vdj() %>%
+    phyloDDRC(root.clone = "X2")
+```
+
+## Analysis considerations
+
+* Filtering noisy cells is an iterative process.  QC metrics such as ReadsAligned, MAPD, sequence quality, and other metrics are particularly useful to exclude technical artifacts.  Clustering can help spot groups of problematic cells.
+
+* If the data does not contain a suitable root.cell, consider building an in-silico diploid cell, and clone to use in the analysis
+
+* We prefer the use of Consensus Clustering with Spectral anaysis over heirarchical clustering.  The current set up is to select the maximum number of stable clones.  As a result, some larger clones may get broken up into two or three subclones. Future versions will be focused to address this.
+
+* By default, consensus clustering is interated 200 times.  This number is particularly low, and should be increased.  The specific number of times will depend on the complexity of the data, and the confidence desired to separate specific groups of cells.  Our current analyses are set at `iter = 1000` and left to run over a weekend`
+
+* Cluster Heterogeneity can be split by a variable.  E.g. sample, region information, histology, etc.
+
+
 ## Session Informatioin
 ```{r sessioninfo}
 date()
 sessionInfo()
 ```
+

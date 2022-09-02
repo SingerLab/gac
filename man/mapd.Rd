@@ -20,5 +20,4 @@ data(cnr)
 
 mapd(cnr$X[,1])
 
-
 }

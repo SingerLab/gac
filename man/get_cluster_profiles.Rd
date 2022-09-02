@@ -4,13 +4,15 @@
 \alias{get_cluster_profiles}
 \title{Build a consensus copy number profile for each cluster or clone}
 \usage{
-get_cluster_profiles(cnr, minimum_cells = 3)
+get_cluster_profiles(cnr, minimum_cells = 3, base.ploidy = 2)
 }
 \arguments{
 \item{cnr}{a cnr bundle containing a `final_cluster` column in Y.}
 
 \item{minimum_cells}{minimum number of cells in a cluster, best if greater than 3
 to estimate a median}
+
+\item{base.ploidy}{base ploidy of the tumor, default 2 i.e. diploid}
 }
 \value{
 Function returns the cnr with three additional tables. 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/keepCells.R
 \name{keepCells}
 \alias{keepCells}
-\title{exclude cells from CNR bundle}
+\title{keep cells from CNR bundle}
 \usage{
 keepCells(cnr, keep)
 }
@@ -26,6 +26,5 @@ cnr2 <- excludeCells(cnr, excl = cnr$Y$cellID[cnr$qc$ReadsKept < 800000])
 cnr3 <- keepCells(cnr, keep = cnr$Y$cellID[cnr$qc$ReadsKept >= 800000])
 
 all.equal(cnr2, cnr3)
-
 
 }

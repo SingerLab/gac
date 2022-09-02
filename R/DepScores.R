@@ -4,16 +4,15 @@
 #'
 #' It will read, and process the row.names to preserve the hgnc.symbols and entrezID 
 #'
-#' @param depmap Genetic Dependency Combined RNAi; Depmap D2_conbined object  (see: https://depmap.org/portal/)
+#' @param depmap Genetic Dependency Combined RNAi; Depmap D2_conbined object  
+#' (see: https://depmap.org/portal/)
 #'
 #' @param keep which cell lines you want to keep
 #'
 #' @return
 #' Returns the depscores for a set of cells of interest
 #' 
-#' @examples
-#'
-#' \dontrun{
+#' @examples \dontrun{
 #'
 #' d2_map <- read.csv("inst/extdata/D2_combined_gene_dep_scores.csv", header = TRUE, row.names = 1)
 #'
@@ -27,7 +26,8 @@
 #'
 #' }
 #' 
-#' @export
+#' @keywords internal
+#' @noRd
 DepScores <- function(depmap, keep) {
     depScores <- depScores[, keep]
     

@@ -20,7 +20,7 @@
 #' 
 #' @import dplyr
 #' 
-#' @export 
+#' @export
 doKSpectral <- function(cnr, ...) {
     
     kStats <- list()
@@ -49,10 +49,12 @@ doKSpectral <- function(cnr, ...) {
     cnr[["eigenVals"]] <- do.call(rbind, eigenVals)
     
     cnr[["optK"]] <- c("kCC" = cnr[["kStats"]] %>%
-                           top_n(1, .data$k) %>% top_n(1, .data$dLambdaMax) %>%
+                           top_n(1, .data$k) %>%
+                           top_n(1, .data$dLambdaMax) %>%
                            pull(.data$kCC),
                        "sK" = cnr[["kStats"]] %>%
-                           top_n(1, .data$k) %>% top_n(1, .data$dLambdaMax) %>%
+                           top_n(1, .data$k) %>%
+                           top_n(1, .data$dLambdaMax) %>%
                            pull(.data$k))
     
     return(cnr)

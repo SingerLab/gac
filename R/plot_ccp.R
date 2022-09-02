@@ -6,8 +6,7 @@
 #'
 #' @param ... additional argoments passed to Heatmap
 #'
-#' @import ComplexHeatmap
-#'
+#' @importFrom ComplexHeatmap Heatmap
 #' 
 #' @export
 plot_ccp <- function(cnr, k, ...) {

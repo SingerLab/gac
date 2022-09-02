@@ -6,23 +6,23 @@
 \usage{
 phyloCNR(
   cnr,
+  root.cell = NULL,
   dist.method = "bray",
   hclust.method = "ward.D2",
-  root.cell = NULL,
   ...
 )
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
+\item{root.cell}{a cellID to root the three.}
+
 \item{dist.method}{method for calculating cell-to-cell distance
-(see vegan::vegdist)}
+(see \link[vegan]{vegdist})}
 
 \item{hclust.method}{method for heirarchical clustering (see hclust)}
 
-\item{root.cell}{a cellID to root the three.}
-
-\item{...}{other parameters}
+\item{...}{other parameters passed to \link[vegan]{vegdist}}
 }
 \value{
 Creates a cell-to-cell distance matrix, runs heirarchical clustering,

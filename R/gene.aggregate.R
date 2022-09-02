@@ -1,19 +1,22 @@
 #' combine genes w/equal frequency to be only once
 #'
-#' This is a helper function to process the binary or ternary matrix.  Because gene data is interpolated from the bin data, linked loci within a bin will be duplicated.  Duplicate frequencies create infinite combinations in the trees in infSCITE.
+#' This is a helper function to process the binary or ternary matrix.  Because
+#' gene data is interpolated from the bin data, linked loci within a bin will
+#' be duplicated.  Duplicate frequencies create infinite combinations in the
+#' trees in infSCITE.
 #'
-#' This function checks if two rows have are identical and merges them into one. It also creates unique rownames to know what was de-duplicated
+#' This function checks if two rows have are identical and merges them into
+#' one. It also creates unique rownames to know what was de-duplicated
 #'
-#' @param Z binary incidence matrix or G genotype matrix.  Internally, both Z or G will be turned into a Z matrics for frequency calculations.
+#' @param Z binary incidence matrix or G genotype matrix.  Internally, both
+#' Z or G will be turned into a Z matrics for frequency calculations.
 #'
-#' 
-#' 
 #' @return
-#' returns a de-duplicated incidence or ternary matrix with rownams naving the multipe duplicated rows
+#' returns a de-duplicated incidence or ternary matrix with rownams naving
+#' the multipe duplicated rows
 #'
 #' 
-#' @examples
-#'\dontrun{
+#' @examples \dontrun{
 #' data(cnr)
 #'
 #' ## for binary data
@@ -27,7 +30,8 @@
 #' aggrMat.G <- gene.aggregate(Z = G)
 #' }
 #' 
-#' @export
+#' @keywords internal
+#' @noRd
 gene.aggregate <- function(Z) {
 
     fq <- rowSums(binary.cnr(Z))/ncol(binary.cnr(Z))

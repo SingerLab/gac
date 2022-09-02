@@ -84,7 +84,8 @@ subsetCNR <- function(cnr, bins = NULL, genes = NULL, chrom = NULL, start = NULL
 #'
 #' @param bins a list of bins to subset
 #' 
-#' @export
+#' @keywords internal
+#' @noRd
 subset_on_bins <- function(cnr, bins) {
 
     ## subset X based on bins
@@ -92,17 +93,24 @@ subset_on_bins <- function(cnr, bins) {
 
     ## subset gene index based on bins
     g2 <- cnr$gene.index[cnr$gene.index$bin.id %in% bins, ]
-
+    rownames(g2) <- g2$hgnc.symbol
+    
     ## subset genes matrix based on bins
     gg <- gsub("-", ".", g2$hgnc.symbol)
     nGenes <- cnr$genes[, gg]
-
+        
     ## subset chromInfo based on bins
     nCI <- cnr$chromInfo[bins,]
 
     ## if expression is present
     if(!is.null(cnr[["expr"]])) {
         nE <- cnr$expr[, gg]
+    }
+
+    ## if DDRC.df is present
+    if(!is.null(cnr[["DDRC.df"]])) {
+        nDDRC.df <- cnr$DDRC.df[bins, ]
+        nDDRC.g <- cnr$DDRC.g[, gg]
     }
     
     cnr[["X"]] <- nX
@@ -112,7 +120,12 @@ subset_on_bins <- function(cnr, bins) {
     if(!is.null(cnr[["expr"]])) {
         cnr[["expr"]] <- nE
     }
-
+   
+    if(!is.null(cnr[["DDRC.df"]])) {
+       cnr[["DDRC.df"]] <- nDDRC.df
+       cnr[["DDRC.g"]] <- nDDRC.g
+    }
+    
     return(cnr)
 } # end subset_on_bins
 
@@ -124,7 +137,8 @@ subset_on_bins <- function(cnr, bins) {
 #'
 #' @param all return all genes within on the bins of the genes of interst
 #' 
-#' @export
+#' @keywords internal
+#' @noRd
 subset_on_genes <- function(cnr, genes, all = TRUE) {
 
     ## transforming genes to column names
@@ -138,6 +152,7 @@ subset_on_genes <- function(cnr, genes, all = TRUE) {
     if(!all) {
         cnr[["genes"]] <- cnr$genes[, gg]
         cnr[["gene.index"]] <- cnr$gene.index[cnr$gene.index$hgnc.symbol %in% genes, ]
+
     }
     
     return(cnr)
@@ -149,7 +164,8 @@ subset_on_genes <- function(cnr, genes, all = TRUE) {
 #'
 #' @param chrom a list of chromosomes of interst
 #' 
-#' @export
+#' @keywords internal
+#' @noRd
 subset_on_chrom <- function(cnr, chrom) {
 
     b2 <- which(cnr$chromInfo$bin.chrom %in% chrom)
@@ -171,7 +187,8 @@ subset_on_chrom <- function(cnr, chrom) {
 #'
 #' @param padding number of bins to add before or after the start and end coordinates
 #' 
-#' @export
+#' @keywords internal
+#' @noRd
 subset_on_coordinates <- function(cnr, chrom, start, end, padding = 1) {
 
     b2 <- which(cnr$chromInfo$bin.chrom %in% chrom &

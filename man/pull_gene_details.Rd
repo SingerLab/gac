@@ -19,7 +19,6 @@ This function subsets the gene index for a genomic region of interest.
 }
 \examples{
 
-library(dplyr)
 data(cnr)
 coord <- "12:69200804:69246466"
 

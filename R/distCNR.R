@@ -7,13 +7,13 @@
 #'
 #' @param ... other parameters passed to vegan::vegdist
 #'
-#' @import vegan
+#' @importFrom vegan vegdist
 #' 
 #' @return
 #' Returns a cell-to-cell distance matrix of class `dist`
-#'
 #' 
-#' @export
+#' @keywords internal
+#' @noRd
 distCNR <- function(cnr, method = "bray", ...) {
     
     if(cnr$bulk) {
@@ -38,17 +38,18 @@ distCNR <- function(cnr, method = "bray", ...) {
 #'
 #' @param method method for heirarchical clustering, defaults to "ward.D2"
 #'
-#' @importFrom stats hclust
-#' 
 #' @param ... other parameters passed to hclust
 #'
 #' @return
 #' Returns a heirarchical clustering object
 #'
-#' @export
+#' @importFrom stats hclust
+#' 
+#' @keywords internal
+#' @noRd
 hclustCNR <- function(cnr, method = "ward.D2", ...) {
 
-    hcdb <- hclust(cnr[["cdb"]], method = method, ...)
+    hcdb <- stats::hclust(cnr[["cdb"]], method = method, ...)
     
     return(hcdb)
 

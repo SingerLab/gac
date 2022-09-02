@@ -14,7 +14,6 @@
 #' 
 #' mapd(cnr$X[,1])
 #' 
-#' 
 #' @export
 mapd <- function(Xi) {
     az <- abs(Xi[2:length(Xi)] - Xi[1:(length(Xi)-1)])

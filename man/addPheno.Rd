@@ -4,12 +4,14 @@
 \alias{addPheno}
 \title{Adds additional phenotypes for a new trait}
 \usage{
-addPheno(cnr, df, ...)
+addPheno(cnr, df, sort = FALSE, ...)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
 \item{df}{a data frame with new Y traits}
+
+\item{sort}{logical, sort data.frame after merge \code{\link[base]{merge}}}
 
 \item{...}{additional arguments by merge}
 }

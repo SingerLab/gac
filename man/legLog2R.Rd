@@ -14,7 +14,7 @@ An object of class \code{Legends} of length 1.
 data(chromInfo)
 }
 \description{
-legSeg is a ComplexHeatmap Legend to use when plotting X data in Log2 ratio form
+legLog2R is a ComplexHeatmap Legend to use when plotting X data in Log2 ratio form
 e.g. bulk DNA data
 }
 \keyword{datasets}

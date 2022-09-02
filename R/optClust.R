@@ -10,7 +10,7 @@
 #'
 #' One-cell specifies the number of clusters with only one cell, 
 #' Multi-cell specifyies the number of clusters with multiple cells (>=2), and
-#' %CMC which is the percentage of cells in multi-cell clusters
+#' the percentage of cells in multi-cell clusters (%CMC)
 #'
 #' A good threshold is one that minimizes the one-cell cluster, and maximizes
 #' the %CMC

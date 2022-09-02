@@ -12,8 +12,9 @@ GAC is an open-source framework and toolkit for management and analysis of
 genome wide copy number data.  It provides a set of standard matrices that
 are symultaneously manipulated by various functions to maintain syncronized
 bin, gene, annotation, and qc information from a single-cell DNA sequencing
-experiment as same-cell G+T.  Efforts will be made to add support for
-log-ratios for the analysis of bulk DNA data.
+experiment. Efforts will be made to add support for same-cell G+T and
+log-ratio data for the analysis of bulk DNA and RNA data from the same 
+samples.
 }
 \details{
 GAC is actively being developed and is currently in ALPHA pre-release.

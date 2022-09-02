@@ -36,14 +36,14 @@ dissimilarity as the distance metric for clustering cells, and 'ward.D2' from
 is extensively used in Ecology for clustering comunities.
 }
 \details{
-If you prefer to use a different method, you can use the native Heatmap function.
-E.g. if you prefer genomic bins to cluster, and show a dendrogram when plotting X.
-By default bins are kept in chromosome order, however, when plotting genes, rows
-are cells, and these are clustered.
+If you prefer to use a different method, you can use the native Heatmap
+function.  E.g. if you prefer genomic bins to cluster, and show a dendrogram
+when plotting X. By default bins are kept in chromosome order, however, when
+plotting genes, rows are cells, and these are clustered.
 
-For convenience, GAC comes with several color palettes as part of the data. To use
- any of these run `data(segCol)` for example.  There are the different pallents and
- suggested use
+For convenience, GAC comes with several color palettes as part of the data.
+ To use any of these run `data(segCol)` for example.  There are the different
+ color palettes such as:
 
   * segCol for segmentation colors: loss and deletions in blue and yellow,
   respectively, 2 in white, gains and amplifications in red to gray scale
@@ -55,6 +55,8 @@ For convenience, GAC comes with several color palettes as part of the data. To u
   * fgaCol for Fraction of genome altered: from 0 to 1 light yellow to 1 in blue
 
   * ploidyCol for ploidy : gradient of purples starting at 1.5
+
+  * ccClustCol : yellow to blue from 0 to 1 for co-clustering frequencies
 }
 \examples{
 

@@ -6,9 +6,9 @@
 \usage{
 phyloDDRC(
   cnr,
-  exclude.clones = NULL,
   root.clone = NULL,
-  dist.method = "manhattan",
+  exclude.clones = NULL,
+  dist.method = "bray",
   hclust.method = "ward.D2",
   ...
 )
@@ -16,16 +16,16 @@ phyloDDRC(
 \arguments{
 \item{cnr}{a cnr bundle}
 
-\item{exclude.clones}{vector of clones to exclude}
-
 \item{root.clone}{a single clone to root the tree}
+
+\item{exclude.clones}{vector of clones to exclude}
 
 \item{dist.method}{method for calculating cell-to-cell distance
 (see vegan::vegdist)}
 
 \item{hclust.method}{method for heirarchical clustering (see hclust)}
 
-\item{...}{other parameters}
+\item{...}{other parameters passed to vegan}
 }
 \value{
 Creates a cell-to-cell distance matrix, runs heirarchical clustering,

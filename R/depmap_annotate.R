@@ -17,9 +17,8 @@
 #' Function returns the gene.index with depmap annotation colums;
 #'  both depMeans, and essential (essentian/non-essential)
 #'
-#' @examples
-#'
-#' \dontrun{
+#' @examples \dontrun{
+#' 
 #' d2_map <- read.csv("inst/extdata/D2_combined_gene_dep_scores.csv.gz",
 #'  header = TRUE, row.names = 1)
 #'
@@ -33,8 +32,8 @@
 #' depmap_annotate(cnr, depMeans = depMeans)
 #'
 #' }
-#' 
-#' @export
+#' @keywords internal
+#' @noRd
 depmap_annotate <- function(cnr, depMeans, cutoff = -0.5) {
 ## set boundaries at -0.8 for essential genes
     ngi <- cnr[["gene.index"]]

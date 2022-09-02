@@ -3,7 +3,6 @@
 #' @description
 #' 
 #' fgaCol is a ComplexHeatmap scale to use when plotting FGA data.
-#'
 #' 
 #' @docType data
 #' @keywords datasets

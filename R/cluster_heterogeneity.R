@@ -6,9 +6,13 @@
 #' NULL i.e. no stratification, the representation will be done overall
 #'
 #' @param cluster_column column to use as cluster
-#' 
-#' @import entropy
 #'
+#' @return
+#' A `data.frame` with a simple cluster heterogeneity summary.  Table provides total
+#'  counts of each clone (optionally be stratified by a group), clone representation,
+#'  overal frequency per clone (also computed for stratified data), and Shannon's
+#'  Diversity index for stratified data. 
+#' 
 #' @examples
 #'
 #' data(cnr)
@@ -19,6 +23,7 @@
 #'
 #' cnr <- cluster_heterogeneity(cnr, cluster_column = "BrayC")
 #'
+#' @importFrom assertthat assert_that is.string
 #' 
 #' @export
 cluster_heterogeneity <- function(cnr, by = NULL, cluster_column = NULL) {
@@ -29,7 +34,6 @@ cluster_heterogeneity <- function(cnr, by = NULL, cluster_column = NULL) {
     if(is.null(by)) {
 
         occ <- table(cnr$Y[, cluster_column])
-        ns <- rep(1, length(occ))
         
     } else {
         
@@ -37,11 +41,10 @@ cluster_heterogeneity <- function(cnr, by = NULL, cluster_column = NULL) {
         assertthat::assert_that(by %in% names(cnr$Y))
         
         occ <- table(cnr$Y[, c(cluster_column, by)])
-        ns <- rowSums(binary.mat(occ))
         
     }
     
-    occ <- cluster_representation(occ, n.samples = ns)
+    occ <- cluster_representation(occ)
 
     cnr$Y$final_cluster <- cnr$Y[, cluster_column]
 
@@ -55,7 +58,8 @@ cluster_heterogeneity <- function(cnr, by = NULL, cluster_column = NULL) {
 #'
 #' @param mat a matrix
 #'
-#' @export
+#' @keywords internal
+#' @noRd
 binary.mat <- function(mat) {
     mat[mat >= 1] <- 1
     mat
@@ -66,41 +70,59 @@ binary.mat <- function(mat) {
 #'
 #' @param cc cluster counts
 #'
-#' @param n.samples vector containing the number of samples. Must
-#' mach number of rows in cc
-#'
-#' @examples
+#' @examples  \dontrun{
 #' 
 #' ## cluster table, no subsamples
 #' cc <- table(sample(paste0("C", 1:12), size = 1000, replace = TRUE))
 #' 
-#' ( cc <- cluster_representation(cc) )
+#' cc <- cluster_representation(cc)
 #'
+#' ## cluster table with multiple samples
 #' cc <- data.frame(cluster = sample(paste0("C", 1:12), size = 1000,
 #'                                   replace = TRUE),
 #'             sample = sample(paste0("S", 1:6), size = 1000, replace = TRUE))
-#' 
 #' cc <- table(cc[, c("cluster", "sample")])
 #' cc[cc <= 10] <- 0
 #'
-#' ns <- rowSums(binary.mat(cc))
-#' 
-#' ( cc <- cluster_representation(cc, n.samples = ns) )
+#' cc <- cluster_representation(cc)
 #'
-#'@export
-cluster_representation <- function(cc, n.samples = 1) {
+#' }
+#' 
+#' @importFrom vegan diversity
+#'
+#' @keywords internal
+#' @noRd
+cluster_representation <- function(cc) {
 
-    acc <- ifelse(is.na(ncol(cc)), cc, rowSums(cc))
+    if(is.matrix(cc)) {
+        n.cells.clone <- rowSums(cc)
+        n.regions <- rowSums(binary.mat(cc))
+        freqs <- cc / n.cells.clone
+        overall.fq <- n.cells.clone / sum(n.cells.clone)
+        colnames(freqs) <- paste0(colnames(cc), ".fq")
+        sH <- apply(cc, 1, vegan::diversity) ## deault - shannon
+        spatial.extent <- ifelse(n.regions >=2, "diffused", "local")
+        
+    } else {
+        n.cells.clone <- sum(cc)
+        n.regions <- 1
+        overall.fq <- cc / n.cells.clone
+        freqs <- cc / n.cells.clone
+        sH <- NA
+        spatial.extent <- NA
+    }
     
-    cc <- data.frame(
-        cbind(cc,
-              n.cells = cc,
-              overall.freq = acc / sum(cc),
-              n.samples = n.samples,
-              entropy = entropy::entropy(cc))
-    )
+    ccx <- data.frame(
+        cbind(
+            n.cells = n.cells.clone,
+            overall.fq,
+            n.regions = n.regions,
+            sH = sH,
+            spatial.extent = spatial.extent,
+            cc,
+            freqs))
     
-    return(cc)
+    return(ccx)
     
 } # end heterogeneity
 

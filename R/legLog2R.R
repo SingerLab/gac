@@ -2,7 +2,7 @@
 #'
 #' @description
 #' 
-#' legSeg is a ComplexHeatmap Legend to use when plotting X data in Log2 ratio form
+#' legLog2R is a ComplexHeatmap Legend to use when plotting X data in Log2 ratio form
 #' e.g. bulk DNA data
 #' 
 #' @docType data

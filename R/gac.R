@@ -4,9 +4,10 @@
 #' genome wide copy number data.  It provides a set of standard matrices that
 #' are symultaneously manipulated by various functions to maintain syncronized
 #' bin, gene, annotation, and qc information from a single-cell DNA sequencing
-#' experiment as same-cell G+T.  Efforts will be made to add support for
-#' log-ratios for the analysis of bulk DNA data.
-#'
+#' experiment. Efforts will be made to add support for same-cell G+T and
+#' log-ratio data for the analysis of bulk DNA and RNA data from the same 
+#' samples.
+#' 
 #' GAC is actively being developed and is currently in ALPHA pre-release.
 #' My hope is that others will find this helpful for their copy number needs,
 #' and share new methods.
@@ -14,7 +15,6 @@
 #' The HeatmapCNR function in GAC implements Bray-Curtis disimilarity on
 #' ComplexHeatmap as the default method to estimate cell-cell distances and
 #' generate the heatmaps.
-#'
 #'
 #' @docType package
 #' @author Rodrigo Gularte Merida \email{gularter@mskcc.org}

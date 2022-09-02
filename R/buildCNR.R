@@ -1,11 +1,13 @@
 #' Build a CNR bundle (Copy Number, --Rounded)
 #'
-#' A CNR bundle is a `list` composed of six matrices of class data.frame (mostly).
+#' A CNR bundle is a `\code{\link[base]{list}}` composed of six matrices of class data.frame (mostly).
 #' The objective of the CNR is to keep single-cell data matrices syncronized 
-#' and facilitate interaction with this data.  The functions keepCells,
-#' excludeCells, addCells, subsetCNR, manipulate the complete bundle.
-#' Whereas addQC, addPheno, and addInfo, as the name implies they add columns to
-#' the QC, Y (phenotype), and chromInfo tables.
+#' and facilitate interaction with this data.  The functions \code{\link{keepCells}},
+#' \code{\link{excludeCells}}, \code{\link{addCells}}, \code{\link{subsetCNR}}, manipulate 
+#' the complete bundle. Whereas \code{\link{addQC}}, \code{\link{addPheno}}, and 
+#' \code{\link{addInfo}}, as the name implies they add columns to the QC, Y (phenotype), 
+#' and chromInfo tables.
+#' 
 #'
 #' @param X bin or common segment copy number data.  Can be in `numeric`
 #' or integer form.  By default it will be rounded by \code{\link{roundCNR}}.
@@ -113,4 +115,4 @@ buildCNR <- function(X, Y, qc, chromInfo, exprs = NULL, gene.index,
 
     return(cnr)
 
-}
+} ## end buildCNR

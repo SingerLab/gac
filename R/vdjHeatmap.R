@@ -2,8 +2,10 @@
 #'
 #' @param cnr a cnir bundle
 #'
-#' @param vdj.genes list of VDJ genes.  By default is set to NULL, vdj.genes is the union of T-cell Receptor
-#'                  and B-cell Receptor genes (i.e. TR, IG genes, used in genotype_vdj)
+#' @param vdj.genes list of VDJ genes.  By default is set to NULL, vdj.genes is
+#'  the union of T-cell Receptor and B-cell Receptor genes (i.e. TR, IG genes,
+#'  used in genotype_vdj)
+#'                  
 #'
 #' @param vdjGeneAnno HeatmapAnnotation object to annotate gene attributes
 #'
@@ -12,18 +14,17 @@
 #' @param ... additional arguments passed to ComplexHeatmap::Heatmap
 #'
 #' @return
-#' Returns a heatmap of VDJ cells with rows as cells, and TR/IG genes as columns.  Heatmap is split
-#' by chromosome name, and cell types are annotated on the left
+#' Returns a heatmap of VDJ cells with rows as cells, and TR/IG genes as columns.
+#'  Heatmap is split by chromosome name, and cell types are annotated on the left
 #' 
-#' @import ComplexHeatmap
-#'
 #' @examples
 #' data(cnr)
 #'
 #' cnr <- genotype_vdj(cnr)
 #'
 #' vdjHeatmap(cnr)
-#' 
+#'
+#' @importFrom ComplexHeatmap HeatmapAnnotation rowAnnotation Heatmap
 #' @export
 vdjHeatmap <- function(cnr, vdj.genes = NULL, vdjGeneAnno = NULL, 
                        vdjCellAnno = NULL, ...) {

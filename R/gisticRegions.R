@@ -6,7 +6,10 @@
 #'
 #' @param gisticDir path to directory of gistic output
 #'
-#' @param conf confidence used in gistic, default is 75, for single-cells 80 or highrer works a little better.  Also, requires increasing amp/del calling thresholds to log2(1/2) for deletions, and log2(3/2) for gains and amplifications
+#' @param conf confidence used in gistic, default is 75, for single-cells
+#' 80 or highrer works a little better.  Also, requires increasing amp/del
+#' calling thresholds to log2(1/2) for deletions, and log2(3/2) for gains
+#' and amplifications
 #'
 #' @examples
 #' \dontrun{
@@ -15,9 +18,11 @@
 #'
 #' }
 #' 
-#' @export
+#' @keywords internal
+#' @noRd
 gisticRegions <- function(gisticDir, conf = 80) {
-    gr <- read.delim(file.path(gisticDir, paste0("all_lesions.conf_", conf, ".txt")), stringsAsFactors = FALSE)
+    gr <- read.delim(file.path(gisticDir, paste0("all_lesions.conf_", conf, ".txt")),
+                     stringsAsFactors = FALSE)
     
     ## parse out genomic coordinates, and bin coordinates
     gr$chr <- gsub("chr", "", gsub("(chr[0-9XY]+):.*", "\\1", gr$Wide.Peak.Limits))
@@ -28,7 +33,8 @@ gisticRegions <- function(gisticDir, conf = 80) {
     
     ## get threshold and copy number data
     grCN <- gr[grep("Actual Copy Change Given", gr$Amplitude.Threshold),]
-    grTR <- gr[grep("Actual Copy Change Given", gr$Amplitude.Threshold, invert = TRUE),]
+    grTR <- gr[grep("Actual Copy Change Given", gr$Amplitude.Threshold,
+                    invert = TRUE),]
 
     return(grTR)
     

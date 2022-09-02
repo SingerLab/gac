@@ -4,10 +4,12 @@
 \alias{binary.cnr}
 \title{build binary CNR from integer copy number data}
 \usage{
-binary.cnr(cnr)
+binary.cnr(cnr, base.ploidy = 2)
 }
 \arguments{
 \item{cnr}{a copy number matrix to convert to an incidence matrix}
+
+\item{base.ploidy}{expected cell ploidy, e.g. 2N = 2, 4N = 4.}
 }
 \value{
 Returns an incidence matrix for X as part of the cnr object
@@ -29,6 +31,5 @@ By default, anything not diploid is 1.
 data(cnr)
 
 Z <- binary.cnr(cnr)
-
-
+ 
 }
