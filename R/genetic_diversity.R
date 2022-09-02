@@ -145,6 +145,7 @@ avg_num_alleles_per_locus <- function(cnr, exclude.chr = NULL, chrom.col = "bin.
 #' cnr <- cluster_heterogeneity(cnr, by = "category1",
 #'           cluster_column = "ConsensusC")
 #' cnr <- get_cluster_profiles(cnr)
+#' cnr <- get_alteration_frequencies(cnr)
 #'
 #' percent_genome_loss(cnr)
 #' 
@@ -274,10 +275,11 @@ percent_genome_gain <- function(cnr,
     ge <- subset_ci(cnr, exclude.chr = exclude.chr, chrom.col = chrom.col)
     
     if(is.null(by)) {
-        assertthat::assert_that("ampFQ" %in% names(cnr$chromInfo),
+
+        assertthat::assert_that("AmpFQ" %in% names(cnr$chromInfo),
                                 msg = "alteration frequencies not available in chromInfo.  Please run `get_alteration_frequencies`")
         
-        pct.gain <- sum(ge[ge$ampFQ >= noise.threshold,"bin.length"]) / genome.size
+        pct.gain <- sum(ge[ge$AmpFQ >= noise.threshold,"bin.length"]) / genome.size
         
     } else {
         
@@ -355,7 +357,8 @@ percent_genome_gain <- function(cnr,
 #' cnr <- cluster_heterogeneity(cnr, by = "category1",
 #'           cluster_column = "ConsensusC")
 #' cnr <- get_cluster_profiles(cnr)
-#'
+#' cnr <- get_alteration_frequencies(cnr)
+#' 
 #' percent_genome_amplified(cnr)
 #' 
 #' percent_genome_amplified(cnr, by = "cell")

@@ -37,6 +37,7 @@ cnr <- setKcc(cnr)
 cnr <- cluster_heterogeneity(cnr, by = "category1",
           cluster_column = "ConsensusC")
 cnr <- get_cluster_profiles(cnr)
+cnr <- get_alteration_frequencies(cnr)
 
 percent_genome_amplified(cnr)
 

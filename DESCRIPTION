@@ -24,7 +24,6 @@ Imports:
     SCclust,
     tibble,
     pathview,
-    magrittr,
     glmnet,
     tidyr,
     reshape2

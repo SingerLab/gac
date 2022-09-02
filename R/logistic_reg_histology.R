@@ -676,8 +676,7 @@ plot_lr <- function(cnr, pval = "LL.vs.SCL.lr.p.value",
 #' 
 #' @references https://software.broadinstitute.org/software/igv/GWAS
 #'
-#' @importFrom magrittr %>%
-#' @importFrom dplyr mutate select
+#' @importFrom dplyr %>% mutate select
 #' 
 #' @export
 export_pval_igv <- function(cnr, pval.column, outdir = ".",

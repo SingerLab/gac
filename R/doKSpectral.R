@@ -18,7 +18,7 @@
 #' 
 #' @references  Philip A. Knight (2008) The Sinkhorn–Knopp Algorithm: Convergence and Applications. SIAM Journal on Matrix Analysis and Applications 30(1), 261-275. doi: 10.1137/060659624
 #' 
-#' @import dplyr magrittr
+#' @import dplyr
 #' 
 #' @keywords internal
 #' @export 
