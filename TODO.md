@@ -1,5 +1,6 @@
 ## TO DO
 
+- [ ] search for single-instance use packages and find a work around
 - [ ] Integrate CORE
 - [ ] build functions for spatial analysis, need 2d and 3d f(x)
 - [ ] generalize to add annotations to gene.index again, hgnc.symbol, use merge w/hgnc.symbol
