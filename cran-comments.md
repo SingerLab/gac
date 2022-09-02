@@ -2,6 +2,16 @@
 * local R installation, R 4.1.0
 * ubuntu 16.04 (on travis-ci), R 4.1.0
 * CentOS7 Institutional HPC Cluster
+── R CMD check results ─────────────────────────────────────────────────────── gac 0.0.90026 ────
+Duration: 1h 17m 19.9s
+
+❯ checking whether package ‘gac’ can be installed ... WARNING
+  See below...
+     Warning: package ‘vegan’ was built under R version 4.1.1
+	 ...
+
+0 errors ✔ | 1 warning ✖ | 0 notes ✔
+
 
 
 ## R CMD check results
