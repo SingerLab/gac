@@ -6,7 +6,7 @@
 \usage{
 plot_effect(
   cnr,
-  effect.column = "WD-LL.vs.WD-SCL.lr.Effect.at_Lambda.s0.01",
+  effect.column = grep("Estimate", names(cnr$Y), value = TRUE)[1],
   type = "h",
   ylab = expression(hat(italic(Beta))),
   xlab = "HSA Genome",
@@ -39,6 +39,6 @@ data(cnr)
 cnr <- histo_logit(cnr, trait = "binary1",
    pheno0 = 0, pheno1 = 1)
 
-plot_effect(cnr, effect.column = "0.vs.1.lr.Effect.at_Lambda.min")
+plot_effect(cnr, effect.column = "0.vs.1.lr.Estimate")  ## effect from logistic reg
 
 }

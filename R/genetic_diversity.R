@@ -36,7 +36,7 @@ proportion_of_polymorphic_loci <- function(cnr, exclude.chr = c("X", "Y"),
                                            chrom.col = "bin.chrom") {
 
     assertthat::assert_that(monomorphic.threshold > noise.threshold)
-    assertthat::assert_that("altFQ" %in% colnames(cnr$chromInfo))
+    
 
     ge <- subset_ci(cnr, exclude.chr = exclude.chr, chrom.col = chrom.col)
     
@@ -402,7 +402,7 @@ subset_ci <- function(cnr, exclude.chr = NULL, chrom.col = "bin.chrom") {
         
     } else {
         
-        assertthat::assert_that(chrom.col %in% cnr$chromInfo[,chrom.col])
+        assertthat::assert_that(chrom.col %in% names(cnr$chromInfo))
         assertthat::assert_that(all(exclude.chr %in% cnr$chromInfo[,chrom.col]))
         ge <- cnr$chromInfo[!cnr$chromInfo[,chrom.col] %in% exclude.chr, ]
 

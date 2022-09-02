@@ -15,10 +15,4 @@ Returns plog transformed data
 \description{
 calculates a plog for parctan()
 }
-\examples{
-data(cnr)
-
-plog(cnr$X[,1])
-
-}
 \keyword{internal}

@@ -21,7 +21,7 @@ parctan <- function(x) {
 
     sqrt((atan(plog(x) / plog(5))) / atan(Inf))
 
-} ## parctan
+} ## end parctan
 
 #' internal
 #'
@@ -31,11 +31,6 @@ parctan <- function(x) {
 #'
 #' @return
 #' Returns plog transformed data
-#'
-#' @examples
-#' data(cnr)
-#' 
-#' plog(cnr$X[,1])
 #' 
 #' @keywords internal
 plog <- function(x) {
