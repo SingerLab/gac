@@ -22,12 +22,16 @@
 #'
 #' @importFrom utils write.table
 #' @importFrom ape write.tree
-#' @importFrom usethis use_directory
 #' 
 #' @export
 exportCNR <- function(cnr, outdir = ".", ...) {
 
-    usethis::use_directory(outdir)
+    if(! dir.exists(outdir) ) {
+        dir.create(outdir, recursive = TRUE)
+    } else {
+        warning("directory", outdir, "exists, files will be overwritten")
+    }
+    
     
     utils::write.table(cnr[["X"]], file = file.path(outdir, "X.txt"),
                        row.names = TRUE,

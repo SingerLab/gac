@@ -4,12 +4,14 @@
 \alias{avg_num_alleles_per_locus}
 \title{Estimate the estimated number of alleles (copies) per locus}
 \usage{
-avg_num_alleles_per_locus(cnr, exclude.chr = NULL)
+avg_num_alleles_per_locus(cnr, exclude.chr = NULL, chrom.col = "bin.chrom")
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
 \item{exclude.chr}{chromosomes to exclude, default X, Y}
+
+\item{chrom.col}{name of column containing chromosomes}
 }
 \value{
 Estimates the number of alleles (copies per locus), across the population.

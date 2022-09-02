@@ -14,6 +14,8 @@
 #'  which alterations are considered technical noise, rather
 #'  than a true alteration, default 0.1
 #'
+#' @param chrom.col name of column containing chromosomes
+#'
 #' @return
 #'
 #' Single-value with the proportion of polymorphic loci for a given
@@ -22,7 +24,7 @@
 #' @examples
 #' data(cnr)
 #'
-#' cnr <- get_alteration_frequenciesCNR(cnr)
+#' cnr <- get_alteration_frequencies(cnr)
 #'
 #' proportion_of_polymorphic_loci(cnr)
 #'
@@ -30,19 +32,13 @@
 #' @export
 proportion_of_polymorphic_loci <- function(cnr, exclude.chr = c("X", "Y"),
                                            monomorphic.threshold = 0.95,
-                                           noise.threshold = 0.1) {
+                                           noise.threshold = 0.1,
+                                           chrom.col = "bin.chrom") {
 
     assertthat::assert_that(monomorphic.threshold > noise.threshold)
     assertthat::assert_that("altFQ" %in% colnames(cnr$chromInfo))
-    
-    if(!is.null(exclude.chr)) {
-        assertthat::assert_that(all(exclude.chr %in% cnr$chromInfo$bin.chrom))
-        ge <- cnr$chromInfo[!cnr$chromInfo$bin.chrom %in% exclude.chr, ]
-    } else {
-        if(is.null(exclude.chr)) {
-            ge <- cnr$chromInfo
-        }
-    }
+
+    ge <- subset_ci(cnr, exclude.chr = exclude.chr, chrom.col = chrom.col)
     
     n_pj <- sum(ge$altFQ <= monomorphic.threshold &
                 ge$altFQ >= noise.threshold)
@@ -62,6 +58,8 @@ proportion_of_polymorphic_loci <- function(cnr, exclude.chr = c("X", "Y"),
 #'
 #' @param exclude.chr chromosomes to exclude, default X, Y
 #'
+#' @param chrom.col name of column containing chromosomes
+#'
 #' @return
 #' Estimates the number of alleles (copies per locus), across the population.
 #'
@@ -76,7 +74,7 @@ proportion_of_polymorphic_loci <- function(cnr, exclude.chr = c("X", "Y"),
 #'
 #' @importFrom assertthat assert_that
 #' @export
-avg_num_alleles_per_locus <- function(cnr, exclude.chr = NULL) {
+avg_num_alleles_per_locus <- function(cnr, exclude.chr = NULL, chrom.col = "bin.chrom") {
 
     if(is.null(exclude.chr)) {
 
@@ -85,7 +83,7 @@ avg_num_alleles_per_locus <- function(cnr, exclude.chr = NULL) {
         ni <- apply(cnr$X, 1, function(i) length(unique(as.numeric(i))))
         
     } else {
-        assertthat::assert_that(all(exclude.chr %in% cnr$chromInfo$bin.chrom))
+        assertthat::assert_that(all(exclude.chr %in% cnr$chromInfo[,chrom.col]))
     
         incl <- !which(cnr$chromInfo$bin.chrom %in% exclude.chr)
         K <- sum(incl)
@@ -120,6 +118,10 @@ avg_num_alleles_per_locus <- function(cnr, exclude.chr = NULL) {
 #' @param genome.size size of the genome in base pairs.
 #'  default 3098825702, human genome
 #'
+#' @param exclude.chr vector, chromosomes to exclude
+#' 
+#' @param chrom.col name of column containing chromosomes
+#'
 #' @return
 #' The value of the percent genome loss across a population of cells.
 #'
@@ -137,7 +139,7 @@ avg_num_alleles_per_locus <- function(cnr, exclude.chr = NULL) {
 #' cnr <- excludeCells(cnr, excl = noisy.cells)
 #' cnr <- phyloCNR(cnr, root.cell = "cell0")
 #' cnr <- setBrayClusters(cnr)
-#' cnr <- consensusClusterCNR(cnr, iters = 20, maxK = 40)
+#' cnr <- run_consensus_clustering(cnr, iters = 20, maxK = 40)
 #' cnr <- doKSpectral(cnr)
 #' cnr <- setKcc(cnr)
 #' cnr <- cluster_heterogeneity(cnr, by = "category1",
@@ -157,13 +159,16 @@ percent_genome_loss <- function(cnr,
                                 by = NULL,
                                 loss.threshold = 1,
                                 noise.threshold = 0.1,
-                                genome.size = 3098825702) {
+                                genome.size = 3098825702,
+                                exclude.chr = NULL,
+                                chrom.col = "bin.chrom") {
 
+    ge <- subset_ci(cnr, exclude.chr = exclude.chr, chrom.col = chrom.col)
+    
     if(is.null(by)) {
         assertthat::assert_that("delFQ" %in% names(cnr$chromInfo),
-                                msg = "alteration frequencies not available in chromInfo.  Please run `get_alt_frequenciesCNR`")
+                                msg = "alteration frequencies not available in chromInfo.  Please run `get_alteration_frequencies`")
         
-        ge <- cnr$chromInfo
         pct.loss <- sum(ge[ge$delFQ >= noise.threshold, "bin.length"])  /
             genome.size
         
@@ -217,6 +222,10 @@ percent_genome_loss <- function(cnr,
 #' @param genome.size size of the genome in base pairs.
 #'  default 3098825702, human genome
 #'
+#' @param exclude.chr vector, chromosomes to exclude
+#' 
+#' @param chrom.col name of column containing chromosomes
+#' 
 #' @return
 #' The value of the percent genome gained across a population of cells.
 #' gaines are considered when cell or clone copy numers are CN >= 3 & CN <= 5.
@@ -236,12 +245,13 @@ percent_genome_loss <- function(cnr,
 #' cnr <- excludeCells(cnr, excl = noisy.cells)
 #' cnr <- phyloCNR(cnr, root.cell = "cell0")
 #' cnr <- setBrayClusters(cnr)
-#' cnr <- consensusClusterCNR(cnr, iters = 20, maxK = 40)
+#' cnr <- run_consensus_clustering(cnr, iters = 20, maxK = 40)
 #' cnr <- doKSpectral(cnr)
 #' cnr <- setKcc(cnr)
 #' cnr <- cluster_heterogeneity(cnr, by = "category1",
 #'           cluster_column = "ConsensusC")
 #' cnr <- get_cluster_profiles(cnr)
+#' cnr <- get_alteration_frequencies(cnr)
 #'
 #' percent_genome_gain(cnr)
 #' 
@@ -256,47 +266,65 @@ percent_genome_gain <- function(cnr,
                                 by = NULL,
                                 gain.thresholds = c(3, 5),
                                 noise.threshold = 0.1,
-                                genome.size = 3098825702) {
+                                genome.size = 3098825702,
+                                exclude.chr = NULL,
+                                chrom.col = "bin.chrom") {
+
+    
+    ge <- subset_ci(cnr, exclude.chr = exclude.chr, chrom.col = chrom.col)
     
     if(is.null(by)) {
         assertthat::assert_that("ampFQ" %in% names(cnr$chromInfo),
-                                msg = "alteration frequencies not available in chromInfo.  Please run `get_alt_frequenciesCNR`")
+                                msg = "alteration frequencies not available in chromInfo.  Please run `get_alteration_frequencies`")
         
-        ge <- cnr$chromInfo
         pct.gain <- sum(ge[ge$ampFQ >= noise.threshold,"bin.length"]) / genome.size
         
     } else {
-
+        
         if(by == "clone") {
-
+            
             assertthat::assert_that(!is.null(cnr$DDRC.df),
                                     msg = "`cnr$DDRC.df` not found")
-
+            
             if(length(gain.thresholds) == 1) {
                 ddrc.gain <- cnr$DDRC.df >= gain.thresholds
+
             } else {
+
                 ddrc.gain <- cnr$DDRC.df >= gain.thresholds[1] &
                     cnr$DDRC.df <= gain.thresholds[2]
+
             }
+
             pct.gain <- apply(ddrc.gain, 2, function(i) {
                 sum(ge[i, "bin.length"]) / genome.size
+
             })
             
         } else {
+
             if(by == "cell")
+
                 if(length(gain.thresholds) == 1) {
+
                     cell.gain <- cnr$X >= gain.thresholds
+
                 } else {
+
                     cell.gain <- cnr$X >= gain.thresholds[1] &
                         cnr$X <= gain.thresholds[2]
+
                 }    
+
             pct.gain <- apply(cell.gain, 2, function(i) {
                 sum(ge[i, "bin.length"]) / genome.size
+
             })
-             
         }
     }
+
     return(pct.gain)
+    
 } ## end percent_genome_gain
 
 #' calculate the proportion of the genome amplified
@@ -321,7 +349,7 @@ percent_genome_gain <- function(cnr,
 #' cnr <- excludeCells(cnr, excl = noisy.cells)
 #' cnr <- phyloCNR(cnr, root.cell = "cell0")
 #' cnr <- setBrayClusters(cnr)
-#' cnr <- consensusClusterCNR(cnr, iters = 20, maxK = 40)
+#' cnr <- run_consensus_clustering(cnr, iters = 20, maxK = 40)
 #' cnr <- doKSpectral(cnr)
 #' cnr <- setKcc(cnr)
 #' cnr <- cluster_heterogeneity(cnr, by = "category1",
@@ -351,3 +379,32 @@ percent_genome_amplified <- function(cnr, by = "cell",
     return(pct.amp)
 } ## end percent_genome_amplified
 
+
+#' subset for chromosomes of interest
+#' @param cnr a cnr bundle
+#' 
+#' @param exclude.chr vector, chromosomes to exclude
+#' 
+#' @param chrom.col name of column containing chromosomes
+#'
+#' @return
+#' conditional subset of chromInfo w/o excluded chromosomes
+#' 
+#' @keywords internal
+subset_ci <- function(cnr, exclude.chr = NULL, chrom.col = "bin.chrom") {
+
+    if(is.null(exclude.chr)) {
+        
+        ge <- cnr$chromInfo
+        
+    } else {
+        
+        assertthat::assert_that(chrom.col %in% cnr$chromInfo[,chrom.col])
+        assertthat::assert_that(all(exclude.chr %in% cnr$chromInfo[,chrom.col]))
+        ge <- cnr$chromInfo[!cnr$chromInfo[,chrom.col] %in% exclude.chr, ]
+
+    }
+    
+    return(ge)
+    
+}

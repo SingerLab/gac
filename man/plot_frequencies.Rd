@@ -37,7 +37,7 @@ plot genome-wide amplification and deletion frequencies
 \examples{
 
 data(cnr)
-cnr <- get_alt_frequenciesCNR(cnr)
+cnr <- get_alteration_frequencies(cnr)
 
 plot_frequencies(cnr)
 plot_frequencies(cnr, xaxs = "i", bty = "n")

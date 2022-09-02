@@ -8,7 +8,8 @@ proportion_of_polymorphic_loci(
   cnr,
   exclude.chr = c("X", "Y"),
   monomorphic.threshold = 0.95,
-  noise.threshold = 0.1
+  noise.threshold = 0.1,
+  chrom.col = "bin.chrom"
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ default 0.95}
 \item{noise.threshold}{lower-bound alteration frequency at
 which alterations are considered technical noise, rather
 than a true alteration, default 0.1}
+
+\item{chrom.col}{name of column containing chromosomes}
 }
 \value{
 Single-value with the proportion of polymorphic loci for a given
@@ -34,7 +37,7 @@ Estimate genome-wide proportion of polymorphic loci in a population
 \examples{
 data(cnr)
 
-cnr <- get_alteration_frequenciesCNR(cnr)
+cnr <- get_alteration_frequencies(cnr)
 
 proportion_of_polymorphic_loci(cnr)
 

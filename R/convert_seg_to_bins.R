@@ -141,7 +141,7 @@ seg2bins <- function(cnr, seg, sample.id = "ID", bin.id = NULL,
 #' cnr <- excludeCells(cnr, excl = noisy.cells)
 #' cnr <- phyloCNR(cnr, root.cell = "cell0")
 #' cnr <- setBrayClusters(cnr)
-#' cnr <- consensusClusterCNR(cnr, iters = 20, maxK = 40)
+#' cnr <- run_consensus_clustering(cnr, iters = 20, maxK = 40)
 #' cnr <- doKSpectral(cnr)
 #' cnr <- setKcc(cnr)
 #' cnr <- cluster_heterogeneity(cnr, by = "category1",

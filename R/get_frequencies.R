@@ -28,7 +28,7 @@
 #' head(cnr$gene.index)
 #' head(cnr$chromInfo)
 #'
-#' cnr <- get_alteration_frequenciesCNR(cnr)
+#' cnr <- get_alteration_frequencies(cnr)
 #'
 #' head(cnr$chromInfo)
 #' head(cnr$gene.index)
@@ -36,7 +36,7 @@
 #' @importFrom assertthat assert_that
 #' 
 #' @export
-get_alteration_frequenciesCNR <- function(cnr, symbol = "hgnc.symbol", ...) {
+get_alteration_frequencies <- function(cnr, symbol = "hgnc.symbol", ...) {
 
     binDF <- get_bin_frequencies(cnr)
     geneDF <- get_gene_frequencies(cnr)

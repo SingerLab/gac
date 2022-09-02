@@ -9,7 +9,9 @@ percent_genome_loss(
   by = NULL,
   loss.threshold = 1,
   noise.threshold = 0.1,
-  genome.size = 3098825702
+  genome.size = 3098825702,
+  exclude.chr = NULL,
+  chrom.col = "bin.chrom"
 )
 }
 \arguments{
@@ -30,6 +32,10 @@ than a true alteration, default 0.1, ignored when by is "clone" or "cell"}
 
 \item{genome.size}{size of the genome in base pairs.
 default 3098825702, human genome}
+
+\item{exclude.chr}{vector, chromosomes to exclude}
+
+\item{chrom.col}{name of column containing chromosomes}
 }
 \value{
 The value of the percent genome loss across a population of cells.
@@ -51,7 +57,7 @@ noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
 cnr <- excludeCells(cnr, excl = noisy.cells)
 cnr <- phyloCNR(cnr, root.cell = "cell0")
 cnr <- setBrayClusters(cnr)
-cnr <- consensusClusterCNR(cnr, iters = 20, maxK = 40)
+cnr <- run_consensus_clustering(cnr, iters = 20, maxK = 40)
 cnr <- doKSpectral(cnr)
 cnr <- setKcc(cnr)
 cnr <- cluster_heterogeneity(cnr, by = "category1",
