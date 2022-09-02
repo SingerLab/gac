@@ -6,6 +6,12 @@
 #' NULL i.e. no stratification, the representation will be done overall
 #'
 #' @param cluster_column column to use as cluster
+#'
+#' @return
+#' A `data.frame` with a simple cluster heterogeneity summary.  Table provides total
+#'  counts of each clone (optionally be stratified by a group), clone representation,
+#'  overal frequency per clone (also computed for stratified data), and Shannon's
+#'  Diversity index for stratified data. 
 #' 
 #' @examples
 #'
@@ -75,42 +81,43 @@ binary.mat <- function(mat) {
 #' cc <- data.frame(cluster = sample(paste0("C", 1:12), size = 1000,
 #'                                   replace = TRUE),
 #'             sample = sample(paste0("S", 1:6), size = 1000, replace = TRUE))
-#' 
 #' cc <- table(cc[, c("cluster", "sample")])
 #' cc[cc <= 10] <- 0
 #'
-#' ns <- rowSums(binary.mat(cc))
-#' 
 #' ( cc <- cluster_representation(cc) )
 #'
-#' @importFrom entropy entropy
+#' @importFrom vegan diversity
 #' 
 #' @keywords internal
-#' 
-#' @export
 cluster_representation <- function(cc) {
 
     if(is.matrix(cc)) {
         n.cells.clone <- rowSums(cc)
-        freqs <- cc / n.cells.clone
-        colnames(freqs) <- paste0(colnames(cc), ".fq")
         n.regions <- rowSums(binary.mat(cc))
-        enropy <- apply(cc, 1, entropy::entropy)
+        freqs <- cc / n.cells.clone
+        overall.fq <- n.cells.clone / sum(n.cells.clone)
+        colnames(freqs) <- paste0(colnames(cc), ".fq")
+        sH <- apply(cc, 1, vegan::diversity) ## deault - shannon
+        spatial.extent <- ifelse(n.regions >=2, "diffused", "local")
         
     } else {
         n.cells.clone <- sum(cc)
-        freqs <- cc / n.cells.clone
         n.regions <- 1
-        entropy <- entropy::entropy(cc)
+        overall.fq <- cc / n.cells.clone
+        freqs <- cc / n.cells.clone
+        sH <- NA
+        spatial.extent <- NA
     }
     
     ccx <- data.frame(
-        cbind(cc,
-              n.cells = n.cells.clone,
-              n.regions = n.regions,
-              freqs,
-              entropy = entropy)
-    )
+        cbind(
+            n.cells = n.cells.clone,
+            overall.fq,
+            n.regions = n.regions,
+            sH = sH,
+            spatial.extent = spatial.extent,
+            cc,
+            freqs))
     
     return(ccx)
     

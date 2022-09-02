@@ -14,6 +14,12 @@ NULL i.e. no stratification, the representation will be done overall}
 
 \item{cluster_column}{column to use as cluster}
 }
+\value{
+A `data.frame` with a simple cluster heterogeneity summary.  Table provides total
+ counts of each clone (optionally be stratified by a group), clone representation,
+ overal frequency per clone (also computed for stratified data), and Shannon's
+ Diversity index for stratified data.
+}
 \description{
 cluster heterogeneity across the sample
 }

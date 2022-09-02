@@ -22,11 +22,8 @@ cc <- table(sample(paste0("C", 1:12), size = 1000, replace = TRUE))
 cc <- data.frame(cluster = sample(paste0("C", 1:12), size = 1000,
                                   replace = TRUE),
             sample = sample(paste0("S", 1:6), size = 1000, replace = TRUE))
-
 cc <- table(cc[, c("cluster", "sample")])
 cc[cc <= 10] <- 0
-
-ns <- rowSums(binary.mat(cc))
 
 ( cc <- cluster_representation(cc) )
 

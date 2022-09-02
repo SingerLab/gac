@@ -16,7 +16,7 @@
 
 * tagged internal functions 
 
-* tbd
+* use of vegan::diversity rather than entropy::entropy
 
 # gac 0.0.9025
 
