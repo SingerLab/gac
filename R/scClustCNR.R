@@ -19,6 +19,7 @@
 #' @import SCclust
 #' 
 #' @keywords internal
+#' @noRd
 scClustCNR <- function(cnr, cytobands, hc.method = "average",
                        tree.method = "average", run.fisher = TRUE, ...) {
     if(run.fisher) {
@@ -65,6 +66,7 @@ scClustCNR <- function(cnr, cytobands, hc.method = "average",
 #' }
 #' 
 #' @keywords internal
+#' @noRd
 sim_fisherCNR <- function(cnr, cytobands, centromere = c("p11", "q11"),
                           nsim = 200, ...) {
 
@@ -106,6 +108,7 @@ sim_fisherCNR <- function(cnr, cytobands, centromere = c("p11", "q11"),
 #' @source \url{https://github.com/KrasnitzLab/SCclust}
 #' 
 #' @keywords internal
+#' @noRd
 fisher_tree <- function(cnr, hc.method = "average", tree.method = "average", ...) {
 
     cnr[["mfdr"]] <- SCclust::fisher_fdr(cnr$fisher$true, cnr$fisher$sim,
@@ -132,6 +135,7 @@ fisher_tree <- function(cnr, hc.method = "average", tree.method = "average", ...
 #' @import SCclust
 #'
 #' @keywords internal
+#' @noRd
 getSubclonesCNR <- function(cnr,  ...) {
 
     cnr[["hc"]] <- SCclust::find_clones(cnr[["hc"]])

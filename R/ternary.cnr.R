@@ -14,14 +14,17 @@
 #' @param amp an integer value to specify the minimum number of copies to call as a high level amplification e.g. double minute
 #'
 #' @examples
+#' 
+#' \dontrun{
 #'
 #' data(cnr)
 #'
 #' G <- ternary.cnr(cnr$genes[, c("CDK4", "MDM2")])
 #'
-#' head(G)
+#' }
 #' 
 #' @keywords internal
+#' @noRd
 ternary.cnr <- function(X, gain = 3, amp = 20) {
     G <- X
     G[G == 2] <- 0

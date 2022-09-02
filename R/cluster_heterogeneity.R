@@ -58,7 +58,8 @@ cluster_heterogeneity <- function(cnr, by = NULL, cluster_column = NULL) {
 #'
 #' @param mat a matrix
 #'
-#' @export
+#' @keywords internal
+#' @noRd
 binary.mat <- function(mat) {
     mat[mat >= 1] <- 1
     mat
@@ -69,7 +70,7 @@ binary.mat <- function(mat) {
 #'
 #' @param cc cluster counts
 #'
-#' @examples
+#' @examples  \dontrun{
 #' 
 #' ## cluster table, no subsamples
 #' cc <- table(sample(paste0("C", 1:12), size = 1000, replace = TRUE))
@@ -85,10 +86,12 @@ binary.mat <- function(mat) {
 #'
 #' cc <- cluster_representation(cc)
 #'
-#' @importFrom vegan diversity
+#' }
 #' 
+#' @importFrom vegan diversity
+#'
 #' @keywords internal
-#' @export
+#' @noRd
 cluster_representation <- function(cc) {
 
     if(is.matrix(cc)) {

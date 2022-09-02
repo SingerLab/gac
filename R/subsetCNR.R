@@ -85,6 +85,7 @@ subsetCNR <- function(cnr, bins = NULL, genes = NULL, chrom = NULL, start = NULL
 #' @param bins a list of bins to subset
 #' 
 #' @keywords internal
+#' @noRd
 subset_on_bins <- function(cnr, bins) {
 
     ## subset X based on bins
@@ -137,6 +138,7 @@ subset_on_bins <- function(cnr, bins) {
 #' @param all return all genes within on the bins of the genes of interst
 #' 
 #' @keywords internal
+#' @noRd
 subset_on_genes <- function(cnr, genes, all = TRUE) {
 
     ## transforming genes to column names
@@ -163,6 +165,7 @@ subset_on_genes <- function(cnr, genes, all = TRUE) {
 #' @param chrom a list of chromosomes of interst
 #' 
 #' @keywords internal
+#' @noRd
 subset_on_chrom <- function(cnr, chrom) {
 
     b2 <- which(cnr$chromInfo$bin.chrom %in% chrom)
@@ -185,6 +188,7 @@ subset_on_chrom <- function(cnr, chrom) {
 #' @param padding number of bins to add before or after the start and end coordinates
 #' 
 #' @keywords internal
+#' @noRd
 subset_on_coordinates <- function(cnr, chrom, start, end, padding = 1) {
 
     b2 <- which(cnr$chromInfo$bin.chrom %in% chrom &

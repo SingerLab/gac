@@ -16,8 +16,7 @@
 #' the multipe duplicated rows
 #'
 #' 
-#' @examples
-#'\dontrun{
+#' @examples \dontrun{
 #' data(cnr)
 #'
 #' ## for binary data
@@ -32,7 +31,7 @@
 #' }
 #' 
 #' @keywords internal
-#' @export
+#' @noRd
 gene.aggregate <- function(Z) {
 
     fq <- rowSums(binary.cnr(Z))/ncol(binary.cnr(Z))

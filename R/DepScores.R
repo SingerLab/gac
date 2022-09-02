@@ -12,9 +12,7 @@
 #' @return
 #' Returns the depscores for a set of cells of interest
 #' 
-#' @examples
-#'
-#' \dontrun{
+#' @examples \dontrun{
 #'
 #' d2_map <- read.csv("inst/extdata/D2_combined_gene_dep_scores.csv", header = TRUE, row.names = 1)
 #'
@@ -29,6 +27,7 @@
 #' }
 #' 
 #' @keywords internal
+#' @noRd
 DepScores <- function(depmap, keep) {
     depScores <- depScores[, keep]
     

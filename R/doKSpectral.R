@@ -20,8 +20,7 @@
 #' 
 #' @import dplyr
 #' 
-#' @keywords internal
-#' @export 
+#' @export
 doKSpectral <- function(cnr, ...) {
     
     kStats <- list()

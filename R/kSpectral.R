@@ -8,6 +8,7 @@
 #'
 #' @importFrom utils head
 #' @keywords internal
+#' @noRd
 kSpectral <- function(S) {
 
     tol <- eps(nrow(S))
@@ -39,6 +40,7 @@ kSpectral <- function(S) {
 #' @references Philip A. Knight (2008) The Sinkhorn–Knopp Algorithm: Convergence and Applications. SIAM Journal on Matrix Analysis and Applications 30(1), 261-275. doi: 10.1137/060659624
 #'
 #' @keywords internal
+#' @noRd
 eps <- function(N) {
 
     2^(-52+floor(log2(N)))
@@ -61,6 +63,7 @@ eps <- function(N) {
 #' @references Philip A. Knight (2008) The Sinkhorn–Knopp Algorithm: Convergence and Applications. SIAM Journal on Matrix Analysis and Applications 30(1), 261-275. doi: 10.1137/060659624
 #' 
 #' @keywords internal
+#' @noRd
 sinkhornKnopp <- function(A, tol = NA, maxiter = Inf, debug = FALSE) {
 
     ## N = size(A, 1);
@@ -110,6 +113,7 @@ sinkhornKnopp <- function(A, tol = NA, maxiter = Inf, debug = FALSE) {
 #' @references Philip A. Knight (2008) The Sinkhorn–Knopp Algorithm: Convergence and Applications. SIAM Journal on Matrix Analysis and Applications 30(1), 261-275. doi: 10.1137/060659624
 #'
 #' @keywords internal
+#' @noRd
 symmetricSinkhornKnopp <- function(A, tol = NA, maxiter = Inf, debug = FALSE) {
 
     N <- nrow(A)

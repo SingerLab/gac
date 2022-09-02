@@ -24,6 +24,7 @@
 #'}
 #' 
 #' @keywords internal
+#' @noRd
 oncoKB_annotate <- function(cnr, oncokb) {
 
     ngi <- cnr$gene.index

@@ -22,6 +22,7 @@
 #' @importFrom GenomicRanges findOverlaps
 #' 
 #' @keywords internal
+#' @noRd
 gisticGR <- function(cnr, grTR, oncokb = TRUE, depmeans = TRUE) {
     ## set up vector of amplified regions
     amp <- grTR[grep("Amp", grTR$Unique.Name), c("chr", "start", "end")]
@@ -88,5 +89,5 @@ gisticGR <- function(cnr, grTR, oncokb = TRUE, depmeans = TRUE) {
 
     return(gistic.genes)
     
-}
+} ## end gisticGR
 

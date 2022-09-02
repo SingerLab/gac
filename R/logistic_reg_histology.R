@@ -194,7 +194,7 @@ histo_logit_cov <- function(cnr, trait, pheno0, pheno1, covar,
 #' 0.vs.1.lr.p.value
 #'
 #' 
-#' @examples
+#' @examples \dontrun{
 #'
 #' data(cnr)
 #'
@@ -206,9 +206,12 @@ histo_logit_cov <- function(cnr, trait, pheno0, pheno1, covar,
 #'
 #' cnr <- histo_logit(cnr, trait = "category2",
 #'    pheno0 = c("X", "Y"), pheno1 = "Z")
+#' }
 #' 
 #' @importFrom stats glm coef
+#' 
 #' @keywords internal
+#' @noRd
 histo_logit_gene <- function(cnr, trait, pheno0, pheno1,
                              exclude.cluster = "HC",
                              family = "binomial",
@@ -301,7 +304,7 @@ histo_logit_gene <- function(cnr, trait, pheno0, pheno1,
 #' 0.vs.1.lr.p.value
 #'
 #' 
-#' @examples
+#' @examples \dontrun{
 #'
 #' data(cnr)
 #'
@@ -313,9 +316,13 @@ histo_logit_gene <- function(cnr, trait, pheno0, pheno1,
 #'
 #' cnr <- histo_logit(cnr, trait = "category2",
 #'    pheno0 = c("X", "Y"), pheno1 = "Z")
+#'
+#' }
 #' 
 #' @importFrom stats glm coef
+#' 
 #' @keywords internal
+#' @noRd
 histo_logit_bin <- function(cnr, trait, pheno0, pheno1, 
                             exclude.cluster = "HC",
                             family = "binomial",
@@ -412,7 +419,7 @@ histo_logit_bin <- function(cnr, trait, pheno0, pheno1,
 #' 0.vs.1.quantitative1.lr.p.value
 #'
 #' 
-#' @examples
+#' @examples \dontrun{
 #'
 #' data(cnr)
 #'
@@ -424,9 +431,12 @@ histo_logit_bin <- function(cnr, trait, pheno0, pheno1,
 #'
 #' cnr <- histo_logit_cov(cnr, trait = "category2",
 #'    pheno0 = c("X", "Y"), pheno1 = "Z", covar = "category1")
-#' 
+#'
+#' }
 #' @importFrom stats glm coef
+#' 
 #' @keywords internal
+#' @noRd
 histo_logit_gene_cov <- function(cnr, trait, pheno0, pheno1, covar,
                                  exclude.cluster = "HC",
                                  family = "binomial",
@@ -528,7 +538,7 @@ histo_logit_gene_cov <- function(cnr, trait, pheno0, pheno1, covar,
 #' 0.vs.1.quantitative1.lr.p.value
 #'
 #' 
-#' @examples
+#' @examples \dontrun{
 #'
 #' data(cnr)
 #'
@@ -540,9 +550,13 @@ histo_logit_gene_cov <- function(cnr, trait, pheno0, pheno1, covar,
 #'
 #' cnr <- histo_logit_cov(cnr, trait = "category2",
 #'    pheno0 = c("X", "Y"), pheno1 = "Z", covar = "category1")
+#'
+#' }
 #' 
 #' @importFrom stats glm coef
+#' 
 #' @keywords internal
+#' @noRd
 histo_logit_bin_cov <- function(cnr, trait, pheno0, pheno1, covar,
                                 exclude.cluster = "HC",
                                 family = "binomial",
@@ -788,15 +802,18 @@ estimate_joint_effects <- function(cnr, trait, pheno0, pheno1,
 #' Effects are estimated at two Lambda; min, 1se.  Lambda values are appended
 #' as attributes to the chromInfo, and gene.index, for the bin, respectively.
 #' 
-#' @examples
+#' @examples \dontrun {
 #' data(cnr)
 #'
 #' cnr <- estimate_joint_effects(cnr, trait = "binary1",
 #'    pheno0 = 0, pheno1 = 1)
+#'
+#' }
 #' 
 #' @importFrom glmnet glmnet cv.glmnet
 #' @importFrom stats complete.cases predict
 #' @keywords internal
+#' @noRd
 estimate_joint_effects_bin <- function(cnr, trait, pheno0, pheno1,
                                    exclude.cluster = "HC") {
 
@@ -868,15 +885,18 @@ estimate_joint_effects_bin <- function(cnr, trait, pheno0, pheno1,
 #' Effects are estimated at two Lambda; min, 1se.  Lambda values are appended
 #' as attributes to the chromInfo, and gene.index, for the bin, respectively.
 #' 
-#' @examples
+#' @examples \dontrun{
 #' data(cnr)
 #'
 #' cnr <- estimate_joint_effects(cnr, trait = "binary1",
 #'    pheno0 = 0, pheno1 = 1)
-#' 
+#'
+#' }
 #' @importFrom glmnet glmnet cv.glmnet
 #' @importFrom stats complete.cases predict
+#' 
 #' @keywords internal
+#' @noRd
 estimate_joint_effects_gene <- function(cnr, trait, pheno0, pheno1,
                                         exclude.cluster = "HC") {
 

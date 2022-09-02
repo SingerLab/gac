@@ -13,7 +13,7 @@
 #' Returns a cell-to-cell distance matrix of class `dist`
 #' 
 #' @keywords internal
-#' @export
+#' @noRd
 distCNR <- function(cnr, method = "bray", ...) {
     
     if(cnr$bulk) {
@@ -46,7 +46,7 @@ distCNR <- function(cnr, method = "bray", ...) {
 #' @importFrom stats hclust
 #' 
 #' @keywords internal
-#' @export
+#' @noRd
 hclustCNR <- function(cnr, method = "ward.D2", ...) {
 
     hcdb <- stats::hclust(cnr[["cdb"]], method = method, ...)

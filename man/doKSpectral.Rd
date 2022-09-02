@@ -29,4 +29,3 @@ Philip A. Knight (2008) The Sinkhorn–Knopp Algorithm: Convergence and Applicat
 \author{
 Nick Socci <soccin@mskcc.org>
 }
-\keyword{internal}

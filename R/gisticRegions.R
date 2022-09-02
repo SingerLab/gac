@@ -19,6 +19,7 @@
 #' }
 #' 
 #' @keywords internal
+#' @noRd
 gisticRegions <- function(gisticDir, conf = 80) {
     gr <- read.delim(file.path(gisticDir, paste0("all_lesions.conf_", conf, ".txt")),
                      stringsAsFactors = FALSE)

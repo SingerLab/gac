@@ -65,6 +65,7 @@ get_alteration_frequencies <- function(cnr, symbol = "hgnc.symbol", ...) {
 #' @importFrom assertthat assert_that
 #' 
 #' @keywords internal
+#' @noRd
 get_bin_frequencies <- function(cnr, ...) {
 
     assertthat::assert_that(!cnr$bulk)
@@ -92,6 +93,7 @@ get_bin_frequencies <- function(cnr, ...) {
 #' @importFrom assertthat assert_that
 #' 
 #' @keywords internal
+#' @noRd
 get_gene_frequencies <- function(cnr, ...) {
 
     assertthat::assert_that(!cnr$bulk)
@@ -121,6 +123,7 @@ get_gene_frequencies <- function(cnr, ...) {
 #' @importFrom assertthat assert_that
 #'
 #' @keywords internal
+#' @noRd
 get_amp_counts <- function(X, bulk, base.ploidy = 2) {
 
     assertthat::assert_that(!bulk)
@@ -146,6 +149,7 @@ get_amp_counts <- function(X, bulk, base.ploidy = 2) {
 #' @importFrom assertthat assert_that
 #'
 #' @keywords internal
+#' @noRd
 get_del_counts <- function(X, bulk, base.ploidy = 2) {
 
     assertthat::assert_that(!bulk)
@@ -169,7 +173,9 @@ get_del_counts <- function(X, bulk, base.ploidy = 2) {
 #' get_alt_counts
 #'
 #' @importFrom assertthat assert_that
+#' 
 #' @keywords internal
+#' @noRd
 get_alt_counts <- function(X, bulk, ...) {
 
     assertthat::assert_that(!bulk)

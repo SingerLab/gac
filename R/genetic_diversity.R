@@ -73,6 +73,7 @@ proportion_of_polymorphic_loci <- function(cnr, exclude.chr = c("X", "Y"),
 #' avg_num_alleles_per_locus(cnr, exclude.chr = c("X", "Y"))
 #'
 #' @importFrom assertthat assert_that
+#' 
 #' @export
 avg_num_alleles_per_locus <- function(cnr, exclude.chr = NULL, chrom.col = "bin.chrom") {
 
@@ -129,9 +130,9 @@ avg_num_alleles_per_locus <- function(cnr, exclude.chr = NULL, chrom.col = "bin.
 #' copy numbers <= 1 as altered. For this, it's considered, at the moment,
 #' that chromosomes X and Y have are to have two copies
 #'
-#' @examples
+#' @examples \dontrun{
 #'
-#' data(cnr)
+#' data(cnr) 
 #'
 #' noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
 #'
@@ -152,10 +153,13 @@ avg_num_alleles_per_locus <- function(cnr, exclude.chr = NULL, chrom.col = "bin.
 #' percent_genome_loss(cnr, by = "cell")
 #' 
 #' percent_genome_loss(cnr, by = "clone")
+#'
+#' }
 #' 
 #' @importFrom assertthat assert_that
 #' 
-#' @export
+#' @keywords internal
+#' @noRd
 percent_genome_loss <- function(cnr,
                                 by = NULL,
                                 loss.threshold = 1,
@@ -236,7 +240,7 @@ percent_genome_loss <- function(cnr,
 #' copy numbers <= 1 as altered. For this, it's considered, at the moment,
 #' that chromosomes X and Y have are to have two copies
 #'
-#' @examples
+#' @examples \dontrun{
 #'
 #' data(cnr)
 #'
@@ -259,10 +263,13 @@ percent_genome_loss <- function(cnr,
 #' percent_genome_gain(cnr, by = "cell")
 #' 
 #' percent_genome_gain(cnr, by = "clone")
+#'
+#' }
 #' 
 #' @importFrom assertthat assert_that
 #' 
-#' @export
+#' @keywords internal
+#' @noRd
 percent_genome_gain <- function(cnr,
                                 by = NULL,
                                 gain.thresholds = c(3, 5),
@@ -341,7 +348,7 @@ percent_genome_gain <- function(cnr,
 #'
 #' @param ... additional parameters to \code{\link{percent_genome_gain}}
 #'
-#' @examples
+#' @examples \dontrun{
 #'
 #' data(cnr)
 #'
@@ -364,8 +371,11 @@ percent_genome_gain <- function(cnr,
 #' percent_genome_amplified(cnr, by = "cell")
 #' 
 #' percent_genome_amplified(cnr, by = "clone")
+#'
+#' }
 #' 
-#' @export
+#' @keywords internal
+#' @noRd
 percent_genome_amplified <- function(cnr, by = "cell",
                                      amplification.threshold = 6,
                                      ...) {
@@ -394,6 +404,7 @@ percent_genome_amplified <- function(cnr, by = "cell",
 #' conditional subset of chromInfo w/o excluded chromosomes
 #' 
 #' @keywords internal
+#' @noRd
 subset_ci <- function(cnr, exclude.chr = NULL, chrom.col = "bin.chrom") {
 
     if(is.null(exclude.chr)) {

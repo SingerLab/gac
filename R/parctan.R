@@ -33,6 +33,7 @@ parctan <- function(x) {
 #' Returns plog transformed data
 #' 
 #' @keywords internal
+#' @noRd
 plog <- function(x) {
     log10(1 + x^2)
 }

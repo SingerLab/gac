@@ -4,18 +4,20 @@
 #' @param lineage_table table named Output_Table.csv
 #' @param adjacency_alterations table named Tree_Edges.csv
 #'
-#' @examples
-#' \dontrun{
+#' @examples \dontrun{
+#' 
 #' brc <- read.csv("data-raw/lineages/WD9048/Branch_Table.csv")
 #' lin <- read.csv("data-raw/lineages/WD9048/Output_Table.csv")
 #' adj <- read.csv("data-raw/lineages/WD9048/Tree_Edges.csv")
 #' 
 #' cnr <- merge_lineage_tables(WD9048a, brc, lin, adj)
+#' 
 #' }
 #' 
 #' @importFrom assertthat assert_that
 #' 
 #' @keywords internal
+#' @noRd
 merge_lineage_tables <- function(cnr, branch_table, lineage_table,
                                  adjacency_alterations) {
 
