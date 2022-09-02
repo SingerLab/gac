@@ -34,7 +34,6 @@ cluster_heterogeneity <- function(cnr, by = NULL, cluster_column = NULL) {
     if(is.null(by)) {
 
         occ <- table(cnr$Y[, cluster_column])
-        ns <- rep(1, length(occ))
         
     } else {
         
@@ -42,7 +41,6 @@ cluster_heterogeneity <- function(cnr, by = NULL, cluster_column = NULL) {
         assertthat::assert_that(by %in% names(cnr$Y))
         
         occ <- table(cnr$Y[, c(cluster_column, by)])
-        ns <- rowSums(binary.mat(occ))
         
     }
     
@@ -76,19 +74,21 @@ binary.mat <- function(mat) {
 #' ## cluster table, no subsamples
 #' cc <- table(sample(paste0("C", 1:12), size = 1000, replace = TRUE))
 #' 
-#' ( cc <- cluster_representation(cc) )
+#' cc <- cluster_representation(cc)
 #'
+#' ## cluster table with multiple samples
 #' cc <- data.frame(cluster = sample(paste0("C", 1:12), size = 1000,
 #'                                   replace = TRUE),
 #'             sample = sample(paste0("S", 1:6), size = 1000, replace = TRUE))
 #' cc <- table(cc[, c("cluster", "sample")])
 #' cc[cc <= 10] <- 0
 #'
-#' ( cc <- cluster_representation(cc) )
+#' cc <- cluster_representation(cc)
 #'
 #' @importFrom vegan diversity
 #' 
 #' @keywords internal
+#' @export
 cluster_representation <- function(cc) {
 
     if(is.matrix(cc)) {

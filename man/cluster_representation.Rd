@@ -17,15 +17,16 @@ cluster representation
 ## cluster table, no subsamples
 cc <- table(sample(paste0("C", 1:12), size = 1000, replace = TRUE))
 
-( cc <- cluster_representation(cc) )
+cc <- cluster_representation(cc)
 
+## cluster table with multiple samples
 cc <- data.frame(cluster = sample(paste0("C", 1:12), size = 1000,
                                   replace = TRUE),
             sample = sample(paste0("S", 1:6), size = 1000, replace = TRUE))
 cc <- table(cc[, c("cluster", "sample")])
 cc[cc <= 10] <- 0
 
-( cc <- cluster_representation(cc) )
+cc <- cluster_representation(cc)
 
 }
 \keyword{internal}
