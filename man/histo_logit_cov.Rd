@@ -45,15 +45,12 @@ a CNR object with results from a logistic regression analysis
 (family = "binomial") with effect estimates, and p-values attached to
 the chromInfo and gene.index matrices.
 
-Results columns are "Estimate", "Std.Error", "z.value", "p.value" ; with
- the phenotype comparison pre-apended as
- <pheno0>.vs.<pheno1>.cv<covar>.lr.<value>.
- Using grade as an example  these would be:
-
-0.vs.1..lr.Estimate
-0.vs.1.quantitative1.lr.Std.Error
-0.vs.1.quantitative1.lr.z.value
-0.vs.1.quantitative1.lr.p.value
+Results columns are "Estimate", "Std.Error", "z.value", "p.value", and
+"q.value"; with  the phenotype comparison pre-apended as
+ <pheno0>.vs.<pheno1>.cv<covar>.lr.<value>. Using grade as an example the columns
+would be 0.vs.1..lr.Estimate, 0.vs.1.quantitative1.lr.Std.Error, 
+0.vs.1.quantitative1.lr.z.value, 0.vs.1.quantitative1.lr.p.value,
+and 0.vs.1.quantitative1.lr.q.value
 }
 \description{
 These functions were developed for the genetic analysis of cancer subtypes,

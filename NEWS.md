@@ -1,3 +1,11 @@
+# gac 0.0.9028
+* added code to estimate q-values
+
+# gac 0.0.9027
+* introduction of gene lookup functions based on coordinates
+
+* further debugging to pass CRAN
+
 # gac 0.0.9026
 
 * added functions to associate copy number to categorical phenotypes

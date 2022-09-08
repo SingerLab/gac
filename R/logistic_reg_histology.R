@@ -31,14 +31,11 @@
 #'  (family = "binomial") with effect estimates, and p-values attached to
 #'  the chromInfo and gene.index matrices.
 #'
-#' Results columns are "Estimate", "Std.Error", "z.value", "p.value" ; with
-#'  the phenotype comparison pre-apended as <pheno0>.vs.<pheno1>.lr.<value>.
-#'  Using grade as an example  these would be:
-#' 
-#' 0.vs.1.lr.Estimate
-#' 0.vs.1.lr.Std.Error
-#' 0.vs.1.lr.z.value
-#' 0.vs.1.lr.p.value
+#' Results columns are "Estimate", "Std.Error", "z.value", "p.value", and
+#' "q.value"; with  the phenotype comparison pre-apended as
+#' <pheno0>.vs.<pheno1>.lr.<value>.  Using grade as an example the columns
+#' would be 0.vs.1.lr.Estimate, 0.vs.1.lr.Std.Error, 0.vs.1.lr.z.value,
+#' 0.vs.1.lr.p.value, 0.vs.1.lr.q.value.
 #'
 #' 
 #' @examples
@@ -111,15 +108,12 @@ histo_logit <- function(cnr, trait, pheno0, pheno1,
 #' (family = "binomial") with effect estimates, and p-values attached to
 #' the chromInfo and gene.index matrices.
 #'
-#' Results columns are "Estimate", "Std.Error", "z.value", "p.value" ; with
-#'  the phenotype comparison pre-apended as
-#'  <pheno0>.vs.<pheno1>.cv<covar>.lr.<value>.
-#'  Using grade as an example  these would be:
-#' 
-#' 0.vs.1..lr.Estimate
-#' 0.vs.1.quantitative1.lr.Std.Error
-#' 0.vs.1.quantitative1.lr.z.value
-#' 0.vs.1.quantitative1.lr.p.value
+#' Results columns are "Estimate", "Std.Error", "z.value", "p.value", and
+#' "q.value"; with  the phenotype comparison pre-apended as
+#'  <pheno0>.vs.<pheno1>.cv<covar>.lr.<value>. Using grade as an example the columns
+#' would be 0.vs.1..lr.Estimate, 0.vs.1.quantitative1.lr.Std.Error, 
+#' 0.vs.1.quantitative1.lr.z.value, 0.vs.1.quantitative1.lr.p.value,
+#' and 0.vs.1.quantitative1.lr.q.value
 #'
 #' 
 #' @examples
@@ -184,15 +178,11 @@ histo_logit_cov <- function(cnr, trait, pheno0, pheno1, covar,
 #'  (family = "binomial") with effect estimates, and p-values attached to
 #'  the chromInfo matrices.
 #'
-#' Results columns are "Estimate", "Std.Error", "z.value", "p.value" ; with
-#'  the phenotype comparison pre-apended as <pheno0>.vs.<pheno1>.lr.<value>.
-#'  Using grade as an example  these would be:
-#' 
-#' 0.vs.1.lr.Estimate
-#' 0.vs.1.lr.Std.Error
-#' 0.vs.1.lr.z.value
-#' 0.vs.1.lr.p.value
-#'
+#' Results columns are "Estimate", "Std.Error", "z.value", "p.value", and
+#' "q.value"; with  the phenotype comparison pre-apended as
+#' <pheno0>.vs.<pheno1>.lr.<value>.  Using grade as an example the columns
+#' would be 0.vs.1.lr.Estimate, 0.vs.1.lr.Std.Error, 0.vs.1.lr.z.value,
+#' 0.vs.1.lr.p.value, 0.vs.1.lr.q.value.
 #' 
 #' @examples \dontrun{
 #'
@@ -209,7 +199,7 @@ histo_logit_cov <- function(cnr, trait, pheno0, pheno1, covar,
 #' }
 #' 
 #' @importFrom stats glm coef
-#' 
+#' @importFrom qvalue qvalue
 #' @keywords internal
 #' @noRd
 histo_logit_gene <- function(cnr, trait, pheno0, pheno1,
@@ -246,12 +236,25 @@ histo_logit_gene <- function(cnr, trait, pheno0, pheno1,
     
     ## copy to gene.index
     colnames(reg.eff) <- c("Estimate", "Std.Error", "z.value", "p.value")
+    reg.eff <- as.data.frame(apply(reg.eff, 2, function(i) as.numeric(i)))
+
+    ## extract p-values
+    p <- reg.eff$p.value
+    ## set NA p-vals of monomoprhic to 1
+    p[is.na(p)] <- 1  
+    ## set -Inf/Inf to 1
+    p[is.infinite(p)] <- 1 
+    ## estimate q-values
+    qve <- qvalue::qvalue(p)
+    reg.eff$q.value <- qve$qvalues
+
     ## create new column names containing the phenotype comparison
     colnames(reg.eff) <- gsub(" ", ".",
                               paste0(paste(pheno0, collapse = "."),
                                      ".vs.",
                                      paste(pheno1, collapse = "."),
                                      ".lr.", colnames(reg.eff)))
+    
     ## add hgnc.symbol
     reg.eff <- cbind(reg.eff, hgnc.symbol = gsub("\\.", "-", rownames(reg.eff)))
     
@@ -294,14 +297,11 @@ histo_logit_gene <- function(cnr, trait, pheno0, pheno1,
 #'  (family = "binomial") with effect estimates, and p-values attached to
 #'  the chromInfo matrices.
 #'
-#' Results columns are "Estimate", "Std.Error", "z.value", "p.value" ; with
-#'  the phenotype comparison pre-apended as <pheno0>.vs.<pheno1>.lr.<value>.
-#'  Using grade as an example  these would be:
-#' 
-#' 0.vs.1.lr.Estimate
-#' 0.vs.1.lr.Std.Error
-#' 0.vs.1.lr.z.value
-#' 0.vs.1.lr.p.value
+#' Results columns are "Estimate", "Std.Error", "z.value", "p.value", and
+#' "q.value"; with  the phenotype comparison pre-apended as
+#' <pheno0>.vs.<pheno1>.lr.<value>.  Using grade as an example the columns
+#' would be 0.vs.1.lr.Estimate, 0.vs.1.lr.Std.Error, 0.vs.1.lr.z.value,
+#' 0.vs.1.lr.p.value, 0.vs.1.lr.q.value.
 #'
 #' 
 #' @examples \dontrun{
@@ -357,16 +357,28 @@ histo_logit_bin <- function(cnr, trait, pheno0, pheno1,
         
     ## copy to gene.index
     colnames(reg.eff) <- c("Estimate", "Std.Error", "z.value", "p.value")
+    reg.eff <- as.data.frame(apply(reg.eff, 2, function(i) as.numeric(i)))
+
+    ## extract p-values
+    p <- reg.eff$p.value
+    ## set NA p-vals of monomoprhic to 1
+    p[is.na(p)] <- 1  
+    ## set -Inf/Inf to 1
+    p[is.infinite(p)] <- 1 
+    ## estimate q-values
+    qve <- qvalue::qvalue(p)
+    reg.eff$q.value <- qve$qvalues
+
     ## create new column names containing the phenotype comparison
     colnames(reg.eff) <- gsub(" ", ".",
                               paste0(paste(pheno0, collapse = "."),
                                      ".vs.",
                                      paste(pheno1, collapse = "."),
                                      ".lr.", colnames(reg.eff)))
+    
     ## add hgnc.symbol
     reg.eff <- cbind(reg.eff, hgnc.symbol = gsub("\\.", "-", rownames(reg.eff)))
 
-    
     ## merge with chromInfo
     cnr <- addInfo(cnr, reg.eff)    
         
@@ -408,15 +420,12 @@ histo_logit_bin <- function(cnr, trait, pheno0, pheno1,
 #' (family = "binomial") with effect estimates, and p-values attached to
 #' the chromInfo and gene.index matrices.
 #'
-#' Results columns are "Estimate", "Std.Error", "z.value", "p.value" ; with
-#'  the phenotype comparison pre-apended as
-#'  <pheno0>.vs.<pheno1>.cv<covar>.lr.<value>.
-#'  Using grade as an example  these would be:
-#' 
-#' 0.vs.1..lr.Estimate
-#' 0.vs.1.quantitative1.lr.Std.Error
-#' 0.vs.1.quantitative1.lr.z.value
-#' 0.vs.1.quantitative1.lr.p.value
+#' Results columns are "Estimate", "Std.Error", "z.value", "p.value", and
+#' "q.value"; with  the phenotype comparison pre-apended as
+#'  <pheno0>.vs.<pheno1>.cv<covar>.lr.<value>. Using grade as an example the columns
+#' would be 0.vs.1..lr.Estimate, 0.vs.1.quantitative1.lr.Std.Error, 
+#' 0.vs.1.quantitative1.lr.z.value, 0.vs.1.quantitative1.lr.p.value,
+#' and 0.vs.1.quantitative1.lr.q.value
 #'
 #' 
 #' @examples \dontrun{
@@ -473,6 +482,18 @@ histo_logit_gene_cov <- function(cnr, trait, pheno0, pheno1, covar,
         
     ## copy to gene.index
     colnames(reg.eff) <- c("Estimate", "Std.Error", "z.value", "p.value")
+    reg.eff <- as.data.frame(apply(reg.eff, 2, function(i) as.numeric(i)))
+
+    ## extract p-values
+    p <- reg.eff$p.value
+    ## set NA p-vals of monomoprhic to 1
+    p[is.na(p)] <- 1  
+    ## set -Inf/Inf to 1
+    p[is.infinite(p)] <- 1 
+    ## estimate q-values
+    qve <- qvalue::qvalue(p)
+    reg.eff$q.value <- qve$qvalues
+
     ## create new column names containing the phenotype comparison
     colnames(reg.eff) <- gsub(" ", ".",
                               paste0(paste(pheno0, collapse = "."),
@@ -480,9 +501,10 @@ histo_logit_gene_cov <- function(cnr, trait, pheno0, pheno1, covar,
                                      paste(pheno1, collapse = "."),
                                      ".cv.", covar,
                                      ".lr.", colnames(reg.eff)))
+
     ## add hgnc.symbol
     reg.eff <- cbind(reg.eff, hgnc.symbol = gsub("\\.", "-", rownames(reg.eff)))
-
+    
     ## merge with gene.index
     cnr[["gene.index"]] <- merge(cnr$gene.index, reg.eff,
                                  by = "hgnc.symbol", sort = FALSE)
@@ -527,23 +549,17 @@ histo_logit_gene_cov <- function(cnr, trait, pheno0, pheno1, covar,
 #' (family = "binomial") with effect estimates, and p-values attached to
 #' the chromInfo and gene.index matrices.
 #'
-#' Results columns are "Estimate", "Std.Error", "z.value", "p.value" ; with
-#'  the phenotype comparison pre-apended as
-#'  <pheno0>.vs.<pheno1>.cv<covar>.lr.<value>.
-#'  Using grade as an example  these would be:
-#' 
-#' 0.vs.1..lr.Estimate
-#' 0.vs.1.quantitative1.lr.Std.Error
-#' 0.vs.1.quantitative1.lr.z.value
-#' 0.vs.1.quantitative1.lr.p.value
+#' Results columns are "Estimate", "Std.Error", "z.value", "p.value", and
+#' "q.value"; with  the phenotype comparison pre-apended as
+#'  <pheno0>.vs.<pheno1>.cv<covar>.lr.<value>. Using grade as an example the columns
+#' would be 0.vs.1..lr.Estimate, 0.vs.1.quantitative1.lr.Std.Error, 
+#' 0.vs.1.quantitative1.lr.z.value, 0.vs.1.quantitative1.lr.p.value,
+#' and 0.vs.1.quantitative1.lr.q.value
 #'
 #' 
 #' @examples \dontrun{
 #'
 #' data(cnr)
-#'
-#' cnr <- histo_logit_cov(cnr, trait = "binary1",
-#'    pheno0 = 0, pheno1 = 1, covar = "category1")
 #'
 #' cnr <- histo_logit_cov(cnr, trait = "category1",
 #'    pheno0 = "A", pheno1 = c("B", "C"), covar = "category2")
@@ -595,6 +611,18 @@ histo_logit_bin_cov <- function(cnr, trait, pheno0, pheno1, covar,
         
     ## copy to gene.index
     colnames(reg.eff) <- c("Estimate", "Std.Error", "z.value", "p.value")
+    reg.eff <- as.data.frame(apply(reg.eff, 2, function(i) as.numeric(i)))
+
+    ## extract p-values
+    p <- reg.eff$p.value
+    ## set NA p-vals of monomoprhic to 1
+    p[is.na(p)] <- 1  
+    ## set -Inf/Inf to 1
+    p[is.infinite(p)] <- 1 
+    ## estimate q-values
+    qve <- qvalue::qvalue(p)
+    reg.eff$q.value <- qve$qvalues
+
     ## create new column names containing the phenotype comparison
     colnames(reg.eff) <- gsub(" ", ".",
                               paste0(paste(pheno0, collapse = "."),
@@ -602,9 +630,9 @@ histo_logit_bin_cov <- function(cnr, trait, pheno0, pheno1, covar,
                                      paste(pheno1, collapse = "."),
                                      ".cv.", covar,
                                      ".lr.", colnames(reg.eff)))
+    
     ## add hgnc.symbol
     reg.eff <- cbind(reg.eff, hgnc.symbol = gsub("\\.", "-", rownames(reg.eff)))
-    
     
     ## merge with chromInfo
     cnr <- addInfo(cnr, reg.eff)    
