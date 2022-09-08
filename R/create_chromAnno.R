@@ -5,7 +5,7 @@
 #' @param side side of the annotation. Options are "left" default,
 #' "right", "top", and "bottom"
 #'
-#' @param ... additional prameters passed to HeatmapAnnotation
+#' @param ... additional prameters passed to \code{\link[ComplexHeatmap]{HeatmapAnnotation}}
 #'
 #' @return
 #' A HeatmapAnnotation containing a chromosome map indicate chromsome
@@ -65,8 +65,8 @@ create_chromosome_annotation_left <- function(cnr, ...) {
             chrBreaks - floor((chrBreaks - c(1, chrBreaks[1:(length(chrBreaks) - 
                                                              1)]))/2)
     }
-    chrAnno <- rowAnnotation(
-        labs = anno_mark(at = midChr, 
+    chrAnno <- ComplexHeatmap::rowAnnotation(
+        labs = ComplexHeatmap::anno_mark(at = midChr, 
                          labels = unique(cf),
                          side = "left",
                          labels_gp = grid::gpar(fontsize = 10)), 
@@ -85,7 +85,7 @@ create_chromosome_annotation_left <- function(cnr, ...) {
 #' @param labels_rot label rotation, default 90
 #' @param ... additional prameters passed to HeatmapAnnotation
 #' 
-#' @importFrom ComplexHeatmap rowAnnotation anno_mark
+#' @importFrom ComplexHeatmap HeatmapAnnotation anno_mark
 #' @importFrom grid gpar
 create_chromosome_annotation_top <- function(cnr,
                                              labels_gp = grid::gpar(fontsize = 10),
@@ -106,8 +106,8 @@ create_chromosome_annotation_top <- function(cnr,
             chrBreaks - floor((chrBreaks - c(1, chrBreaks[1:(length(chrBreaks) - 
                                                              1)]))/2)
     }
-    chrAnno <- HeatmapAnnotation(
-        labs = anno_mark(at = midChr, 
+    chrAnno <- ComplexHeatmap::HeatmapAnnotation(
+        labs = ComplexHeatmap::anno_mark(at = midChr, 
                          labels = unique(cf),
                          side = "top",
                          labels_gp = labels_gp,
@@ -126,7 +126,7 @@ create_chromosome_annotation_top <- function(cnr,
 #' @param labels_rot label rotation, default 90
 #' @param ... additional prameters passed to HeatmapAnnotation
 #' 
-#' @importFrom ComplexHeatmap rowAnnotation anno_mark
+#' @importFrom ComplexHeatmap HeatmapAnnotation anno_mark
 #' @importFrom grid gpar
 create_chromosome_annotation_bottom <- function(cnr,
                                              labels_gp = grid::gpar(fontsize = 10),
@@ -147,9 +147,9 @@ create_chromosome_annotation_bottom <- function(cnr,
             chrBreaks - floor((chrBreaks - c(1, chrBreaks[1:(length(chrBreaks) - 
                                                              1)]))/2)
     }
-    chrAnno <- HeatmapAnnotation(
+    chrAnno <- ComplexHeatmap::HeatmapAnnotation(
         chr = cf, col = list(chr = chl),
-        labs = anno_mark(at = midChr, 
+        labs = ComplexHeatmap::anno_mark(at = midChr, 
                          labels = unique(cf),
                          side = "bottom",
                          labels_gp = labels_gp,
@@ -185,9 +185,9 @@ create_chromosome_annotation_right <- function(cnr, ...) {
                                                              1)]))/2)
     }
 
-    chrAnno <- rowAnnotation(
+    chrAnno <- ComplexHeatmap::rowAnnotation(
         chr = cf, col = list(chr = chl),
-        labs = anno_mark(at = midChr, 
+        labs = ComplexHeatmap::anno_mark(at = midChr, 
                          labels = unique(cf),
                          side = "right",
                          labels_gp = grid::gpar(fontsize = 10),

@@ -2,6 +2,22 @@
 * local R installation, R 4.1.0
 * ubuntu 16.04 (on travis-ci), R 4.1.0
 * CentOS7 Institutional HPC Cluster
+
+
+## R CMD check results
+### Wed Sep  7 16:51:29 EDT 2022
+── R CMD check results ────────────────────────────────────────────────────── gac 0.0.90027 ────
+Duration: 9m 44.6s
+
+❯ checking installed package size ... NOTE
+    installed size is  6.0Mb
+    sub-directories of 1Mb or more:
+      data   3.5Mb
+      doc    2.1Mb
+
+0 errors ✔ | 0 warnings ✔ | 1 note ✖
+
+### Wed Aug 31 23:02:21 EDT 2022
 ── R CMD check results ─────────────────────────────────────────────────────── gac 0.0.90026 ────
 Duration: 1h 17m 19.9s
 
@@ -11,12 +27,6 @@ Duration: 1h 17m 19.9s
 	 ...
 
 0 errors ✔ | 1 warning ✖ | 0 notes ✔
-
-
-
-## R CMD check results
-### Wed Aug 31 23:02:21 EDT 2022
-** pending
 
 ### Mon May 24 23:26:20 EDT 2021
 ── R CMD check results ────────────────────────────────────── gac 0.0.90022 ────

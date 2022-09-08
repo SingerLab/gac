@@ -4,7 +4,7 @@
 \alias{mark.genes}
 \title{Mark genes}
 \usage{
-mark.genes(cnr, gene.list)
+mark.genes(cnr, gene.list, identifier = "hgnc.symbol")
 }
 \arguments{
 \item{cnr}{the cnr bundle}
@@ -23,6 +23,8 @@ data(cnr)
 
 aa <- mark.genes(cnr, gene.list = c("CDK4", "MDM2"))
 
+\notrun{
 geneAnno <- ComplexHeatmap::rowAnnotation(genes = anno_mark(at = aa, labels = names(aa)))
+}
 
 }

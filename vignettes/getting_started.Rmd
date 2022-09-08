@@ -121,9 +121,11 @@ qc$qc.status[c(noisy.cells)] <- "FAIL"
 Bin mappings are part of the chromInfo, and user supplied.  These can be downloaded from (Ginkgo)[http://qb.cshl.edu/ginkgo/?q=/T1s5zj45ztcLxoVUMxjF] or (QDNAseq)[https://bioconductor.org/packages/release/bioc/html/QDNAseq.html].  Ginkgo uses variable length bins with an equal mappability, vs QDNAseq which uses equally spaced bins with variable mappability.  For this example, we'll use the bins from (Baslan et al. 2012)[https://pubmed.ncbi.nlm.nih.gov/22555242/] and are provided in the package.
 
 ```{r gene.index_from_biomaRt, eval = FALSE}
-library(GenomicRanges)
-library(biomaRt)
-library(dplyr)
+suppressPackageStartupMessages({
+    library(GenomicRanges)
+    library(biomaRt)
+    library(dplyr)
+})
 
 ## load example bin data
 data(chromInfo)
@@ -131,15 +133,16 @@ data(chromInfo)
 ## get ensembl genes w/HGNC symbol
 grch37 <- useMart(biomart="ENSEMBL_MART_ENSEMBL",
                   dataset = "hsapiens_gene_ensembl",
-                  host="grch37.ensembl.org",
+                  host="https://grch37.ensembl.org",
                   path="/biomart/martservice")
 
 grch37.genes <- getBM(attributes = c("ensembl_gene_id", "hgnc_symbol",
                                      "chromosome_name", "start_position",
-                                     "end_position", "gene_biotype"),
+                                     "end_position", "strand", "band",
+                                     "gene_biotype"),
                       mart = grch37) %>%
     filter(chromosome_name %in% c(1:22, "X", "Y")) %>%
-    arrange(chromosome_name)
+    arrange(chromosome_name, start_position)
 
 ## set up a genomic ranges object for the gene index annotation
 ( grch37.genes <- GRanges(seqnames = grch37.genes$chromosome_name,

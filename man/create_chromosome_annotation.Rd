@@ -12,7 +12,7 @@ create_chromosome_annotation(cnr, side = "left", ...)
 \item{side}{side of the annotation. Options are "left" default,
 "right", "top", and "bottom"}
 
-\item{...}{additional prameters passed to HeatmapAnnotation}
+\item{...}{additional prameters passed to \code{\link[ComplexHeatmap]{HeatmapAnnotation}}}
 }
 \value{
 A HeatmapAnnotation containing a chromosome map indicate chromsome

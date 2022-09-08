@@ -47,7 +47,6 @@ To implement GAC we require five easy to generate inputs:
  - [ape](http://ape-package.ird.fr)
  - [vegan](https://github.com/vegandevs/vegan)
  - [SCclust](https://github.com/KrasnitzLab/SCclust.git)
- - [Pathview](https://pathview.uncc.edu)
  - [dplyr](https://dplyr.tidyverse.org)
 
 ```{r cran, eval = FALSE, include = FALSE, echo = FALSE}
@@ -65,7 +64,7 @@ devtools::install_github("SingerLab/gac")
 ## Examples
 This is a basic example for drawing a copy number heatmap.  For a comprehensive overview of the package please follow the `getting_started.Rmd` in the `vignettes/`
 
-```{r example}
+```{r example, fig.with = 10, fig.height = 8}
 library(gac)
 
 ## basic example code
@@ -82,7 +81,7 @@ aH <- HeatmapCNR(cnr, what = 'X', col = segCol, show_heatmap_legend = FALSE)
 draw(aH, annotation_legend_list = list(legSeg))
 
 bH <- HeatmapCNR(cnr, what = "genes",
-                 which.genes = c("CDK4", "MDM2"),
+                 which.genes = c("CDK4", "MDM2", "DSP", "SMOC1"),
                  col = segCol, show_heatmap_legend = FALSE)
 
 draw(bH, annotation_legend_list = list(legSeg))
