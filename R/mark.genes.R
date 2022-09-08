@@ -6,6 +6,8 @@
 #'
 #' @param gene.list the list of genes you wish to mark
 #'
+#' @param identifier name of the column with gene identifiers
+#'
 #'
 #' @return
 #' returns a vector of named gene.list (gg) w/their rownames/bin.id

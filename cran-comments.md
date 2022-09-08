@@ -5,6 +5,39 @@
 
 
 ## R CMD check results
+### Thu Sep  8 11:32:33 EDT 2022
+── R CMD check results ────────────────────────────────────────────────────── gac 0.0.90027 ────
+Duration: 12m 30.7s
+
+❯ checking PDF version of manual ... WARNING
+  LaTeX errors when creating PDF version.
+  This typically indicates Rd problems.
+  LaTeX errors found:
+  ! LaTeX Error: File `inconsolata.sty' not found.
+  
+  Type X to quit or <RETURN> to proceed,
+  or enter new name. (Default extension: sty)
+  
+  ! Emergency stop.
+  <read *> 
+           
+  l.297 ^^M
+           
+  !  ==> Fatal error occurred, no output PDF file produced!
+
+❯ checking installed package size ... NOTE
+    installed size is  6.0Mb
+    sub-directories of 1Mb or more:
+      data   3.5Mb
+      doc    2.1Mb
+
+❯ checking for non-standard things in the check directory ... NOTE
+  Found the following files/directories:
+    ‘gac-manual.tex’
+
+0 errors ✔ | 1 warning ✖ | 2 notes ✖
+
+
 ### Wed Sep  7 16:51:29 EDT 2022
 ── R CMD check results ────────────────────────────────────────────────────── gac 0.0.90027 ────
 Duration: 9m 44.6s
