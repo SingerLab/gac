@@ -6,6 +6,8 @@
 #'
 #' @param gene.list the list of genes you wish to mark
 #'
+#' @param identifier name of the column with gene identifiers
+#'
 #'
 #' @return
 #' returns a vector of named gene.list (gg) w/their rownames/bin.id
@@ -16,15 +18,17 @@
 #'
 #' aa <- mark.genes(cnr, gene.list = c("CDK4", "MDM2"))
 #'
+#' \dontrun{
 #' geneAnno <- ComplexHeatmap::rowAnnotation(genes = anno_mark(at = aa, labels = names(aa)))
+#' }
 #' 
 #' @export
-mark.genes <- function(cnr, gene.list) {
+mark.genes <- function(cnr, gene.list, identifier = "hgnc.symbol") {
     ## genes to mark in Heatmap
 
-    ggL <- cnr$gene.index$hgnc.symbol %in% gene.list
+    ggL <- cnr$gene.index[, identifier] %in% gene.list
 
-    na <- setdiff(gene.list, cnr$gene.index$hgnc.symbol)
+    na <- setdiff(gene.list, cnr$gene.index[,identifier])
 
     if(length(na) > 0) {
         warning(na)

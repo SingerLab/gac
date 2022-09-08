@@ -1,5 +1,5 @@
 Package: gac
-Version: 0.0.90026
+Version: 0.0.90027
 Date: 2022-08-29
 Title: Genetic Analysis of Cells
 Authors@R: person("Rodrigo Gularte Merida",
@@ -15,21 +15,19 @@ Depends:
     dplyr,
     ape
 Imports:
-    colourvalues,
     GenomicRanges,
     IRanges,
     assertthat,
     ConsensusClusterPlus,
     circlize,
-    SCclust,
-    tibble,
-    pathview,
     glmnet,
     tidyr,
-    reshape2
+    reshape2,
+    SCclust	
 Suggests:
     biomaRt,
     tidyverse,
+    pathview,
     knitr,
     rmarkdown,
     testthat
