@@ -59,7 +59,7 @@ You can install the development version from [GitHub](https://github.com/) with:
 
 ```{r install}
 # install.packages("devtools")
-devtools::install_github("SingerLab/gac")
+devtools::install_github("SingerLab/gac", force = TRUE)
 ```
 
 ## Examples
@@ -77,12 +77,12 @@ data(legSeg)
 
 cnr <- excludeCells(cnr, excl = excl.cells)
 
-aH <- HeatmapCNR(cnr, what = 'X', col = segCol, show_heatmap_legend = FALSE)
+aH <- HeatmapCNR(cnr, col = segCol, show_heatmap_legend = FALSE)
 
 draw(aH, annotation_legend_list = list(legSeg))
 
 bH <- HeatmapCNR(cnr, what = "genes",
-                 which.genes = c("CDK4", "MDM2"),
+                 which.genes = c("CDK4", "MDM2", "TP53"),
                  col = segCol, show_heatmap_legend = FALSE)
 
 draw(bH, annotation_legend_list = list(legSeg))
