@@ -235,9 +235,9 @@ histo_logit_gene <- function(cnr, trait, pheno0, pheno1,
     }))
     
     ## copy to gene.index
-    colnames(reg.eff) <- c("Estimate", "Std.Error", "z.value", "p.value")
-    reg.eff <- as.data.frame(apply(reg.eff, 2, function(i) as.numeric(i)))
-
+    reg.eff <- data.frame(reg.eff)
+    names(reg.eff) <- c("Estimate", "Std.Error", "z.value", "p.value")
+    
     ## extract p-values
     p <- reg.eff$p.value
     ## set NA p-vals of monomoprhic to 1
@@ -355,9 +355,9 @@ histo_logit_bin <- function(cnr, trait, pheno0, pheno1,
         return(eff)
     }))
         
-    ## copy to gene.index
+    ## copy to chromInfo
     colnames(reg.eff) <- c("Estimate", "Std.Error", "z.value", "p.value")
-    reg.eff <- as.data.frame(apply(reg.eff, 2, function(i) as.numeric(i)))
+    reg.eff <- as.data.frame(reg.eff)
 
     ## extract p-values
     p <- reg.eff$p.value
@@ -376,11 +376,8 @@ histo_logit_bin <- function(cnr, trait, pheno0, pheno1,
                                      paste(pheno1, collapse = "."),
                                      ".lr.", colnames(reg.eff)))
     
-    ## add hgnc.symbol
-    reg.eff <- cbind(reg.eff, hgnc.symbol = gsub("\\.", "-", rownames(reg.eff)))
-
     ## merge with chromInfo
-    cnr <- addInfo(cnr, reg.eff)    
+    cnr <- addInfo(cnr, reg.eff)
         
     ## output cnr
     return(cnr)
@@ -481,8 +478,9 @@ histo_logit_gene_cov <- function(cnr, trait, pheno0, pheno1, covar,
     }))
         
     ## copy to gene.index
-    colnames(reg.eff) <- c("Estimate", "Std.Error", "z.value", "p.value")
-    reg.eff <- as.data.frame(apply(reg.eff, 2, function(i) as.numeric(i)))
+    reg.eff <- data.frame(reg.eff)
+    names(reg.eff) <- c("Estimate", "Std.Error", "z.value", "p.value")
+    
 
     ## extract p-values
     p <- reg.eff$p.value
@@ -630,9 +628,6 @@ histo_logit_bin_cov <- function(cnr, trait, pheno0, pheno1, covar,
                                      paste(pheno1, collapse = "."),
                                      ".cv.", covar,
                                      ".lr.", colnames(reg.eff)))
-    
-    ## add hgnc.symbol
-    reg.eff <- cbind(reg.eff, hgnc.symbol = gsub("\\.", "-", rownames(reg.eff)))
     
     ## merge with chromInfo
     cnr <- addInfo(cnr, reg.eff)    
