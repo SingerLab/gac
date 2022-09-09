@@ -443,9 +443,7 @@ vdjHeatmap(cnr)
 library(tidyverse)
 
 data(cnr)
-
 noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
-
 cnr <- cnr %>%
     excludeCells(excl = noisy.cells) %>%
     phyloCNR(root.cell = "cell0") %>%

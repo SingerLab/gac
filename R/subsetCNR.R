@@ -110,7 +110,7 @@ subset_on_bins <- function(cnr, bins) {
     ## if DDRC.df is present
     if(!is.null(cnr[["DDRC.df"]])) {
         nDDRC.df <- cnr$DDRC.df[bins, ]
-        nDDRC.g <- cnr$DDRC.g[, gg]
+        nDDRC.g <- cnr$DDRC.g[gg, ]
     }
     
     cnr[["X"]] <- nX
@@ -145,7 +145,7 @@ subset_on_genes <- function(cnr, genes, all = TRUE) {
     gg <- gsub("-", ".", genes)
     
     ## subset genes matrix based on genes
-    b2 <- as.numeric(gac::mark.genes(cnr, gene.list = genes))
+    b2 <- as.numeric(mark.genes(cnr, gene.list = genes))
 
     cnr <- subset_on_bins(cnr, bins = b2)
 
