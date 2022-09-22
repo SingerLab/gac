@@ -4,12 +4,14 @@
 \alias{genotype_vdj}
 \title{Genotype cells at the VDJ recombination sites}
 \usage{
-genotype_vdj(cnr)
+genotype_vdj(cnr, gene.type.column = "gene.type")
 }
 \arguments{
 \item{cnr}{a cnr bundle.  gene.index MUST include a column named `gene.type`
 with pattern "TR.*gene" for T-cell receptor genes, and "IG.*gene" for B-cell
 receptor genes.  These are the defaults for gene.type in bioconductor::biomaRt}
+
+\item{gene.type.column}{name of gene type column}
 }
 \value{
 Returns a CNR object with `cell.type` column containing assigments for

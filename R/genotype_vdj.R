@@ -4,6 +4,8 @@
 #'   with pattern "TR.*gene" for T-cell receptor genes, and "IG.*gene" for B-cell
 #'   receptor genes.  These are the defaults for gene.type in bioconductor::biomaRt
 #'
+#' @param gene.type.column name of gene type column
+#'
 #' @return
 #' Returns a CNR object with `cell.type` column containing assigments for
 #'  `T-cell`, `B-cell`, and `vdj.unspecified`.  The function will only annotate
@@ -22,9 +24,9 @@
 #' @importFrom assertthat assert_that
 #' 
 #' @export
-genotype_vdj <- function(cnr) {
+genotype_vdj <- function(cnr, gene.type.column = "gene.type") {
 
-    assertthat::assert_that("gene.type" %in% names(cnr$gene.index))
+    assertthat::assert_that(gene.type.column %in% names(cnr$gene.index))
 
     if(!"cell.type" %in% names(cnr$Y)) {
         cnr$Y$cell.type <- "unspecified.cell"
@@ -39,12 +41,12 @@ genotype_vdj <- function(cnr) {
     ## get T-cell receptor VDJ genes from gene.index
     tr.genes <- cnr$gene.index$hgnc.symbol[grepl("TR.*gene", cnr$gene.index$gene.type)]
     tr.genes <- tr.genes[tr.genes %in% colnames(cnr$genes)]
-    tr.genes <- tr.genes[!grepl("pseudogene", cnr$gene.index[tr.genes, "gene.type"])]
+    tr.genes <- tr.genes[!grepl("pseudogene", cnr$gene.index[tr.genes, gene.type.column])]
 
     ## get B-cell receptor VDJ genes from gene.index
     ig.genes <-  cnr$gene.index$hgnc.symbol[grepl("IG.*gene", cnr$gene.index$gene.type)]
     ig.genes <- ig.genes[ig.genes %in% names(cnr$genes)]
-    ig.genes <- ig.genes[!grepl("pseudogene", cnr$gene.index[ig.genes, "gene.type"])]
+    ig.genes <- ig.genes[!grepl("pseudogene", cnr$gene.index[ig.genes, gene.type.column])]
 
     ## get copy number states for IG and TR genes
     trGeno <-  cnr$genes[, tr.genes]
