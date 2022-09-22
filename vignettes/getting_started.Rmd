@@ -175,7 +175,11 @@ grch37.genes.5k
 
 ## coerce to data.frame and keep unique genes with HGNC symbols
 grch37.genes.5k <- data.frame(grch37.genes.5k) %>%
-    filter(hgnc.symbol != "", !duplicated(hgnc.symbol))
+    filter(hgnc.symbol != "", !duplicated(hgnc.symbol)) %>%
+    mutate(chrom = factor(seqnames, unique(seqnames))) %>%
+    select(hgnc.symbol, chrom, start, end, width, strand, ensembl_gene_id,
+           gene.type, bin.id)
+
 
 cnr <- buildCNR(X = X, Y= Y, qc = qc, chromInfo = chromInfo, gene.index = grch37.genes.5k)
 

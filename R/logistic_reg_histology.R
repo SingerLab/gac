@@ -736,7 +736,7 @@ export_pval_igv <- function(cnr, pval.column, outdir = ".",
                                             extension)),
             sep = "\t", quote = FALSE, row.names = FALSE, na = na.value)
     ## get gene pvalues
-    gene.column.keep <- c("seqnames", "start", "end", "hgnc.symbol", pval.column)
+    gene.column.keep <- c("chrom", "start", "end", "hgnc.symbol", pval.column)
     genePvals <- cnr$gene.index[, gene.column.keep]
     names(genePvals) <- c("chr", "start", "end", "hgnc.symbol", "pval")
     ## wrangle & write

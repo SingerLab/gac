@@ -31,7 +31,7 @@ vdjHeatmap <- function(cnr, vdj.genes = NULL, vdjGeneAnno = NULL,
     
     vdjCells <- names(cnr$vdj.cells)
 
-    cnr$gene.index$seqnames <- factor(cnr$gene.index$seqnames, levels = c(1:22, "X", "Y"))
+    cnr$gene.index$chrom <- factor(cnr$gene.index$chrom, levels = c(1:22, "X", "Y"))
     
     if(is.null(vdj.genes)) {
         ## get T-cell receptor VDJ genes from gene.index
@@ -50,7 +50,7 @@ vdjHeatmap <- function(cnr, vdj.genes = NULL, vdjGeneAnno = NULL,
     
     if(is.null(vdjGeneAnno)) {
         vdjChr <- ComplexHeatmap::HeatmapAnnotation(
-            "Chr" = cnr$gene.index[gsub("\\.", "-", vdj.genes), "seqnames"],
+            "Chr" = cnr$gene.index[gsub("\\.", "-", vdj.genes), "chrom"],
             "Gene Type" = cnr$gene.index[gsub("\\.", "-", vdj.genes), "gene.type"],
             annotation_name_side = "left",
             show_legend = TRUE)
@@ -73,7 +73,7 @@ vdjHeatmap <- function(cnr, vdj.genes = NULL, vdjGeneAnno = NULL,
                     cluster_row_slices = FALSE,
                     top_annotation = vdjChr,
                     left_annotation = vdjAnnot,
-                    column_split = cnr$gene.index[gsub("\\.", "-", vdj.genes), "seqnames"],
+                    column_split = cnr$gene.index[gsub("\\.", "-", vdj.genes), "chrom"],
                     ...)
     
     vdjH

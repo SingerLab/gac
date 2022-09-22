@@ -4,7 +4,7 @@
 #'
 #' @param cnr a cnr bundle
 #'
-#' @param seqnames a chromosome name, must match 'cnr$gene.index$seqnames'
+#' @param chrom a chromosome name, must match one of 'cnr$gene.index$chrom'
 #'
 #' @param start region start
 #'
@@ -21,7 +21,7 @@
 #'                     start = 69200804,
 #'                     end = 69246466)
 #'
-#' get_gene_details(cnr, seqnames = coord.df$chr,
+#' get_gene_details(cnr, chrom = coord.df$chr,
 #'                   start = coord.df$start, end = coord.df$end)
 #'
 #' coords.df <- data.frame(chr = c(1, 12), 
@@ -29,16 +29,16 @@
 #'                      end =  c(172941951, 69246466))
 #' do.call(rbind, apply(coords.df, 1, function(rr)
 #'                      get_gene_details(cnr,
-#'                                        seqnames = rr[1],
+#'                                        chrom = rr[1],
 #'                                        start = rr[2],
 #'                                        end = rr[3])))
 #' 
 #' @export
-get_gene_details <- function(cnr, seqnames = 12, start = 69200804, end = 69246466) {
+get_gene_details <- function(cnr, chrom = 12, start = 69200804, end = 69246466) {
 
     assertthat::assert_that(start < end)
     
-    gene.details <- cnr$gene.index[as.character(cnr$gene.index$seqnames) == seqnames & cnr$gene.index$start > start & cnr$gene.index$end < end, ]
+    gene.details <- cnr$gene.index[as.character(cnr$gene.index$chrom) == chrom & cnr$gene.index$start > start & cnr$gene.index$end < end, ]
 
     return(gene.details)
     
@@ -79,7 +79,7 @@ pull_gene_details <- function(cnr, coord = "12:69200804:69246466") {
 
     assertthat::assert_that(start < end)
 
-    gene.details <- get_gene_details(cnr, seqnames = seqname,
+    gene.details <- get_gene_details(cnr, chrom = seqname,
                                      start = start,
                                      end = end)
 

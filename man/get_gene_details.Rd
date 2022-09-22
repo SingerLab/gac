@@ -4,12 +4,12 @@
 \alias{get_gene_details}
 \title{Pull gene details for a genomic region}
 \usage{
-get_gene_details(cnr, seqnames = 12, start = 69200804, end = 69246466)
+get_gene_details(cnr, chrom = 12, start = 69200804, end = 69246466)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
-\item{seqnames}{a chromosome name, must match 'cnr$gene.index$seqnames'}
+\item{chrom}{a chromosome name, must match one of 'cnr$gene.index$chrom'}
 
 \item{start}{region start}
 
@@ -28,7 +28,7 @@ coord.df <- data.frame(chr = 12,
                     start = 69200804,
                     end = 69246466)
 
-get_gene_details(cnr, seqnames = coord.df$chr,
+get_gene_details(cnr, chrom = coord.df$chr,
                   start = coord.df$start, end = coord.df$end)
 
 coords.df <- data.frame(chr = c(1, 12), 
@@ -36,7 +36,7 @@ coords.df <- data.frame(chr = c(1, 12),
                      end =  c(172941951, 69246466))
 do.call(rbind, apply(coords.df, 1, function(rr)
                      get_gene_details(cnr,
-                                       seqnames = rr[1],
+                                       chrom = rr[1],
                                        start = rr[2],
                                        end = rr[3])))
 

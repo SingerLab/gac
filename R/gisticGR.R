@@ -38,7 +38,7 @@ gisticGR <- function(cnr, grTR, oncokb = TRUE, depmeans = TRUE) {
         assertthat::assert_that("depMeans" %in% names(cnr$gene.index))
         assertthat::assert_that("essential" %in% names(cnr$gene.index))
 
-        geneIndex <- GenomicRanges::GRanges(seqnames = cnr$gene.index$seqnames,
+        geneIndex <- GenomicRanges::GRanges(seqnames = cnr$gene.index$chrom,
                          ranges = IRanges::IRanges(start = cnr$gene.index$start,
                                           end = cnr$gene.index$end),
                          strand = cnr$gene.index$strand,
@@ -54,7 +54,7 @@ gisticGR <- function(cnr, grTR, oncokb = TRUE, depmeans = TRUE) {
     
     gistic.genes <- data.frame(gr[overlaps@to,], geneIndex[overlaps@from,])
     
-    names(gistic.genes) <- c("seqnames", "start", "end", "width", "strand",
+    names(gistic.genes) <- c("chrom", "start", "end", "width", "strand",
                              "alteration.type", 
                              "chr", "gene.start", "gene.end", "gene.width",
                              "gene.strand", "ensembl_gene_id",
@@ -65,7 +65,7 @@ gisticGR <- function(cnr, grTR, oncokb = TRUE, depmeans = TRUE) {
         
         geneIndex <-
             GenomicRanges::GRanges(
-                               seqnames = cnr$gene.index$seqnames,
+                               seqnames = cnr$gene.index$chrom,
                                ranges = IRanges::IRanges(
                                                      start = cnr$gene.index$start,
                                                      end = cnr$gene.index$end),
@@ -79,7 +79,7 @@ gisticGR <- function(cnr, grTR, oncokb = TRUE, depmeans = TRUE) {
         
         gistic.genes <- data.frame(gr[overlaps@to,], geneIndex[overlaps@from,])
         
-        names(gistic.genes) <- c("seqnames", "start", "end", "width", "strand",
+        names(gistic.genes) <- c("chrom", "start", "end", "width", "strand",
                                  "alteration.type", 
                                  "chr", "gene.start", "gene.end", "gene.width",
                                  "gene.strand", "ensembl_gene_id",

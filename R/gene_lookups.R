@@ -87,9 +87,9 @@ convert_coord <- function(x) {
 list_genes <- function(cnr, at, identifier = "hgnc.symbol") {
     cc <- unlist(strsplit(convert_coord(at), split = ":"))
     
-    out1 <- cnr$gene.index[cnr$gene.index$seqnames == cc[1], c("hgnc.symbol", "seqnames", "start", "end")]
-    out1 <- out1[out1$start >= as.numeric(cc[2]), c("hgnc.symbol", "seqnames", "start", "end")]
-    out1 <- out1[out1$end <= as.numeric(cc[3]), c("hgnc.symbol", "seqnames", "start", "end")]
+    out1 <- cnr$gene.index[cnr$gene.index$chrom == cc[1], c(identifier, "chrom", "start", "end")]
+    out1 <- out1[out1$start >= as.numeric(cc[2]), c(identifier, "chrom", "start", "end")]
+    out1 <- out1[out1$end <= as.numeric(cc[3]), c(identifier, "chrom", "start", "end")]
 
     out <- out1[, identifier]
 

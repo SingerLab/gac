@@ -5,7 +5,19 @@
 
 
 ## R CMD check results
-## Fri Sep  9 08:23:10 EDT 2022
+### Thu Sep 22 12:09:26 EDT 2022
+── R CMD check results ───────────────────────────────────────────────────── gac 0.0.90029 ────
+Duration: 31m 45.2s
+
+❯ checking installed package size ... NOTE
+    installed size is  6.2Mb
+    sub-directories of 1Mb or more:
+      data   3.5Mb
+      doc    2.2Mb
+
+0 errors ✔ | 0 warnings ✔ | 1 note ✖
+
+### Fri Sep  9 08:23:10 EDT 2022
 ── R CMD check results ───────────────────────────────────────────────────── gac 0.0.90028 ────
 Duration: 15m 5.3s
 

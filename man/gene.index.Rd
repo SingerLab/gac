@@ -8,8 +8,7 @@
 A data frame with chromosome and position information
 \itemize{
 
-  \item seqnames, chromosome -- this is comes from GenomicRanges and
-was not changed
+  \item chrom, chromosome 
   \item start, gene start coordinate
   \item end, gene end coordinate
   \item width, width

@@ -158,7 +158,7 @@ ngenes <- function(cnr, detailed = FALSE, display = FALSE) {
         message()
         message("Detailed Summary of Genes:")
         message("number of genes per chromosome:")
-        print(table(cnr$gene.index$seqnames))
+        print(table(cnr$gene.index$chrom))
         message()
         message("summary of genes per bin:")
         print(summary(as.numeric(table(cnr$gene.index$bin.id))))

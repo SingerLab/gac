@@ -1,3 +1,8 @@
+# gac 0.0.9029
+* added option to change gene.type column in genotype_vdj
+
+* changed `seqnames` column to `chrom` in gene index and matches chromInfo
+
 # gac 0.0.9028
 * added code to estimate q-values
 
