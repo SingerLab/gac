@@ -24,7 +24,7 @@
 #' @importFrom assertthat assert_that
 #' 
 #' @export
-genotype_vdj <- function(cnr, gene.type.column = "gene.type") {
+genotype_vdj <- function(cnr, gene.type.column = "gene_biotype") {
 
     assertthat::assert_that(gene.type.column %in% names(cnr$gene.index))
 
@@ -39,12 +39,12 @@ genotype_vdj <- function(cnr, gene.type.column = "gene.type") {
     }
     
     ## get T-cell receptor VDJ genes from gene.index
-    tr.genes <- cnr$gene.index$hgnc.symbol[grepl("TR.*gene", cnr$gene.index$gene.type)]
+    tr.genes <- cnr$gene.index$hgnc.symbol[grepl("TR.*gene", cnr$gene.index[, gene.type.column])]
     tr.genes <- tr.genes[tr.genes %in% colnames(cnr$genes)]
     tr.genes <- tr.genes[!grepl("pseudogene", cnr$gene.index[tr.genes, gene.type.column])]
 
     ## get B-cell receptor VDJ genes from gene.index
-    ig.genes <-  cnr$gene.index$hgnc.symbol[grepl("IG.*gene", cnr$gene.index$gene.type)]
+    ig.genes <-  cnr$gene.index$hgnc.symbol[grepl("IG.*gene", cnr$gene.index[, gene.type.column])]
     ig.genes <- ig.genes[ig.genes %in% names(cnr$genes)]
     ig.genes <- ig.genes[!grepl("pseudogene", cnr$gene.index[ig.genes, gene.type.column])]
 
