@@ -3,8 +3,12 @@
 
 * changed `seqnames` column to `chrom` in gene index and matches chromInfo
 
+* debugged other functions after setting gene.type.column
+
+* cnr now uses default bioMart `gene_biotype` column name
+
 # gac 0.0.9028
-* added code to estimate q-values
+* added code to estimate q-values in histology comparisons
 
 # gac 0.0.9027
 * introduction of gene lookup functions based on coordinates

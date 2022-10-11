@@ -6,11 +6,12 @@
 #'  the union of T-cell Receptor and B-cell Receptor genes (i.e. TR, IG genes,
 #'  used in genotype_vdj)
 #'                  
-#'
 #' @param vdjGeneAnno HeatmapAnnotation object to annotate gene attributes
 #'
 #' @param vdjCellAnno rowAnnotation object to annotate cells
 #'
+#' @param gene.type.column name of column with gene type, default "gene_biotype
+#' 
 #' @param ... additional arguments passed to ComplexHeatmap::Heatmap
 #'
 #' @return
@@ -27,7 +28,8 @@
 #' @importFrom ComplexHeatmap HeatmapAnnotation rowAnnotation Heatmap
 #' @export
 vdjHeatmap <- function(cnr, vdj.genes = NULL, vdjGeneAnno = NULL, 
-                       vdjCellAnno = NULL, ...) {
+                       vdjCellAnno = NULL, gene.type.column = "gene_biotype",
+                       ...) {
     
     vdjCells <- names(cnr$vdj.cells)
 
@@ -35,13 +37,19 @@ vdjHeatmap <- function(cnr, vdj.genes = NULL, vdjGeneAnno = NULL,
     
     if(is.null(vdj.genes)) {
         ## get T-cell receptor VDJ genes from gene.index
-        tr.genes <- cnr$gene.index$hgnc.symbol[grepl("TR.*gene", cnr$gene.index$gene.type)]
+        tr.genes <-
+            cnr$gene.index$hgnc.symbol[grepl("TR.*gene",
+                                             cnr$gene.index[, gene.type.column])]
         tr.genes <- tr.genes[tr.genes %in% colnames(cnr$genes)]
-        tr.genes <- tr.genes[!grepl("pseudogene", cnr$gene.index[tr.genes, "gene.type"])]
+        tr.genes <- tr.genes[!grepl("pseudogene",
+                                    cnr$gene.index[tr.genes, gene.type.column])]
         ## get B-cell receptor VDJ genes from gene.index
-        ig.genes <-  cnr$gene.index$hgnc.symbol[grepl("IG.*gene", cnr$gene.index$gene.type)]
+        ig.genes <-
+            cnr$gene.index$hgnc.symbol[grepl("IG.*gene",
+                                             cnr$gene.index[,gene.type.column])]
         ig.genes <- ig.genes[ig.genes %in% names(cnr$genes)]
-        ig.genes <- ig.genes[!grepl("pseudogene", cnr$gene.index[ig.genes, "gene.type"])]
+        ig.genes <- ig.genes[!grepl("pseudogene",
+                                    cnr$gene.index[ig.genes, gene.type.column])]
         ## vdj genes
         vdj.genes <- union(tr.genes, ig.genes)
     } else {
@@ -51,7 +59,8 @@ vdjHeatmap <- function(cnr, vdj.genes = NULL, vdjGeneAnno = NULL,
     if(is.null(vdjGeneAnno)) {
         vdjChr <- ComplexHeatmap::HeatmapAnnotation(
             "Chr" = cnr$gene.index[gsub("\\.", "-", vdj.genes), "chrom"],
-            "Gene Type" = cnr$gene.index[gsub("\\.", "-", vdj.genes), "gene.type"],
+            "Gene Type" = cnr$gene.index[gsub("\\.", "-", vdj.genes),
+                                         gene.type.column],
             annotation_name_side = "left",
             show_legend = TRUE)
     } else {
@@ -73,7 +82,8 @@ vdjHeatmap <- function(cnr, vdj.genes = NULL, vdjGeneAnno = NULL,
                     cluster_row_slices = FALSE,
                     top_annotation = vdjChr,
                     left_annotation = vdjAnnot,
-                    column_split = cnr$gene.index[gsub("\\.", "-", vdj.genes), "chrom"],
+                    column_split = cnr$gene.index[gsub("\\.", "-", vdj.genes),
+                                                  "chrom"],
                     ...)
     
     vdjH

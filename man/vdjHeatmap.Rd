@@ -4,7 +4,14 @@
 \alias{vdjHeatmap}
 \title{Heatmap of cells with VDJ recombination}
 \usage{
-vdjHeatmap(cnr, vdj.genes = NULL, vdjGeneAnno = NULL, vdjCellAnno = NULL, ...)
+vdjHeatmap(
+  cnr,
+  vdj.genes = NULL,
+  vdjGeneAnno = NULL,
+  vdjCellAnno = NULL,
+  gene.type.column = "gene_biotype",
+  ...
+)
 }
 \arguments{
 \item{cnr}{a cnir bundle}
@@ -16,6 +23,8 @@ used in genotype_vdj)}
 \item{vdjGeneAnno}{HeatmapAnnotation object to annotate gene attributes}
 
 \item{vdjCellAnno}{rowAnnotation object to annotate cells}
+
+\item{gene.type.column}{name of column with gene type, default "gene_biotype}
 
 \item{...}{additional arguments passed to ComplexHeatmap::Heatmap}
 }

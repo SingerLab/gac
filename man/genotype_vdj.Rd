@@ -4,7 +4,7 @@
 \alias{genotype_vdj}
 \title{Genotype cells at the VDJ recombination sites}
 \usage{
-genotype_vdj(cnr, gene.type.column = "gene.type")
+genotype_vdj(cnr, gene.type.column = "gene_biotype")
 }
 \arguments{
 \item{cnr}{a cnr bundle.  gene.index MUST include a column named `gene.type`

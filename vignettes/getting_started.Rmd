@@ -151,7 +151,7 @@ grch37.genes <- getBM(attributes = c("ensembl_gene_id", "hgnc_symbol",
                                          names = grch37.genes$ensembl_gene_id),
                         ensembl_gene_id = grch37.genes$ensembl_gene_id,
                         hgnc.symbol = grch37.genes$hgnc_symbol,
-                        gene.type = grch37.genes$gene_biotype) )
+                        gene_biotype= grch37.genes$gene_biotype) )
 
 
 ## set up a genomic ranges object for the genome bins
@@ -178,7 +178,7 @@ grch37.genes.5k <- data.frame(grch37.genes.5k) %>%
     filter(hgnc.symbol != "", !duplicated(hgnc.symbol)) %>%
     mutate(chrom = factor(seqnames, unique(seqnames))) %>%
     select(hgnc.symbol, chrom, start, end, width, strand, ensembl_gene_id,
-           gene.type, bin.id)
+           gene_biotype, bin.id)
 
 
 cnr <- buildCNR(X = X, Y= Y, qc = qc, chromInfo = chromInfo, gene.index = grch37.genes.5k)
@@ -438,7 +438,6 @@ To asses weather T-cells or B-cells are present in the cell populations, the fun
 
 ```{r vdj_genotyping}
 cnr <- genotype_vdj(cnr)
-
 vdjHeatmap(cnr)
 ```
 

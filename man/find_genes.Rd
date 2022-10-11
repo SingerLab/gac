@@ -31,7 +31,7 @@ data(cnr)
 find_genes(cnr, at = "12:58,000,000-59,000,000")
 
 find_genes(cnr, at = "12:58,000,000-59,000,000",
-           show.columns = c("hgnc.symbol", "gene.type"))
+           show.columns = c("hgnc.symbol", "gene_biotype"))
 
 
 }
