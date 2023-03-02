@@ -1,3 +1,7 @@
+# gac 0.0.9030
+* added `split_cnr` to convert a cnr object into a list of cnr split by a categorical variable
+ e.g. sample ID, treated vs control, etc.
+
 # gac 0.0.9029
 * added option to change gene.type column in genotype_vdj
 
