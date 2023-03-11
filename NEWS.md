@@ -1,3 +1,6 @@
+# gac 0.0.9031
+* debug pull_gene_details and get_gene_details
+
 # gac 0.0.9030
 * added `split_cnr` to convert a cnr object into a list of cnr split by a categorical variable
  e.g. sample ID, treated vs control, etc.

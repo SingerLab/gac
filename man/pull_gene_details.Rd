@@ -22,6 +22,8 @@ This function subsets the gene index for a genomic region of interest.
 data(cnr)
 coord <- "12:69200804:69246466"
 
+pull_gene_details(cnr, coord = "4:82351690:138565783")
+
 pull_gene_details(cnr, coord = coord)
 
 coords <- c("1:170120554:172941951",

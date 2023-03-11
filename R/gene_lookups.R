@@ -118,6 +118,7 @@ list_genes <- function(cnr, at, identifier = "hgnc.symbol") {
 #' @examples
 #'
 #' data(cnr)
+#'
 #' coord.df <- data.frame(chr = 12,
 #'                     start = 69200804,
 #'                     end = 69246466)
@@ -163,6 +164,8 @@ get_gene_details <- function(cnr, chrom = 12, start = 69200804, end = 69246466) 
 #' data(cnr)
 #' coord <- "12:69200804:69246466"
 #' 
+#' pull_gene_details(cnr, coord = "4:82351690:138565783")
+#'
 #' pull_gene_details(cnr, coord = coord)
 #'
 #' coords <- c("1:170120554:172941951",
@@ -173,10 +176,10 @@ get_gene_details <- function(cnr, chrom = 12, start = 69200804, end = 69246466) 
 #' 
 #' @export
 pull_gene_details <- function(cnr, coord = "12:69200804:69246466") {
-    
+
     seqname <- unlist(strsplit(coord, split = ":"))[1]
-    start <- unlist(strsplit(coord, split = ":"))[2]
-    end <- unlist(strsplit(coord, split = ":"))[3]
+    start <- as.numeric(unlist(strsplit(coord, split = ":"))[2])
+    end <- as.numeric(unlist(strsplit(coord, split = ":"))[3])
 
     assertthat::assert_that(start < end)
 
