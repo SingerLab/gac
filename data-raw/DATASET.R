@@ -1,6 +1,23 @@
 ## code to prepare `DATASET` dataset goes here
 ## usethis::use_data(DATASET, overwrite = TRUE)
 
+#' For convenience, GAC comes with several color palettes as part of the data.
+#'  To use any of these run `data(segCol)` for example.  There are the different
+#'  color palettes such as:
+#' 
+#'   * segCol for segmentation colors: loss and deletions in blue and yellow,
+#'   respectively, 2 in white, gains and amplifications in red to gray scale
+#' 
+#'   * lowCol for log2 ratio colors: blue-to-red scale from -2 to +2
+#' 
+#'   * ampCol for amplification : yellow to red scale from 0 to Inf.
+#'
+#'   * fgaCol for Fraction of genome altered: from 0 to 1 light yellow to 1 in blue
+#'
+#'   * ploidyCol for ploidy : gradient of purples starting at 1.5
+#'
+#'   * ccClustCol : yellow to blue from 0 to 1 for co-clustering frequencies
+
 devtools::load_all()
 
 ## fixed colors

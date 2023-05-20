@@ -57,6 +57,7 @@ excludeCells <- function(cnr, excl) {
     cnr[["qc"]] <- qc
     cnr[["exprs"]] <- Ye
     cnr[["cells"]] <- keep
+    cnr[["bulk"]] <- cnr$bulk
 
     if(!is.null(cnr[["vdj.cells"]])) {
         vk <- names(cnr[["vdj.cells"]]) %in% keep

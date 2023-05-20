@@ -54,14 +54,19 @@ get_cluster_profiles <- function(cnr, minimum_cells = 3, base.ploidy = 2,
 
     DDRC.g <- sapply(names(uclust), function(clust) {
         ## getting consensus copy number profile for each cluster
-        udf <- cnr$genes[cnr$Y$cellID[cnr$Y[, cluster.column]  == clust],]
+        gdf <- t(cnr$genes)
+        idx <- cnr$Y[, cluster.column]  == clust
+        udf <- gdf[, idx]
+        
         if ( ncol(udf) != 0 && ! is.null(ncol(udf)) ) {
             apply(udf, 1, median, na.rm = TRUE)
         }
     })
 
 
-    
+    DDRC.g[DDRC.g >= base.ploidy ] <- ceiling(DDRC.g[DDRC.g >= base.ploidy])
+    DDRC.g[DDRC.g < base.ploidy] <- floor(DDRC.g[DDRC.g < base.ploidy])
+
     cnr[["uclust"]] <- uclust
     cnr[["DDRC.df"]] <- DDRC.df
     cnr[["DDRC.g"]] <- DDRC.g

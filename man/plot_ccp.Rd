@@ -4,12 +4,14 @@
 \alias{plot_ccp}
 \title{plot consensus clustering}
 \usage{
-plot_ccp(cnr, k, ...)
+plot_ccp(cnr, k = NULL, col = NULL, ...)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
 \item{k}{parameter K to plot}
+
+\item{col}{color map, defaults to Color Brewer `YlGnBu`}
 
 \item{...}{additional argoments passed to Heatmap}
 }

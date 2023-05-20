@@ -18,9 +18,6 @@ expect_true("gene.index" %in% names(cnr))
 expect_true("cells" %in% names(cnr))
 expect_true("bulk" %in% names(cnr))
 
-## import colors
-data(segCol)
-
 ## check number of rows and columns throughout cnr object
 expect_equal(length(cnr), 8)
 
@@ -28,11 +25,11 @@ expect_true(all(names(cnr) %in% c("X", "genes", "Y", "qc",
                                   "chromInfo", "gene.index", "cells", "bulk")))
 
 ## visualize genome-wide
-h1 <- HeatmapCNR(cnr, col = segCol)
+h1 <- HeatmapCNR(cnr)
 expect_true(all.equal(dim(h1@matrix), dim(cnr$X)))
 
 ## visualize genes of interest
-h2 <- HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"), col = segCol)
+h2 <- HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"))
 
 ## ADD cells
 n.cells <- nrow(cnr$Y)
@@ -122,7 +119,6 @@ expect_true("mapd.cv" %in% names(cnr$qc))
 ## addInfo
 
 fakePval <- data.frame(pval = runif(5000))
-
 cnr <- addInfo(cnr, df = fakePval)
 
 expect_true("pval" %in% names(cnr$chromInfo))

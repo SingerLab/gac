@@ -22,7 +22,6 @@
 #'
 #' @examples
 #' data(cnr)
-#' data(segCol)
 #'
 #' ## subset based on bins
 #' bins1.100 <- subsetCNR(cnr, bins = 1:100)
