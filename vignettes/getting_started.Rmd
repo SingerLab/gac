@@ -408,7 +408,7 @@ cnr$cluster_heterogeneity
 ## Cluster Summary Profiles
 The function `get_cluster_profiles` is used to summarize the genetic profile of each cluster.  Cluster summary profiles are saved in `cnr[["DDRC.df"]]`.
 ```{r cluster_profiles}
-segCol <- segCol <- circlize::colorRamp2(breaks = c(0:5, 10, 20, 40, 80),
+segCol <- circlize::colorRamp2(breaks = c(0:5, 10, 20, 40, 80),
                      colors = c("#F2D200", "#318CE7", "#FFFFFF",
                                 "#FFA89F", "#FF523F", "#D40000",
                                 "#7F7F7F", "#636363", "#515151",
