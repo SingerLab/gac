@@ -35,6 +35,8 @@ addPheno <- function(cnr, df,
     }
     
     cnr[["Y"]] <- ny
+
+    cnr <- sync_cnr(cnr)
     
     return(cnr)
     

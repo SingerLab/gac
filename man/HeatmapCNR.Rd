@@ -4,7 +4,15 @@
 \alias{HeatmapCNR}
 \title{HeatmapCNR}
 \usage{
-HeatmapCNR(cnr, what = "X", which.genes = NULL, show_row_dend = FALSE, ...)
+HeatmapCNR(
+  cnr,
+  what = "X",
+  which.genes = NULL,
+  col = NULL,
+  base.ploidy = 2,
+  show_row_dend = FALSE,
+  ...
+)
 }
 \arguments{
 \item{cnr}{the CNR bundle}
@@ -13,17 +21,20 @@ HeatmapCNR(cnr, what = "X", which.genes = NULL, show_row_dend = FALSE, ...)
 
 \item{which.genes}{IF you chose genes, you need to specify which ones}
 
+\item{col}{optional color map, if NULL colors are dependent on the sample ploidy:
+For base.ploidy = 2; values are 0 = yellow, 1 = blue, 2 = white, 3-10 reds, >10 greyscale
+For base.ploidy = 4; values are a <4 = dark to light blues, 4 = yellow, >4 = light to dark reds 
+if cnr$bulk = TRUE, ratios are blue, white, and red.}
+
+\item{base.ploidy}{base ploidy, values must be 2 or 4.  Defaults to 2.  Ignored if setting color pallete}
+
 \item{show_row_dend}{weather to show the row dendrogram, default is FALSE,}
 
 \item{...}{additional parameters from Heatmap}
 }
 \value{
 Returns a simple ComplexHeatmap plot clustered using Bray-Disimilarity with
-vegan::vegdist, and sorted by chromosome location.  Several color scales are
-provided in the package, see segCol, lowCol, ampCol, fgaCol, and ploidyCol.
-These are useful for setting additional rowAnnotation and HeatmapAnnotations.
-A default chromosome color palette was left out as different organisms have
-different chromosome numbers and naming conventions.
+vegan::vegdist, and sorted by chromosome location.  
 
 For custumizing your heatmap, please visit the ComplexHeatmap documentation:
 
@@ -40,35 +51,14 @@ If you prefer to use a different method, you can use the native Heatmap
 function.  E.g. if you prefer genomic bins to cluster, and show a dendrogram
 when plotting X. By default bins are kept in chromosome order, however, when
 plotting genes, rows are cells, and these are clustered.
-
-For convenience, GAC comes with several color palettes as part of the data.
- To use any of these run `data(segCol)` for example.  There are the different
- color palettes such as:
-
-  * segCol for segmentation colors: loss and deletions in blue and yellow,
-  respectively, 2 in white, gains and amplifications in red to gray scale
-
-  * lowCol for log2 ratio colors: blue-to-red scale from -2 to +2
-
-  * ampCol for amplification : yellow to red scale from 0 to Inf.
-
-  * fgaCol for Fraction of genome altered: from 0 to 1 light yellow to 1 in blue
-
-  * ploidyCol for ploidy : gradient of purples starting at 1.5
-
-  * ccClustCol : yellow to blue from 0 to 1 for co-clustering frequencies
 }
 \examples{
 
 ## load example
 data(cnr)
 
-## load color map for segment colors
-data(segCol)
+HeatmapCNR(cnr)
 
-
-HeatmapCNR(cnr, col = segCol)
-
-HeatmapCNR(cnr, col = segCol, what = "genes", which.genes = c("CDK4", "MDM2"))
+HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"))
 
 }

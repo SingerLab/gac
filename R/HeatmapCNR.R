@@ -1,6 +1,5 @@
 #' HeatmapCNR
 #'
-#'
 #' Wrapper function to the ultra-powerful ComplexHeatmap.  It implements Bray-Curtis
 #' dissimilarity as the distance metric for clustering cells, and 'ward.D2' from
 #' `hclust`.  Bray-Curtis disimilarity
@@ -11,22 +10,6 @@
 #' when plotting X. By default bins are kept in chromosome order, however, when
 #' plotting genes, rows are cells, and these are clustered.
 #'
-#' For convenience, GAC comes with several color palettes as part of the data.
-#'  To use any of these run `data(segCol)` for example.  There are the different
-#'  color palettes such as:
-#' 
-#'   * segCol for segmentation colors: loss and deletions in blue and yellow,
-#'   respectively, 2 in white, gains and amplifications in red to gray scale
-#' 
-#'   * lowCol for log2 ratio colors: blue-to-red scale from -2 to +2
-#' 
-#'   * ampCol for amplification : yellow to red scale from 0 to Inf.
-#'
-#'   * fgaCol for Fraction of genome altered: from 0 to 1 light yellow to 1 in blue
-#'
-#'   * ploidyCol for ploidy : gradient of purples starting at 1.5
-#'
-#'   * ccClustCol : yellow to blue from 0 to 1 for co-clustering frequencies
 #'
 #' @param cnr the CNR bundle
 #'
@@ -34,22 +17,23 @@
 #'
 #' @param which.genes  IF you chose genes, you need to specify which ones
 #'
+#' @param col optional color map, if NULL colors are dependent on the sample ploidy:
+#'   For base.ploidy = 2; values are 0 = yellow, 1 = blue, 2 = white, 3-10 reds, >10 greyscale
+#'   For base.ploidy = 4; values are a <4 = dark to light blues, 4 = yellow, >4 = light to dark reds 
+#'   if cnr$bulk = TRUE, ratios are blue, white, and red.
+#' 
+#' @param base.ploidy base ploidy, values must be 2 or 4.  Defaults to 2.  Ignored if setting color pallete
+#'
 #' @param show_row_dend weather to show the row dendrogram, default is FALSE,
 #' 
 #' @param ... additional parameters from Heatmap
 #'
 #' @import ComplexHeatmap
 #'
-#' @importFrom grid gpar
-#' 
 #' @return
 #' Returns a simple ComplexHeatmap plot clustered using Bray-Disimilarity with
-#' vegan::vegdist, and sorted by chromosome location.  Several color scales are
-#' provided in the package, see segCol, lowCol, ampCol, fgaCol, and ploidyCol.
-#' These are useful for setting additional rowAnnotation and HeatmapAnnotations.
-#' A default chromosome color palette was left out as different organisms have
-#' different chromosome numbers and naming conventions.
-#'
+#' vegan::vegdist, and sorted by chromosome location.  
+#' 
 #' For custumizing your heatmap, please visit the ComplexHeatmap documentation:
 #'
 #' https://jokergoo.github.io/ComplexHeatmap-reference/book/
@@ -59,18 +43,17 @@
 #' ## load example
 #' data(cnr)
 #'
-#' ## load color map for segment colors
-#' data(segCol)
+#' HeatmapCNR(cnr)
 #'
-#' 
-#' HeatmapCNR(cnr, col = segCol)
-#'
-#' HeatmapCNR(cnr, col = segCol, what = "genes", which.genes = c("CDK4", "MDM2"))
+#' HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2"))
 #'
 #' @import ComplexHeatmap
+#' @importFrom vegan vegdist 
+#' @importFrom circlize colorRamp2
 #' 
 #' @export
 HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
+                       col = NULL, base.ploidy = 2,
                        show_row_dend = FALSE, ...) {
 
     if(what == "X") {
@@ -86,7 +69,38 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
         }
 
     }
-    
+
+    if(is.null(col)) {
+        
+        if(base.ploidy == 2) {
+            at <- c(0, 1, 2, 3, 4, 5, 10, 30)
+            segment.colors <- circlize::colorRamp2(
+                                 breaks = at,
+                                 colors = c("#F2D200", "#318CE7",
+                                            "#FFFFFF", "#FFA89F",
+                                            "#FF523F", "#D40000",
+                                            "#8F8F8F", "#141414"))
+        } else {
+            at = c(0, 1, 2, 3, 4, 8, 16, 32, 64)
+            segment.colors <- circlize::colorRamp2(
+                                            breaks = at,
+                                            colors = c("#313695", "#4575B4", "#74ADD1",
+                                                       "#ABD9E9", "#FFFFBF", "#FDAE61",
+                                                       "#F46D43", "#D73027", "#A50026"))
+        }
+        
+        if(is.null(col)) {
+            bulk.colors <- circlize::colorRamp2(breaks = c(-1,-0.16, 0.16, 1),
+                                                colors = c("#2166AC", "#FFFFFF",
+                                                           "#FFFFFF", "#D40000"))
+        } else {
+            bulk.colors <- col
+        }
+    } else {
+        segment.colors <- col
+        bulk.colors <- col
+    }
+
     if(what == "X") {
 
         chrAnnoLeft <- create_chromosome_annotation(cnr)
@@ -97,6 +111,7 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
                             cluster_rows = FALSE,
                             left_annotation = chrAnnoLeft,
                             clustering_method_columns = "ward.D2",
+                            col = segment.colors,
                             ...)
             
         } else {
@@ -105,6 +120,7 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
                             cluster_rows = FALSE,
                             left_annotation = chrAnnoLeft,
                             clustering_method_columns = "ward.D2",
+                            col = segment.colors,
                             ...)
         }
         
@@ -113,15 +129,17 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
         if(what == "genes" & all(which.genes %in% colnames(cnr$genes))) {
             
             if(cnr[["bulk"]]) {
-                
+
                 Hmap <- ComplexHeatmap::Heatmap(use, name = "genes", clustering_distance_rows = function(genes) vegan::vegdist(2^genes, method = "bray"),
                                 clustering_method_rows = "ward.D2",
+                                col = bulk.colors,
                                 ...)
                 
             } else {
                 
                 Hmap <- ComplexHeatmap::Heatmap(use, name = "genes", clustering_distance_rows = function(genes) vegan::vegdist(genes, method = "bray"),
                                 clustering_method_rows = "ward.D2",
+                                col = segment.colors,
                                 ...)
             }
           

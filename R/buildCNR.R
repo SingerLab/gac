@@ -113,6 +113,8 @@ buildCNR <- function(X, Y, qc, chromInfo, exprs = NULL, gene.index,
     cnr[["cells"]] <- colnames(cnr[["X"]])
     cnr[["bulk"]] <- bulk
 
+    cnr <- sync_cnr(cnr)
+    
     return(cnr)
 
 } ## end buildCNR

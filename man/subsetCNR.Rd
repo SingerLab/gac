@@ -37,7 +37,6 @@ This function pulls out a section of the genome for further analysis.
 }
 \examples{
 data(cnr)
-data(segCol)
 
 ## subset based on bins
 bins1.100 <- subsetCNR(cnr, bins = 1:100)

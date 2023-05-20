@@ -177,7 +177,7 @@ grch37.genes.5k
 grch37.genes.5k <- data.frame(grch37.genes.5k) %>%
     filter(hgnc.symbol != "", !duplicated(hgnc.symbol)) %>%
     mutate(chrom = factor(seqnames, unique(seqnames))) %>%
-    select(hgnc.symbol, chrom, start, end, width, strand, ensembl_gene_id,
+    dplyr::select(hgnc.symbol, chrom, start, end, width, strand, ensembl_gene_id,
            gene_biotype, bin.id)
 
 
@@ -203,12 +203,10 @@ The `HeatmapCNR` function will create a viable plot if you are in a time constra
 ```{r visualize}
 ## a color scale to visualize the integer copy number is provided
 ## visualize genome-wide
-data(segCol)
-
-HeatmapCNR(cnr, col = segCol)
+HeatmapCNR(cnr)
 
 ## visualize genes of interest
-HeatmapCNR(cnr, col = segCol, what = "genes", which.genes = c("CDK4", "MDM2", "TP53"))
+HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2", "TP53"))
 
 ```
 
@@ -225,7 +223,7 @@ For example to exclude cells that you have been deemed as "FAIL" b/c of low read
 cnrE <- excludeCells(cnr, excl = excl.cells)
 sapply(cnrE, dim)
 
-HeatmapCNR(cnrE, col = segCol)
+HeatmapCNR(cnrE)
 ```
 
 Conversly, if you have multiple samples or have multiple conditions and wish to use only part of the data, you can use `keepCells`
@@ -239,7 +237,7 @@ keep.cells <- setdiff(colnames(cnr$X), paste0("cell",noisy.cells-1))
 cnrK <- keepCells(cnr, keep = keep.cells)
 sapply(cnrK, dim)
 
-HeatmapCNR(cnrK, col = segCol)
+HeatmapCNR(cnrK)
 
 ```
 
@@ -274,10 +272,10 @@ newQC
 ## add cells
 cnrA <- addCells(cnr, newX = newX, newY = newY, newqc = newQC)
 sapply(cnrA, dim)
-HeatmapCNR(cnrA, col = segCol)
+HeatmapCNR(cnrA)
 ```
 
-For developers, if you run an algorithm to estimate genomic complexity or another parameter, you can add these to the Y matrix using `addPheno`
+If you run an algorithm to estimate genomic complexity or another parameter, you can add these to the Y matrix using `addPheno`
 
 ```{r add.phenotypes}
 ## addPheno
@@ -311,10 +309,12 @@ Lastly, the goal of this tool is to facilitate the genetic, and statistical anal
 ```{r addInfo}
 ## addInfo
 fakePval <- data.frame(fakePval = runif(5000))
-
 cnr <- addInfo(cnr, df = fakePval)
-
 head(cnr$chromInfo)
+
+fake.Gene.pval <- data.frame(hgnc.symbol = unique(cnr$gene.index$hgnc.symbol), fPval = runif(nrow(cnr$gene.index)))
+cnr <- addGeneInfo(cnr, df = fake.Gene.pval)
+head(cnr$gene.index)
 
 ```
 
@@ -340,7 +340,7 @@ cnr <- setBrayClusters(cnr)
 table(cnr$Y$BrayC)
 ```
 
-pInternally, the operations to select the intersect are:
+Internally, the operations to select the intersect above are:
 ```{r default_method, eval = FALSE}
 ( mopc <- optClust(cnr, seq(0, 0.2, by = 0.005)) )
 
@@ -370,15 +370,12 @@ text(1, y = cnr$tree.height,
 ```{r plot_phylo}
 cnr[["phylo"]]
 plot(cnr[["phylo"]])
-
-plot(cnr[["phylo"]], type = 'u')
 ```
 
 ## Consensus clustering
 In addition, we implemented [ConsensusClusterPlus](https://bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.html) using the function `run_consensus_clustering` directly on the CNR.  Optimum number of clusters is based on the maximum number of stable clusters ([Meyer et al. 2013](https://arxiv.org/abs/1408.0967)).  Stable Cluster membership is saved to the phenotype table `Y` as  `ConsensusC`.  K parameter (kCC) and number of stable clusters (sK) are saved into `cnr[["optK"]]`.  The table of kCC, and kS is saved as `cnr[["kStats"]]`.
 
 ```{r cc_clust}
-data(ccClustCol)
 cnr <- run_consensus_clustering(cnr, maxK = 20)
 
 cnr <- doKSpectral(cnr)
@@ -389,9 +386,9 @@ cnr$optK
 
 cnr <- setKcc(cnr)
 
-plot_ccp(cnr, k = cnr$kCC, col = ccClustCol)
+plot_ccp(cnr, k = cnr$kCC)
 
-HeatmapCNR(cnr, col = segCol,
+HeatmapCNR(cnr,
            column_split = cnr$Y$ConsensusC,
            column_gap = unit(0, "mm"),
            top_annotation =
@@ -411,6 +408,12 @@ cnr$cluster_heterogeneity
 ## Cluster Summary Profiles
 The function `get_cluster_profiles` is used to summarize the genetic profile of each cluster.  Cluster summary profiles are saved in `cnr[["DDRC.df"]]`.
 ```{r cluster_profiles}
+segCol <- segCol <- circlize::colorRamp2(breaks = c(0:5, 10, 20, 40, 80),
+                     colors = c("#F2D200", "#318CE7", "#FFFFFF",
+                                "#FFA89F", "#FF523F", "#D40000",
+                                "#7F7F7F", "#636363", "#515151",
+                                "#303030"))
+
 cnr <- get_cluster_profiles(cnr)
 
 chrAnnoLeft <- create_chromosome_annotation(cnr, side = "left")

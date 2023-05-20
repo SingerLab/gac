@@ -1,8 +1,20 @@
+# gac 0.0.9032
+* new sync_cnr function to resyncronize cnr tables after merge, etc
+  This is now applied by default after running addCells, addPheno, and buildCNR
+
+* adding default colors to heatmap plots
+
+* debuged DDRC.g creation as there was a bug introduced and went missing
+
+* added function to append information to the gene.index
+
+* removing color map objects 
+
 # gac 0.0.9031
 * debug pull_gene_details and get_gene_details
 
 # gac 0.0.9030
-* added `split_cnr` to convert a cnr object into a list of cnr split by a categorical variable
+* new `split_cnr` function to convert a cnr object into a list of cnr split by a categorical variable
  e.g. sample ID, treated vs control, etc.
 
 # gac 0.0.9029
