@@ -57,6 +57,9 @@ setBrayClusters <- function(cnr, tree.height = NULL, prefix = "C", ...) {
 #'  which will pull the optK[kCC] from kStats
 #'
 #' @param prefix prefix charcter to append to Consensus Clusters
+#'
+#' @param overwrite weather to overwrite the ConsensusC column,
+#'   default is TRUE
 #' 
 #' @importFrom assertthat assert_that
 #' 
@@ -66,7 +69,7 @@ setBrayClusters <- function(cnr, tree.height = NULL, prefix = "C", ...) {
 #'  specified kCC
 #' 
 #' @export
-setKcc <- function(cnr, kCC = NULL, prefix = "X") {
+setKcc <- function(cnr, kCC = NULL, prefix = "X", overwrite = TRUE) {
 
     ## assertthat::assert_that("ConsensusC" %in% colnames(cnr[["Y"]]),
     ##                        msg = "a consensus cluster column already exists")
@@ -85,12 +88,22 @@ setKcc <- function(cnr, kCC = NULL, prefix = "X") {
         cc_membership[,1] <- paste0(prefix, cc_membership[,1])
     }
 
+    if("ConsensusC" %in% names(cnr$Y)) {
+        if(overwrite) {
+            warning("Overwriting ConsensusC")
+            ccx <- which(names(cnr$Y) == "ConsensusC")
+            cnr$Y <- cnr$Y[, -ccx]
+        } else {
+            warning("ConsensusC exists, check names in Y matrix after merge")
+        }
+    } 
+    
     cnr <- addPheno(cnr, df = cc_membership, by.x = "cellID", by.y = 0,
                     sort = FALSE)
-
-  cnr[["kCC"]] <- kCC
-
-  return(cnr)
+    
+    cnr[["kCC"]] <- kCC
+    
+    return(cnr)
 }
 
 #' rank clones

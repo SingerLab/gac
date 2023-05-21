@@ -27,7 +27,7 @@ noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
 
 ## reduced pipeline to genrate DDRC clone profiles
 cnr <- excludeCells(cnr, excl = noisy.cells)
-cnr <- phyloCNR(cnr, root.cell = "cell0")
+cnr <- phylo_cnr(cnr, root.cell = "cell0")
 cnr <- setBrayClusters(cnr)
 cnr <- run_consensus_clustering(cnr, iters = 20, maxK = 40)
 cnr <- doKSpectral(cnr)

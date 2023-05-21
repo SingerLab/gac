@@ -24,7 +24,7 @@
 #'
 #' data(cnr)
 #'
-#' cnr <- phyloCNR(cnr)
+#' cnr <- phylo_cnr(cnr)
 #'
 #' optClust(cnr, opt.range = seq(0, 0.3, by = 0.05))
 #'

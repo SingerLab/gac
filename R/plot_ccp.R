@@ -24,6 +24,8 @@ plot_ccp <- function(cnr, k = NULL, col = NULL, ...) {
 
     if(is.null(k)) {
         k <- cnr$kCC
+    } else {
+        k <- k
     }
     
     tmpH = ComplexHeatmap::Heatmap(round(

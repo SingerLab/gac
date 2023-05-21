@@ -34,7 +34,7 @@
 #' @examples
 #' data(cnr)
 #'
-#' cnr <- phyloCNR(cnr)
+#' cnr <- phylo_cnr(cnr)
 #'
 #' cnr <- run_consensus_clustering(cnr, maxK = 6)
 #' 
@@ -51,7 +51,7 @@ run_consensus_clustering <- function(cnr, maxK = 40, iters = 200,
                                 ...) {
 
     if(is.null(cnr[["cdb"]])) {
-        cnr <- phyloCNR(cnr)
+        cnr <- phylo_cnr(cnr)
     }
     
     if(iters <= 201) {

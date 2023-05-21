@@ -33,7 +33,7 @@ In a not so distant future, the posibility to acquire single-cell DNA and RNA fr
 
 Lastly, a *qc* matrix containg metadata about each cell is required.
 
-![Figure1](figures/CNR.png){ width=50% }
+![Figure1](figures/CNR.png){ width=80% }
 
 Figure 1. Schematic representation of the CNR bundle and how the different components are related.
 
@@ -180,6 +180,7 @@ grch37.genes.5k <- data.frame(grch37.genes.5k) %>%
     dplyr::select(hgnc.symbol, chrom, start, end, width, strand, ensembl_gene_id,
            gene_biotype, bin.id)
 
+grch37.genes.5k$chrom <- factor(grch37.genes.5k$chrom, c(1:22, "X", "Y"))
 
 cnr <- buildCNR(X = X, Y= Y, qc = qc, chromInfo = chromInfo, gene.index = grch37.genes.5k)
 
@@ -200,7 +201,7 @@ I made use of [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-referen
 
 The `HeatmapCNR` function will create a viable plot if you are in a time constraint.
 
-```{r visualize}
+```{r visualize, fig.width = 7, fig.height = 7}
 ## a color scale to visualize the integer copy number is provided
 ## visualize genome-wide
 HeatmapCNR(cnr)
@@ -217,7 +218,7 @@ On a more frequent basis you will want to remove cells that have noisy profiles.
 
 For example to exclude cells that you have been deemed as "FAIL" b/c of low read counts you can do:
 
-```{r remove.cells}
+```{r remove.cells, fig.width = 7, fig.height = 7}
 ## remove cells
 ( excl.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"] )
 cnrE <- excludeCells(cnr, excl = excl.cells)
@@ -229,7 +230,7 @@ HeatmapCNR(cnrE)
 Conversly, if you have multiple samples or have multiple conditions and wish to use only part of the data, you can use `keepCells`
 
 e.g.
-```{r keep.cells}
+```{r keep.cells, fig.width = 7, fig.height = 7}
 ## keep cells
 ## offset by 1 b/c cell names are 0 based
 keep.cells <- setdiff(colnames(cnr$X), paste0("cell",noisy.cells-1))
@@ -243,7 +244,7 @@ HeatmapCNR(cnrK)
 
 Lastly, if you perform a new experiment, and need to add additional cells  use the `addCells`
 
-```{r add.cells}
+```{r add.cells, fig.width = 7, fig.height = 7}
 ## make new cells
 newX <- data.frame(cbind(rep(c(5,2), c(3000, 2000)),
                          rep(c(2,4),  c(3000, 2000))))
@@ -325,7 +326,7 @@ Two methods are implemented: Heriarchical clustering, and Consensus Clustering
 ### Heirarchical Clustering
 
 For this method we estimate Bray-Curtis Dissimilarty across all pairwise cells.  Heirarchical clustering is
-then performed on the complete matrix with `phyloCNR`.   To set the tree height and asign cluster membership,
+then performed on the complete matrix with `phylo_cnr`.   To set the tree height and asign cluster membership,
 we iteratively test various heights, and count the number of one-cell clusters, and multi-cell clusters.  By 
 default `setBrayClusters` will set the height is set to the intersection between one-cell and multi-cell clusters. 
 The package `ape` contains various functions to visualize heirarchical trees, a tree object class `phylo` 
@@ -334,14 +335,14 @@ pairwise distances saved in `cbd`.
 
 
 ```{r bray_diss_+phylo}
-cnr <- phyloCNR(cnr, root.cell = "cell0")
+cnr <- phylo_cnr(cnr, root.cell = "cell0")
 cnr <- setBrayClusters(cnr)
 
 table(cnr$Y$BrayC)
 ```
 
 Internally, the operations to select the intersect above are:
-```{r default_method, eval = FALSE}
+```{r default_method, eval = FALSE, fig.width = 7, fig.height = 7}
 ( mopc <- optClust(cnr, seq(0, 0.2, by = 0.005)) )
 
 plotCL(mopc)
@@ -358,7 +359,7 @@ cnr <- setBrayClusters(cnr, tree.height = sc.tree.height)
 ```
 
 #### Single-cell dendrogram with tree height for cluster membership
-```{r plot_hierarchical_dendrogram}
+```{r plot_hierarchical_dendrogram, fig.width = 7, fig.height = 7}
 plot(cnr[["hcdb"]])
 abline(h = cnr$tree.height, col = "#D40000")
 text(1, y = cnr$tree.height,
@@ -367,7 +368,7 @@ text(1, y = cnr$tree.height,
 ```
 
 #### Other tree types from package ape using the `phylo` class
-```{r plot_phylo}
+```{r plot_phylo, fig.width = 7, fig.height = 7}
 cnr[["phylo"]]
 plot(cnr[["phylo"]])
 ```
@@ -375,7 +376,7 @@ plot(cnr[["phylo"]])
 ## Consensus clustering
 In addition, we implemented [ConsensusClusterPlus](https://bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.html) using the function `run_consensus_clustering` directly on the CNR.  Optimum number of clusters is based on the maximum number of stable clusters ([Meyer et al. 2013](https://arxiv.org/abs/1408.0967)).  Stable Cluster membership is saved to the phenotype table `Y` as  `ConsensusC`.  K parameter (kCC) and number of stable clusters (sK) are saved into `cnr[["optK"]]`.  The table of kCC, and kS is saved as `cnr[["kStats"]]`.
 
-```{r cc_clust}
+```{r cc_clust, fig.width = 7, fig.height = 7}
 cnr <- run_consensus_clustering(cnr, maxK = 20)
 
 cnr <- doKSpectral(cnr)
@@ -386,13 +387,17 @@ cnr$optK
 
 cnr <- setKcc(cnr)
 
-plot_ccp(cnr, k = cnr$kCC)
+plot_ccp(cnr)
+
+table(cnr$Y$ConsensusC)
 
 HeatmapCNR(cnr,
            column_split = cnr$Y$ConsensusC,
            column_gap = unit(0, "mm"),
            top_annotation =
-               HeatmapAnnotation(df = cnr$Y[, c("BrayC", "ConsensusC")]))
+               HeatmapAnnotation(df = cnr$Y[, c("BrayC", "ConsensusC")],
+                                 simple_anno_size = unit(3, "mm")),
+           border = TRUE)
 ```
 
 
@@ -407,7 +412,7 @@ cnr$cluster_heterogeneity
 
 ## Cluster Summary Profiles
 The function `get_cluster_profiles` is used to summarize the genetic profile of each cluster.  Cluster summary profiles are saved in `cnr[["DDRC.df"]]`.
-```{r cluster_profiles}
+```{r cluster_profiles, fig.width = 7, fig.height = 7}
 segCol <- circlize::colorRamp2(breaks = c(0:5, 10, 20, 40, 80),
                      colors = c("#F2D200", "#318CE7", "#FFFFFF",
                                 "#FFA89F", "#FF523F", "#D40000",
@@ -425,13 +430,13 @@ Heatmap(cnr$DDRC.df, col = segCol, cluster_rows = FALSE, cluster_columns = FALSE
 ```
 
 ## Phylogenetic analysis of clones
-The function `phyloDDRC` was created to perform a phylogenetic analysis of clones. First a pairwise Bray-Curtis disimilarity, then the phylogeny is constructed using Neighbourhood Joining, finally the tree is rooted if a `root.clone` is provided.
+The function `phylo_ddrc` was created to perform a phylogenetic analysis of clones. First a pairwise Bray-Curtis disimilarity, then the phylogeny is constructed using Neighbourhood Joining, finally the tree is rooted if a `root.clone` is provided.
 
 
 ```{r clone_phylogen}
-cnr <- phyloDDRC(cnr, root.clone = "X2")
+cnr <- phylo_ddrc(cnr, root.clone = "X2")
 
-plot(cnr$DDRC.nj)
+plot(cnr$DDRC.phylo)
 ```
 
 
@@ -439,20 +444,20 @@ plot(cnr$DDRC.nj)
 To asses weather T-cells or B-cells are present in the cell populations, the function genotype_vdj will classify cells containing VDJ deletions into T-cells, B-cells, or vdj.unspecified. A visualization function is also provided.
 
 
-```{r vdj_genotyping}
+```{r vdj_genotyping, fig.width = 7, fig.height = 7}
 cnr <- genotype_vdj(cnr)
 vdjHeatmap(cnr)
 ```
 
 ## Example of a complete analysis pipeline
-```{r complete_pipeline}
+```{r complete_pipeline, fig.width = 7, fig.height = 7}
 library(tidyverse)
 
 data(cnr)
 noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
 cnr <- cnr %>%
     excludeCells(excl = noisy.cells) %>%
-    phyloCNR(root.cell = "cell0") %>%
+    phylo_cnr(root.cell = "cell0") %>%
     setBrayClusters() %>%
     run_consensus_clustering(iters = 20, maxK = 40) %>%
     doKSpectral() %>%
@@ -462,7 +467,29 @@ cnr <- cnr %>%
     get_cluster_profiles() %>%
     get_alteration_frequencies() %>%
     genotype_vdj() %>%
-    phyloDDRC(root.clone = "X2")
+    phylo_ddrc(root.clone = "X2")
+```
+
+```{r _plotting_heatmap, eval = TRUE, fig.width = 7, fig.height = 7}
+clone.colors <- rainbow(length(unique(cnr$Y$final_cluster)))
+names(clone.colors) <- unique(cnr$Y$final_cluster)
+
+HeatmapCNR(cnr,
+           cluster_columns = FALSE,
+           column_split = cnr$Y$final_cluster,
+           top_annotation = HeatmapAnnotation(
+               clone = cnr$Y$final_cluster,
+               col = list(clone = clone.colors),
+               border = TRUE),
+           column_gap = unit(0, "mm"),
+           border = TRUE)
+```
+
+```{r _plotting_phylo_, eval = TRUE, fig.width = 7, fig.height = 4}
+layout(mat = matrix(1:2, nrow = 1))
+plot(cnr$phylo, main = "cell phylogenetic tree")
+plot(cnr$DDRC.phylo, main = "clone phylogenetic tree")
+
 ```
 
 ## Analysis considerations

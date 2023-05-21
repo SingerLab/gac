@@ -20,7 +20,7 @@ plot cluster optimization
 
 data(cnr)
 
-cnr <- phyloCNR(cnr)
+cnr <- phylo_cnr(cnr)
 
 ( mopc <- optClust(cnr, opt.range = seq(0.01, 0.2, by = 0.005)) )
 
