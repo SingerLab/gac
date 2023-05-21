@@ -49,7 +49,7 @@ Function runs consensus clustering for a pre-determined sequence of K.
 \examples{
 data(cnr)
 
-cnr <- phyloCNR(cnr)
+cnr <- phylo_cnr(cnr)
 
 cnr <- run_consensus_clustering(cnr, maxK = 6)
 

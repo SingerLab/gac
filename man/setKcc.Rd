@@ -4,7 +4,7 @@
 \alias{setKcc}
 \title{Set cluster membership for K clusters}
 \usage{
-setKcc(cnr, kCC = NULL, prefix = "X")
+setKcc(cnr, kCC = NULL, prefix = "X", overwrite = TRUE)
 }
 \arguments{
 \item{cnr}{a cnr object}
@@ -14,6 +14,9 @@ select optimum or maximum k from kSpectral.  Default is NULL
 which will pull the optK[kCC] from kStats}
 
 \item{prefix}{prefix charcter to append to Consensus Clusters}
+
+\item{overwrite}{weather to overwrite the ConsensusC column,
+default is TRUE}
 }
 \value{
 returns cluster membership based on consensus clustering for a

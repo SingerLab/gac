@@ -1,3 +1,6 @@
+# gac 0.0.9033
+* added features to allow FastME alogrithms for  phylogenetic cell and clone pseudobulk reconstruction.  Implemented via R/ape
+
 # gac 0.0.9032
 * new sync_cnr function to resyncronize cnr tables after merge, etc
   This is now applied by default after running addCells, addPheno, and buildCNR

@@ -27,7 +27,7 @@ cluster heterogeneity across the sample
 
 data(cnr)
 
-cnr <- phyloCNR(cnr)
+cnr <- phylo_cnr(cnr)
 
 cnr <- setBrayClusters(cnr, tree.height = 0.065)
 

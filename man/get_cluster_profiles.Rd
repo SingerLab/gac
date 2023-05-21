@@ -36,7 +36,7 @@ Build a consensus copy number profile for each cluster or clone
 
 data(cnr)
 
-cnr <- phyloCNR(cnr)
+cnr <- phylo_cnr(cnr)
 
 cnr <- setBrayClusters(cnr, tree.height = 0.065)
 

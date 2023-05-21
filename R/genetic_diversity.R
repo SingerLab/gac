@@ -138,7 +138,7 @@ avg_num_alleles_per_locus <- function(cnr, exclude.chr = NULL, chrom.col = "bin.
 #'
 #' ## reduced pipeline to genrate DDRC clone profiles
 #' cnr <- excludeCells(cnr, excl = noisy.cells)
-#' cnr <- phyloCNR(cnr, root.cell = "cell0")
+#' cnr <- phylo_cnr(cnr, root.cell = "cell0")
 #' cnr <- setBrayClusters(cnr)
 #' cnr <- run_consensus_clustering(cnr, iters = 20, maxK = 40)
 #' cnr <- doKSpectral(cnr)
@@ -248,7 +248,7 @@ percent_genome_loss <- function(cnr,
 #'
 #' ## reduced pipeline to genrate DDRC clone profiles
 #' cnr <- excludeCells(cnr, excl = noisy.cells)
-#' cnr <- phyloCNR(cnr, root.cell = "cell0")
+#' cnr <- phylo_cnr(cnr, root.cell = "cell0")
 #' cnr <- setBrayClusters(cnr)
 #' cnr <- run_consensus_clustering(cnr, iters = 20, maxK = 40)
 #' cnr <- doKSpectral(cnr)
@@ -356,7 +356,7 @@ percent_genome_gain <- function(cnr,
 #'
 #' ## reduced pipeline to genrate DDRC clone profiles
 #' cnr <- excludeCells(cnr, excl = noisy.cells)
-#' cnr <- phyloCNR(cnr, root.cell = "cell0")
+#' cnr <- phylo_cnr(cnr, root.cell = "cell0")
 #' cnr <- setBrayClusters(cnr)
 #' cnr <- run_consensus_clustering(cnr, iters = 20, maxK = 40)
 #' cnr <- doKSpectral(cnr)
