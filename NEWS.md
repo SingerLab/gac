@@ -1,3 +1,14 @@
+# gac 0.0.9034
+* added functions to order bins and genes, and are implemented by default in sync_cnr
+
+* added default colors to vdjHeatmap
+
+* modified names of functions related to gene and region information lookup
+
+* getting_started vignette cleanup
+
+* copynumbers example data now matches that of the example cnr
+
 # gac 0.0.9033
 * added features to allow FastME alogrithms for  phylogenetic cell and clone pseudobulk reconstruction.  Implemented via R/ape
 

@@ -48,14 +48,21 @@ and chromInfo tables.
 }
 \examples{
 
+## Example Data
+## Copy Number Matrix
 data(copynumbers)
+
+## phenotype data
 data(pheno)
-data(qc)
+
+## Chromosome Information available in Baslan et al. 2012
 data(chromInfo)
-data(gene.index)
+
+## gene index see getting started vignette
+data(grch37.genes.5k)
 
 cnr <- buildCNR(X = copynumbers, Y = pheno, qc = qc, exprs = NULL,
-                chromInfo = chromInfo, gene.index = gene.index)
+                chromInfo = chromInfo, gene.index = grch37.genes.5k)
 
 class(cnr)
 

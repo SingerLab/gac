@@ -10,6 +10,10 @@ vdjHeatmap(
   vdjGeneAnno = NULL,
   vdjCellAnno = NULL,
   gene.type.column = "gene_biotype",
+  col = NULL,
+  cell.type.colors = NULL,
+  chromosome.colors = NULL,
+  gene.type.colors = NULL,
   ...
 )
 }
@@ -25,6 +29,15 @@ used in genotype_vdj)}
 \item{vdjCellAnno}{rowAnnotation object to annotate cells}
 
 \item{gene.type.column}{name of column with gene type, default "gene_biotype}
+
+\item{col}{copy number colors, default is NULL and will generate a black, white
+and red color palette.}
+
+\item{cell.type.colors}{color map for cell types. default is NULL}
+
+\item{chromosome.colors}{color map for VDJ chromosomes. default is NULL}
+
+\item{gene.type.colors}{color map for VDJ Gene types. default is NULL}
 
 \item{...}{additional arguments passed to ComplexHeatmap::Heatmap}
 }

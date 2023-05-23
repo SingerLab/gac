@@ -4,14 +4,26 @@
 \alias{sync_cnr}
 \title{sync cnr cells to those in the phenotype annotation}
 \usage{
-sync_cnr(cnr, cell.order = NULL)
+sync_cnr(
+  cnr,
+  cell.order = NULL,
+  full.sync = TRUE,
+  chromosome.order = c(1:22, "X", "Y", "MT")
+)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
 \item{cell.order}{a specific order of cells.  `cell.order` must contain all cells.
 For subsetting cells use keepCells or excludeCells. Default: NULL which will
-syncronize to the in the Y matrix.}
+  syncronize to the in the Y matrix.}
+
+\item{full.sync}{also order chromInfo and gene.index.  default TRUE.
+Uses bin.chrom, bin.start for ordering bins, and chrom, start for ordering
+  genes. To use other column names , use full.sync = FALSE, and order bins
+  and genes separetly.}
+
+\item{chromosome.order}{chromosome order to use as levels for arranging chromInfo and gene.index}
 }
 \value{
 Function returns a syncronized cnr.

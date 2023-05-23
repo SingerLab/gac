@@ -18,18 +18,18 @@
 #'
 #' data(cnr)
 #'
-#' find_genes(cnr, at = "12:58,000,000-59,000,000")
+#' list_genes_in_region(cnr, at = "12:58,000,000-59,000,000")
 #'
-#' find_genes(cnr, at = "12:58,000,000-59,000,000",
+#' list_genes_in_region(cnr, at = "12:58,000,000-59,000,000",
 #'            show.columns = c("hgnc.symbol", "gene_biotype"))
 #' 
 #' 
 #' @export
-find_genes <- function(cnr, at,
+list_genes_in_region <- function(cnr, at,
                        show.columns = NULL,
                        identifier = "hgnc.symbol") {
 
-    gene.list <- list_genes(cnr = cnr, at = at, identifier = identifier)
+    gene.list <- list_gene_symbols(cnr = cnr, at = at, identifier = identifier)
     idx <- cnr$gene.index[, identifier] %in% gene.list
     
     if(is.null(show.columns)) {
@@ -82,10 +82,10 @@ convert_coord <- function(x) {
 #' @examples
 #' data(cnr)
 #' 
-#' list_genes(cnr, at = "12:58000000:59000000")
+#' list_gene_symbols(cnr, at = "12:58000000:59000000")
 #' 
 #' @export
-list_genes <- function(cnr, at, identifier = "hgnc.symbol") {
+list_gene_symbols <- function(cnr, at, identifier = "hgnc.symbol") {
     cc <- unlist(strsplit(convert_coord(at), split = ":"))
     
     out1 <- cnr$gene.index[cnr$gene.index$chrom == cc[1], c(identifier, "chrom", "start", "end")]

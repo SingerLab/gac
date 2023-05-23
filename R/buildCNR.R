@@ -41,14 +41,21 @@
 #' 
 #' @examples
 #'
+#' ## Example Data
+#' ## Copy Number Matrix
 #' data(copynumbers)
+#' 
+#' ## phenotype data
 #' data(pheno)
-#' data(qc)
+#' 
+#' ## Chromosome Information available in Baslan et al. 2012
 #' data(chromInfo)
-#' data(gene.index)
+#' 
+#' ## gene index see getting started vignette
+#' data(grch37.genes.5k)
 #' 
 #' cnr <- buildCNR(X = copynumbers, Y = pheno, qc = qc, exprs = NULL,
-#'                 chromInfo = chromInfo, gene.index = gene.index)
+#'                 chromInfo = chromInfo, gene.index = grch37.genes.5k)
 #'
 #' class(cnr)
 #'
@@ -75,8 +82,11 @@ buildCNR <- function(X, Y, qc, chromInfo, exprs = NULL, gene.index,
         muffin <- roundCNR(X, ...)
     }
 
+    assertthat::assert_that(all(c("bin.chrom", "bin.start") %in% names(chromInfo)))
+    assertthat::assert_that(all(c("chrom", "start", "hgnc.symbol") %in% names(gene.index)))
+    
     ## interpolate to genes
-    puffin <- data.frame(expand2genes(muffin, gene.index))
+    puffin <- data.frame(expand2genes(muffin, gene.index = gene.index))
     rownames(puffin) <- colnames(muffin)
 
     ## confirm cellIDs are not duplicated
@@ -97,6 +107,7 @@ buildCNR <- function(X, Y, qc, chromInfo, exprs = NULL, gene.index,
 
     cnr[["chromInfo"]] <- chromInfo
     cnr[["gene.index"]] <- gene.index
+    rownames(cnr$gene.index) <- cnr$gene.index$hgnc.symbol
     
     ## if expression matrix is available, add it here
     ## must have rownames as cellID/sampleID

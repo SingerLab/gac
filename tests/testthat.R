@@ -4,10 +4,10 @@ library(testthat)
 library(gac)
 
 ## load example data
-data(copynumbers, pheno, qc, chromInfo, gene.index)
+data(copynumbers, pheno, qc, chromInfo, grch37.genes.5k)
 
 cnr <- buildCNR(X = copynumbers, Y = pheno, qc =qc,
-                chromInfo = chromInfo, gene.index = gene.index)
+                chromInfo = chromInfo, gene.index = grch37.genes.5k)
 
 expect_true("X" %in% names(cnr))
 expect_true("genes" %in% names(cnr))
@@ -39,7 +39,6 @@ newX <- data.frame(cbind(rep(c(5,2), c(3000, 2000)),
                          rep(c(2,4),  c(3000, 2000))))
 names(newX) <- new.cells
 head(newX)
-tail(newX)
 
 ## creating new phenotypes
 newY <- head(cnr$Y, n = 2)
@@ -48,16 +47,14 @@ rownames(newY) <- newY$cellID
 
 newY[, c(6:9)] <- newY[,c(6,9)]+3
 head(newY)
-tail(newY)
 
 ## creating new QC
 newQC <- head(cnr$qc, 2)
-newQC$cellID <- paste0("cell", 13:14)
+newQC$cellID <- new.cells
 rownames(newQC) <- newQC$cellID
 
 newQC[,2:4] <- newQC[,2:4] + 2
 head(newQC)
-tail(newQC)
 
 ## add cells
 cnr <- addCells(cnr, newX = newX, newY = newY, newqc = newQC)

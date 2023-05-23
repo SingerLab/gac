@@ -1,7 +1,7 @@
 ---
 title: "Get started with single-cell DNA copy number analyses"
 author: Rodrigo Gularte Merida <gularter@mskcc.org>
-output: rmarkdown::html_vignette
+output: html_vignette
 vignette: >
   %\VignetteIndexEntry{Get started with single-cell DNA copy number analyses}
   %\VignetteEngine{knitr::rmarkdown}
@@ -21,17 +21,13 @@ library(gac)
 
 # Getting Started
 
-GAC comes bundle with example data.  This data is composed of 12 simulated cell copy number profiles with deletions, losses, gains and focal amplifications along 5000 bins.  Additionaly for the 12 cells, are examples of binary, categorical, and quantitative phenotypes, and some QC data. 
+This data is composed of 82 simulated cell copy number profiles with deletions, losses, gains and focal amplifications along 5000 bins.  The dataset contains example binary, categorical, and quantitative traits, and basic QC data. 
 
-The primary container to handle the complexity of single-cell DNA data is a CNR.
+The primary container to handle the complexity of single-cell DNA data is a CNR.  The cnr is composed of a genotype (integer copy number) matrix, *X*, phenotype matrix *Y*, _expression_ matrix *Ye* , a QC or metadata matrix *qc*, the *chromInfo* with chromosome-end coordinates, and a *gene.index* to map bins to specific genes.  These are user provided tables.  See documentation for `buildCNR` to learn how to build a CNR bundle with your data.  The CNR is modeled after the expressionSet and AnnData objects from R/Bioconductor and Python, respectively.  It is a lightweight and versitile framework to operate and manipulate large single-cell DNA data.  The framework facilitates the use matrix operations by concurrently managing genotype and phenotype data.  At the heart of the CNR bundle is the genotype *X* matrix wich hold copy number as ploidy corrected `numeric` estimations or `integer` states, with bins as rows, and cells as columns.  Bins can be the direct output from Ginkgo/Varbin algorithm, or the a set of common segments from a .seg file in `matrix` form.  The bin information is located on the `chromInfo` table, and the gene-to-bin mappings on the `gene.index`, which helps link the output of the segmentation to a biological context.  An example on how to construt these is provided in the section **Preparing your data**.  Cell/sample phenotypes are stored in the *Y* matrix, these are sample specific and biological in nature for which we wish to gain biological insights.
 
-The cnr is composed of a genotype (integer copy number) matrix, *X*, phenotype matrix *Y*, _expression_ matrix *Ye* , a QC or metadata matrix *qc*, the *chromInfo* with chromosome-end coordinates, and a *gene.index* to map bins to specific genes.  These are user provided tables.  See documentation for `buildCNR` to learn how to build a CNR bundle with your data.  The CNR is modeled after the expressionSet and AnnData objects from R/Bioconductor and Python, respectively.  It is a lightweight and versitile framework to operate and manipulate large single-cell DNA data.  The framework facilitates the use matrix operations by concurrently managing genotype and phenotype data.  At the heart of the CNR bundle is the genotype *X* matrix wich hold copy number as ploidy corrected `numeric` estimations or `integer` states, with bins as rows, and cells as columns.  Bins can be the direct output from Ginkgo/Varbin algorithm, or the a set of common segments from a .seg file in `matrix` form.  The bin information is located on the `chromInfo` table, and the gene-to-bin mappings on the `gene.index`, which helps link the output of the segmentation to a biological context.  An example on how to construt these is provided in the section **Preparing your data**.
+In a not so distant future, the posibility to acquire single-cell DNA and RNA from the same cell will become feasable at scale.  To this end, a *Ye* or _exprs_ matrix is included, to enable genetic analysis _gene expression_.  If you have data of this type, it's best to have the last/most-accurate, curated, and complete data possible for the analyses to make sense.  Eg. scaled, log2-transformed, MAGIC Imputed, without doublets.  
 
-Cell/sample phenotypes are housed in the *Y* matrix, these are sample specific and biological in nature. These are the phenotypes we wish to gain biological insights.
-
-In a not so distant future, the posibility to acquire single-cell DNA and RNA from the same cell will become feasable at scale.  To this end, a *Ye* or _exprs_ matrix is included in the bundle, as for purposes of genetic analysis _gene expression_ is a phenotype.  If you have data of this type, it's best to have the last/most-accurate, curated, and complete data possible for the analyses to make sense.  Eg. scaled, log2-transformed, MAGIC Imputed, without duplets.
-
-Lastly, a *qc* matrix containg metadata about each cell is required.
+Lastly, a *qc* matrix containg metadata about each cell is required, For example the number of alinged reads, duplication percentage, and a bin-to-bin dispersion metric such as median absolute deviation (MAD) or median absolute pairwise deviation (MAPD) are easily obtainable.  Technical metrics of cell FASTQ and BAM file can be summarized with MultiQC and used to identify and filter problematic cells.
 
 ![Figure1](figures/CNR.png){ width=80% }
 
@@ -95,7 +91,7 @@ Y$random2 <- abs(rnorm(n.cells, mean = 200, sd = 300))
 * QC metadata in this case will be limited to aligned reads (ReadsKept), median bin counts, amplified DNA concentrations, flow cytometry gate, and qc.status as PASS/FAIL.  Must have one column named `cellID`, and must match those in the copy number matrix and phenotype data. QC metrics of cells 5 and 11 are set similar to failed cells in an experiment.
 
 This example was constructed using the following :
-  * ReadsKept are simulated based on the recomended sequencing depth in (Baslan et al. 2015)[https://pubmed.ncbi.nlm.nih.gov/25858951/]
+  * ReadsKept are simulated based on the recomended sequencing depth in [Baslan et al. 2015](https://pubmed.ncbi.nlm.nih.gov/25858951/)
   * MedianBinCouts assume uniform distribution of ReadsKept across all bins
   * DNA concentrations are simulated based on expected yields from WGA methods
   * Cells 5, and 11 set as FAIL
@@ -118,7 +114,7 @@ qc$qc.status[c(noisy.cells)] <- "FAIL"
 ```
 
 * gene.index is prepared using biomart, requires bin information to map genes
-Bin mappings are part of the chromInfo, and user supplied.  These can be downloaded from (Ginkgo)[http://qb.cshl.edu/ginkgo/?q=/T1s5zj45ztcLxoVUMxjF] or (QDNAseq)[https://bioconductor.org/packages/release/bioc/html/QDNAseq.html].  Ginkgo uses variable length bins with an equal mappability, vs QDNAseq which uses equally spaced bins with variable mappability.  For this example, we'll use the bins from (Baslan et al. 2012)[https://pubmed.ncbi.nlm.nih.gov/22555242/] and are provided in the package.
+Bin mappings are part of the chromInfo, and user supplied.  These can be downloaded from [Ginkgo](http://qb.cshl.edu/ginkgo/?q=/T1s5zj45ztcLxoVUMxjF) or [QDNAseq](https://bioconductor.org/packages/release/bioc/html/QDNAseq.html).  Ginkgo uses variable length bins with an equal mappability, vs QDNAseq which uses equally spaced bins with variable mappability.  For this example, we'll use the bins from [Baslan et al. 2012](https://pubmed.ncbi.nlm.nih.gov/22555242/) and are provided in the package.
 
 ```{r gene.index_from_biomaRt, eval = FALSE}
 suppressPackageStartupMessages({
@@ -197,17 +193,17 @@ data(cnr)
 summaryCNR(cnr)
 ```
 
-I made use of [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/) for this package.  ComplexHeatmap is one of the most powerful visualization tools available for R.  To use the richness of ComplexHeatmap, the `HeatmapCNR` function attempts to minimize the total number of presets.  Please visit the ComplexHeatmap documentation to take advantage of its potential.
+GAC makes use of [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/).  ComplexHeatmap is one of the most powerful visualization tools available for R.  To use the richness of ComplexHeatmap, the `HeatmapCNR` function attempts to minimize the total number of presets.  Please visit the ComplexHeatmap documentation to take advantage of its potential.
 
 The `HeatmapCNR` function will create a viable plot if you are in a time constraint.
 
 ```{r visualize, fig.width = 7, fig.height = 7}
 ## a color scale to visualize the integer copy number is provided
 ## visualize genome-wide
-HeatmapCNR(cnr)
+HeatmapCNR(cnr, use_raster = TRUE)
 
 ## visualize genes of interest
-HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2", "TP53"))
+HeatmapCNR(cnr, what = "genes", which.genes = c("CDK4", "MDM2", "TP53"), use_raster = TRUE)
 
 ```
 
@@ -224,7 +220,7 @@ For example to exclude cells that you have been deemed as "FAIL" b/c of low read
 cnrE <- excludeCells(cnr, excl = excl.cells)
 sapply(cnrE, dim)
 
-HeatmapCNR(cnrE)
+HeatmapCNR(cnrE, use_raster = TRUE)
 ```
 
 Conversly, if you have multiple samples or have multiple conditions and wish to use only part of the data, you can use `keepCells`
@@ -238,7 +234,7 @@ keep.cells <- setdiff(colnames(cnr$X), paste0("cell",noisy.cells-1))
 cnrK <- keepCells(cnr, keep = keep.cells)
 sapply(cnrK, dim)
 
-HeatmapCNR(cnrK)
+HeatmapCNR(cnrK, use_raster = TRUE)
 
 ```
 
@@ -273,7 +269,7 @@ newQC
 ## add cells
 cnrA <- addCells(cnr, newX = newX, newY = newY, newqc = newQC)
 sapply(cnrA, dim)
-HeatmapCNR(cnrA)
+HeatmapCNR(cnrA, use_raster = TRUE)
 ```
 
 If you run an algorithm to estimate genomic complexity or another parameter, you can add these to the Y matrix using `addPheno`
@@ -376,7 +372,7 @@ plot(cnr[["phylo"]])
 ## Consensus clustering
 In addition, we implemented [ConsensusClusterPlus](https://bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.html) using the function `run_consensus_clustering` directly on the CNR.  Optimum number of clusters is based on the maximum number of stable clusters ([Meyer et al. 2013](https://arxiv.org/abs/1408.0967)).  Stable Cluster membership is saved to the phenotype table `Y` as  `ConsensusC`.  K parameter (kCC) and number of stable clusters (sK) are saved into `cnr[["optK"]]`.  The table of kCC, and kS is saved as `cnr[["kStats"]]`.
 
-```{r cc_clust, fig.width = 7, fig.height = 7}
+```{r cc_clust, results = FALSE, message = FALSE, fig.show='hide'}
 cnr <- run_consensus_clustering(cnr, maxK = 20)
 
 cnr <- doKSpectral(cnr)
@@ -390,14 +386,17 @@ cnr <- setKcc(cnr)
 plot_ccp(cnr)
 
 table(cnr$Y$ConsensusC)
+```
 
+```{r cc_clust_heatmap, fig.width = 7, fig.height = 7}
 HeatmapCNR(cnr,
            column_split = cnr$Y$ConsensusC,
            column_gap = unit(0, "mm"),
            top_annotation =
                HeatmapAnnotation(df = cnr$Y[, c("BrayC", "ConsensusC")],
                                  simple_anno_size = unit(3, "mm")),
-           border = TRUE)
+           border = TRUE,
+           use_raster = TRUE)
 ```
 
 
@@ -446,11 +445,11 @@ To asses weather T-cells or B-cells are present in the cell populations, the fun
 
 ```{r vdj_genotyping, fig.width = 7, fig.height = 7}
 cnr <- genotype_vdj(cnr)
-vdjHeatmap(cnr)
+vdjHeatmap(cnr, use_raster = TRUE)
 ```
 
 ## Example of a complete analysis pipeline
-```{r complete_pipeline, fig.width = 7, fig.height = 7}
+```{r complete_pipeline, results = FALSE, message = FALSE, fig.show = 'hide'}
 library(tidyverse)
 
 data(cnr)
@@ -459,7 +458,8 @@ cnr <- cnr %>%
     excludeCells(excl = noisy.cells) %>%
     phylo_cnr(root.cell = "cell0") %>%
     setBrayClusters() %>%
-    run_consensus_clustering(iters = 20, maxK = 40) %>%
+    run_consensus_clustering(iters = 20, maxK = 40,
+                             verbose = FALSE) %>%
     doKSpectral() %>%
     setKcc() %>%
     cluster_heterogeneity(by = "category1",
@@ -482,7 +482,8 @@ HeatmapCNR(cnr,
                col = list(clone = clone.colors),
                border = TRUE),
            column_gap = unit(0, "mm"),
-           border = TRUE)
+           border = TRUE,
+           use_raster = TRUE)
 ```
 
 ```{r _plotting_phylo_, eval = TRUE, fig.width = 7, fig.height = 4}
