@@ -13,7 +13,11 @@
 #' data(cnr)
 #'
 #' pull_gene_copy_numbers(cnr, c("MDM2", "CDK4"))
-#' 
+#'
+#' genes.of.interest <- list_gene_symbols(cnr, at = "12:58140000:58200000")
+#'
+#' pull_gene_copy_numbers(cnr, genes.of.interest)
+#'
 #' @export
 pull_gene_copy_numbers <- function(cnr, genes) {
     genesRN <- gsub("-", ".", genes)
@@ -23,7 +27,12 @@ pull_gene_copy_numbers <- function(cnr, genes) {
     ##
     if(length(not.in.set) != 0) { message("Genes ", not.in.set, " were not found") }
     ##
-    geneCN <- cnr[["genes"]][, genesRN]
+    if(length(genes) == 1) {
+        geneCN <- data.frame(cnr[["genes"]][, genesRN])
+        names(geneCN) <- genesRN
+    } else {
+        geneCN <- cnr[["genes"]][, genesRN]
+    }
     ##
     return(geneCN)
 } # end pull_gene_copy_numbers

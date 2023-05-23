@@ -24,4 +24,8 @@ data(cnr)
 
 pull_gene_copy_numbers(cnr, c("MDM2", "CDK4"))
 
+genes.of.interest <- list_gene_symbols(cnr, at = "12:58140000:58200000")
+
+pull_gene_copy_numbers(cnr, genes.of.interest)
+
 }

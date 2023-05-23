@@ -15,19 +15,19 @@
 #' @format A data frame with chromosome and position information
 #' \itemize{
 #'
+#'   \item hgnc.symbol, HGNC gene symbol
 #'   \item chrom, chromosome 
 #'   \item start, gene start coordinate
 #'   \item end, gene end coordinate
 #'   \item width, width
 #'   \item strand, gene strand
 #'   \item ensembl_gene_id, ENSEMBL gene ID
-#'   \item hgnc.symbol, HGNC gene symbol
-#'   \item gene.type, gene type
+#'   \item gene_biotype, gene type
 #'   \item bin.id, bin ID
 #' 
 #' }
 #' #' @docType data
 #' @keywords datasets
-#' @usage data(gene.index)
+#' @usage data(grch37.genes.5k)
 #' @source \url{https://github.com/SingerLab/gac}
-"gene.index"
+"grch37.genes.5k"
