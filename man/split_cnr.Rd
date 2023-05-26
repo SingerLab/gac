@@ -25,6 +25,6 @@ data(cnr)
 
 cnrL <- split_cnr(cnr, split.by = "category1")
 
-lapply(cnrL, summaryCNR)
+lapply(cnrL, summary_cnr)
 
 }

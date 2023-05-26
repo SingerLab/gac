@@ -31,6 +31,8 @@ addQC <- function(cnr, df, ...) {
     }
     
     cnr[["qc"]] <- QC
+
+    cnr <- sync_cnr(cnr)
     
     return(cnr)
 }

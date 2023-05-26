@@ -183,14 +183,14 @@ cnr <- buildCNR(X = X, Y= Y, qc = qc, chromInfo = chromInfo, gene.index = grch37
 ## example for changing loss threshold in round CNR
 cnr2 <- buildCNR(X = X, Y= Y, qc = qc, chromInfo = chromInfo, gene.index = grch37.genes.5k, loss = 1.5) 
 
-summaryCNR(cnr)
+summary_cnr(cnr)
 ```
 
 ### View what data is present in the cnr
 ### make sure numbers of cells match in all objects
 ```{r data}
 data(cnr)
-summaryCNR(cnr)
+summary_cnr(cnr)
 ```
 
 GAC makes use of [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/).  ComplexHeatmap is one of the most powerful visualization tools available for R.  To use the richness of ComplexHeatmap, the `HeatmapCNR` function attempts to minimize the total number of presets.  Please visit the ComplexHeatmap documentation to take advantage of its potential.
