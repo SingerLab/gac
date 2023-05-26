@@ -1,3 +1,12 @@
+# gac 0.0.9035
+* added function to add an in-silico root cell and clone
+
+* bin.id checks between chrmoInfo and gene.index
+
+* standardizing function names, renamed as export_cnr and summary_cnr
+
+* pull_gene_details now pulls information from a gene list, rather than regions
+
 # gac 0.0.9034
 * added functions to order bins and genes, and are implemented by default in sync_cnr
 

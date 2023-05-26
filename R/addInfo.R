@@ -57,6 +57,11 @@ addInfo <- function(cnr, df) {
 #'
 #' @param sort wether to sort the ouput object, default is FALSE
 #'
+#' @param full.sync logical, sync cnr. If TRUE function syncs cells and chromosomes
+#' when FASLE, only sync cells.  default TRUE
+#'
+#' @param chromosome.order order of chromosomes for full.sync
+#'
 #' @param ... additional parameters passed to merge
 #'
 #' @return
@@ -66,18 +71,21 @@ addInfo <- function(cnr, df) {
 #' @examples
 #'#' data(cnr)
 #'
-#' fakePval <- data.frame(pval = runif(5000))
+#' fakePval <- data.frame(hgnc.symbol = cnr$gene.index$hgnc.symbol, pval = runif(nrow(cnr$gene.index)))
 #'
 #' cnr <- addGeneInfo(cnr, df = fakePval)
 #' 
 #' head(cnr$gene.index)
 #'
 #' @export
-addGeneInfo <- function(cnr, df, sort = FALSE, ...) {
+addGeneInfo <- function(cnr, df, sort = FALSE, full.sync = TRUE,
+                        chromosome.order = c(1:22, "X", "Y", "MT"), ...) {
     
     gInfo <- merge(cnr$gene.index, df, sort = sort,  ...)
     
     cnr[["gene.index"]] <- gInfo
+
+    cnr <- sync_cnr(cnr)
     
     return(cnr)
 }

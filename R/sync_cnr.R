@@ -50,9 +50,9 @@ sync_cnr <- function(cnr, cell.order = NULL, full.sync = TRUE,
 
         cell.order <- cnr$Y$cellID
         rownames(cnr$Y) <- cnr$Y$cellID
-
+        
     }
-
+    
     if(!is.null(cnr$exprs)) {
         assertthat::assert_that(all(rownames(cnr$exprs) %in% cell.order))
         assertthat::assert_that(all(cell.order %in% rownames(cnr$exprs)))

@@ -2,34 +2,44 @@
 % Please edit documentation in R/gene_lookups.R
 \name{pull_gene_details}
 \alias{pull_gene_details}
-\title{Pull gene details for a genomic region}
+\title{Pull gene details for a set of genes}
 \usage{
-pull_gene_details(cnr, coord = "12:69200804:69246466")
+pull_gene_details(
+  cnr,
+  genes = c("MDM2", "CDK4"),
+  show.columns = NULL,
+  identifier = "hgnc.symbol"
+)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
-\item{coord}{genomic region in ensembl format}
+\item{genes}{a list of genes}
+
+\item{show.columns}{columns of gene.index to show}
+
+\item{identifier}{gene identifier hgnc.symbol or ensembl_gene_id. default hgnc.symbol}
 }
 \value{
 Returns the subset of the `gene.index` table for the genomic region.
 }
 \description{
-This function subsets the gene index for a genomic region of interest.
+This function subsets the gene index for a given set of genes
 }
 \examples{
 
 data(cnr)
-coord <- "12:69200804:69246466"
 
-pull_gene_details(cnr, coord = "4:82351690:138565783")
+pull_gene_details(cnr)
 
-pull_gene_details(cnr, coord = coord)
+pull_gene_details(cnr,
+  genes = c("JUN", "MDM2", "CDK4"),
+  show.columns = c("hgnc.symbol", "bin.id", "gene_biotype"))
 
-coords <- c("1:170120554:172941951",
-          "12:69200804:69246466")
+pull_gene_details(cnr,
+  genes = c("ENSG00000177606", "ENSG00000135446", "ENSG00000135679"),
+  identifier = "ensembl_gene_id",
+  show.columns = c("hgnc.symbol", "bin.id", "gene_biotype"))
 
-do.call(rbind, lapply(coords, function(rr)
-                     pull_gene_details(cnr, coord = rr)))
 
 }

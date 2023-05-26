@@ -13,12 +13,12 @@
 #'
 #' data(cnr)
 #'
-#' summaryCNR(cnr)
+#' summary_cnr(cnr)
 #'
 #' @importFrom dplyr tibble
 #' 
 #' @export
-summaryCNR <- function(cnr, detailed = FALSE, display = FALSE) {
+summary_cnr<- function(cnr, detailed = FALSE, display = FALSE) {
 
     ncells(cnr, detailed = detailed, display = FALSE)
     npheno(cnr, detailed = detailed, display = FALSE)
@@ -47,11 +47,12 @@ summaryCNR <- function(cnr, detailed = FALSE, display = FALSE) {
 #' @param detailed logical, detailed summary
 #'
 #' @param display display cell ID's
-#' 
+#'
 #' @importFrom assertthat assert_that
 #' 
 #' @export
-ncells <- function(cnr, detailed = FALSE, display = FALSE) {
+ncells <- function(cnr, detailed = FALSE,
+                   display = FALSE) {
 
     nxc <- ncol(cnr$X)
     nyc <- nrow(cnr$Y)

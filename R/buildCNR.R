@@ -32,6 +32,12 @@
 #'   or integer copy number.  If `TRUE` data is an untransformed segment ratio.
 #'   If `FALSE` data is integer copy number
 #'
+#' @param full.sync sync cnr tables to preseve cell order, and sort chromInfo
+#'  and gene.index based on chromsome and start position
+#'
+#' @param chromosome.order chromosome order. Default is a human genome primary
+#'  assembly: 1:22, X, Y, and MT.  
+#' 
 #' @param ... parameters passed to roundCNR
 #'
 #' @return
@@ -71,7 +77,8 @@
 #' 
 #' @export
 buildCNR <- function(X, Y, qc, chromInfo, exprs = NULL, gene.index,
-                     bulk = FALSE, ...) {
+                     bulk = FALSE, full.sync = TRUE,
+                     chromosome.order=c(1:22, "X", "Y", "MT"), ...) {
 
     ## chose if data is ratio or integer CN
     if(bulk) {
@@ -105,9 +112,13 @@ buildCNR <- function(X, Y, qc, chromInfo, exprs = NULL, gene.index,
     cnr[["Y"]] <- Y[colnames(cnr[["X"]]), ]
     cnr[["qc"]] <- qc[colnames(cnr[["X"]]), ]
 
+    chromInfo <- cbind(bin.id = 1:nrow(chromInfo), chromInfo)
+    assertthat::assert_that(nrow(chromInfo) == max(gene.index$bin.id),
+                            msg = "number of rows chromInfo does not match gene.index bin.id, please correct the gene.index$bin.id")
+    
     cnr[["chromInfo"]] <- chromInfo
     cnr[["gene.index"]] <- gene.index
-    rownames(cnr$gene.index) <- cnr$gene.index$hgnc.symbol
+    rownames(cnr[["gene.index"]]) <- gene.index$hgnc.symbol
     
     ## if expression matrix is available, add it here
     ## must have rownames as cellID/sampleID
@@ -117,15 +128,16 @@ buildCNR <- function(X, Y, qc, chromInfo, exprs = NULL, gene.index,
         assertthat::assert_that(all(rownames(exprs) %in% colnames(cnr[["X"]])))
         assertthat::assert_that(all(colnames(exprs) %in%
                                     colnames(cnr[["gene.index"]]$hgnc.symbol)))
-                                    
+        
         cnr[["exprs"]] <- exprs[colnames(cnr[["X"]]), ]
     }
     
     cnr[["cells"]] <- colnames(cnr[["X"]])
     cnr[["bulk"]] <- bulk
-
-    cnr <- sync_cnr(cnr)
+    
+    cnr <- sync_cnr(cnr, full.sync = full.sync,
+                    chromosome.order=c(1:22, "X", "Y", "MT"))
     
     return(cnr)
-
+    
 } ## end buildCNR

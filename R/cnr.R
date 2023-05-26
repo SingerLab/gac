@@ -14,7 +14,6 @@
 #'
 #' @format An object class list containg a rounded CNR
 #'
-#' * Input 
 #' \itemize{
 #' 
 #'   \item X, An integer matrix of bins x n.cells containing copy number
@@ -59,14 +58,15 @@
 #'   ...
 #' }
 #'
-#' * Output
+#' @return
+#' 
 #' \itemize{
 #'   \item cdb, pairwise cell dissimilarity using Bray-Curtis
 #'
 #'   \item hcdb, heirarchical clustering of cells based
 #' 
 #'   \item phylo, cell phyogenetic tree.  Analysis is produced with
-#'     \code{\link[ape]}. Default is "balanced minimum evolution"
+#'     \code{ape}. Default is "balanced minimum evolution"
 #' 
 #'   \item tree.height, height cutoff of the tree, set as intersection between
 #'      the total number of multi-cell clusters and one-cell clusters
@@ -95,7 +95,6 @@
 #'   \item DDRC.dist, bray curtis disimilarity of clones
 #' 
 #'   \item DDRC.phylo, phylogenetic analysis of clones
-#' 
 #' }
 #' 
 #' @docType data

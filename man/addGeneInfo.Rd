@@ -4,7 +4,14 @@
 \alias{addGeneInfo}
 \title{Adds Gene Information to the gene.index}
 \usage{
-addGeneInfo(cnr, df, sort = FALSE, ...)
+addGeneInfo(
+  cnr,
+  df,
+  sort = FALSE,
+  full.sync = TRUE,
+  chromosome.order = c(1:22, "X", "Y", "MT"),
+  ...
+)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
@@ -14,6 +21,11 @@ useful for gene annotations, filters e.g. OncoKB, or results from
 analyses e.g. p-values, genetic effects, etc to the genes}
 
 \item{sort}{wether to sort the ouput object, default is FALSE}
+
+\item{full.sync}{logical, sync cnr. If TRUE function syncs cells and chromosomes
+when FASLE, only sync cells.  default TRUE}
+
+\item{chromosome.order}{order of chromosomes for full.sync}
 
 \item{...}{additional parameters passed to merge}
 }
@@ -27,7 +39,7 @@ The function adds information to the gene.index.#'
 \examples{
 #' data(cnr)
 
-fakePval <- data.frame(pval = runif(5000))
+fakePval <- data.frame(hgnc.symbol = cnr$gene.index$hgnc.symbol, pval = runif(nrow(cnr$gene.index)))
 
 cnr <- addGeneInfo(cnr, df = fakePval)
 

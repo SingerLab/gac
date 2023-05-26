@@ -17,14 +17,14 @@
 #'\dontrun{
 #' data(cnr)
 #' 
-#' exportCNR(cnr, outdir = "cnr_out/")
+#' export_cnr(cnr, outdir = "cnr_out/")
 #'}
 #'
 #' @importFrom utils write.table
 #' @importFrom ape write.tree
 #' 
 #' @export
-exportCNR <- function(cnr, outdir = ".", ...) {
+export_cnr <- function(cnr, outdir = ".", ...) {
 
     if(! dir.exists(outdir) ) {
         dir.create(outdir, recursive = TRUE)
@@ -83,4 +83,4 @@ exportCNR <- function(cnr, outdir = ".", ...) {
                         ...)
     }
     
-} # end exportCNR
+} # end export_cnr

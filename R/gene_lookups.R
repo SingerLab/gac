@@ -147,13 +147,17 @@ get_gene_details <- function(cnr, chrom = 12, start = 69200804, end = 69246466) 
 } ## get_gene_details
 
     
-#' Pull gene details for a genomic region
+#' Pull gene details for a set of genes
 #'
-#' This function subsets the gene index for a genomic region of interest.
+#' This function subsets the gene index for a given set of genes
 #'
 #' @param cnr a cnr bundle
 #'
-#' @param coord genomic region in ensembl format
+#' @param genes a list of genes
+#'
+#' @param show.columns columns of gene.index to show
+#'
+#' @param identifier gene identifier hgnc.symbol or ensembl_gene_id. default hgnc.symbol
 #'
 #' @return
 #'
@@ -162,30 +166,34 @@ get_gene_details <- function(cnr, chrom = 12, start = 69200804, end = 69246466) 
 #' @examples
 #'
 #' data(cnr)
-#' coord <- "12:69200804:69246466"
-#' 
-#' pull_gene_details(cnr, coord = "4:82351690:138565783")
 #'
-#' pull_gene_details(cnr, coord = coord)
+#' pull_gene_details(cnr)
+#' 
+#' pull_gene_details(cnr,
+#'   genes = c("JUN", "MDM2", "CDK4"),
+#'   show.columns = c("hgnc.symbol", "bin.id", "gene_biotype"))
 #'
-#' coords <- c("1:170120554:172941951",
-#'           "12:69200804:69246466")
+#' pull_gene_details(cnr,
+#'   genes = c("ENSG00000177606", "ENSG00000135446", "ENSG00000135679"),
+#'   identifier = "ensembl_gene_id",
+#'   show.columns = c("hgnc.symbol", "bin.id", "gene_biotype"))
+#'
 #' 
-#' do.call(rbind, lapply(coords, function(rr)
-#'                      pull_gene_details(cnr, coord = rr)))
-#' 
+#' @importFrom assertthat assert_that
 #' @export
-pull_gene_details <- function(cnr, coord = "12:69200804:69246466") {
+pull_gene_details <- function(cnr, genes = c("MDM2", "CDK4"),
+                              show.columns = NULL,
+                              identifier = "hgnc.symbol") {
 
-    seqname <- unlist(strsplit(coord, split = ":"))[1]
-    start <- as.numeric(unlist(strsplit(coord, split = ":"))[2])
-    end <- as.numeric(unlist(strsplit(coord, split = ":"))[3])
+    assertthat::assert_that(all(genes %in% cnr$gene.index[, identifier]))
 
-    assertthat::assert_that(start < end)
-
-    gene.details <- get_gene_details(cnr, chrom = seqname,
-                                     start = start,
-                                     end = end)
+    idx <- cnr$gene.index[, identifier] %in% genes
+    
+    if(is.null(show.columns)) {
+        gene.details <- cnr$gene.index[idx, ]
+    } else {
+        gene.details <- cnr$gene.index[idx, show.columns]
+    }
 
     return(gene.details)
 } ## end pull gene details

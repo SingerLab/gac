@@ -4,7 +4,18 @@
 \alias{buildCNR}
 \title{Build a CNR bundle (Copy Number, --Rounded)}
 \usage{
-buildCNR(X, Y, qc, chromInfo, exprs = NULL, gene.index, bulk = FALSE, ...)
+buildCNR(
+  X,
+  Y,
+  qc,
+  chromInfo,
+  exprs = NULL,
+  gene.index,
+  bulk = FALSE,
+  full.sync = TRUE,
+  chromosome.order = c(1:22, "X", "Y", "MT"),
+  ...
+)
 }
 \arguments{
 \item{X}{bin or common segment copy number data.  Can be in `numeric`
@@ -29,6 +40,12 @@ expression matrix. Must have cellID as rownames. default is NULL.}
 \item{bulk}{logical specifying if data type is ratio from bulk DNA sequencing
 or integer copy number.  If `TRUE` data is an untransformed segment ratio.
 If `FALSE` data is integer copy number}
+
+\item{full.sync}{sync cnr tables to preseve cell order, and sort chromInfo
+and gene.index based on chromsome and start position}
+
+\item{chromosome.order}{chromosome order. Default is a human genome primary
+assembly: 1:22, X, Y, and MT.}
 
 \item{...}{parameters passed to roundCNR}
 }

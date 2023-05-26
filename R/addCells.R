@@ -116,7 +116,8 @@ addCells <- function(cnr, newX, newY, newqc, newYe = NULL, do.clean = TRUE, ...)
         cnr[["qc"]] <- qc
         cnr[["cells"]] <- newCells
     }
+
     cnr <- sync_cnr(cnr)
-    
+
     return(cnr)
 }
