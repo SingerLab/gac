@@ -29,7 +29,7 @@ export_cnr <- function(cnr, outdir = ".", ...) {
     if(! dir.exists(outdir) ) {
         dir.create(outdir, recursive = TRUE)
     } else {
-        warning("directory", outdir, "exists, files will be overwritten")
+        warning("directory ", outdir, " exists, files will be overwritten")
     }
     
     
