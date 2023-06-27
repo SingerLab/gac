@@ -15,7 +15,17 @@
 #'  the tree height is calculated using \link{minimum.intersect}. Where
 #'  optimal height is the value at the intersect between the number of
 #'  one-cell and multi-cell clusters.
+#'
+#' @examples
+#' data(cnr)
+#' noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
+#' cnr <- excludeCells(cnr, excl = noisy.cells)
 #' 
+#' cnr <- phylo_cnr(cnr, root.cell = "cell0")
+#' 
+#' cnr <- setBrayClusters(cnr)
+#'
+#' cnr <- setBrayClusters(cnr. tree.height = 0.16)
 #' 
 #' @importFrom assertthat assert_that
 #' @importFrom stats cutree
@@ -65,8 +75,32 @@ setBrayClusters <- function(cnr, tree.height = NULL, prefix = "C", ...) {
 #' 
 #' @return
 #'
-#' returns cluster membership based on consensus clustering for a
-#'  specified kCC
+#' Appends cluster membership based on consensus clustering for a
+#'  specified kCC to the cnr$Y phenotype matrix.  Column name is
+#'  ConsensusC.
+#'
+#' If `overwrite = TRUE` this column will be overwritten in subsequent
+#' analyses.  To prevent this, change the name of the column to a
+#' differnt name e.g. `kCC.10` prior to the next run. Or set
+#' `overwrite = FALSE`, this will issue a warning issue a warning, and
+#' will rename append `.x` and `.y` suffix from merge.
+#'
+#' @examples
+#'
+#' data(cnr)
+#' noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
+#'
+#' cnr <- excludeCells(cnr, excl = noisy.cells)
+#'
+#' cnr <- phylo_cnr(cnr, root.cell = "cell0")
+#'
+#' cnr <- run_consensus_clustering(cnr, iters = 20, maxK = 40,
+#'        verbose = TRUE)
+#'
+#' cnr <- doKSpectral(cnr)
+#'
+#' cnr <- setKcc(cnr)
+#' 
 #' 
 #' @export
 setKcc <- function(cnr, kCC = NULL, prefix = "X", overwrite = TRUE) {
@@ -83,22 +117,24 @@ setKcc <- function(cnr, kCC = NULL, prefix = "X", overwrite = TRUE) {
     
     cc_membership <- as.data.frame(factor(cnr[["ccp"]][[kCC]]$consensusClass))
     colnames(cc_membership) <- "ConsensusC"
-
+    cc_membership$cellID <- rownames(cc_membership)
+    
   if(!is.null(prefix)) {
         cc_membership[,1] <- paste0(prefix, cc_membership[,1])
     }
 
+    
     if("ConsensusC" %in% names(cnr$Y)) {
         if(overwrite) {
             warning("Overwriting ConsensusC")
             ccx <- which(names(cnr$Y) == "ConsensusC")
             cnr$Y <- cnr$Y[, -ccx]
         } else {
-            warning("ConsensusC exists, check names in Y matrix after merge")
+            warning("ConsensusC exists, check names in Y matrix before continuing, and modify accordingly")
         }
     } 
     
-    cnr <- addPheno(cnr, df = cc_membership, by.x = "cellID", by.y = 0,
+    cnr <- addPheno(cnr, df = cc_membership, by = "cellID",
                     sort = FALSE)
     
     cnr[["kCC"]] <- kCC
