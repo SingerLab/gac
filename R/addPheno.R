@@ -36,8 +36,7 @@ addPheno <- function(cnr, df,
     
     cnr[["Y"]] <- ny
 
-    cnr <- sync_cnr(cnr)
-    
+    ## cnr <- sync_cnr(cnr) ## causing a bug    
     return(cnr)
     
 } ## end addPheno
