@@ -40,5 +40,5 @@ However, for clusters with 2 cells, are sumarized by taking the `max` at each bi
 the cell was used.
 }
 \description{
-rank clones
+STILL IN DEVELOPMENT: UNTESTED
 }

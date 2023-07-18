@@ -1,20 +1,24 @@
-#' Set clusters using one-cell and multi-cell height intersection
+#' Set Bray clusters 
 #'
 #' @param cnr a cnr bundle
 #'
-#' @param tree.height height of the tree \link{optClust}
+#' @param tree.height height of the tree \code{\link{optClust}}
 #'
 #' @param prefix a prefix to append before the cluster number
+#'
+#' @param opt.method optimization method, must be either "mi" or
+#'  'maxp' ; default is 'mi'
 #'
 #' @param ... additional parameters passed to \link{optClust}
 #' 
 #' @return
 #'
 #' Returns a cnr object with cluster membership based on Bray-Curtis
-#'  Ward.D2 heirarchical clustering. If hieght is NULL, then the
-#'  the tree height is calculated using \link{minimum.intersect}. Where
-#'  optimal height is the value at the intersect between the number of
-#'  one-cell and multi-cell clusters.
+#'  Ward.D2 heirarchical clustering. If method is \code{"mi"} the
+#'  the tree height is calculated using \code{minimum.intersect}.
+#'  Where optimal height is the value at the intersect between the number of
+#'  one-cell and multi-cell clusters.  If method is \code{"maxp"}, 
+#'  %CMC and tree height are maximized.
 #'
 #' @examples
 #' data(cnr)
@@ -25,22 +29,33 @@
 #' 
 #' cnr <- setBrayClusters(cnr)
 #'
-#' cnr <- setBrayClusters(cnr. tree.height = 0.16)
+#' cnr <- setBrayClusters(cnr, opt.method = "maxp")
+#' 
+#' cnr <- setBrayClusters(cnr, tree.height = 0.16)
 #' 
 #' @importFrom assertthat assert_that
 #' @importFrom stats cutree
 #' 
 #' @export
-setBrayClusters <- function(cnr, tree.height = NULL, prefix = "C", ...) {
+setBrayClusters <- function(cnr, tree.height = NULL, prefix = "C",
+                            opt.method = "mi", ...) {
     
-##    assertthat::assert_that("BrayC" %in% colnames(cnr[["Y"]]) == FALSE,
-##                            msg = "a cluster column already exists")
+    if("BrayC" %in% colnames(cnr[["Y"]])) {
+        warning("existing BrayC column will be ovewritten")
+    }
 
     if(is.null(tree.height)) {
         mocp <- optClust(cnr, ...)
-        tree.height <- minimum.intersect(mocp)
+        
+        if(opt.method == "mi") {
+            tree.height <- minimum.intersect(mocp)
+        } else {
+            tree.height <- maximum.percentage(mocp)
+        }
+        
         message("tree.height not set, using minum intersect point of ",
                 tree.height, " as tree.height")
+        
     } else {
         tree.height <- tree.height
     }
@@ -142,8 +157,112 @@ setKcc <- function(cnr, kCC = NULL, prefix = "X", overwrite = TRUE) {
     return(cnr)
 }
 
-#' rank clones
+
+#' optimizing clustering for single-cell copy number
 #'
+#' The optClust is a simple attempt to set a threshold on where to cut the an
+#' hclust tree.  The aim is to maximize the number of cluster with multiple-cells
+#' while minimizing the number of one-cell clusters.
+#'
+#' @return
+#'
+#' Returns a matrix where rows are the heights in the opt.range, and three columns.
+#'
+#' One-cell specifies the number of clusters with only one cell, 
+#' Multi-cell specifyies the number of clusters with multiple cells (>=2), and
+#' the percentage of cells in multi-cell clusters (%CMC)
+#'
+#' A good threshold is one that minimizes the one-cell cluster, and maximizes
+#' the %CMC
+#' 
+#' @param cnr a cnr bundle
+#'
+#' @param opt.range  range of tree heights that need to be optimized
+#'
+#' @examples
+#'
+#' data(cnr)
+#'
+#' cnr <- phylo_cnr(cnr)
+#'
+#' ## macro optimization
+#' optClust(cnr, opt.range = seq(0, 0.3, by = 0.05))
+#'
+#' ## for micro-optimization
+#' optClust(cnr, opt.range = seq(0, 0.2, by = 0.001))
+#'
+#' @export
+optClust <- function(cnr, opt.range = seq(0.005, 0.6, by = 0.005)) {
+
+    clL <- sapply(opt.range, function(h) {
+        ctbl <- sort(table(cutree(cnr[["hcdb"]], h = h)),
+                     decreasing = TRUE)
+    })
+    names(clL) <- opt.range
+
+    omt <- matrix(t(sapply(clL, function(i) {
+        cbind(sum(i == 1), sum(i != 1), sum(i != 1)/length(i))
+    })),
+    ncol = 3,
+    dimnames = list(opt.range, c("One-cell", "Multi-cell", "%CMC")))
+    
+    return(omt)
+    
+} # optClust
+
+
+#' Minimum tree.height at the intersect of one-cell and multi-cell clusters
+#'
+#' @param mocp output from \link{optClust}
+#'
+#' @export
+minimum.intersect <- function(mocp) {
+
+    mi <- as.numeric(names(which(mocp[,1] < mocp[,2])[1]))
+    return(mi)
+    
+} #end minimum.intersect
+
+
+#' Max percent
+#'
+#' @param mocp output from \code{\link{optClust}}
+#' 
+#' @param low.boundary lower percent of clones with multiple cells,
+#'  default is .70
+#'
+#' @param high.boundary highest percent of clones with multiple cells,
+#'  default is .90
+#'
+#' @return
+#'
+#' The maximum tree height located at the maximum percent of clones with
+#'  multiple cells between the low and high boundaries.
+#'
+#' @importFrom assertthat assert_that
+#' 
+#' @export
+maximum.percentage <- function(mocp, low.boundary = .70, high.boundary = .90) {
+
+    assertthat::assert_that("%CMC" %in% colnames(mocp))
+    
+    maxp <- mocp[mocp[, "%CMC"] >= low.boundary , ]
+    maxp <- maxp[maxp[, "%CMC"] <= high.boundary, ]
+
+    maxx <- max(maxp[, "%CMC"])
+    maxp <- maxp[maxp[, "%CMC"] == maxx,]
+    
+    max.tree.height <- max(as.numeric(rownames(maxp)))
+    
+    return(max.tree.height)
+    
+} #end maximum.percentage
+
+
+#' rank clones
+#' 
+#' STILL IN DEVELOPMENT: UNTESTED
+#' 
 #' @param cnr a cnr object
 #'
 #' @param cluster_column which cluster column to use; must be one of

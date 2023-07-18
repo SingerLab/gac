@@ -4,18 +4,18 @@
 \alias{add_in_silico_root}
 \title{build an in-silico root cell and clone profile}
 \usage{
-add_in_silico_root(cnr, cell.name = "diploid", female = TRUE, base.ploidy = 2L)
+add_in_silico_root(cnr, base.ploidy = 2L, cell.name = "diploid", female = TRUE)
 }
 \arguments{
 \item{cnr}{a cnr}
+
+\item{base.ploidy}{integer, base ploidy (2, 4, 6, 8), default 2, for diploid cell}
 
 \item{cell.name}{name of root cell. default "diploid"}
 
 \item{female}{logical, weather to build a female or male
  cell and clone, default is female. If female is NULL, no sex chromosomes
 correction is performed, all bins will have copy number equal base.ploidy}
-
-\item{base.ploidy}{integer, base ploidy (2, 4, 6, 8), default 2, for diploid cell}
 }
 \value{
 Append an in-silico diplod (or polyploid) cell to the cnr.  By default a female
