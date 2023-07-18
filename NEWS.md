@@ -1,3 +1,13 @@
+# gac 0.0.9036
+* allow arguments to be passed down tho HeatmapAnnotation when implementing create_chromosome_annotation
+* simplified create_chromosome_annotation base functions
+
+* `add_in_silico_root` now exits if "X" contains `cell.name` e.g. 'diploid'
+
+* adds plot_sK to inspect kParameter and kStable
+
+* new method for assigning clusters in Bray Curtis Dissimilarity
+
 # gac 0.0.9035
 * added function to add an in-silico root cell and clone
 

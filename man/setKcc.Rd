@@ -19,9 +19,34 @@ which will pull the optK[kCC] from kStats}
 default is TRUE}
 }
 \value{
-returns cluster membership based on consensus clustering for a
- specified kCC
+Appends cluster membership based on consensus clustering for a
+ specified kCC to the cnr$Y phenotype matrix.  Column name is
+ ConsensusC.
+
+If `overwrite = TRUE` this column will be overwritten in subsequent
+analyses.  To prevent this, change the name of the column to a
+differnt name e.g. `kCC.10` prior to the next run. Or set
+`overwrite = FALSE`, this will issue a warning issue a warning, and
+will rename append `.x` and `.y` suffix from merge.
 }
 \description{
 Set cluster membership for K clusters
+}
+\examples{
+
+data(cnr)
+noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
+
+cnr <- excludeCells(cnr, excl = noisy.cells)
+
+cnr <- phylo_cnr(cnr, root.cell = "cell0")
+
+cnr <- run_consensus_clustering(cnr, iters = 20, maxK = 40,
+       verbose = TRUE)
+
+cnr <- doKSpectral(cnr)
+
+cnr <- setKcc(cnr)
+
+
 }

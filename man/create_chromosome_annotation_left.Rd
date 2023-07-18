@@ -4,10 +4,19 @@
 \alias{create_chromosome_annotation_left}
 \title{create chromosome annotations for custom heatmaps}
 \usage{
-create_chromosome_annotation_left(cnr, ...)
+create_chromosome_annotation_left(
+  cnr,
+  labels_gp = grid::gpar(fontsize = 10),
+  labels_rot = 90,
+  ...
+)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
+
+\item{labels_gp}{graphic parameters from \link[grid]{gpar}, default fontsize = 10}
+
+\item{labels_rot}{label rotation, default 90}
 
 \item{...}{additional prameters passed to HeatmapAnnotation}
 }

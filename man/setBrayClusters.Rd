@@ -2,26 +2,44 @@
 % Please edit documentation in R/setClusters.R
 \name{setBrayClusters}
 \alias{setBrayClusters}
-\title{Set clusters using one-cell and multi-cell height intersection}
+\title{Set Bray clusters}
 \usage{
-setBrayClusters(cnr, tree.height = NULL, prefix = "C", ...)
+setBrayClusters(cnr, tree.height = NULL, prefix = "C", opt.method = "mi", ...)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
-\item{tree.height}{height of the tree \link{optClust}}
+\item{tree.height}{height of the tree \code{\link{optClust}}}
 
 \item{prefix}{a prefix to append before the cluster number}
+
+\item{opt.method}{optimization method, must be either "mi" or
+'maxp' ; default is 'mi'}
 
 \item{...}{additional parameters passed to \link{optClust}}
 }
 \value{
 Returns a cnr object with cluster membership based on Bray-Curtis
- Ward.D2 heirarchical clustering. If hieght is NULL, then the
- the tree height is calculated using \link{minimum.intersect}. Where
- optimal height is the value at the intersect between the number of
- one-cell and multi-cell clusters.
+ Ward.D2 heirarchical clustering. If method is \code{"mi"} the
+ the tree height is calculated using \code{minimum.intersect}.
+ Where optimal height is the value at the intersect between the number of
+ one-cell and multi-cell clusters.  If method is \code{"maxp"}, 
+ %CMC and tree height are maximized.
 }
 \description{
-Set clusters using one-cell and multi-cell height intersection
+Set Bray clusters
+}
+\examples{
+data(cnr)
+noisy.cells <- cnr$qc$cellID[cnr$qc$qc.status == "FAIL"]
+cnr <- excludeCells(cnr, excl = noisy.cells)
+
+cnr <- phylo_cnr(cnr, root.cell = "cell0")
+
+cnr <- setBrayClusters(cnr)
+
+cnr <- setBrayClusters(cnr, opt.method = "maxp")
+
+cnr <- setBrayClusters(cnr, tree.height = 0.16)
+
 }

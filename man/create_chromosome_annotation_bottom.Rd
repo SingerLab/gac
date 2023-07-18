@@ -7,7 +7,7 @@
 create_chromosome_annotation_bottom(
   cnr,
   labels_gp = grid::gpar(fontsize = 10),
-  labels_rot = 90,
+  labels_rot = 0,
   ...
 )
 }

@@ -1,4 +1,3 @@
-
 #' build an in-silico root cell and clone profile
 #'
 #' By default cell is a female diploid cell
@@ -31,8 +30,14 @@
 #'
 #' @importFrom assertthat assert_that
 #' @export
-add_in_silico_root <- function(cnr, cell.name = "diploid",
-                               female = TRUE, base.ploidy = 2L) {
+add_in_silico_root <- function(cnr, base.ploidy = 2L,
+                               cell.name = "diploid",
+                               female = TRUE) {
+
+    if(any(cell.name %in% colnames(cnr$X))) {
+        stop("diploid root exists, please remove or change name")
+    }
+    
     ## 
     if(!is.integer(base.ploidy)) {
         base.ploidy <- as.integer(round(base.ploidy))
