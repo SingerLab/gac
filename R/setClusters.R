@@ -49,11 +49,13 @@ setBrayClusters <- function(cnr, tree.height = NULL, prefix = "C",
         
         if(opt.method == "mi") {
             tree.height <- minimum.intersect(mocp)
+            method.name <- "minimum.intersect"
         } else {
             tree.height <- maximum.percentage(mocp)
+            method.name <- "maximum.percentage"
         }
         
-        message("tree.height not set, using minimum intersect point of ",
+        message("tree.height not set, using", method.name,"point of ",
                 tree.height, " as tree.height")
         
     } else {
