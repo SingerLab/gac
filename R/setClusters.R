@@ -55,7 +55,7 @@ setBrayClusters <- function(cnr, tree.height = NULL, prefix = "C",
             method.name <- "maximum.percentage"
         }
         
-        message("tree.height not set, using", method.name,"point of ",
+        message("tree.height not set, using ", method.name," point of ",
                 tree.height, " as tree.height")
         
     } else {
