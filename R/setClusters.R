@@ -38,7 +38,7 @@
 #' 
 #' @export
 setBrayClusters <- function(cnr, tree.height = NULL, prefix = "C",
-                            opt.method = "mi", ...) {
+                            opt.method = "maxp", ...) {
     
     if("BrayC" %in% colnames(cnr[["Y"]])) {
         warning("existing BrayC column will be ovewritten")
@@ -53,7 +53,7 @@ setBrayClusters <- function(cnr, tree.height = NULL, prefix = "C",
             tree.height <- maximum.percentage(mocp)
         }
         
-        message("tree.height not set, using minum intersect point of ",
+        message("tree.height not set, using minimum intersect point of ",
                 tree.height, " as tree.height")
         
     } else {
@@ -83,7 +83,7 @@ setBrayClusters <- function(cnr, tree.height = NULL, prefix = "C",
 #'
 #' @param prefix prefix charcter to append to Consensus Clusters
 #'
-#' @param overwrite weather to overwrite the ConsensusC column,
+#' @param overwrite whether to overwrite the ConsensusC column,
 #'   default is TRUE
 #' 
 #' @importFrom assertthat assert_that
@@ -97,8 +97,8 @@ setBrayClusters <- function(cnr, tree.height = NULL, prefix = "C",
 #' If `overwrite = TRUE` this column will be overwritten in subsequent
 #' analyses.  To prevent this, change the name of the column to a
 #' differnt name e.g. `kCC.10` prior to the next run. Or set
-#' `overwrite = FALSE`, this will issue a warning issue a warning, and
-#' will rename append `.x` and `.y` suffix from merge.
+#' `overwrite = FALSE`, this will issue a warning, and
+#' will rename append `.x` and `.y` suffix from `merge`.
 #'
 #' @examples
 #'
@@ -158,21 +158,21 @@ setKcc <- function(cnr, kCC = NULL, prefix = "X", overwrite = TRUE) {
 }
 
 
-#' optimizing clustering for single-cell copy number
+#' Optimizing clustering for single-cell copy number
 #'
 #' The optClust is a simple attempt to set a threshold on where to cut the an
-#' hclust tree.  The aim is to maximize the number of cluster with multiple-cells
+#' hclust tree.  The aim is to maximize the number of clusters with multiple-cells
 #' while minimizing the number of one-cell clusters.
 #'
 #' @return
 #'
-#' Returns a matrix where rows are the heights in the opt.range, and three columns.
+#' Returns a matrix where rows are the heights in the opt.range and three columns.
 #'
 #' One-cell specifies the number of clusters with only one cell, 
-#' Multi-cell specifyies the number of clusters with multiple cells (>=2), and
+#' Multi-cell specifies the number of clusters with multiple cells (>=2), and
 #' the percentage of cells in multi-cell clusters (%CMC)
 #'
-#' A good threshold is one that minimizes the one-cell cluster, and maximizes
+#' A suitable threshold is one that minimizes the one-cell cluster and maximizes
 #' the %CMC
 #' 
 #' @param cnr a cnr bundle
