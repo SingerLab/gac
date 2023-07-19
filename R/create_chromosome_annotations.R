@@ -1,4 +1,4 @@
-#' create chromosome annotations for custom heatmaps
+#' Create chromosome annotations for custom heatmaps
 #'
 #' @param cnr a cnr bundle
 #'
@@ -8,7 +8,7 @@
 #' @param ... additional prameters passed to \code{\link[ComplexHeatmap]{HeatmapAnnotation}}
 #'
 #' @return
-#' A HeatmapAnnotation containing a chromosome map indicate chromsome
+#' A HeatmapAnnotation containing a chromosome map indicates chromosome
 #' boundaries on heatmaps
 #'
 #' @examples
@@ -40,21 +40,21 @@ create_chromosome_annotation <- function(cnr, side = "left", ...) {
 }
 
 
-#' create chromosome annotations for custom heatmaps
+#' Create chromosome annotations for custom heatmaps
 #'
 #' @param cnr a cnr bundle
 #'
 #' @param labels_gp graphic parameters from \link[grid]{gpar}, default fontsize = 10
 #' 
-#' @param labels_rot label rotation, default 90
+#' @param labels_rot label rotation, default 0
 #'
-#' @param ... additional prameters passed to HeatmapAnnotation
+#' @param ... additional parameters passed to HeatmapAnnotation
 #' 
 #' @importFrom ComplexHeatmap rowAnnotation anno_mark
 #' @importFrom grid gpar
 create_chromosome_annotation_left <- function(cnr,
                                               labels_gp = grid::gpar(fontsize = 10),
-                                              labels_rot = 90, ...) {
+                                              labels_rot = 0, ...) {
 
     if(is.factor(cnr$chromInfo$bin.chrom)) {
         cf <- droplevels(cnr$chromInfo$bin.chrom)
@@ -79,12 +79,12 @@ create_chromosome_annotation_left <- function(cnr,
     return(chrAnno)
 }
 
-#' create chromosome annotations for custom heatmaps
+#' Create chromosome annotations for custom heatmaps
 #'
 #' @param cnr a cnr bundle
 #' @param labels_gp graphic parameters from \link[grid]{gpar}, default fontsize = 10
-#' @param labels_rot label rotation, default 90
-#' @param ... additional prameters passed to HeatmapAnnotation
+#' @param labels_rot label rotation, default 0
+#' @param ... additional parameters passed to HeatmapAnnotation
 #' 
 #' @importFrom ComplexHeatmap HeatmapAnnotation anno_mark
 #' @importFrom grid gpar
@@ -114,12 +114,12 @@ create_chromosome_annotation_top <- function(cnr,
     return(chrAnno)
 }
 
-#' create chromosome annotations for custom heatmaps
+#' Create chromosome annotations for custom heatmaps
 #'
 #' @param cnr a cnr bundle
 #' @param labels_gp graphic parameters from \link[grid]{gpar}, default fontsize = 10
-#' @param labels_rot label rotation, default 90
-#' @param ... additional prameters passed to HeatmapAnnotation
+#' @param labels_rot label rotation, default 0
+#' @param ... additional parameters passed to HeatmapAnnotation
 #' 
 #' @importFrom ComplexHeatmap HeatmapAnnotation anno_mark
 #' @importFrom grid gpar
@@ -150,21 +150,21 @@ create_chromosome_annotation_bottom <- function(cnr,
     return(chrAnno)
 }
 
-#' create chromosome annotations for custom heatmaps
+#' Create chromosome annotations for custom heatmaps
 #'
 #' @param cnr a cnr bundle
 #'
 #' @param labels_gp graphic parameters from \link[grid]{gpar}, default fontsize = 10
 #'
-#' @param labels_rot label rotation, default 90
+#' @param labels_rot label rotation, default 0
 #'
-#' @param ... additional prameters passed to HeatmapAnnotation
+#' @param ... additional parameters passed to HeatmapAnnotation
 #' 
 #' @importFrom ComplexHeatmap rowAnnotation anno_mark
 #' @importFrom grid gpar
 create_chromosome_annotation_right <- function(cnr,
                                                labels_gp = grid::gpar(fontsize = 10),
-                                               labels_rot = 90, ...) {
+                                               labels_rot = 0, ...) {
 
     if(is.factor(cnr$chromInfo$bin.chrom)) {
         cf <- droplevels(cnr$chromInfo$bin.chrom)
@@ -189,7 +189,7 @@ create_chromosome_annotation_right <- function(cnr,
 }
 
 
-#' estiamte chromosome midpoint locations along a continuous genome
+#' Estimate chromosome midpoint locations along a continuous genome
 #'
 #' @param cnr a cnr
 #'
@@ -213,7 +213,7 @@ mid_chr <- function(cnr, bin = TRUE) {
 }
 
 
-#' estimate chromosome end locations along a continuous genome
+#' Estimate chromosome end locations along a continuous genome
 #'
 #' @param cnr a cnr
 #'
@@ -221,7 +221,7 @@ mid_chr <- function(cnr, bin = TRUE) {
 #'
 #' @return
 #' A named vector of chromosome breaks locations in the data.
-#' Useful when adding lines to seaparete chromosomes,  or
+#' Useful when adding lines to separate chromosomes,  or
 #' a background when highlighting a chromosome
 #' 
 #' @export
@@ -243,7 +243,7 @@ chr_breaks <- function(cnr, bin = TRUE) {
 }
 
 
-#' chromosome colors
+#' Generate chromosome sidebar colors
 #' @param cnr a cnr bundle
 #'
 #' @param col alternating chromosome colors, default is c("#404040", "#BABABA")
