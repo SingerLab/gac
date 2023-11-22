@@ -136,7 +136,7 @@ buildCNR <- function(X, Y, qc, chromInfo, exprs = NULL, gene.index,
     cnr[["bulk"]] <- bulk
     
     cnr <- sync_cnr(cnr, full.sync = full.sync,
-                    chromosome.order=c(1:22, "X", "Y", "MT"))
+                    chromosome.order = chromosome.order)
     
     return(cnr)
     
