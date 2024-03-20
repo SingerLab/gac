@@ -2,6 +2,7 @@
 % Please edit documentation in R/gac.R
 \docType{package}
 \name{gac}
+\alias{gac-package}
 \alias{gac}
 \title{gac}
 \source{
@@ -25,7 +26,15 @@ The HeatmapCNR function in GAC implements Bray-Curtis disimilarity on
 ComplexHeatmap as the default method to estimate cell-cell distances and
 generate the heatmaps.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/SingerLab/gac/}
+  \item Report bugs at \url{https://github.com/SingerLab/gac/issues}
+}
+
+}
 \author{
 Rodrigo Gularte Merida \email{gularter@mskcc.org}
 }
-\keyword{package}
+\keyword{internal}

@@ -4,28 +4,28 @@
 \alias{binary.X}
 \title{build binary matrix from integer copy number data}
 \usage{
-binary.X(X, base.ploidy = 2)
+binary.X(X, bulk, base.ploidy = 2)
 }
 \arguments{
 \item{X}{a copy number matrix to convert to an incidence matrix}
 
-\item{base.ploidy}{expected cell ploidy, e.g. 2N = 2, 4N = 4}
+\item{bulk}{logical, if TRUE data is bulk DNA is cbioportal calls, default is FALSE for integer copy number}
+
+\item{base.ploidy}{expected ploidy, e.g. 2N = 2, 4N = 4}
 }
 \value{
 Returns an incidence matrix for X, when X != base.ploidy
 }
 \description{
-This function builds a binary, incidence, matrix from the cnr$X.  It was designed as a helper function to generate the input for infSCITE.
-}
-\details{
-Because infSCITE was developed for mutation data, this function creates a precense/absence matrix of the data
-
-By default, anything not diploid is 1.
+This function builds a binary alteration incidence matrix from copy number data.
+Anything not equal to base.ploidy is 1.
 }
 \examples{
 
 data(cnr)
 
-Z <- binary.X(cnr$genes[, c("CDK4", "MDM2")])
+Z <- binary.X(cnr$X, bulk = cnr$bulk)
+
+Z <- binary.X(cnr$genes[, c("CDK4", "MDM2")], bulk = cnr$bulk)
 
 }

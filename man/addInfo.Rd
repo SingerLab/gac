@@ -2,35 +2,50 @@
 % Please edit documentation in R/addInfo.R
 \name{addInfo}
 \alias{addInfo}
-\title{Adds info to the chromInfo}
+\title{Adds new columns to the chromInfo and gene.index}
 \usage{
-addInfo(cnr, df)
+addInfo(cnr, df, gdf = NULL, ...)
 }
 \arguments{
 \item{cnr}{a cnr bundle}
 
-\item{df}{a data.frame with the data to incorporate.  Particularly
+\item{df}{a data.frame with the data to incorporate into chromInfo.  Particularly
 useful for adding p-values, genetic effects, etc to the bins}
+
+\item{gdf}{a data.frame with the data to incorporate into gene.index.  Particularly
+useful for adding p-values, genetic effects, etc to the genes}
+
+\item{...}{other parameters passed to \code{\link{addGeneInfo}}, subsequently to
+\code{\link[base]{merge}}}
 }
 \value{
-Returns a CNR object with added columns to the chromInfo. e.g. p-values for genome wide scans
+Returns a CNR object with added columns to the chromInfo and to the gene.index.
+e.g. p-values for genome wide scans,
 }
 \description{
-The function adds information at the bin level.  The gene information is an
-interpolation of the bin.  The number of independent tests you are performing
-is the number of common, non-identical segments in the data.   However, to keep
-the framework simple, it's best to append results from algorithms to the
-chromInfo. E.g. if .X is 5000 bins, then your genome wide algorithim
-is 5000 p-values.  Here is where you add it after generating it.
+The function adds information at the bin and gene level by running \code{\link{addBinInfo}},
+and \code{\link{addGeneInfo}}
 }
 \examples{
 
 data(cnr)
 
-fakePval <- data.frame(pval = runif(5000))
+fakeBinPval <- data.frame(pval = runif(5000))
 
-cnr <- addInfo(cnr, df = fakePval)
+fakeGenePval <- data.frame(hgnc.symbol = cnr$gene.index$hgnc.symbol,
+pval = runif(nrow(cnr$gene.index)))
+                       
+cnr <- addInfo(cnr, df = fakeBinPval, gdf = fakeGenePval)
 
 head(cnr$chromInfo)
+head(cnr$gene.index)
+
+## add info only to bins
+
+fakeBinPval2 <- data.frame(pval = runif(5000))
+cnr <- addInfo(cnr, df = fakeBinPval2)
+
+head(cnr$chromInfo)
+head(cnr$gene.index)
 
 }

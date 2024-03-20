@@ -38,22 +38,24 @@
 #' @export
 get_alteration_frequencies <- function(cnr, symbol = "hgnc.symbol", ...) {
 
-    binDF <- get_bin_frequencies(cnr)
-    geneDF <- get_gene_frequencies(cnr)
+    binDF <- get_bin_frequencies_cn(cnr)
+    geneDF <- get_gene_frequencies_cn(cnr)
     rownames(geneDF) <- gsub("\\.", "-", rownames(geneDF))
 
     assertthat::assert_that(all(rownames(geneDF) %in%
                                 cnr[["gene.index"]][, symbol]))
 
-    cnr <- addInfo(cnr, df = binDF)
-    cnr[["gene.index"]] <- merge(cnr[["gene.index"]], geneDF, by.x = symbol,
-                                 by.y = 0, sort = FALSE, all.x = TRUE, ...)
-    rownames(cnr[["gene.index"]]) <- cnr[["gene.index"]][, symbol]
+    cnr <- addInfo(cnr, df = binDF, gdf = geneDF,
+                   by.x = symbol, by.y = 0)
+    
+    ## cnr[["gene.index"]] <- merge(cnr[["gene.index"]], geneDF, by.x = symbol,
+    ## by.y = 0, sort = FALSE, all.x = TRUE, ...)
+    ## rownames(cnr[["gene.index"]]) <- cnr[["gene.index"]][, symbol]
     
     return(cnr)
 }
 
-    
+
 
 #' estimate bin alteration frequencies
 #'
@@ -66,23 +68,33 @@ get_alteration_frequencies <- function(cnr, symbol = "hgnc.symbol", ...) {
 #' 
 #' @keywords internal
 #' @noRd
-get_bin_frequencies <- function(cnr, ...) {
+get_bin_frequencies_cn <- function(cnr, ...) {
 
-    assertthat::assert_that(!cnr$bulk)
+    if(cnr$bulk) {
+        X <- cbioportal_states_from_log2_ratio(
+            cnr,
+            cbioportal =  FALSE, ...)
+    }
+    if(!cnr$bulk) {
+        X <- cnr[["X"]]
+    }
+
     
-    AmpCT <- get_amp_counts(t(cnr[["X"]]), bulk = cnr$bulk, ...)
-    delCT <- get_del_counts(t(cnr[["X"]]), bulk = cnr$bulk, ...)
-    altCT <- get_alt_counts(t(cnr[["X"]]), bulk = cnr$bulk, ...)
+    AmpCT <- get_amp_counts(X, bulk = cnr$bulk, ...)
+    delCT <- get_del_counts(X, bulk = cnr$bulk, ...)
+    altCT <- get_alt_counts(X, bulk = cnr$bulk, ...)
 
-    ncells <- ncol(cnr$X)
+    ncells <- ncells(cnr)
     
     altDF <- data.frame(AmpCT, delCT, altCT,
-                        AmpFQ = AmpCT/ncells, delFQ = delCT/ncells,
+                        AmpFQ = AmpCT/ncells,
+                        delFQ = delCT/ncells,
                         altFQ = altCT/ncells)
 
     return(altDF)
 }
 
+
 #' estimate bin alteration frequencies
 #'
 #' @param cnr a cnr bundle
@@ -94,19 +106,29 @@ get_bin_frequencies <- function(cnr, ...) {
 #' 
 #' @keywords internal
 #' @noRd
-get_gene_frequencies <- function(cnr, ...) {
+get_gene_frequencies_cn <- function(cnr, ...) {
 
-    assertthat::assert_that(!cnr$bulk)
+    ## assertthat::assert_that(!cnr$bulk)
 
-    AmpCT <- get_amp_counts(cnr[["genes"]], bulk = cnr$bulk, ...)
-    delCT <- get_del_counts(cnr[["genes"]], bulk = cnr$bulk, ...)
-    altCT <- get_alt_counts(cnr[["genes"]], bulk = cnr$bulk, ...)
+    if(cnr$bulk) {
+        X <- cbioportal_states_from_log2_ratio(
+            cnr, genes =  TRUE,
+            cbioportal =  TRUE)
+    }
+    if(!cnr$bulk) {
+        X <- t(cnr[["genes"]])
+    }
+    
+    AmpCT <- get_amp_counts(X, bulk = cnr$bulk, ...)
+    delCT <- get_del_counts(X, bulk = cnr$bulk, ...)
+    altCT <- get_alt_counts(X, bulk = cnr$bulk, ...)
 
-    ncells <- ncol(cnr$X)
+    nx <- ncells(cnr)
     
     altDF <- data.frame(AmpCT, delCT, altCT,
-                        AmpFQ = AmpCT/ncells, delFQ = delCT/ncells,
-                        altFQ = altCT/ncells)
+                        AmpFQ = AmpCT/nx,
+                        delFQ = delCT/nx,
+                        altFQ = altCT/nx)
     
     return(altDF)
 }
@@ -124,18 +146,23 @@ get_gene_frequencies <- function(cnr, ...) {
 #'
 #' @keywords internal
 #' @noRd
-get_amp_counts <- function(X, bulk, base.ploidy = 2) {
-
-    assertthat::assert_that(!bulk)
-    
+get_amp_counts <- function(X, bulk, base.ploidy = 2,
+                           log2.ratio.gain.threshold = 0.4) {
+                           
     ampX <- X
-    ampX[X >= (base.ploidy+1)] <- 1
-    ampX[X <= base.ploidy] <- 0
-
-    delCT <- colSums(ampX)
-
-    return(delCT)
-}
+    
+    if(!bulk) {
+        ampCT <- ampX > base.ploidy
+    }
+    
+    if(bulk) {
+        ampCT <- ampX >= log2.ratio.gain.threshold
+    }
+        
+    ampCT <- rowSums(ampCT)
+    return(ampCT)
+    
+} ## get_amp_counts
 
 
 #' deletion counts
@@ -150,16 +177,20 @@ get_amp_counts <- function(X, bulk, base.ploidy = 2) {
 #'
 #' @keywords internal
 #' @noRd
-get_del_counts <- function(X, bulk, base.ploidy = 2) {
+get_del_counts <- function(X, bulk,
+                           base.ploidy = 2,
+                           log2.ratio.loss.threshold = -0.6) {
 
-    assertthat::assert_that(!bulk)
-    
     delX <- X
-    delX[X < base.ploidy] <- 1
-    delX[X >= base.ploidy] <- 0
     
-    delCT <- colSums(delX)
+    if(!bulk) {
+        delCT <- delX < 2
+    }
+    if(bulk) {
+        delCT <- delX <= log2.ratio.loss.threshold
+    }
 
+    delCT <- rowSums(delCT)
     return(delCT)
 }
 
@@ -178,11 +209,47 @@ get_del_counts <- function(X, bulk, base.ploidy = 2) {
 #' @noRd
 get_alt_counts <- function(X, bulk, ...) {
 
-    assertthat::assert_that(!bulk)
+    if(bulk) {
+        X <- callX(X, ...)
+    }
+    altX <- binary.X(X, bulk =  bulk, ...)
     
-    altX <- binary.X(X, ...)
+    altCT <- rowSums(altX)
     
-    altCT <- colSums(altX)
-
     return(altCT)
+    
+}
+
+
+#' alteration counts (both Amp + Del)
+#'
+#' @param X a matrix of integer copy number `cnr$X`
+#'
+#' @param bulk logical, weather the cnr is from bulk DNA, default is FALSE
+#'
+#' @param ... additional parameters passed to get_amp_counts, get_del_counts, or
+#' get_alt_counts
+#'
+#' @importFrom assertthat assert_that
+#' 
+#' @keywords internal
+#' @noRd
+callX <- function(X,
+                  deletion.threshold =  -1.2,
+                  loss.threshold = -0.6,
+                  gains.threshold =  0.4,
+                  amplification.threshold = 0.8) {
+    
+    cx <- apply(X, 2, function(i) {
+        out <- ifelse(i <= loss.threshold, -1,
+               ifelse(i <= deletion.threshold, -2,
+               ifelse(i > loss.threshold &
+                      i < gains.threshold, 0, 
+               ifelse(i >= gains.threshold[1] &
+                      i < amplification.threshold[1], 1,
+               ifelse(i >= amplification.threshold[1], 2, NA)))))
+        })
+    
+    return(cx)
+    
 }

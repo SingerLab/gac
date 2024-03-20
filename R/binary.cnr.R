@@ -26,10 +26,9 @@
 #'  
 #' @export
 binary.cnr <- function(cnr, base.ploidy = 2) {
-
-    Z <- cnr[["X"]]
-    Z[Z != base.ploidy] <- 1
-    Z[Z == base.ploidy] <- 0
+    
+    Z <- binary.X(cnr[["X"]], bulk = cnr$bulk,
+                  base.ploidy = base.ploidy)
     
     cnr[["Z"]] <- Z
     
@@ -41,15 +40,14 @@ binary.cnr <- function(cnr, base.ploidy = 2) {
 
 #' build binary matrix from integer copy number data
 #'
-#' This function builds a binary, incidence, matrix from the cnr$X.  It was designed as a helper function to generate the input for infSCITE.
-#'
-#' Because infSCITE was developed for mutation data, this function creates a precense/absence matrix of the data
-#' 
-#' By default, anything not diploid is 1.
+#' This function builds a binary alteration incidence matrix from copy number data.
+#' Anything not equal to base.ploidy is 1.
 #'
 #' @param X a copy number matrix to convert to an incidence matrix
 #'
-#' @param base.ploidy expected cell ploidy, e.g. 2N = 2, 4N = 4
+#' @param bulk logical, if TRUE data is bulk DNA is cbioportal calls, default is FALSE for integer copy number
+#'
+#' @param base.ploidy expected ploidy, e.g. 2N = 2, 4N = 4
 #'
 #' @return
 #'
@@ -59,14 +57,23 @@ binary.cnr <- function(cnr, base.ploidy = 2) {
 #'
 #' data(cnr)
 #'
-#' Z <- binary.X(cnr$genes[, c("CDK4", "MDM2")])
+#' Z <- binary.X(cnr$X, bulk = cnr$bulk)
+#' 
+#' Z <- binary.X(cnr$genes[, c("CDK4", "MDM2")], bulk = cnr$bulk)
 #' 
 #' @export
-binary.X <- function(X, base.ploidy = 2) {
-    Z <- X
-    Z[Z != base.ploidy] <- 1
-    Z[Z == base.ploidy] <- 0
-    Z
+binary.X <- function(X, bulk, base.ploidy = 2) {
+
+    if(bulk) {
+        ## check its cbioportal notation
+        assertthat::assert_that(any(c("-2", "-1") %in% names(table(X))))
+        base.ploidy <- 0
+    }
+    
+    Z <- apply(X != base.ploidy, 2, as.numeric)
+    
+    return(Z)
+
 } ## binary.X
 
 

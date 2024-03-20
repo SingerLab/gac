@@ -2,7 +2,7 @@
 % Please edit documentation in R/setClusters.R
 \name{optClust}
 \alias{optClust}
-\title{optimizing clustering for single-cell copy number}
+\title{Optimizing clustering for single-cell copy number}
 \usage{
 optClust(cnr, opt.range = seq(0.005, 0.6, by = 0.005))
 }
@@ -12,18 +12,18 @@ optClust(cnr, opt.range = seq(0.005, 0.6, by = 0.005))
 \item{opt.range}{range of tree heights that need to be optimized}
 }
 \value{
-Returns a matrix where rows are the heights in the opt.range, and three columns.
+Returns a matrix where rows are the heights in the opt.range and three columns.
 
 One-cell specifies the number of clusters with only one cell, 
-Multi-cell specifyies the number of clusters with multiple cells (>=2), and
+Multi-cell specifies the number of clusters with multiple cells (>=2), and
 the percentage of cells in multi-cell clusters (%CMC)
 
-A good threshold is one that minimizes the one-cell cluster, and maximizes
+A suitable threshold is one that minimizes the one-cell cluster and maximizes
 the %CMC
 }
 \description{
 The optClust is a simple attempt to set a threshold on where to cut the an
-hclust tree.  The aim is to maximize the number of cluster with multiple-cells
+hclust tree.  The aim is to maximize the number of clusters with multiple-cells
 while minimizing the number of one-cell clusters.
 }
 \examples{

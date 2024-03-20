@@ -15,7 +15,7 @@ which will pull the optK[kCC] from kStats}
 
 \item{prefix}{prefix charcter to append to Consensus Clusters}
 
-\item{overwrite}{weather to overwrite the ConsensusC column,
+\item{overwrite}{whether to overwrite the ConsensusC column,
 default is TRUE}
 }
 \value{
@@ -26,8 +26,8 @@ Appends cluster membership based on consensus clustering for a
 If `overwrite = TRUE` this column will be overwritten in subsequent
 analyses.  To prevent this, change the name of the column to a
 differnt name e.g. `kCC.10` prior to the next run. Or set
-`overwrite = FALSE`, this will issue a warning issue a warning, and
-will rename append `.x` and `.y` suffix from merge.
+`overwrite = FALSE`, this will issue a warning, and
+will rename append `.x` and `.y` suffix from `merge`.
 }
 \description{
 Set cluster membership for K clusters

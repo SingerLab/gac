@@ -4,7 +4,13 @@
 \alias{setBrayClusters}
 \title{Set Bray clusters}
 \usage{
-setBrayClusters(cnr, tree.height = NULL, prefix = "C", opt.method = "mi", ...)
+setBrayClusters(
+  cnr,
+  tree.height = NULL,
+  prefix = "C",
+  opt.method = "maxp",
+  ...
+)
 }
 \arguments{
 \item{cnr}{a cnr bundle}

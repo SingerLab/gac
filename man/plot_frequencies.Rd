@@ -6,6 +6,7 @@
 \usage{
 plot_frequencies(
   cnr,
+  genes = FALSE,
   cols = c("#D40000", "#318CE7"),
   xlab = "Genome",
   ylab = "Alteration Frequency",
@@ -15,6 +16,8 @@ plot_frequencies(
 }
 \arguments{
 \item{cnr}{a cnr bundle}
+
+\item{genes}{logical, if TRUE use AmpFQ from gene data instead of bin, Default FALSE}
 
 \item{cols}{colors for amplifications and deletions, default to red and blue}
 

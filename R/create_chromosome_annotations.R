@@ -193,15 +193,15 @@ create_chromosome_annotation_right <- function(cnr,
 #'
 #' @param cnr a cnr
 #'
-#' @param bin  weather to use bin or gene data, default is true
+#' @param genes  weather to use gene data instead of bin, default is FALSE
 #'
 #' @return
 #' A named vector of chromosome midpoints. Useful for adding tick
 #' marks in figures.  Midpoint is not the centromere location.
 #' 
 #' @export
-mid_chr <- function(cnr, bin = TRUE) {
-    brk <- chr_breaks(cnr, bin = bin)
+mid_chr <- function(cnr, genes = FALSE) {
+    brk <- chr_breaks(cnr, genes = genes)
 
     if (length(brk) == 1) {
         mid.pt <- floor(brk/2)
@@ -217,7 +217,7 @@ mid_chr <- function(cnr, bin = TRUE) {
 #'
 #' @param cnr a cnr
 #'
-#' @param bin  weather to use bin or gene data, default is true
+#' @param genes  weather to use gene data instead of bin, default is FALSE
 #'
 #' @return
 #' A named vector of chromosome breaks locations in the data.
@@ -225,7 +225,7 @@ mid_chr <- function(cnr, bin = TRUE) {
 #' a background when highlighting a chromosome
 #' 
 #' @export
-chr_breaks <- function(cnr, bin = TRUE) {
+chr_breaks <- function(cnr, genes = FALSE) {
 
     if(is.factor(cnr$chromInfo$bin.chrom)) {
         cnr$chromInfo$bin.chrom <- droplevels(cnr$chromInfo$bin.chrom)
@@ -233,7 +233,7 @@ chr_breaks <- function(cnr, bin = TRUE) {
         cnr$chromInfo$bin.chrom <- factor(cnr$chromInfo$bin.chrom)
     }
 
-    if(bin) {
+    if(!genes) {
         brk <- cumsum(table(cnr$chromInfo$bin.chrom))
     } else {
         brk <- cumsum(table(cnr$gene.index$chrom))

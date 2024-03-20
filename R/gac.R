@@ -15,11 +15,13 @@
 #' The HeatmapCNR function in GAC implements Bray-Curtis disimilarity on
 #' ComplexHeatmap as the default method to estimate cell-cell distances and
 #' generate the heatmaps.
-#'
-#' @docType package
+#' 
 #' @author Rodrigo Gularte Merida \email{gularter@mskcc.org}
-#' @keywords package
+#' @keywords internal
 #' @source \url{https://github.com/SingerLab/gac}
 #' @name gac
-#'
+"_PACKAGE"
+
+## usethis namespace: start
+## usethis namespace: end
 NULL

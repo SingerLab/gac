@@ -1,6 +1,6 @@
 Package: gac
-Version: 0.0.9036
-Date: 2023-07-18
+Version: 0.0.9037
+Date: 2024-03-20
 Title: Genetic Analysis of Cells
 Authors@R: person("Rodrigo Gularte Merida",
 	   role = c("aut", "cre"),
@@ -37,6 +37,6 @@ License: BSD_3_clause + file LICENSE
 URL: https://github.com/SingerLab/gac/
 BugReports: https://github.com/SingerLab/gac/issues
 VignetteBuilder: knitr
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Encoding: UTF-8
 LazyData: true

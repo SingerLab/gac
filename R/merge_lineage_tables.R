@@ -28,8 +28,10 @@ merge_lineage_tables <- function(cnr, branch_table, lineage_table,
     
     cnr <- addPheno(cnr, df = branch_table)
     cnr <- addInfo(cnr, df = lineage_table)
+
     cnr$gene.index <- merge(cnr$gene.index, lineage_table, by = "bin.id")
     rownames(cnr$gene.index) <- cnr$gene.index$hgnc.symbol
+
     cnr[["adjacency_matrix"]] <- adjacency_alterations
 
     return(cnr)
