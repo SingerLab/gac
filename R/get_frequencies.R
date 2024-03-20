@@ -73,7 +73,7 @@ get_bin_frequencies_cn <- function(cnr, ...) {
     if(cnr$bulk) {
         X <- cbioportal_states_from_log2_ratio(
             cnr,
-            cbioportal =  FALSE, ...)
+            cbioportal =  TRUE, ...)
     }
     if(!cnr$bulk) {
         X <- cnr[["X"]]

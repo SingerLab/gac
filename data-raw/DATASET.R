@@ -76,12 +76,12 @@ HeatmapCNR(dna, col = lowCol)
 
 usethis::use_data(cnr, dna, overwrite = TRUE, compress = "xz")
 
-gene.index <- gx
-chromInfo <- ci
-copynumbers <- X
+## gene.index <- gx
+## chromInfo <- ci
+## copynumbers <- X
 
-usethis::use_data(copynumbers, Y, qc, chromInfo, gene.index,
-                  overwrite = TRUE, compress = "xz")
+## usethis::use_data(copynumbers, Y, qc, chromInfo, gene.index,
+##                   overwrite = TRUE, compress = "xz")
 
 
 ## currently in development -- use of package dm to speficy data model and
