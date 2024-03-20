@@ -7,9 +7,9 @@
 addGeneInfo(
   cnr,
   df,
+  gene.ids = "hgnc.symbol",
   sort = FALSE,
-  full.sync = TRUE,
-  chromosome.order = c(1:22, "X", "Y", "MT"),
+  all.index = TRUE,
   ...
 )
 }
@@ -20,28 +20,34 @@ addGeneInfo(
 useful for gene annotations, filters e.g. OncoKB, or results from
 analyses e.g. p-values, genetic effects, etc to the genes}
 
+\item{gene.ids}{column for gene.ids, must be included in both}
+
 \item{sort}{wether to sort the ouput object, default is FALSE}
 
-\item{full.sync}{logical, sync cnr. If TRUE function syncs cells and chromosomes
-when FASLE, only sync cells.  default TRUE}
+\item{all.index}{logical, use all of gene.index. When FALSE, return only
+the intersect of gene.idex and df.  default TRUE}
 
-\item{chromosome.order}{order of chromosomes for full.sync}
-
-\item{...}{additional parameters passed to merge}
+\item{...}{additional parameters passed to \code{\link[base]{merge}}}
 }
 \value{
 Returns a CNR object with added columns from df to the gene.index.
-  e.g. p-values for genome wide scans
+   e.g. p-values for genome wide scans.
+
+By default merge occurs using the intersect of column names of
+the gene.index and df.  To change this, use by.x and by.y.  See
+ \code{\link[base]{merge}}.  Rownames are added after the merge
+ from the column specified as gene.ids
 }
 \description{
 The function adds information to the gene.index.#'
 }
 \examples{
-#' data(cnr)
+data(cnr)
 
-fakePval <- data.frame(hgnc.symbol = cnr$gene.index$hgnc.symbol, pval = runif(nrow(cnr$gene.index)))
+fakeGenePval <- data.frame(hgnc.symbol = cnr$gene.index$hgnc.symbol,
+                       pval = runif(nrow(cnr$gene.index)))
 
-cnr <- addGeneInfo(cnr, df = fakePval)
+cnr <- addGeneInfo(cnr, df = fakeGenePval)
 
 head(cnr$gene.index)
 

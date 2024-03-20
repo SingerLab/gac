@@ -5,6 +5,23 @@
 
 
 ## R CMD check results
+## Wed Mar 20 13:48:41 EDT 2024
+── R CMD check results ────────────────────────────────────────────────── gac 0.0.9037 ────
+Duration: 5m 53.6s
+
+❯ checking whether package ‘gac’ can be installed ... WARNING
+  See below...
+W  checking whether package ‘gac’ can be installed (8.9s)
+   Found the following significant warnings:
+     Warning: package ‘dplyr’ was built under R version 4.2.3
+
+❯ checking installed package size ... NOTE
+    installed size is  6.0Mb
+    sub-directories of 1Mb or more:
+      data   4.5Mb
+
+0 errors ✔ | 1 warning ✖ | 1 note ✖
+
 ## Tue Jul 18 16:16:56 EDT 2023
 ── R CMD check results ─────────────────────────────────────────────── gac 0.0.9036 ────
 Duration: 10m 3.8s

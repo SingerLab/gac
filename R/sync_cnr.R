@@ -35,27 +35,32 @@ sync_cnr <- function(cnr, cell.order = NULL, full.sync = TRUE,
     assertthat::assert_that(nrow(cnr$Y) == ncol(cnr$X))
     assertthat::assert_that(nrow(cnr$Y) == nrow(cnr$qc))
     assertthat::assert_that(nrow(cnr$Y) == nrow(cnr$genes))
-
+    
     if(!is.null(cell.order)) {
-        assertthat::assert_that(all(rownames(cnr$Y) %in% cell.order))
-        assertthat::assert_that(all(cell.order %in% rownames(cnr$Y)))
-        assertthat::assert_that(all(cell.order %in% rownames(cnr$qc)))
-        assertthat::assert_that(all(cell.order %in% rownames(cnr$genes)))
-        assertthat::assert_that(all(cell.order %in% colnames(cnr$X)))
-        
-        cnr[["Y"]] <- cnr$Y[cell.order, ]
+        ## check cell.order contains all cells
+        assertthat::assert_that( all(rownames(cnr$Y) %in% cell.order) )
+        ## check all cell.orders match X, Y, genes, and QC
+        assertthat::assert_that( all(cell.order %in% rownames(cnr$Y)) )
+        assertthat::assert_that( all(cell.order %in% rownames(cnr$qc)) )
+        assertthat::assert_that( all(cell.order %in% rownames(cnr$genes)) )
+        assertthat::assert_that( all(cell.order %in% colnames(cnr$X)) )
+
+        ## reset order of Y
         rownames(cnr$Y) <- cnr$Y$cellID
+        cnr[["Y"]] <- cnr$Y[cell.order, ]
         
     } else {
-
-        cell.order <- cnr$Y$cellID
+        
         rownames(cnr$Y) <- cnr$Y$cellID
+        cell.order <- cnr$Y$cellID
         
     }
     
     if(!is.null(cnr$exprs)) {
         assertthat::assert_that(all(rownames(cnr$exprs) %in% cell.order))
         assertthat::assert_that(all(cell.order %in% rownames(cnr$exprs)))
+        ## use previously established cell order,
+        ## if NULL, default is cnr$Y$cellID
         cnr[["exprs"]] <- cnr$exprs[cell.order, ]
     }
     
@@ -113,12 +118,11 @@ sync_cnr <- function(cnr, cell.order = NULL, full.sync = TRUE,
 order_bins  <- function(cnr, chromosome.order = c(1:22, "X", "Y", "MT"),
                        chrom.column = "bin.chrom", start.column = "bin.start") {
     
-    cnr$chromInfo[, chrom.column] <- factor(cnr$chromInfo[, chrom.column],
-                                         levels = chromosome.order)
-    
-    cnr$chromInfo[, start.column] <- as.numeric(cnr$chromInfo[, start.column])
-    
     nci <- cnr$chromInfo
+    nci[, chrom.column] <- droplevels(
+        factor(nci[, chrom.column], levels = chromosome.order)
+        )
+    nci[, start.column] <- as.numeric(nci[, start.column])
     nci <- nci[order(nci[, chrom.column], nci[, start.column]), ]
     
     cnr[["chromInfo"]] <- nci
@@ -161,12 +165,11 @@ order_bins  <- function(cnr, chromosome.order = c(1:22, "X", "Y", "MT"),
 order_genes  <- function(cnr, chromosome.order = c(1:22, "X", "Y", "MT"),
                         chrom.column = "chrom", start.column = "start") {
     
-    cnr$gene.index[, chrom.column] <- factor(cnr$gene.index[, chrom.column],
-                                         levels = chromosome.order)
-    
-    cnr$gene.index[, start.column] <- as.numeric(cnr$gene.index[, start.column])
-    
     ngi <- cnr$gene.index
+    ngi[, chrom.column] <- droplevels(
+        factor(cnr$ngi[, chrom.column], levels = chromosome.order)
+    )
+    ngi[, start.column] <- as.numeric(ngi[, start.column])
     ngi <- ngi[order(ngi[, chrom.column], ngi[, start.column]), ]
     
     cnr[["gene.index"]] <- ngi

@@ -259,9 +259,7 @@ histo_logit_gene <- function(cnr, trait, pheno0, pheno1,
     reg.eff <- cbind(reg.eff, hgnc.symbol = gsub("\\.", "-", rownames(reg.eff)))
     
     ## merge with gene.index
-    cnr[["gene.index"]] <- merge(cnr$gene.index, reg.eff,
-                                 by = "hgnc.symbol", sort = FALSE)
-    rownames(cnr[["gene.index"]]) <- cnr[["gene.index"]]$hgnc.symbol
+    cnr <- addGeneInfo(cnr, reg.eff)
     
     ## output cnr
     return(cnr)
@@ -504,10 +502,8 @@ histo_logit_gene_cov <- function(cnr, trait, pheno0, pheno1, covar,
     reg.eff <- cbind(reg.eff, hgnc.symbol = gsub("\\.", "-", rownames(reg.eff)))
     
     ## merge with gene.index
-    cnr[["gene.index"]] <- merge(cnr$gene.index, reg.eff,
-                                 by = "hgnc.symbol", sort = FALSE)
-    rownames(cnr[["gene.index"]]) <- cnr[["gene.index"]]$hgnc.symbol
-
+    cnr <- addGeneInfo(cnr, df = reg.eff)
+    
     ## output cnr
     return(cnr)
 } ## end histo_logit_gene_cov
@@ -962,17 +958,12 @@ estimate_joint_effects_gene <- function(cnr, trait, pheno0, pheno1,
                                         
     
     beta_coeff$hgnc.symbol <- gsub("\\.", "-", rownames(beta_coeff))
-    
-    cnr[["gene.index"]] <- merge(cnr$gene.index, beta_coeff[-1,],
-                                 by = "hgnc.symbol",
-                                 all.x = TRUE, sort = FALSE)
-    
-    cnr[["gene.index"]] <- cnr[["gene.index"]][cnr$gene.index$hgnc.symbol != "",]
-    rownames(cnr[["gene.index"]]) <- cnr[["gene.index"]]$hgnc.symbol
+
+    cnr <- addGeneInfo(cnr, beta_coeff[-1,])
     
     attr(cnr$gene.index, paste0(prefix, ".cnvfit")) <-
-                             c("lambda.min" = cvfit$lambda.min,
-                               "lambda.1se" = cvfit$lambda.1se)
+        c("lambda.min" = cvfit$lambda.min,
+          "lambda.1se" = cvfit$lambda.1se)
     
     return(cnr)
 }

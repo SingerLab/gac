@@ -1,3 +1,17 @@
+# gac 0.0.9037
+* improved functions to call copy number states from bulk DNA or Integer Copy Number
+
+* calls can be exported as text (deletion, loss, gain, amplification)  or with cbioportal notation, -2, -1, 0, +1, +2
+
+* calls include an additional category representing > 20 copies of a gene.  Term is high_amplification, and in cbioportal is labeled as +4
+
+* added functions to estimate alteration frequencies in bulk DNA or Integer Copy Number
+
+* added option to plot bins or gene alteration frequences
+
+* minor changes for compatibility
+
+
 # gac 0.0.9036
 * allow arguments to be passed down tho HeatmapAnnotation when implementing create_chromosome_annotation
 * simplified create_chromosome_annotation base functions

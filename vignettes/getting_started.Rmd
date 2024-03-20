@@ -55,7 +55,7 @@ X[3801:3881, 40:82] <- 80
 
 ## adding noisy cells
 set.seed(2020)
-noisy.cells <- sort(round(runif(6, min = 1, max = n.cells)))
+noisy.cells <- sort(round(runif(floor(n.cells*0.08), min = 1, max = n.cells)))
 for(i in noisy.cells) {
     X[,i] <- X[,i] + rnorm(5000)
 }
@@ -465,9 +465,13 @@ cnr <- cnr %>%
     cluster_heterogeneity(by = "category1",
                           cluster_column = "ConsensusC") %>%
     get_cluster_profiles() %>%
-    get_alteration_frequencies() %>%
     genotype_vdj() %>%
-    phylo_ddrc(root.clone = "X2")
+    phylo_ddrc(root.clone = "X2") %>%
+    get_alteration_frequencies() 
+
+
+
+
 ```
 
 ```{r _plotting_heatmap, eval = TRUE, fig.width = 7, fig.height = 7}

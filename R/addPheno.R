@@ -26,9 +26,8 @@
 #' cnr <- addPheno(cnr, df = rand3, by = "cellID")
 #' 
 #' @export
-addPheno <- function(cnr, df,
-                     sort = FALSE, ...) {
-
+addPheno <- function(cnr, df, sort = FALSE, ...) {
+    
     if(all(df$cellID %in% colnames(cnr$X))) {
         ny <- merge(cnr$Y, df, sort = sort, ...)
         rownames(ny) <- ny$cellID
