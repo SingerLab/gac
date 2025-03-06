@@ -11,6 +11,8 @@
 
 * minor changes for compatibility
 
+* bug fix in sync_cnr
+
 
 # gac 0.0.9036
 * allow arguments to be passed down tho HeatmapAnnotation when implementing create_chromosome_annotation
