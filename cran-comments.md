@@ -5,6 +5,18 @@
 
 
 ## R CMD check results
+## Wed Mar  5 21:51:44 EST 2025
+── R CMD check results ────────────────────────────────────────────────── gac 0.0.9037 ────
+Duration: 6m 2.8s
+
+❯ checking installed package size ... NOTE
+    installed size is  6.0Mb
+    sub-directories of 1Mb or more:
+      data   4.5Mb
+
+0 errors ✔ | 0 warnings ✔ | 1 note ✖
+
+
 ## Wed Mar 20 13:48:41 EDT 2024
 ── R CMD check results ────────────────────────────────────────────────── gac 0.0.9037 ────
 Duration: 5m 53.6s

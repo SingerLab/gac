@@ -82,7 +82,7 @@ sync_cnr <- function(cnr, cell.order = NULL, full.sync = TRUE,
         cnr <- order_genes(cnr, chromosome.order = chromosome.order)
         
     }
-
+    
     return(cnr)
 }
 
@@ -116,7 +116,7 @@ sync_cnr <- function(cnr, cell.order = NULL, full.sync = TRUE,
 #' @importFrom assertthat assert_that
 #' @export
 order_bins  <- function(cnr, chromosome.order = c(1:22, "X", "Y", "MT"),
-                       chrom.column = "bin.chrom", start.column = "bin.start") {
+                        chrom.column = "bin.chrom", start.column = "bin.start") {
     
     nci <- cnr$chromInfo
     nci[, chrom.column] <- droplevels(
@@ -167,7 +167,7 @@ order_genes  <- function(cnr, chromosome.order = c(1:22, "X", "Y", "MT"),
     
     ngi <- cnr$gene.index
     ngi[, chrom.column] <- droplevels(
-        factor(cnr$ngi[, chrom.column], levels = chromosome.order)
+        factor(ngi[, chrom.column], levels = chromosome.order)
     )
     ngi[, start.column] <- as.numeric(ngi[, start.column])
     ngi <- ngi[order(ngi[, chrom.column], ngi[, start.column]), ]
