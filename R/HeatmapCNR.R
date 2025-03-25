@@ -111,7 +111,7 @@ HeatmapCNR <- function(cnr, what = "X", which.genes = NULL,
                             cluster_rows = FALSE,
                             left_annotation = chrAnnoLeft,
                             clustering_method_columns = "ward.D2",
-                            col = segment.colors,
+                            col = bulk.colors,
                             ...)
             
         } else {
