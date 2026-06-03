@@ -241,12 +241,10 @@ callX <- function(X,
                   amplification.threshold = 0.8) {
     
     cx <- apply(X, 2, function(i) {
-        out <- ifelse(i <= loss.threshold, -1,
-               ifelse(i <= deletion.threshold, -2,
-               ifelse(i > loss.threshold &
-                      i < gains.threshold, 0, 
-               ifelse(i >= gains.threshold[1] &
-                      i < amplification.threshold[1], 1,
+        out <- ifelse(i <= deletion.threshold, -2,
+               ifelse(i <= loss.threshold, -1,
+               ifelse(i < gains.threshold, 0,
+               ifelse(i < amplification.threshold[1], 1,
                ifelse(i >= amplification.threshold[1], 2, NA)))))
         })
     

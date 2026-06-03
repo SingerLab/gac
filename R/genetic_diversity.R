@@ -86,7 +86,7 @@ avg_num_alleles_per_locus <- function(cnr, exclude.chr = NULL, chrom.col = "bin.
     } else {
         assertthat::assert_that(all(exclude.chr %in% cnr$chromInfo[,chrom.col]))
     
-        incl <- !which(cnr$chromInfo$bin.chrom %in% exclude.chr)
+        incl <- which(!cnr$chromInfo$bin.chrom %in% exclude.chr)
         K <- sum(incl)
         ## list of allels per bin
         ni <- apply(cnr$X[incl,], 1, function(i) length(unique(as.numeric(i))))
@@ -312,7 +312,7 @@ percent_genome_gain <- function(cnr,
             
         } else {
 
-            if(by == "cell")
+            if(by == "cell") {
 
                 if(length(gain.thresholds) == 1) {
 
@@ -323,18 +323,20 @@ percent_genome_gain <- function(cnr,
                     cell.gain <- cnr$X >= gain.thresholds[1] &
                         cnr$X <= gain.thresholds[2]
 
-                }    
+                }
 
-            pct.gain <- apply(cell.gain, 2, function(i) {
-                sum(ge[i, "bin.length"]) / genome.size
+                pct.gain <- apply(cell.gain, 2, function(i) {
+                    sum(ge[i, "bin.length"]) / genome.size
 
-            })
+                })
+            }
         }
     }
 
     return(pct.gain)
     
 } ## end percent_genome_gain
+
 
 #' calculate the proportion of the genome amplified
 #' @param cnr a cnr bundle
