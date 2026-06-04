@@ -5,6 +5,17 @@
 
 
 ## R CMD check results
+
+## Wed Jun  3 23:05:31 EDT 2026
+── R CMD check results ────────────────────────────────────────────────── gac 0.0.9038 ────
+Duration: 6m 1.6s
+
+❯ checking DESCRIPTION meta-information ... NOTE
+  License stub is invalid DCF.
+
+0 errors ✔ | 0 warnings ✔ | 1 note ✖
+
+
 ## Wed Mar  5 21:51:44 EST 2025
 ── R CMD check results ────────────────────────────────────────────────── gac 0.0.9037 ────
 Duration: 6m 2.8s

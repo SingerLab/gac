@@ -1,3 +1,6 @@
+# gac 0.0.9038
+* code review and silent bug fixes by Claude Sonnet 4.6
+
 # gac 0.0.9037
 * improved functions to call copy number states from bulk DNA or Integer Copy Number
 

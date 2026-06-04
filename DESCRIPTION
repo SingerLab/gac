@@ -39,6 +39,6 @@ BugReports: https://github.com/SingerLab/gac/issues
 Remotes:
     KrasnitzLab/SCclust
 VignetteBuilder: knitr
-RoxygenNote: 7.3.1
 Encoding: UTF-8
 LazyData: true
+Config/roxygen2/version: 8.0.0

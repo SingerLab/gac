@@ -1,5 +1,6 @@
 ^\.git$
 ^\.gitignore$
+^\.github$
 ^TODO\.md$
 ^README\.md$
 ^inst/extdata/D2_combined_gene_dep_scores\.csv\.gz$
@@ -22,3 +23,4 @@
 ^Meta$
 ^inst/extdata/\.keep$
 ^vignettes/inst/extdata/.keep$
+CLAUDE.md
