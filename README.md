@@ -6,7 +6,7 @@
 ------------------------------------------------------------------------
 
 <!-- badges: start -->
-[![Version: v0.0.9038](https://img.shields.io/badge/version-0.3.2-D40000.svg)](https://github.com/SingerLab/gac/)
+[![Version: v0.0.9038b](https://img.shields.io/badge/version-0.0.9038b-D40000.svg)](https://github.com/SingerLab/gac/)
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![R build
