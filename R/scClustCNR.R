@@ -1,149 +1,86 @@
-#' implementation of SCclust pipeline
+#' Compute pin matrix and Fisher distances
 #'
-#' @param cnr a cnr bundle
+#' Builds a breakpoint-based pin matrix from integer copy number profiles,
+#' runs a Monte Carlo Fisher test to compute pairwise cell similarity, and
+#' stores FDR estimates and an annotated hierarchical tree.  Results are
+#' kept in \code{cnr$pins} and the Fisher p-value distance (range 0--1) in
+#' \code{cnr$dists$fisher}, ready for combination with Bray-Curtis via
+#' \code{\link{phylo_cnr}} (\code{dist.method = "combined"}).
 #'
-#' @param cytobands UCSC cytobands file
+#' @param cnr a cnr bundle (integer copy number, \code{bulk = FALSE})
 #'
-#' @param hc.method clustering method for hclust_tree
+#' @param cytobands UCSC cytoBand data.frame (columns: chrom, chromStart,
+#'   chromEnd, name, gieStain).  Use the bundled \code{hg19_cytoBand} for
+#'   human hg19 data.
 #'
-#' @param tree.method clustering method for tree_py
-#' 
-#' @param run.fisher logical, weather you want to run sim_fisherCNR. defaults TRUE.
-#'    If FALSE, it assumes you have ran sim_fisherCNR before, and the cnr already
-#'    contains cnr[["pins"]] and cnr[["fisher"]]
+#' @param centromere cytoband name patterns that define the centromere region
+#'   to exclude.  Default \code{c("p11", "q11")}.
 #'
-#' @param ... additional arguments passed
+#' @param nsim number of Monte Carlo simulations for the null distribution.
+#'   Default 200; increase for rare events.
 #'
-#' @source \url{https://github.com/KrasnitzLab/SCclust}
+#' @param hc.method linkage method for the annotated hierarchical tree stored
+#'   in \code{cnr$pins$hc}.  Default \code{"average"}.
 #'
-#' @import SCclust
-#' 
-#' @keywords internal
-#' @noRd
-scClustCNR <- function(cnr, cytobands, hc.method = "average",
-                       tree.method = "average", run.fisher = TRUE, ...) {
-    if(run.fisher) {
-        cnr <- sim_fisherCNR(cnr, cytobands = cytobands, ...)
-    }
-    
-    cnr <- fisher_tree(cnr, hc.method = hc.method, tree.method = tree.method, ...)
-    
-    cnr <- getSubclonesCNR(cnr, ...)
-    
-    return(cnr)
-
-} ## end scClustCNR
-
-    
-#' implementation of SCclust sim_fisher_wrapper
-#'
-#' scClust uses Fisher distance
-#'  
-#' @param cnr a cnr bundle
-#'
-#' @param cytobands UCSC cytobands file
-#'
-#' @param centromere cytoband boundaries of the centromere (will be excluded)
-#' 
-#' @param nsim number of Fisher wrapper simulations
-#' 
-#' @param ... additional parameters pased to SCclust::sim_fisher_wrapper
+#' @param ... additional arguments passed to \code{.sim_fisher_wrapper}
+#'   (e.g. \code{njobs}, \code{nsweep}, \code{seedme}).
 #'
 #' @return
-#'
-#' SCclust pipeline and objects
-#' 
-#' @import SCclust
-#' 
-#' @source \url{https://github.com/KrasnitzLab/SCclust}
+#' The cnr bundle with new slots:
+#' \describe{
+#'   \item{\code{cnr$pins}}{Named list: \code{pinmat} (pins x cells binary
+#'     matrix), \code{pins} (pin metadata), \code{cells}, \code{ploidies},
+#'     \code{centroareas}, \code{centrobins}, \code{fisher_raw} (raw
+#'     simulation output), \code{fdr} (log10 FDR matrix), \code{hc}
+#'     (annotated hclust tree with FDR and sharing per node).}
+#'   \item{\code{cnr$dists$fisher}}{Fisher p-value distance matrix of class
+#'     \code{dist}, values in [0, 1]: 0 = maximally similar, 1 = no shared
+#'     breakpoint signal.}
+#' }
 #'
 #' @examples
-#'
 #' \dontrun{
-#' ## the simulated data does not run well
 #' data(cnr, hg19_cytoBand)
 #' cnr <- sim_fisherCNR(cnr, cytobands = hg19_cytoBand)
+#' cnr <- phylo_cnr(cnr, dist.method = "combined")
 #' }
-#' 
-#' @keywords internal
-#' @noRd
+#'
+#' @importFrom assertthat assert_that
+#'
+#' @export
 sim_fisherCNR <- function(cnr, cytobands, centromere = c("p11", "q11"),
-                          nsim = 200, ...) {
+                          nsim = 200, hc.method = "average", ...) {
 
-    cnr[["cytobands"]] <- cytobands
+    assertthat::assert_that(!cnr$bulk,
+        msg = "sim_fisherCNR requires integer copy number (bulk = FALSE)")
 
-    cnr[["centroareas"]] <- SCclust::calc_centroareas(cytobands,
-                                                      centromere = centromere)
-    
-    cnr[["centrobins"]] <- SCclust::calc_regions2bins(cnr$chromInfo,
-                                                      cnr$centroareas)
+    centroareas <- .pin_centroareas(cytobands, centromere = centromere)
+    centrobins  <- .pin_regions2bins(cnr$chromInfo, centroareas)
 
     pinX <- cbind(cnr$chromInfo[, c("chrom", "chrompos", "abspos")], cnr$X)
-    
-    cnr[["pins"]] <- SCclust::calc_pinmat(cnr$chromInfo, pinX, 
-                                          dropareas = cnr$centroareas)
-                                          
-    
-    cnr[["fisher"]] <- SCclust::sim_fisher_wrapper(cnr$pins$pinmat,
-                                                   cnr$pins$pins,
-                                                   nsim = nsim,
-                                                   ...)
-    
-    return(cnr)
-}
+    pins <- .calc_pinmat(cnr$chromInfo, pinX, dropareas = centroareas)
+    pins$centroareas <- centroareas
+    pins$centrobins  <- centrobins
 
+    pins$fisher_raw <- .sim_fisher_wrapper(pins$pinmat, pins$pins, nsim = nsim, ...)
+    if (is.null(pins$fisher_raw)) {
+        warning("sim_fisherCNR: fewer than 2 pin sign groups; Fisher test skipped.")
+        cnr$pins <- pins
+        return(cnr)
+    }
 
-#' implementation of fisher_dist, hc, and tree
-#'
-#' @param cnr a cnr bundle
-#'
-#' @param hc.method method on hcclust_tree, defaults to average
-#'
-#' @param tree.method method on tree_py
-#'
-#' @param ... additional parameters pased to SCclust::sim_fisher_wrapper
-#'
-#' @import SCclust
-#'
-#' @source \url{https://github.com/KrasnitzLab/SCclust}
-#' 
-#' @keywords internal
-#' @noRd
-fisher_tree <- function(cnr, hc.method = "average", tree.method = "average", ...) {
+    pins$fdr <- .fisher_fdr(pins$fisher_raw$true, pins$fisher_raw$sim, cnr$cells)
 
-    cnr[["mfdr"]] <- SCclust::fisher_fdr(cnr$fisher$true, cnr$fisher$sim,
-                                         cnr$cells, ...)
-    cnr[["mdist"]] <- SCclust::fisher_dist(cnr$fisher$true, cnr$cells)
+    ## annotated tree uses log10(p) internally (more negative = more similar)
+    fisher_log_dist <- .cell2cell_matrix(log10(pins$fisher_raw$true), cnr$cells)
+    pins$hc <- .hclust_tree(pins$pinmat, pins$fdr, fisher_log_dist,
+                            hcmethod = hc.method)
 
-    cnr[["hc"]] <- SCclust::hclust_tree(cnr$pins$pinmat, cnr$mfdr, cnr$mdist,
-                               hcmethod = hc.method)
-    cnr[["tree_df"]] <- SCclust::tree_py(cnr$mdist, method = tree.method)
+    cnr$pins <- pins
+
+    ## p-values directly as [0,1] distance for combination with Bray-Curtis
+    cnr$dists$fisher <- stats::as.dist(
+        .cell2cell_matrix(pins$fisher_raw$true, cnr$cells))
 
     return(cnr)
-    
 }
-
-
-#' implementation of finding clones and subclones from SCclust
-#'
-#' @param cnr a cnr bundle
-#'
-#' @param ... additional parameters for find_subclones
-#'
-#' @source \url{https://github.com/KrasnitzLab/SCclust}
-#' 
-#' @import SCclust
-#'
-#' @keywords internal
-#' @noRd
-getSubclonesCNR <- function(cnr,  ...) {
-
-    cnr[["hc"]] <- SCclust::find_clones(cnr[["hc"]])
-    cnr[["subclones"]] <- SCclust::find_subclones(cnr[["hc"]], cnr$pins$pinmat,
-                                         cnr$pins$pins, ...)
-
-    cnr <- addPheno(cnr, cnr[["subclones"]])
-    
-    return(cnr)
-}
-

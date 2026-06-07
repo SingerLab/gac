@@ -4,28 +4,36 @@
 #'
 #' @param root.cell a cellID to root the three.
 #'
-#' @param dist.method method for calculating cell-to-cell distance
-#' (see \link[vegan]{vegdist})
+#' @param dist.method distance method: \code{"bray"} (Bray-Curtis, default),
+#'   any method accepted by \link[vegan]{vegdist}, or \code{"combined"} to
+#'   use a weighted average of Bray-Curtis and Fisher p-value distance.
+#'   \code{"combined"} requires \code{\link{sim_fisherCNR}} to have been run
+#'   first so that \code{cnr$dists$fisher} exists.
 #'
 #' @param hclust.method method for heirarchical clustering (see hclust)
 #'
 #' @param tree.method minimum evolution phylogenetics method, can be
 #' `bal`, `ols` or NULL. Default is `bal`.
-#' 
+#'
+#' @param fisher.weight weight given to the Fisher distance when
+#'   \code{dist.method = "combined"}.  \code{0} = pure Bray-Curtis,
+#'   \code{1} = pure Fisher.  Default \code{0.5}.
+#'
 #' @param ... other parameters passed to \link[vegan]{vegdist}
 #'
 #' @return
 #'
 #' Creates a cell-to-cell distance matrix, runs heirarchical clustering.
-#'  By defaul cell phylogenetics is infered by \link[ape]{fastme.bal},
-#'  and alternatively by `fastme.ols`. When `tree.method = NULL, the
-#' `hclust` object is converted  to an `ape` class `phylo` object to
-#'  represent the cell phylogeny.
-#' 
+#'  By default cell phylogenetics is inferred by \link[ape]{fastme.bal},
+#'  and alternatively by \code{fastme.ols}. When \code{tree.method = NULL}
+#'  the \code{hclust} object is converted to an \code{ape} class \code{phylo}.
+#'
 #' \itemize{
-#'   \item cdb cell to cell Bray-Curtis dissimiarly 
-#'   \item hcdb heirarchical clustering of distance matrix
-#'   \item phylo ape class `phylo` object
+#'   \item \code{dists$bray} Bray-Curtis dissimilarity (class \code{dist})
+#'   \item \code{dists$combined} weighted average distance when
+#'     \code{dist.method = "combined"} (class \code{dist})
+#'   \item hcdb hierarchical clustering on Bray-Curtis distance
+#'   \item phylo ape class \code{phylo} object
 #' }
 #'
 #' @examples
@@ -70,41 +78,52 @@
 #' 
 #' @export
 phylo_cnr <- function(cnr, root.cell = NULL, dist.method = "bray",
-                     hclust.method = "ward.D2",  tree.method = "bal",
-                     ...) {
+                     hclust.method = "ward.D2", tree.method = "bal",
+                     fisher.weight = 0.5, ...) {
 
-    if(!is.null(tree.method)) {
+    if (!is.null(tree.method))
         assertthat::assert_that(tree.method %in% c("bal", "ols"))
-    }
-    
-    if(!is.null(root.cell)) {
+    if (!is.null(root.cell)) {
         assertthat::assert_that(length(root.cell) == 1)
         assertthat::assert_that(any(root.cell %in% names(cnr$X)),
-                                msg = "root.cell not found. the root.cell must be contained within the data")
+            msg = "root.cell not found. the root.cell must be contained within the data")
     }
-    
-    cnr[["cdb"]] <- distCNR(cnr, method = dist.method, ...)
 
-    cnr[["hcdb"]] <- hclustCNR(cnr, method = hclust.method, ...)
+    ## Always compute and store Bray-Curtis
+    bray <- distCNR(cnr, ...)
+    cnr$dists$bray <- bray
 
-    if(is.null(tree.method)) {
+    ## hcdb always on Bray-Curtis (used by setBrayClusters / optClust)
+    cnr[["hcdb"]] <- stats::hclust(bray, method = hclust.method)
+
+    ## Distance used for the phylo tree
+    tree_dist <- if (dist.method == "combined") {
+        assertthat::assert_that(!is.null(cnr$dists$fisher),
+            msg = "dist.method = 'combined' requires sim_fisherCNR() to be run first")
+        assertthat::assert_that(fisher.weight >= 0 && fisher.weight <= 1)
+        combined <- stats::as.dist(
+            (1 - fisher.weight) * as.matrix(bray) +
+            fisher.weight       * as.matrix(cnr$dists$fisher))
+        cnr$dists$combined <- combined
+        combined
+    } else {
+        bray
+    }
+
+    if (is.null(tree.method)) {
         cnr[["phylo"]] <- ape::as.phylo(cnr[["hcdb"]])
+    } else if (tree.method == "bal") {
+        cnr[["phylo"]] <- ape::fastme.bal(tree_dist)
+    } else if (tree.method == "ols") {
+        cnr[["phylo"]] <- ape::fastme.ols(tree_dist)
     }
-    if(tree.method == "bal") {
-        cnr[["phylo"]] <- ape::fastme.bal(cnr[["cdb"]])
-    }
-    if(tree.method == "ols") {
-        cnr[["phylo"]] <- ape::fastme.ols(cnr[["cdb"]])
-    }
-    
 
-    if(!is.null(root.cell)) {
+    if (!is.null(root.cell))
         cnr[["phylo"]] <- ape::root(cnr[["phylo"]], outgroup = root.cell,
-                                    resolve.root = TRUE, ...)
-    }
-    
+                                    resolve.root = TRUE)
+
     return(cnr)
-    
+
 }
 
 #' Calculating clone-to-clone distances, and estimating a phylogenetic tree
@@ -238,61 +257,18 @@ phylo_ddrc <- function(cnr, root.clone = NULL,
 } # end phylo_ddrc
 
 
-#' calculating cell-to-cell distances for clustering
+#' calculating cell-to-cell Bray-Curtis distances
 #'
 #' @param cnr a cnr object
-#'
-#' @param method method for calculating distances, defaults to Bray-Curtis
-#' dissimilarity
-#'
 #' @param ... other parameters passed to vegan::vegdist
 #'
 #' @importFrom vegan vegdist
-#' 
-#' @return
-#' Returns a cell-to-cell distance matrix of class `dist`
-#' 
+#' @return dist object
 #' @keywords internal
 #' @noRd
-distCNR <- function(cnr, method = "bray", ...) {
-    
-    if(cnr$bulk) {
-        
-        ## Bray-Curtis dissimilarity doesn't work well on log2 ratio,
-        ## transforming back to ratio
-        cdb <- vegan::vegdist(t(2^cnr[["X"]]), method = method, ...)
-
-    } else {
-
-        cdb <- vegan::vegdist(t(cnr[["X"]]), method = method, ...)
-
-        return(cdb)
-
-    }
-} ## distCNR
-
-
-#' heirarchical clustering
-#'
-#' @param cnr a cnr object
-#'
-#' @param method method for heirarchical clustering, defaults to "ward.D2"
-#'
-#' @param ... other parameters passed to hclust
-#'
-#' @return
-#' Returns a heirarchical clustering object
-#'
-#' @importFrom stats hclust
-#' 
-#' @keywords internal
-#' @noRd
-hclustCNR <- function(cnr, method = "ward.D2", ...) {
-
-    hcdb <- stats::hclust(cnr[["cdb"]], method = method, ...)
-    
-    return(hcdb)
-
-} ## hclustCNR
+distCNR <- function(cnr, ...) {
+    X <- if (cnr$bulk) t(2^cnr[["X"]]) else t(cnr[["X"]])
+    vegan::vegdist(X, method = "bray", ...)
+}
 
 

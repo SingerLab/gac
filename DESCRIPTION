@@ -23,7 +23,7 @@ Imports:
     glmnet,
     tidyr,
     reshape2,
-    SCclust,
+    parallel,
     qvalue
 Suggests:
     biomaRt,
@@ -36,8 +36,6 @@ Description: This package is a framework and toolkit for the analysis of single-
 License: BSD_3_clause + file LICENSE
 URL: https://github.com/SingerLab/gac/
 BugReports: https://github.com/SingerLab/gac/issues
-Remotes:
-    KrasnitzLab/SCclust
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true

@@ -24,3 +24,6 @@
 ^inst/extdata/\.keep$
 ^vignettes/inst/extdata/.keep$
 CLAUDE.md
+^\.claude$
+^Rplots\.pdf$
+^\#DESCRIPTION\#$

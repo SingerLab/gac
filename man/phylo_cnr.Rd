@@ -10,6 +10,7 @@ phylo_cnr(
   dist.method = "bray",
   hclust.method = "ward.D2",
   tree.method = "bal",
+  fisher.weight = 0.5,
   ...
 )
 }
@@ -18,27 +19,35 @@ phylo_cnr(
 
 \item{root.cell}{a cellID to root the three.}
 
-\item{dist.method}{method for calculating cell-to-cell distance
-(see \link[vegan]{vegdist})}
+\item{dist.method}{distance method: \code{"bray"} (Bray-Curtis, default),
+any method accepted by \link[vegan]{vegdist}, or \code{"combined"} to
+use a weighted average of Bray-Curtis and Fisher p-value distance.
+\code{"combined"} requires \code{\link{sim_fisherCNR}} to have been run
+first so that \code{cnr$dists$fisher} exists.}
 
 \item{hclust.method}{method for heirarchical clustering (see hclust)}
 
 \item{tree.method}{minimum evolution phylogenetics method, can be
 `bal`, `ols` or NULL. Default is `bal`.}
 
+\item{fisher.weight}{weight given to the Fisher distance when
+\code{dist.method = "combined"}.  \code{0} = pure Bray-Curtis,
+\code{1} = pure Fisher.  Default \code{0.5}.}
+
 \item{...}{other parameters passed to \link[vegan]{vegdist}}
 }
 \value{
 Creates a cell-to-cell distance matrix, runs heirarchical clustering.
- By defaul cell phylogenetics is infered by \link[ape]{fastme.bal},
- and alternatively by `fastme.ols`. When `tree.method = NULL, the
-`hclust` object is converted  to an `ape` class `phylo` object to
- represent the cell phylogeny.
+ By default cell phylogenetics is inferred by \link[ape]{fastme.bal},
+ and alternatively by \code{fastme.ols}. When \code{tree.method = NULL}
+ the \code{hclust} object is converted to an \code{ape} class \code{phylo}.
 
 \itemize{
-  \item cdb cell to cell Bray-Curtis dissimiarly 
-  \item hcdb heirarchical clustering of distance matrix
-  \item phylo ape class `phylo` object
+  \item \code{dists$bray} Bray-Curtis dissimilarity (class \code{dist})
+  \item \code{dists$combined} weighted average distance when
+    \code{dist.method = "combined"} (class \code{dist})
+  \item hcdb hierarchical clustering on Bray-Curtis distance
+  \item phylo ape class \code{phylo} object
 }
 }
 \description{

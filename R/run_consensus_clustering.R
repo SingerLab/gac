@@ -50,19 +50,21 @@ run_consensus_clustering <- function(cnr, maxK = 40, iters = 200,
                                 verbose = TRUE,
                                 ...) {
 
-    if(is.null(cnr[["cdb"]])) {
+    if (is.null(cnr$dists$bray))
         cnr <- phylo_cnr(cnr)
-    }
-    
-    if(iters <= 201) {
-        message("Default value of iters is set to 200. This number iterations only shows general trends.  To identify rare events and off-diagonal events with accuracy, please consider increasing this parameter according to the complexity of your data, and the frequency of events your interested.")
-        }
-    
-    cnr[["ccp"]] <- ConsensusClusterPlus::ConsensusClusterPlus(cnr[["cdb"]],
-                                         maxK = maxK, reps = iters,
-                                         title = title, innerLinkage = innerLinkage,
-                                         finalLinkage = finalLinkage, seed = seed,
-                                         verbose = TRUE,
-                                         ...)
+
+    ## Use combined distance when available, otherwise Bray-Curtis
+    d <- if (!is.null(cnr$dists$combined)) cnr$dists$combined else cnr$dists$bray
+
+    if (iters <= 201)
+        message("Default value of iters is set to 200. This number of iterations ",
+                "only shows general trends. Consider increasing for rare events.")
+
+    cnr[["ccp"]] <- ConsensusClusterPlus::ConsensusClusterPlus(
+        d, maxK = maxK, reps = iters,
+        title = title, innerLinkage = innerLinkage,
+        finalLinkage = finalLinkage, seed = seed,
+        verbose = verbose, ...)
+
     return(cnr)
 }

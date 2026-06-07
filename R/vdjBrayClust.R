@@ -7,17 +7,18 @@
 #' 
 #' @importFrom ape as.phylo
 #' @importFrom assertthat assert_that
+#' @importFrom stats hclust
 #' @importFrom vegan vegdist
-#' 
+#'
 #' @export
 vdjBrayClust <- function(cnr, vdj.genes = NULL) {
 
     assertthat::assert_that(!is.null(vdj.genes))
     assertthat::assert_that(all(vdj.genes %in% cnr$gene.index$hgnc.symbol))
-    
+
     dd <- vegan::vegdist(cnr$genes[names(cnr$vdj.cells), vdj.genes])
-    
-    hc <- hclust(dd, method = "ward.D2")
+
+    hc <- stats::hclust(dd, method = "ward.D2")
 
     cnr[["vdjDist"]] <- dd
     cnr[["vdjClust"]] <- hc
