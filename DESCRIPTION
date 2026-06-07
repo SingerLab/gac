@@ -1,6 +1,6 @@
 Package: gac
-Version: 0.0.9038
-Date: 2025-06-03
+Version: 0.0.9038b
+Date: 2026-06-06
 Title: Genetic Analysis of Cells
 Authors@R: person("Rodrigo Gularte Merida",
 	   role = c("aut", "cre"),

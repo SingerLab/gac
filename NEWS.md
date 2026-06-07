@@ -1,3 +1,42 @@
+# gac 0.0.9038b
+
+## Pin matrix and Fisher distance (branch: pinmat)
+
+* Removed GitHub-only `SCclust` dependency; all pin-matrix construction and
+  Fisher simulation functions are now internalized in `R/pin_matrix.R` and
+  `R/fisher_cnr.R` (MIT license, attributed to Krasnitz et al.)
+
+* New export `sim_fisherCNR(cnr, cytobands, ...)`: computes breakpoint-based
+  pin matrix and Monte Carlo Fisher pairwise distances; results stored in
+  `cnr$pins` (nested list: pinmat, pins, centroareas, fisher_raw, fdr, hc)
+
+* Distance matrices consolidated into `cnr$dists` list:
+  - `cnr$dists$bray`     — Bray-Curtis dissimilarity (replaces `cnr$cdb`)
+  - `cnr$dists$fisher`   — Fisher p-value distance [0, 1]
+  - `cnr$dists$combined` — weighted average of bray and fisher
+
+* `phylo_cnr()` gains `dist.method = "combined"` and `fisher.weight = 0.5`;
+  when `"combined"`, requires `sim_fisherCNR()` to have been run first;
+  `hcdb` is always built on Bray-Curtis for compatibility with `setBrayClusters()`
+
+* `run_consensus_clustering()` automatically uses `cnr$dists$combined` when
+  available, otherwise falls back to `cnr$dists$bray`
+
+* `summary_cnr()` reports pin matrix and Fisher/combined distance status
+
+## R CMD check fixes
+
+* `.Rbuildignore`: exclude `.claude/`, `Rplots.pdf`, and `#DESCRIPTION#`
+
+* `LICENSE`: replaced prose BSD text with DCF stub (`YEAR`, `COPYRIGHT HOLDER`,
+  `ORGANIZATION` in required all-caps format)
+
+* Bare `tail()`, `runif()`, `hclust()` calls replaced with `utils::tail()`,
+  `stats::runif()`, `stats::hclust()` to resolve undefined-globals NOTE
+
+* All 12 functions in `pin_matrix.R` and 8 in `fisher_cnr.R` documented with
+  `@keywords internal` `@noRd` roxygen2 blocks including `@param` and `@return`
+
 # gac 0.0.9038
 * code review and silent bug fixes by Claude Sonnet 4.6
 
